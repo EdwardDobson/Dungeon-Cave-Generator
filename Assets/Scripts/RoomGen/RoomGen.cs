@@ -30,7 +30,6 @@ public class RoomGen : MonoBehaviour
         {
             m_tilePostions.Add(m_tempPosition);
         }
-
         BuildPiece(i,m_wallDimensions.y,0);
       }
       for(int a = 0 ; a < m_wallDimensions.y; ++a)
