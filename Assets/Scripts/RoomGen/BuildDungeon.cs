@@ -6,7 +6,7 @@ using UnityEngine.Tilemaps;
 public class BuildDungeon : MonoBehaviour
 {
     [SerializeField]
-     Vector2 m_dungeonDimensions = new Vector2();
+    Vector2 m_dungeonDimensions = new Vector2();
     [SerializeField]
     Vector2Int m_wallDimensions = new Vector2Int();
     [SerializeField]
@@ -27,26 +27,25 @@ public class BuildDungeon : MonoBehaviour
     int m_roomAmount;
     void Start()
     {
-            DungeonUtility.DungeonSetup(m_dungeonDimensions, m_wallDimensions, m_tilemap, m_tiles);
-        for(int i =0; i< m_roomAmount; ++i)
+        DungeonUtility.DungeonSetup(m_dungeonDimensions, m_wallDimensions, m_tilemap, m_tiles);
+        for (int i = 0; i < m_roomAmount; ++i)
         {
             DungeonUtility.PickBuildPoint();
             DungeonUtility.RandomiseDoorAmount(m_maxDoorAmount);
             DungeonUtility.RandomiseWallSizes(m_wallMaxX, m_wallMaxY, m_wallMinX, m_wallMaxY);
             WallGen.BuildWall();
+            WallGen.RemoveWalls();
 
-            BuildDoor.PlaceDoor();
             BuildFloor.FillFloor();
             ConnectRoom.FindClosestDoor();
+    
         }
-        WallGen.RemoveWalls();
-        for (int i = 0; i < m_roomAmount; ++i)
+ 
+        
+        for (int a = 0; a < m_maxDoorAmount; ++a)
         {
-       //      BuildDoor.PlaceDoor();
-
+            BuildDoor.PlaceDoor();
         }
-
-  
-
+        BuildDoor.RemoveDoors();
     }
 }
