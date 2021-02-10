@@ -884,11 +884,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3eb5bd367a6cf8d44b26eabcf38d18e0, type: 2}
   - {fileID: 11400000, guid: be9c83ecb7977a8469d7bc1eb4f33f11, type: 2}
   - {fileID: 11400000, guid: f4ae1cf34e5f1fc478e3f35859248289, type: 2}
-  m_wallMaxX: 10
-  m_wallMinX: 6
-  m_wallMaxY: 6
-  m_wallMinY: 6
-  m_maxDoorAmount: 2
+  m_wallMaxX: 5
+  m_wallMinX: 5
+  m_wallMaxY: 5
+  m_wallMinY: 5
+  m_maxDoorAmount: 1
   m_roomAmount: 100
 --- !u!1 &973368637
 GameObject:
