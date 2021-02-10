@@ -889,7 +889,7 @@ MonoBehaviour:
   m_wallMaxY: 5
   m_wallMinY: 5
   m_maxDoorAmount: 1
-  m_roomAmount: 100
+  m_roomAmount: 10
 --- !u!1 &973368637
 GameObject:
   m_ObjectHideFlags: 0
