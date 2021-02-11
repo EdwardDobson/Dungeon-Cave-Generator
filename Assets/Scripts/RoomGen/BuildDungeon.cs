@@ -44,13 +44,13 @@ public class BuildDungeon : MonoBehaviour
             if (i < m_roomAmount -1)
             DungeonUtility.GetWallForDoorsPositions().Clear();
         }
-        /*
-         *     for(int r = 0; r < DungeonUtility.GetAllRooms().Count; ++r)
+     
+          for(int r = 0; r < DungeonUtility.GetAllRooms().Count; ++r)
               {
                   BuildDoor.PlaceDoor(r);
                   BuildDoor.CheckForDoor();
                   Debug.Log(DungeonUtility.GetAllRooms()[r].DoorPositions.Count);
               }
-         */
+      
     }
 }
