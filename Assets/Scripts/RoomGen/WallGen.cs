@@ -10,26 +10,27 @@ namespace DungeonGeneration
         public static void BuildWall()
         {
             DungeonUtility.GetTilePositions().Clear();
-
+            Vector3Int tempPos = new Vector3Int();
             for (int i = 0; i < DungeonUtility.GetWallDimensions().x + 1; ++i)
             {
-
-                BuildTilePiece.BuildPiece(DungeonUtility.GetBuildPoint().x + i, DungeonUtility.GetBuildPoint().y, 0);
+                BuildTilePiece.BuildPiece(DungeonUtility.GetBuildPoint().x + i, DungeonUtility.GetBuildPoint().y, 0, true);
                 DungeonUtility.CheckIfWall();
-                BuildTilePiece.BuildPiece(DungeonUtility.GetBuildPoint().x + i, DungeonUtility.GetBuildPoint().y + DungeonUtility.GetWallDimensions().y, 0);
+                BuildTilePiece.BuildPiece(DungeonUtility.GetBuildPoint().x + i, DungeonUtility.GetBuildPoint().y + DungeonUtility.GetWallDimensions().y, 0, true);
                 DungeonUtility.RemoveBuildPoint();
-                Vector3Int tempPos = new Vector3Int(DungeonUtility.GetBuildPoint().x + i, DungeonUtility.GetBuildPoint().y, 0);
-                DungeonUtility.AddWallPositions(tempPos);
+          
+                for (int a = 0; a < DungeonUtility.GetWallDimensions().y + 1; ++a)
+                {
+                    BuildTilePiece.BuildPiece(DungeonUtility.GetBuildPoint().x, DungeonUtility.GetBuildPoint().y + a, 0, true);
+                    DungeonUtility.CheckIfWall();
+                    BuildTilePiece.BuildPiece(DungeonUtility.GetBuildPoint().x + DungeonUtility.GetWallDimensions().x, DungeonUtility.GetBuildPoint().y + a, 0, true);
+                    DungeonUtility.RemoveBuildPoint();
+                    tempPos = new Vector3Int(DungeonUtility.GetBuildPoint().x + i, DungeonUtility.GetBuildPoint().y, 0);
+                    tempPos = new Vector3Int(DungeonUtility.GetBuildPoint().x, DungeonUtility.GetBuildPoint().y + a, 0);
+              
+                }
             }
-            for (int a = 0; a < DungeonUtility.GetWallDimensions().y + 1; ++a)
-            {
-                BuildTilePiece.BuildPiece(DungeonUtility.GetBuildPoint().x, DungeonUtility.GetBuildPoint().y + a, 0);
-                DungeonUtility.CheckIfWall();
-                BuildTilePiece.BuildPiece(DungeonUtility.GetBuildPoint().x + DungeonUtility.GetWallDimensions().x, DungeonUtility.GetBuildPoint().y + a, 0);
-                DungeonUtility.RemoveBuildPoint();
-                Vector3Int tempPos = new Vector3Int(DungeonUtility.GetBuildPoint().x, DungeonUtility.GetBuildPoint().y + a, 0);
-                DungeonUtility.AddWallPositions(tempPos);
-            }
+        
+   
         }
         public static void RemoveWalls()
         {
@@ -61,6 +62,40 @@ namespace DungeonGeneration
                     DungeonUtility.GetTilemap().SetTile(DungeonUtility.GetWallPositions()[i], DungeonUtility.GetTiles()[0]);
                 }
             }
+
+        }
+
+        public static void AddWallPosition()
+        {
+            for (int a = 0; a < DungeonUtility.GetFloorPositions().Count; ++a)
+            {
+                Vector3Int x1 = new Vector3Int(DungeonUtility.GetFloorPositions()[a].x + 1, DungeonUtility.GetFloorPositions()[a].y, 0);
+                Vector3Int x2 = new Vector3Int(DungeonUtility.GetFloorPositions()[a].x - 1, DungeonUtility.GetFloorPositions()[a].y, 0);
+                Vector3Int y1 = new Vector3Int(DungeonUtility.GetFloorPositions()[a].x, DungeonUtility.GetFloorPositions()[a].y + 1, 0);
+                Vector3Int y2 = new Vector3Int(DungeonUtility.GetFloorPositions()[a].x, DungeonUtility.GetFloorPositions()[a].y - 1, 0);
+                if (DungeonUtility.GetTilemap().GetTile(x1).name == "Wall")
+                {
+                    if (!DungeonUtility.GetWallForDoorsPositions().Contains(x1))
+                        DungeonUtility.AddWallForDoorsPositions(x1);
+                }
+                if (DungeonUtility.GetTilemap().GetTile(x2).name == "Wall")
+                {
+                    if (!DungeonUtility.GetWallForDoorsPositions().Contains(x2))
+                        DungeonUtility.AddWallForDoorsPositions(x2);
+                }
+                if (DungeonUtility.GetTilemap().GetTile(y1).name == "Wall")
+                {
+                    if (!DungeonUtility.GetWallForDoorsPositions().Contains(y1))
+                        DungeonUtility.AddWallForDoorsPositions(y1);
+                }
+       
+                if (DungeonUtility.GetTilemap().GetTile(y2).name == "Wall")
+                {
+                    if(!DungeonUtility.GetWallForDoorsPositions().Contains(y2))
+                    DungeonUtility.AddWallForDoorsPositions(y2);
+                }
+            }
+
         }
     }
 }
