@@ -6,16 +6,7 @@ using UnityEngine.Tilemaps;
 
 namespace DungeonGeneration
 {
-    /// <summary>
-    /// Holds all of the variables a room needs
-    /// </summary>
-    public class Room
-    {
-        public List<Vector3Int> WallPositions = new List<Vector3Int>();
-        public List<Vector3Int> TilePositions = new List<Vector3Int>();
-        public List<Vector3Int> DoorPositions = new List<Vector3Int>();
-        public bool HasDoor;
-    }
+
     public class DungeonUtility
     {
         static Vector2 m_dungeonDimensions = new Vector2();
@@ -32,7 +23,7 @@ namespace DungeonGeneration
         static List<Vector3Int> m_wallPositions = new List<Vector3Int>();
         static List<Vector3Int> m_wallPositionsForDoors = new List<Vector3Int>();
         static List<Vector3Int> m_floorPositions = new List<Vector3Int>();
-        static List<Room> m_rooms = new List<Room>();
+        static List<Vector3Int> m_otherTilePositions = new List<Vector3Int>();
         public static void DungeonSetup(Vector2 _dungeonDimensions, Vector2Int _wallDimensions, Tilemap _map, List<TileBase> _tiles)
         {
             m_dungeonDimensions = _dungeonDimensions;
@@ -41,34 +32,6 @@ namespace DungeonGeneration
             m_tiles = _tiles;
             PlaceBuildPoints();
         }
-        #region RoomFunctions
-        public static void MakeRoom(List<Vector3Int> _wallPositions, List<Vector3Int> _tilePositions)
-        {
-            Room newRoom = new Room();
-            newRoom.WallPositions = _wallPositions;
-            newRoom.TilePositions = _tilePositions;
-            newRoom.DoorPositions = new List<Vector3Int>();
-            m_rooms.Add(newRoom);
-        }
-        public static List<Room> GetAllRooms()
-        {
-            return m_rooms;
-        }
-        public static void RemoveRoom()
-        {
-            for (int i = 0; i < m_rooms.Count; ++i)
-            {
-                for (int w = 0; w < m_rooms[i].WallPositions.Count; ++w)
-                {
-                    m_tilemap.SetTile(m_rooms[i].WallPositions[w], null);
-                    m_rooms[i].WallPositions.RemoveAt(w);
-                }
-
-            }
-        }
-        #endregion
-     
-
         #region TilePositionFunctions
         public static Vector3Int GetTilePosition()
         {
@@ -125,33 +88,14 @@ namespace DungeonGeneration
         {
             return m_tiles;
         }
-        /// <summary>
-        /// Used to check tiles around a given wall
-        /// </summary>
-        public static void TileCheckEmpty(Vector3Int _pos1, Vector3Int _pos2, int _indexRoom, int _indexWall)
-        {
-            if (m_tilemap.GetTile(_pos1) == null && m_tilemap.GetTile(_pos2) == null)
-            {
-                m_tilemap.SetTile(m_rooms[_indexRoom].WallPositions[_indexWall], m_tiles[0]);
-            }
-        }
-        public static void TileCheckNotEmpty(Vector3Int _pos1, Vector3Int _pos2, Vector3Int _pos3, Vector3Int _pos4, int _indexRoom, int _indexWall,string _tileName)
-        {
-            if (m_tilemap.GetTile(_pos1) != null && m_tilemap.GetTile(_pos2) != null && m_tilemap.GetTile(_pos3) != null && m_tilemap.GetTile(_pos4) != null)
-            {
-                if (m_tilemap.GetTile(_pos1).name == _tileName && m_tilemap.GetTile(_pos2).name == _tileName)
-                {
-                    m_tilemap.SetTile(m_rooms[_indexRoom].WallPositions[_indexWall], m_tiles[1]);
-                }
-                if (m_tilemap.GetTile(_pos3).name == _tileName && m_tilemap.GetTile(_pos4).name == _tileName)
-                {
-                    m_tilemap.SetTile(m_rooms[_indexRoom].WallPositions[_indexWall], m_tiles[1]);
-                }
-            }
-        }
+
         public static void SetDungeonDimensions(int _x, int _y)
         {
             m_dungeonDimensions = new Vector2(_x, _y);
+        }
+        public static Vector2 GetDungeonDimensions()
+        {
+            return m_dungeonDimensions;
         }
         #region BuildPointFunctions
         public static void PickBuildPoint()
@@ -161,6 +105,10 @@ namespace DungeonGeneration
         public static Vector2Int GetBuildPoint()
         {
             return m_buildPointChoice;
+        }
+        public static List<Vector2Int> GetAllBuildPoints()
+        {
+            return m_buildPoints;
         }
         public static void RemoveBuildPoint()
         {
@@ -177,6 +125,10 @@ namespace DungeonGeneration
                 }
             }
         }
+        public static void AddBuildPoint(Vector2Int _point)
+        {
+            m_buildPoints.Add(_point);
+        }
         #endregion
 
         public static void CheckIfWall()
@@ -186,11 +138,12 @@ namespace DungeonGeneration
                 m_tilePositions.Add(m_tilePosition);
             }
         }
+
+        #region DoorFunctions
         public static void RandomiseDoorAmount(int _maxDoorAmount)
         {
             m_doorAmount = Random.Range(1, _maxDoorAmount);
         }
-        #region DoorFunctions
         public static int GetDoorAmount()
         {
             return m_doorAmount;
@@ -206,20 +159,34 @@ namespace DungeonGeneration
         public static void OrderDoorPositions()
         {
             m_doorPositions = m_doorPositions.OrderByDescending(v => v.x).ToList();
-            /*
-             *        Debug.Log("Ordered door positions");
-           for(int i = 0; i < m_doorPositions.Count; ++i)
-            {
-                Debug.Log(m_doorPositions[i].x);
-            }
-             */
-
         }
         #endregion
         public static void GetTile()
         {
             m_tilemap.GetTile(m_tilePosition);
         }
+        #region SurroundingTileFunctions
+        public static void GetSurroundingPositions(int _index, List<Vector3Int> _positions)
+        {
+            m_otherTilePositions.Add(new Vector3Int(_positions[_index].x + 1, _positions[_index].y, 0));
+            m_otherTilePositions.Add(new Vector3Int(_positions[_index].x - 1, _positions[_index].y, 0));
+            m_otherTilePositions.Add(new Vector3Int(_positions[_index].x, _positions[_index].y + 1, 0));
+            m_otherTilePositions.Add(new Vector3Int(_positions[_index].x, _positions[_index].y - 1, 0));
+        }
+        public static Vector3Int GetSurroundingPosition(int _index)
+        {
+            return m_otherTilePositions[_index];
+        }
+        public static void ClearSurroundPositions()
+        {
+            m_otherTilePositions.Clear();
+        }
+        public static TileBase GetTileSurrounding(int _index)
+        {
+            Vector3Int _pos = m_otherTilePositions[_index];
+            return m_tilemap.GetTile(_pos);
+        }
+        #endregion
     }
 }
 

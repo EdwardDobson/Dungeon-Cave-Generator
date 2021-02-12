@@ -7,35 +7,35 @@ namespace DungeonGeneration
     {
         public static void PlaceDoor(int _index)
         {
-            int randomPosChoice = Random.Range(0, DungeonUtility.GetAllRooms()[_index].WallPositions.Count);
-            Vector3Int randomWallPos = DungeonUtility.GetAllRooms()[_index].WallPositions[randomPosChoice];
+            int randomPosChoice = Random.Range(0, RoomManager.GetAllRooms()[_index].WallPositions.Count);
+            Vector3Int randomWallPos = RoomManager.GetAllRooms()[_index].WallPositions[randomPosChoice];
             DungeonUtility.AddDoorPosition(randomWallPos);
-            DungeonUtility.GetAllRooms()[_index].DoorPositions.Add(randomWallPos);
+            RoomManager.GetAllRooms()[_index].DoorPositions.Add(randomWallPos);
             DungeonUtility.GetTilemap().SetTile(randomWallPos, DungeonUtility.GetTiles()[2]);
-            DungeonUtility.GetAllRooms()[_index].WallPositions.RemoveAt(randomPosChoice);
+         //   RoomManager.GetAllRooms()[_index].WallPositions.RemoveAt(randomPosChoice);
         }
         public static void RemoveDoors(int _index, int _indexWallPos)
         {
-            if (!DungeonUtility.GetAllRooms()[_index].HasDoor)
+            if (!RoomManager.GetAllRooms()[_index].HasDoor)
             {
-                Vector3Int x1 = new Vector3Int(DungeonUtility.GetAllRooms()[_index].WallPositions[_indexWallPos].x + 1, DungeonUtility.GetAllRooms()[_index].WallPositions[_indexWallPos].y, 0);
-                Vector3Int x2 = new Vector3Int(DungeonUtility.GetAllRooms()[_index].WallPositions[_indexWallPos].x - 1, DungeonUtility.GetAllRooms()[_index].WallPositions[_indexWallPos].y, 0);
-                Vector3Int y1 = new Vector3Int(DungeonUtility.GetAllRooms()[_index].WallPositions[_indexWallPos].x, DungeonUtility.GetAllRooms()[_index].WallPositions[_indexWallPos].y + 1, 0);
-                Vector3Int y2 = new Vector3Int(DungeonUtility.GetAllRooms()[_index].WallPositions[_indexWallPos].x, DungeonUtility.GetAllRooms()[_index].WallPositions[_indexWallPos].y - 1, 0);
-                DungeonUtility.TileCheckEmpty(x1, y1, _index, _indexWallPos);
-                DungeonUtility.TileCheckEmpty(x2, y2, _index, _indexWallPos);
-                DungeonUtility.TileCheckEmpty(x1, y2, _index, _indexWallPos);
-                DungeonUtility.TileCheckEmpty(x2, y1, _index, _indexWallPos);
-                DungeonUtility.TileCheckNotEmpty(x1, x2, y1, y2, _index, _indexWallPos, "Floor");
+                Vector3Int x1 = new Vector3Int(RoomManager.GetAllRooms()[_index].WallPositions[_indexWallPos].x + 1, RoomManager.GetAllRooms()[_index].WallPositions[_indexWallPos].y, 0);
+                Vector3Int x2 = new Vector3Int(RoomManager.GetAllRooms()[_index].WallPositions[_indexWallPos].x - 1, RoomManager.GetAllRooms()[_index].WallPositions[_indexWallPos].y, 0);
+                Vector3Int y1 = new Vector3Int(RoomManager.GetAllRooms()[_index].WallPositions[_indexWallPos].x, RoomManager.GetAllRooms()[_index].WallPositions[_indexWallPos].y + 1, 0);
+                Vector3Int y2 = new Vector3Int(RoomManager.GetAllRooms()[_index].WallPositions[_indexWallPos].x, RoomManager.GetAllRooms()[_index].WallPositions[_indexWallPos].y - 1, 0);
+                RoomManager.TileCheckEmpty(x1, y1, _index, _indexWallPos);
+                RoomManager.TileCheckEmpty(x2, y2, _index, _indexWallPos);
+                RoomManager.TileCheckEmpty(x1, y2, _index, _indexWallPos);
+                RoomManager.TileCheckEmpty(x2, y1, _index, _indexWallPos);
+                RoomManager.TileCheckNotEmpty(x1, x2, y1, y2, _index, _indexWallPos, "Floor");
             }
         }
 
         public static void CheckForDoor()
         {
-            for (int i = 0; i < DungeonUtility.GetAllRooms().Count; ++i)
+            for (int i = 0; i < RoomManager.GetAllRooms().Count; ++i)
             {
                 //   Debug.Log("Room Wall positions: " + DungeonUtility.GetAllRooms()[i].WallPositions.Count);
-                for (int w = 0; w < DungeonUtility.GetAllRooms()[i].WallPositions.Count; ++w)
+                for (int w = 0; w < RoomManager.GetAllRooms()[i].WallPositions.Count; ++w)
                 {
                     RemoveDoors(i, w);
                 }
