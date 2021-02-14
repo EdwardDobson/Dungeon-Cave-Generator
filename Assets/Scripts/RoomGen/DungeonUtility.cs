@@ -12,7 +12,6 @@ namespace DungeonGeneration
         static Vector2 m_dungeonDimensions = new Vector2();
         static Vector2Int m_wallDimensions = new Vector2Int();
         static Tilemap m_tilemap;
-        static List<TileBase> m_tiles = new List<TileBase>();
         static int m_doorAmount;
         static Vector3Int m_tilePosition = new Vector3Int();
         static List<Vector2Int> m_buildPoints = new List<Vector2Int>();
@@ -29,7 +28,6 @@ namespace DungeonGeneration
             m_dungeonDimensions = _dungeonDimensions;
             m_wallDimensions = _wallDimensions;
             m_tilemap = _map;
-            m_tiles = _tiles;
             PlaceBuildPoints();
         }
         #region TilePositionFunctions
@@ -84,10 +82,7 @@ namespace DungeonGeneration
         {
             return m_tilemap;
         }
-        public static List<TileBase> GetTiles()
-        {
-            return m_tiles;
-        }
+   
 
         public static void SetDungeonDimensions(int _x, int _y)
         {
@@ -161,10 +156,7 @@ namespace DungeonGeneration
             m_doorPositions = m_doorPositions.OrderByDescending(v => v.x).ToList();
         }
         #endregion
-        public static void GetTile()
-        {
-            m_tilemap.GetTile(m_tilePosition);
-        }
+  
         #region SurroundingTileFunctions
         public static void GetSurroundingPositions(int _index, List<Vector3Int> _positions)
         {

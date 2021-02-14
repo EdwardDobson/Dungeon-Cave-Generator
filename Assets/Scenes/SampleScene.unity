@@ -206,7 +206,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 914786642}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: RoomGen, Assembly-CSharp
         m_MethodName: ClearTileMap
         m_Mode: 1
@@ -339,7 +339,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 914786642}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: RoomGen, Assembly-CSharp
         m_MethodName: RebuildRoom
         m_Mode: 3
@@ -444,6 +444,7 @@ GameObject:
   - component: {fileID: 458537668}
   - component: {fileID: 458537667}
   - component: {fileID: 458537666}
+  - component: {fileID: 458537669}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -499,6 +500,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &458537669
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 458537665}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62769e31e12138845848b8db8f4bfc20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  map: {fileID: 914786644}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -510,6 +524,7 @@ GameObject:
   - component: {fileID: 519420032}
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
+  - component: {fileID: 519420030}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -525,6 +540,19 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_Enabled: 1
+--- !u!114 &519420030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa64bcbbf8cbb544c8b3f90a01acc42b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Speed: 10
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -729,7 +757,6 @@ GameObject:
   - component: {fileID: 914786641}
   - component: {fileID: 914786644}
   - component: {fileID: 914786643}
-  - component: {fileID: 914786642}
   - component: {fileID: 914786645}
   m_Layer: 0
   m_Name: Map
@@ -752,32 +779,6 @@ Transform:
   m_Father: {fileID: 178150278}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &914786642
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 914786640}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f297cee349d7d2e49a8d9ce162d8eaae, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_tilemap: {fileID: 914786644}
-  m_wallDimensions: {x: 0, y: 0}
-  m_wallMaxX: 10
-  m_wallMinX: 4
-  m_wallMaxY: 6
-  m_wallMinY: 15
-  m_tiles:
-  - {fileID: 11400000, guid: 9ed8494dace98294690c26800236abd8, type: 2}
-  - {fileID: 11400000, guid: 3eb5bd367a6cf8d44b26eabcf38d18e0, type: 2}
-  - {fileID: 11400000, guid: be9c83ecb7977a8469d7bc1eb4f33f11, type: 2}
-  m_tilePostions: []
-  m_dungeonDimensions: {x: 15, y: 15}
-  m_buildPoints: []
-  m_buildPointChoice: {x: 0, y: 0}
 --- !u!483693784 &914786643
 TilemapRenderer:
   m_ObjectHideFlags: 0

@@ -41,7 +41,7 @@ namespace DungeonGeneration
         {
             if (DungeonUtility.GetTilemap().GetTile(_pos1) == null && DungeonUtility.GetTilemap().GetTile(_pos2) == null)
             {
-                DungeonUtility.GetTilemap().SetTile(m_rooms[_indexRoom].WallPositions[_indexWall], DungeonUtility.GetTiles()[0]);
+                BuildTilePiece.ChangeTilePiece(m_rooms[_indexRoom].WallPositions[_indexWall], 0, TileType.Wall);
             }
         }
         public static void TileCheckNotEmpty(Vector3Int _pos1, Vector3Int _pos2, Vector3Int _pos3, Vector3Int _pos4, int _indexRoom, int _indexWall, string _tileName)
@@ -50,11 +50,12 @@ namespace DungeonGeneration
             {
                 if (DungeonUtility.GetTilemap().GetTile(_pos1).name == _tileName && DungeonUtility.GetTilemap().GetTile(_pos2).name == _tileName)
                 {
-                    DungeonUtility.GetTilemap().SetTile(m_rooms[_indexRoom].WallPositions[_indexWall], DungeonUtility.GetTiles()[1]);
+                    BuildTilePiece.ChangeTilePiece(m_rooms[_indexRoom].WallPositions[_indexWall], 0,  TileType.Floor);
+               
                 }
                 if (DungeonUtility.GetTilemap().GetTile(_pos3).name == _tileName && DungeonUtility.GetTilemap().GetTile(_pos4).name == _tileName)
                 {
-                    DungeonUtility.GetTilemap().SetTile(m_rooms[_indexRoom].WallPositions[_indexWall], DungeonUtility.GetTiles()[1]);
+                    BuildTilePiece.ChangeTilePiece(m_rooms[_indexRoom].WallPositions[_indexWall], 0, TileType.Floor);
                 }
             }
         }
