@@ -9,7 +9,7 @@ namespace DungeonGeneration
 
     public class DungeonUtility
     {
-        static Vector2 m_dungeonDimensions = new Vector2();
+        static Vector2Int m_dungeonDimensions = new Vector2Int();
         static Vector2Int m_wallDimensions = new Vector2Int();
         static Tilemap m_tilemap;
         static int m_doorAmount;
@@ -24,7 +24,7 @@ namespace DungeonGeneration
         static List<Vector3Int> m_floorPositions = new List<Vector3Int>();
         static List<Vector3Int> m_otherTilePositions = new List<Vector3Int>();
         static List<Vector2Int> m_pathPoints = new List<Vector2Int>();
-        public static void DungeonSetup(Vector2 _dungeonDimensions, Vector2Int _wallDimensions, Tilemap _map, List<TileBase> _tiles)
+        public static void DungeonSetup(Vector2Int _dungeonDimensions, Vector2Int _wallDimensions, Tilemap _map, List<TileBase> _tiles)
         {
             m_dungeonDimensions = _dungeonDimensions;
             m_wallDimensions = _wallDimensions;
@@ -87,9 +87,9 @@ namespace DungeonGeneration
 
         public static void SetDungeonDimensions(int _x, int _y)
         {
-            m_dungeonDimensions = new Vector2(_x, _y);
+            m_dungeonDimensions = new Vector2Int(_x, _y);
         }
-        public static Vector2 GetDungeonDimensions()
+        public static Vector2Int GetDungeonDimensions()
         {
             return m_dungeonDimensions;
         }

@@ -6,7 +6,7 @@ using UnityEngine.Tilemaps;
 public class BuildDungeon : MonoBehaviour
 {
     [SerializeField]
-    Vector2 m_dungeonDimensions = new Vector2();
+    Vector2Int m_dungeonDimensions = new Vector2Int();
     [SerializeField]
     Vector2Int m_wallDimensions = new Vector2Int();
     [SerializeField]
