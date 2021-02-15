@@ -33,14 +33,9 @@ public class BuildDungeon : MonoBehaviour
         for (int i = 0; i < m_roomAmount; ++i)
         {
             DungeonUtility.PickBuildPoint();
-            DungeonUtility.RandomiseDoorAmount(m_maxDoorAmount);
             DungeonUtility.RandomiseWallSizes(m_wallMaxX, m_wallMaxY, m_wallMinX, m_wallMaxY);
-
             BuildFloor.FillFloor();
             RoomManager.InitialiseRoomSingle(DungeonUtility.GetWallForDoorsPositions(), DungeonUtility.GetTilePositions(), DungeonUtility.GetBuildPoint());
-
-            if (i < m_roomAmount - 1)
-                DungeonUtility.GetWallForDoorsPositions().Clear();
         }
 
         for (int r = 0; r < RoomManager.GetAllRooms().Count; ++r)
@@ -48,11 +43,8 @@ public class BuildDungeon : MonoBehaviour
             ConnectRoom.PlacePositions(r);
             ConnectRoom.FindOtherRoom();
         }
-        ConnectRoom.ReducePaths();
         PlaceWalls();
-
-
-    void PlaceWalls()
+        void PlaceWalls()
         {
             BoundsInt Bounds = DungeonUtility.GetTilemap().cellBounds;
             TileBase[] allTiles = DungeonUtility.GetTilemap().GetTilesBlock(Bounds);
