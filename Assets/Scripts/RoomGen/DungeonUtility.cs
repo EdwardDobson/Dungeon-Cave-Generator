@@ -23,6 +23,7 @@ namespace DungeonGeneration
         static List<Vector3Int> m_wallPositionsForDoors = new List<Vector3Int>();
         static List<Vector3Int> m_floorPositions = new List<Vector3Int>();
         static List<Vector3Int> m_otherTilePositions = new List<Vector3Int>();
+        static List<Vector2Int> m_pathPoints = new List<Vector2Int>();
         public static void DungeonSetup(Vector2 _dungeonDimensions, Vector2Int _wallDimensions, Tilemap _map, List<TileBase> _tiles)
         {
             m_dungeonDimensions = _dungeonDimensions;
@@ -96,6 +97,11 @@ namespace DungeonGeneration
         public static void PickBuildPoint()
         {
             m_buildPointChoice = m_buildPoints[Random.Range(0, m_buildPoints.Count)];
+            m_pathPoints.Add(m_buildPointChoice);
+        }
+        public static List<Vector2Int> GetAllPathPoints()
+        {
+            return m_pathPoints;
         }
         public static Vector2Int GetBuildPoint()
         {

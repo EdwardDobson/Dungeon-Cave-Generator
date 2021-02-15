@@ -880,16 +880,11 @@ MonoBehaviour:
   m_dungeonDimensions: {x: 150, y: 150}
   m_wallDimensions: {x: 0, y: 0}
   m_tilemap: {fileID: 914786644}
-  m_tiles:
-  - {fileID: 11400000, guid: 9ed8494dace98294690c26800236abd8, type: 2}
-  - {fileID: 11400000, guid: 3eb5bd367a6cf8d44b26eabcf38d18e0, type: 2}
-  - {fileID: 11400000, guid: be9c83ecb7977a8469d7bc1eb4f33f11, type: 2}
-  - {fileID: 11400000, guid: f4ae1cf34e5f1fc478e3f35859248289, type: 2}
-  - {fileID: 11400000, guid: 4a2681e4219e3784085df619a701c16e, type: 2}
+  m_tiles: []
   m_wallMaxX: 10
-  m_wallMinX: 10
+  m_wallMinX: 5
   m_wallMaxY: 10
-  m_wallMinY: 10
+  m_wallMinY: 5
   m_maxDoorAmount: 1
   m_roomAmount: 100
 --- !u!1 &973368637

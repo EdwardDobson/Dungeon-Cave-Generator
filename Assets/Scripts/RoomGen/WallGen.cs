@@ -60,11 +60,15 @@ namespace DungeonGeneration
                 DungeonUtility.GetSurroundingPositions(a, DungeonUtility.GetFloorPositions());
                 for (int i = 0; i < 4; ++i)
                 {
-                    if (DungeonUtility.GetTileSurrounding(i).name.Contains("Wall"))
+                    if(DungeonUtility.GetTileSurrounding(i) != null)
                     {
-                        if (!DungeonUtility.GetWallForDoorsPositions().Contains(DungeonUtility.GetSurroundingPosition(i)))
-                            DungeonUtility.AddWallForDoorsPositions(DungeonUtility.GetSurroundingPosition(i));
+                        if (DungeonUtility.GetTileSurrounding(i).name.Contains("Wall"))
+                        {
+                            if (!DungeonUtility.GetWallForDoorsPositions().Contains(DungeonUtility.GetSurroundingPosition(i)))
+                                DungeonUtility.AddWallForDoorsPositions(DungeonUtility.GetSurroundingPosition(i));
+                        }
                     }
+                 
                 }
                 DungeonUtility.ClearSurroundPositions();
             }
