@@ -33,6 +33,8 @@ namespace DungeonGeneration
                     m_wall = t;
                 if (t.name == "PathTiles")
                     m_path = t;
+                if (t.name == "DoorTiles")
+                    m_door = t;
             }
             foreach (CustomTile c in m_floor.Tiles)
             {

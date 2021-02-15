@@ -50,5 +50,6 @@ public class BuildDungeon : MonoBehaviour
             ConnectRoom.PlacePositions(r);
             ConnectRoom.FindOtherRoom();
         }
+        ConnectRoom.ReducePaths();
     }
 }
