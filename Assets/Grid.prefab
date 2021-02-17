@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 8800083758417266050}
   - component: {fileID: 3637410397251561591}
   - component: {fileID: 9064305073223868958}
-  - component: {fileID: 2175785111522811110}
   m_Layer: 0
   m_Name: Walls
   m_TagString: Untagged
@@ -119,29 +118,6 @@ TilemapRenderer:
   m_Mode: 0
   m_DetectChunkCullingBounds: 0
   m_MaskInteraction: 0
---- !u!114 &2175785111522811110
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2357527219770146980}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a4103f10fd0f9a43afc966e4c69346f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_dungeonDimensions: {x: 150, y: 150}
-  m_wallDimensions: {x: 0, y: 0}
-  m_tilemap: {fileID: 3637410397251561591}
-  m_walls: {fileID: 3637410397251561591}
-  m_tiles: []
-  m_wallMaxX: 10
-  m_wallMinX: 5
-  m_wallMaxY: 10
-  m_wallMinY: 5
-  m_maxDoorAmount: 1
-  m_roomAmount: 100
 --- !u!1 &2472697035314329761
 GameObject:
   m_ObjectHideFlags: 0
@@ -321,7 +297,7 @@ MonoBehaviour:
   m_dungeonDimensions: {x: 150, y: 150}
   m_wallDimensions: {x: 0, y: 0}
   m_tilemap: {fileID: 2472697036052015729}
-  m_walls: {fileID: 0}
+  m_walls: {fileID: 3637410397251561591}
   m_tiles: []
   m_wallMaxX: 10
   m_wallMinX: 5
