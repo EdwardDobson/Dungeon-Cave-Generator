@@ -12,6 +12,8 @@ public class BuildDungeon : MonoBehaviour
     [SerializeField]
     Tilemap m_tilemap;
     [SerializeField]
+    Tilemap m_walls;
+    [SerializeField]
     List<TileBase> m_tiles = new List<TileBase>();
     [SerializeField]
     int m_wallMaxX;
@@ -25,6 +27,8 @@ public class BuildDungeon : MonoBehaviour
     int m_maxDoorAmount;
     [SerializeField]
     int m_roomAmount;
+    [SerializeField]
+    TileBase m_wall;
     void Start()
     {
         TileManager.FillTilesList();
@@ -44,6 +48,7 @@ public class BuildDungeon : MonoBehaviour
             ConnectRoom.FindOtherRoom();
         }
         PlaceWalls();
+    }
         void PlaceWalls()
         {
             BoundsInt Bounds = DungeonUtility.GetTilemap().cellBounds;
@@ -55,10 +60,9 @@ public class BuildDungeon : MonoBehaviour
                     TileBase tile = allTiles[x + y * Bounds.size.x];
                     if (tile == null)
                     {
-                        BuildTilePiece.BuildPiece(x, y, 0, false, TileType.Wall);
+                        BuildTilePiece.BuildPiece(x, y, 0, false, TileType.Wall, m_walls);
                     }
                 }
             }
         }
     }
-}

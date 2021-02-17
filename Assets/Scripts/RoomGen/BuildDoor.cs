@@ -11,7 +11,7 @@ namespace DungeonGeneration
             Vector3Int randomWallPos = RoomManager.GetAllRooms()[_index].WallPositions[randomPosChoice];
             DungeonUtility.AddDoorPosition(randomWallPos);
             RoomManager.GetAllRooms()[_index].DoorPositions.Add(randomWallPos);
-            BuildTilePiece.ChangeTilePiece(randomWallPos, 0, TileType.Door);
+            BuildTilePiece.ChangeTilePiece(randomWallPos, 0, TileType.Door, DungeonUtility.GetTilemap()) ;
        
          //   RoomManager.GetAllRooms()[_index].WallPositions.RemoveAt(randomPosChoice);
         }
