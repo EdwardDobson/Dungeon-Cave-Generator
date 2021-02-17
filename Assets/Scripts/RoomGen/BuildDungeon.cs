@@ -27,8 +27,6 @@ public class BuildDungeon : MonoBehaviour
     int m_maxDoorAmount;
     [SerializeField]
     int m_roomAmount;
-    [SerializeField]
-    TileBase m_wall;
     void Start()
     {
         TileManager.FillTilesList();
