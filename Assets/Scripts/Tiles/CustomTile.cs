@@ -15,7 +15,7 @@ public class CustomTile : ScriptableObject
 {
     public TileBase Tile;
     public TileType Type;
-    public Color Colour;
     public float Speed;
-  
+    public float Health;
+    public Vector3Int Pos;
 }

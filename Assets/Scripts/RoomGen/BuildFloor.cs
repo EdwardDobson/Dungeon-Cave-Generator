@@ -13,7 +13,8 @@ namespace DungeonGeneration
             {
                 for (int a = 0; a < DungeonUtility.GetWallDimensions().y; ++a)
                 {
-                    BuildTilePiece.BuildPiece(DungeonUtility.GetBuildPoint().x + i, DungeonUtility.GetBuildPoint().y + a, Random.Range(0, tileHolder.Tiles.Count), false, TileType.Floor, DungeonUtility.GetTilemap());
+                    BuildTilePiece.BuildPiece(DungeonUtility.GetBuildPoint().x + i, DungeonUtility.GetBuildPoint().y + a, 
+                        Random.Range(0, tileHolder.Tiles.Count), false, TileType.Floor, DungeonUtility.GetTilemap());
                     temp = new Vector3Int(DungeonUtility.GetBuildPoint().x + i, DungeonUtility.GetBuildPoint().y + a,0);
                     if(DungeonUtility.GetTilemap().GetTile(temp).name.Contains("Floor"))
                     DungeonUtility.AddFloorPositions(temp);

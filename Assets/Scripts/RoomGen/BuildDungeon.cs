@@ -30,6 +30,7 @@ public class BuildDungeon : MonoBehaviour
     void Start()
     {
         TileManager.FillTilesList();
+        TileManager.FillTileDictionary();
         DungeonUtility.DungeonSetup(m_dungeonDimensions, m_wallDimensions, m_tilemap, m_tiles);
 
         for (int i = 0; i < m_roomAmount; ++i)
@@ -46,6 +47,7 @@ public class BuildDungeon : MonoBehaviour
             ConnectRoom.FindOtherRoom();
         }
         PlaceWalls();
+
     }
         void PlaceWalls()
         {
@@ -58,7 +60,8 @@ public class BuildDungeon : MonoBehaviour
                     TileBase tile = allTiles[x + y * Bounds.size.x];
                     if (tile == null)
                     {
-                        BuildTilePiece.BuildPiece(x, y, 0, false, TileType.Wall, m_walls);
+                        BuildTilePiece.BuildPiece(x, y, Random.Range(0,TileManager.GetTileHolder(TileType.Wall).Tiles.Count), false, TileType.Wall, m_walls);
+                    DungeonUtility.AddWallPositions(new Vector3Int(x, y, 0));
                     }
                 }
             }
