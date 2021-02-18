@@ -10,15 +10,18 @@ public class PlayerMovement : MonoBehaviour
     public Tilemap Map;
     float h;
     float v;
+    bool m_playerPlaced;
     void Start()
     {
         m_rb2d = GetComponent<Rigidbody2D>();
-        transform.position = DungeonUtility.GetFloorPositions()[Random.Range(0, DungeonUtility.GetFloorPositions().Count)];
     }
     void Update()
     {
-
-        //transform.position.x - 0.5f < Map.cellBounds.xMax && 
+        if(DungeonUtility.GetFloorPositions().Count >0 && !m_playerPlaced)
+        {
+            transform.position = DungeonUtility.GetFloorPositions()[Random.Range(0, DungeonUtility.GetFloorPositions().Count)];
+            m_playerPlaced = true;
+        }
         if (transform.position.x - 0.5f > 0)
         {
             if (Input.GetKey(KeyCode.A))
