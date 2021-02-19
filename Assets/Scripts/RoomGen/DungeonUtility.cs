@@ -10,7 +10,7 @@ namespace DungeonGeneration
     public class DungeonUtility
     {
         static Vector2Int m_dungeonDimensions = new Vector2Int();
-        static Vector2Int m_wallDimensions = new Vector2Int();
+
         static Tilemap m_tilemap;
         static int m_doorAmount;
         static Vector3Int m_tilePosition = new Vector3Int();
@@ -19,15 +19,12 @@ namespace DungeonGeneration
         static Vector2Int m_buildPointChoice = new Vector2Int();
         static List<Vector3Int> m_tilePositions = new List<Vector3Int>();
         static List<Vector3Int> m_doorPositions = new List<Vector3Int>();
-        static List<Vector3Int> m_wallPositions = new List<Vector3Int>();
-        static List<Vector3Int> m_wallPositionsForDoors = new List<Vector3Int>();
-        static List<Vector3Int> m_floorPositions = new List<Vector3Int>();
+
         static List<Vector3Int> m_otherTilePositions = new List<Vector3Int>();
         static List<Vector2Int> m_pathPoints = new List<Vector2Int>();
         public static void DungeonSetup(Vector2Int _dungeonDimensions, Vector2Int _wallDimensions, Tilemap _map, List<TileBase> _tiles)
         {
             m_dungeonDimensions = _dungeonDimensions;
-            m_wallDimensions = _wallDimensions;
             m_tilemap = _map;
             PlaceBuildPoints();
         }
@@ -44,46 +41,11 @@ namespace DungeonGeneration
         {
             return m_tilePositions;
         }
-        public static List<Vector3Int> GetWallPositions()
-        {
-            return m_wallPositions;
-        }
-        public static void AddWallPositions(Vector3Int _pos)
-        {
-            m_wallPositions.Add(_pos);
-        }
-        public static List<Vector3Int> GetWallForDoorsPositions()
-        {
-            return m_wallPositionsForDoors;
-        }
-        public static void AddWallForDoorsPositions(Vector3Int _pos)
-        {
-            m_wallPositionsForDoors.Add(_pos);
-        }
-        public static List<Vector3Int> GetFloorPositions()
-        {
-            return m_floorPositions;
-        }
-        public static void AddFloorPositions(Vector3Int _pos)
-        {
-            m_floorPositions.Add(_pos);
-        }
-        #endregion
-        #region WallDimensionFunctions
-        public static void RandomiseWallSizes(int _wallMaxX, int _wallMaxY, int _wallMinX, int _wallMinY)
-        {
-            m_wallDimensions = new Vector2Int(Random.Range(_wallMinX, _wallMaxX), Random.Range(_wallMinY, _wallMaxY));
-        }
-        public static Vector2Int GetWallDimensions()
-        {
-            return m_wallDimensions;
-        }
         #endregion
         public static Tilemap GetTilemap()
         {
             return m_tilemap;
         }
-   
 
         public static void SetDungeonDimensions(int _x, int _y)
         {
@@ -93,15 +55,15 @@ namespace DungeonGeneration
         {
             return m_dungeonDimensions;
         }
+        public static List<Vector2Int> GetAllPathPoints()
+        {
+            return m_pathPoints;
+        }
         #region BuildPointFunctions
         public static void PickBuildPoint()
         {
             m_buildPointChoice = m_buildPoints[Random.Range(0, m_buildPoints.Count)];
             m_pathPoints.Add(m_buildPointChoice);
-        }
-        public static List<Vector2Int> GetAllPathPoints()
-        {
-            return m_pathPoints;
         }
         public static Vector2Int GetBuildPoint()
         {
@@ -126,15 +88,11 @@ namespace DungeonGeneration
                 }
             }
         }
-        public static void AddBuildPoint(Vector2Int _point)
-        {
-            m_buildPoints.Add(_point);
-        }
         #endregion
 
-        public static void CheckIfWall()
+        public static void CheckIfWall(Vector2Int _wallDimensions)
         {
-            if (m_tilePosition != new Vector3Int(m_buildPointChoice.x, m_buildPointChoice.y, 0) && m_tilePosition != new Vector3Int(m_buildPointChoice.x, m_buildPointChoice.y + m_wallDimensions.y, 0) && m_tilePosition != new Vector3Int(m_buildPointChoice.x + m_wallDimensions.x, m_buildPointChoice.y, 0))
+            if (m_tilePosition != new Vector3Int(m_buildPointChoice.x, m_buildPointChoice.y, 0) && m_tilePosition != new Vector3Int(m_buildPointChoice.x, m_buildPointChoice.y + _wallDimensions.y, 0) && m_tilePosition != new Vector3Int(m_buildPointChoice.x + _wallDimensions.x, m_buildPointChoice.y, 0))
             {
                 m_tilePositions.Add(m_tilePosition);
             }

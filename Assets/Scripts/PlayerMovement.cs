@@ -18,9 +18,9 @@ public class PlayerMovement : MonoBehaviour
     }
     void Update()
     {
-        if (DungeonUtility.GetFloorPositions().Count > 0 && !m_playerPlaced)
+        if (FloorGen.GetFloorPositions().Count > 0 && !m_playerPlaced)
         {
-            transform.position = DungeonUtility.GetFloorPositions()[Random.Range(0, DungeonUtility.GetFloorPositions().Count)];
+            transform.position = FloorGen.GetFloorPositions()[Random.Range(0, FloorGen.GetFloorPositions().Count)];
             m_playerPlaced = true;
         }
 

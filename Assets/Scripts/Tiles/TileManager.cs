@@ -46,15 +46,19 @@ namespace DungeonGeneration
                     m_door = t;
             }
         }
-        public static void FillDictionary(Vector3Int _pos,TileData _tileDataStruct)
+        public static void FillDictionary(Vector3Int _pos, List<CustomTile> _customTiles, int _index, Tilemap _map)
         {
-            m_tileDatas.Add(_pos, _tileDataStruct);
+            TileData td = new TileData();
+            td.CustomTile = _customTiles[_index];
+            td.TileBase = _map.GetTile(_pos);
+            if (!m_tileDatas.ContainsKey(_pos))
+                m_tileDatas.Add(_pos, td);
         }
+
         public static Dictionary<Vector3Int, TileData> GetTileDictionary()
         {
             return m_tileDatas;
         }
-
         public static CustomTile GetCertainTile(TileType _type, int _index)
         {
             switch (_type)
@@ -128,8 +132,8 @@ namespace DungeonGeneration
             if (_map.GetTile(posY) == null)
                 _map.SetTile(posY, GetCertainTile(_type, _tileIndex).Tile[0]);
             DungeonUtility.SetTilePosition(posY);
-            if (_isWallPiece && !DungeonUtility.GetWallPositions().Contains(posY))
-                DungeonUtility.AddWallPositions(posY);
+            if (_isWallPiece && !WallGen.GetWallPositions().Contains(posY))
+                WallGen.AddWallPositions(posY);
         }
         public static void ChangeTilePiece(Vector3Int _pos, int _tileIndex, TileType _type, Tilemap _map)
         {
