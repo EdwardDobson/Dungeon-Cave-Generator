@@ -22,12 +22,10 @@ namespace DungeonGeneration
         static TileHolder m_tileHolderToReturn;
         static CustomTile m_tileToReturn;
         static List<CustomTile> m_tilesToReturn = new List<CustomTile>();
-        static Dictionary<List<TileBase>, CustomTile> m_dataFromTilesFloor;
         static Dictionary<Vector3Int, TileData> m_tileDatas;
         static void LoadTileDatas()
         {
             tiledatas = Resources.LoadAll("Tiles", typeof(TileHolder));
-            m_dataFromTilesFloor = new Dictionary<List<TileBase>, CustomTile>();
             m_tileDatas = new Dictionary<Vector3Int, TileData>();
         }
 
