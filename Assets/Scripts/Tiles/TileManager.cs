@@ -13,35 +13,21 @@ namespace DungeonGeneration
     }
     public class TileManager
     {
-        [SerializeField]
         static Object[] tiledatas;
-        static TileHolder m_floor;
-        static TileHolder m_wall;
-        static TileHolder m_path;
-        static TileHolder m_door;
         static TileHolder m_tileHolderToReturn;
+        static List<TileHolder> m_tileHolders;
         static CustomTile m_tileToReturn;
         static List<CustomTile> m_tilesToReturn = new List<CustomTile>();
         static Dictionary<Vector3Int, TileData> m_tileDatas;
-        static void LoadTileDatas()
+        public  static void LoadTileManager()
         {
             tiledatas = Resources.LoadAll("Tiles", typeof(TileHolder));
             m_tileDatas = new Dictionary<Vector3Int, TileData>();
-        }
-
-        public static void FillTilesList()
-        {
-            LoadTileDatas();
+            m_tileHolders = new List<TileHolder>();
             foreach (TileHolder t in tiledatas)
             {
-                if (t.name == "FloorTiles")
-                    m_floor = t;
-                if (t.name == "WallTiles")
-                    m_wall = t;
-                if (t.name == "PathTiles")
-                    m_path = t;
-                if (t.name == "DoorTiles")
-                    m_door = t;
+                if(!m_tileHolders.Contains(t))
+                m_tileHolders.Add(t);
             }
         }
         public static void FillDictionary(Vector3Int _pos, List<CustomTile> _customTiles, int _index, Tilemap _map)
@@ -59,67 +45,28 @@ namespace DungeonGeneration
         }
         public static CustomTile GetCertainTile(TileType _type, int _index)
         {
-            switch (_type)
+            foreach (TileHolder t in m_tileHolders)
             {
-                case TileType.Floor:
-                    m_tileToReturn = m_floor.Tiles[_index];
-                    break;
-                case TileType.Wall:
-                    m_tileToReturn = m_wall.Tiles[_index];
-                    break;
-                case TileType.Path:
-                    m_tileToReturn = m_path.Tiles[_index];
-                    break;
-                case TileType.Door:
-                    m_tileToReturn = m_door.Tiles[_index];
-                    break;
-                default:
-                    Debug.LogError("No Tile Set Exists");
-                    break;
+                if(t.name.Contains(_type.ToString()))
+                    m_tileToReturn = t.Tiles[_index];
             }
             return m_tileToReturn;
         }
         public static List<CustomTile> GetAllTiles(TileType _type)
         {
-            switch (_type)
+            foreach (TileHolder t in m_tileHolders)
             {
-                case TileType.Floor:
-                    m_tilesToReturn = m_floor.Tiles;
-                    break;
-                case TileType.Wall:
-                    m_tilesToReturn = m_wall.Tiles;
-                    break;
-                case TileType.Path:
-                    m_tilesToReturn = m_path.Tiles;
-                    break;
-                case TileType.Door:
-                    m_tilesToReturn = m_door.Tiles;
-                    break;
-                default:
-                    Debug.LogError("No Tile Set Exists");
-                    break;
+                if (t.name.Contains(_type.ToString()))
+                    m_tilesToReturn = t.Tiles;
             }
             return m_tilesToReturn;
         }
         public static TileHolder GetTileHolder(TileType _type)
         {
-            switch (_type)
+            foreach (TileHolder t in m_tileHolders)
             {
-                case TileType.Floor:
-                    m_tileHolderToReturn = m_floor;
-                    break;
-                case TileType.Wall:
-                    m_tileHolderToReturn = m_wall;
-                    break;
-                case TileType.Path:
-                    m_tileHolderToReturn = m_path;
-                    break;
-                case TileType.Door:
-                    m_tileHolderToReturn = m_door;
-                    break;
-                default:
-                    Debug.LogError("No Tile Holder Exists");
-                    break;
+                if (t.name.Contains(_type.ToString()))
+                    m_tileHolderToReturn = t;
             }
             return m_tileHolderToReturn;
         }

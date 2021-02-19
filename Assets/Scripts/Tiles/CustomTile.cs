@@ -18,6 +18,9 @@ public class CustomTile : ScriptableObject
     public Color TileColour;
     public float Speed;
     public float Health;
+    public float Damage;
+    public float CurrentAttackCoolDown;
+    public float MaxAttackCoolDown;
     public Vector3Int Pos;
     [Range(1,100)]
     public float PickChance;

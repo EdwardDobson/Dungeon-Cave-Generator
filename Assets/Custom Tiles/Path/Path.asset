@@ -16,7 +16,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4a2681e4219e3784085df619a701c16e, type: 2}
   Type: 2
   TileColour: {r: 0.4811321, g: 0.4811321, b: 0.4811321, a: 1}
-  Speed: 0
+  Speed: 5
   Health: 0
+  Damage: 0
+  CurrentAttackCoolDown: 0
+  MaxAttackCoolDown: 0
   Pos: {x: 0, y: 0, z: 0}
   PickChance: 0

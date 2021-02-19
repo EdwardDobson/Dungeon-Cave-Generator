@@ -51,9 +51,9 @@ public class Dig : MonoBehaviour
                     copy.Pos = m_hitLocation;
                     WallsTouched.Add(copy);
                 }
-                for(int i = 0; i < WallsTouched.Count; ++i)
+                for (int i = 0; i < WallsTouched.Count; ++i)
                 {
-                    if(WallsTouched[i].Pos == m_hitLocation)
+                    if (WallsTouched[i].Pos == m_hitLocation)
                     {
                         if (WallsTouched[i].Health > 0)
                         {
@@ -63,6 +63,8 @@ public class Dig : MonoBehaviour
                         {
                             TileManager.RemoveTilePiece(m_hitLocation, WallTileMap);
                             TileManager.ChangeTilePiece(m_hitLocation, 0, TileType.Path, Map);
+                            TileManager.GetTileDictionary().Remove(m_hitLocation);
+                            TileManager.FillDictionary(m_hitLocation, TileManager.GetAllTiles(TileType.Path), 0, Map);
                             WallsTouched.RemoveAt(i);
                         }
                     }

@@ -30,7 +30,7 @@ public class BuildDungeon : MonoBehaviour
     int m_roomAmount;
     void Start()
     {
-        TileManager.FillTilesList();
+        TileManager.LoadTileManager();
         DungeonUtility.DungeonSetup(m_dungeonDimensions, m_wallDimensions, m_tilemap, m_tiles);
         WallGen.SetWallSizes(m_wallDimensions);
         for (int i = 0; i < m_roomAmount; ++i)

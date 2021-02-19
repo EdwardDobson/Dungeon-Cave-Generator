@@ -29,13 +29,15 @@ public class PlayerMovement : MonoBehaviour
         m_rb2d.velocity = moveVector * Speed;
         TileChecker();
     }
+    //Handes border detection and movement
     void BorderDetection()
     {
         if (transform.position.x - 0.5f > 0)
         {
-            if (Input.GetKey(KeyCode.A))
+            if (Input.GetKeyDown(KeyCode.A))
             {
-                h = Input.GetAxisRaw("Horizontal");
+   
+              h = Input.GetAxisRaw("Horizontal");
             }
             if (Input.GetKeyUp(KeyCode.A))
             {

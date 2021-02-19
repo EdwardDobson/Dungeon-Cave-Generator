@@ -18,5 +18,8 @@ MonoBehaviour:
   TileColour: {r: 1, g: 1, b: 1, a: 1}
   Speed: 7
   Health: 0
+  Damage: 0
+  CurrentAttackCoolDown: 0
+  MaxAttackCoolDown: 0
   Pos: {x: 0, y: 0, z: 0}
-  PickChance: 62.3
+  PickChance: 86.8
