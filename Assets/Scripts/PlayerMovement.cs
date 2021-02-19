@@ -11,17 +11,26 @@ public class PlayerMovement : MonoBehaviour
     float h;
     float v;
     bool m_playerPlaced;
+
     void Start()
     {
         m_rb2d = GetComponent<Rigidbody2D>();
     }
     void Update()
     {
-        if(DungeonUtility.GetFloorPositions().Count >0 && !m_playerPlaced)
+        if (DungeonUtility.GetFloorPositions().Count > 0 && !m_playerPlaced)
         {
             transform.position = DungeonUtility.GetFloorPositions()[Random.Range(0, DungeonUtility.GetFloorPositions().Count)];
             m_playerPlaced = true;
         }
+
+        BorderDetection();
+        Vector2 moveVector = new Vector2(h, v);
+        m_rb2d.velocity = moveVector * Speed;
+        TileChecker();
+    }
+    void BorderDetection()
+    {
         if (transform.position.x - 0.5f > 0)
         {
             if (Input.GetKey(KeyCode.A))
@@ -58,7 +67,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 h = 0;
             }
-      
+
         }
         if (transform.position.x + 0.5f > Map.cellBounds.xMax)
         {
@@ -128,8 +137,22 @@ public class PlayerMovement : MonoBehaviour
                 v = 0;
             }
         }
-
-        Vector2 moveVector = new Vector2(h, v);
-        m_rb2d.velocity = moveVector * Speed;
+    }
+    void TileChecker()
+    {
+        Vector3Int pos = new Vector3Int((int)transform.position.x, (int)transform.position.y, (int)transform.position.z);
+        if (Map.GetTile(pos) != null)
+        {
+            if (Map.GetTile(pos).name.Contains("Floor"))
+            {
+                CustomTile copy = Instantiate(TileManager.GetTileDictionary()[pos].CustomTile);
+                copy.Pos = pos;
+                Speed = copy.Speed;
+            }
+            if (Map.GetTile(pos).name.Contains("Path"))
+            {
+                Speed = 5;
+            }
+        }
     }
 }

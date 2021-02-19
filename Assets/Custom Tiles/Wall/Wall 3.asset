@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Tile: {fileID: 11400000, guid: f4ae1cf34e5f1fc478e3f35859248289, type: 2}
   Type: 0
+  TileColour: {r: 0, g: 0, b: 0, a: 0}
   Speed: 0
   Health: 5
   Pos: {x: 0, y: 0, z: 0}
+  PickChance: 50

@@ -15,7 +15,7 @@ public class TileMouseOver : MonoBehaviour
             TileBase clickedTile = map.GetTile(gPos);
             if (clickedTile != null)
             {
-                Debug.Log(TileManager.GetCustomTile(clickedTile).Speed);
+              //  Debug.Log(TileManager.GetCustomTile(TileManager.Get).Speed);
             }
         }
   

@@ -6,6 +6,11 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 namespace DungeonGeneration
 {
+    public struct TileData
+    {
+        public TileBase TileBase;
+       public CustomTile CustomTile;
+    }
     public class TileManager
     {
         [SerializeField]
@@ -17,14 +22,15 @@ namespace DungeonGeneration
         static TileHolder m_tileHolderToReturn;
         static CustomTile m_tileToReturn;
         static List<CustomTile> m_tilesToReturn = new List<CustomTile>();
-        static Dictionary<TileBase, CustomTile> m_dataFromTilesFloor;
-        static List<CustomTileClass> m_tiles = new List<CustomTileClass>();
+        static Dictionary<List<TileBase>, CustomTile> m_dataFromTilesFloor;
+        static Dictionary<Vector3Int, TileData> m_tileDatas;
         static void LoadTileDatas()
         {
             tiledatas = Resources.LoadAll("Tiles", typeof(TileHolder));
-            m_dataFromTilesFloor = new Dictionary<TileBase, CustomTile>();
-            
+            m_dataFromTilesFloor = new Dictionary<List<TileBase>, CustomTile>();
+            m_tileDatas = new Dictionary<Vector3Int, TileData>();
         }
+
         public static void FillTilesList()
         {
             LoadTileDatas();
@@ -40,24 +46,13 @@ namespace DungeonGeneration
                     m_door = t;
             }
         }
-        public static void FillTileDictionary()
+        public static void FillDictionary(Vector3Int _pos,TileData _tileDataStruct)
         {
-            foreach (CustomTile c in m_floor.Tiles)
-            {
-                m_dataFromTilesFloor.Add(c.Tile, c);
-            }
-            foreach (CustomTile c in m_wall.Tiles)
-            {
-                m_dataFromTilesFloor.Add(c.Tile, c);
-            }
-            foreach (CustomTile c in m_path.Tiles)
-            {
-                m_dataFromTilesFloor.Add(c.Tile, c);
-            }
-            foreach (CustomTile c in m_door.Tiles)
-            {
-                m_dataFromTilesFloor.Add(c.Tile, c);
-            }
+            m_tileDatas.Add(_pos, _tileDataStruct);
+        }
+        public static Dictionary<Vector3Int, TileData> GetTileDictionary()
+        {
+            return m_tileDatas;
         }
 
         public static CustomTile GetCertainTile(TileType _type, int _index)
@@ -81,15 +76,6 @@ namespace DungeonGeneration
                     break;
             }
             return m_tileToReturn;
-        }
-        /// <summary>
-        /// Gets a tile from the dictionary of custom tiles
-        /// </summary>
-        /// <param name="_tile"></param>
-        /// <returns></returns>
-        public static CustomTile GetCustomTile(TileBase _tile)
-        {
-            return m_dataFromTilesFloor[_tile];
         }
         public static List<CustomTile> GetAllTiles(TileType _type)
         {
@@ -134,6 +120,29 @@ namespace DungeonGeneration
                     break;
             }
             return m_tileHolderToReturn;
+        }
+
+        public static void BuildPiece(int _value1, int _value2, int _tileIndex, bool _isWallPiece, TileType _type, Tilemap _map)
+        {
+            Vector3Int posY = new Vector3Int(_value1, _value2, 0);
+            if (_map.GetTile(posY) == null)
+                _map.SetTile(posY, GetCertainTile(_type, _tileIndex).Tile[0]);
+            DungeonUtility.SetTilePosition(posY);
+            if (_isWallPiece && !DungeonUtility.GetWallPositions().Contains(posY))
+                DungeonUtility.AddWallPositions(posY);
+        }
+        public static void ChangeTilePiece(Vector3Int _pos, int _tileIndex, TileType _type, Tilemap _map)
+        {
+            _map.SetTile(_pos, GetCertainTile(_type, _tileIndex).Tile[0]);
+        }
+        public static void RemoveTilePiece(Vector3Int _pos, Tilemap _map)
+        {
+            _map.SetTile(_pos, null);
+        }
+        public static void ChangeTileColour(Tilemap _map, Vector3Int _tilePos, CustomTile _customTile)
+        {
+            _map.SetTileFlags(_tilePos, TileFlags.None);
+            _map.SetColor(_tilePos, _customTile.TileColour);
         }
     }
 }

@@ -47,7 +47,7 @@ public class Dig : MonoBehaviour
             {
                 if (WallsTouched.All(w => w.Pos != m_hitLocation))
                 {
-                    CustomTile copy = Instantiate(TileManager.GetCustomTile(WallTileMap.GetTile(m_hitLocation)));
+                    CustomTile copy = Instantiate(TileManager.GetTileDictionary()[m_hitLocation].CustomTile);
                     copy.Pos = m_hitLocation;
                     WallsTouched.Add(copy);
                 }
@@ -61,8 +61,8 @@ public class Dig : MonoBehaviour
                         }
                         if (WallsTouched[i].Health <= 0)
                         {
-                            BuildTilePiece.RemoveTilePiece(m_hitLocation, WallTileMap);
-                            BuildTilePiece.ChangeTilePiece(m_hitLocation, 0, TileType.Path, Map);
+                            TileManager.RemoveTilePiece(m_hitLocation, WallTileMap);
+                            TileManager.ChangeTilePiece(m_hitLocation, 0, TileType.Path, Map);
                             WallsTouched.RemoveAt(i);
                         }
                     }

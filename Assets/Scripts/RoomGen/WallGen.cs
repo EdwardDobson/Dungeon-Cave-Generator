@@ -12,14 +12,14 @@ namespace DungeonGeneration
             DungeonUtility.GetTilePositions().Clear();
             for (int i = 0; i < DungeonUtility.GetWallDimensions().x + 1; ++i)
             {
-                BuildTilePiece.BuildPiece(DungeonUtility.GetBuildPoint().x + i, DungeonUtility.GetBuildPoint().y, 0, true, TileType.Wall, DungeonUtility.GetTilemap());
+                TileManager.BuildPiece(DungeonUtility.GetBuildPoint().x + i, DungeonUtility.GetBuildPoint().y, 0, true, TileType.Wall, DungeonUtility.GetTilemap());
                 DungeonUtility.CheckIfWall();
-                BuildTilePiece.BuildPiece(DungeonUtility.GetBuildPoint().x + i, DungeonUtility.GetBuildPoint().y + DungeonUtility.GetWallDimensions().y, 0, true, TileType.Wall, DungeonUtility.GetTilemap());
+                TileManager.BuildPiece(DungeonUtility.GetBuildPoint().x + i, DungeonUtility.GetBuildPoint().y + DungeonUtility.GetWallDimensions().y, 0, true, TileType.Wall, DungeonUtility.GetTilemap());
                 for (int a = 0; a < DungeonUtility.GetWallDimensions().y + 1; ++a)
                 {
-                    BuildTilePiece.BuildPiece(DungeonUtility.GetBuildPoint().x, DungeonUtility.GetBuildPoint().y + a, 0, true, TileType.Wall, DungeonUtility.GetTilemap());
+                    TileManager.BuildPiece(DungeonUtility.GetBuildPoint().x, DungeonUtility.GetBuildPoint().y + a, 0, true, TileType.Wall, DungeonUtility.GetTilemap());
                     DungeonUtility.CheckIfWall();
-                    BuildTilePiece.BuildPiece(DungeonUtility.GetBuildPoint().x + DungeonUtility.GetWallDimensions().x, DungeonUtility.GetBuildPoint().y + a, 0, true, TileType.Wall, DungeonUtility.GetTilemap());
+                    TileManager.BuildPiece(DungeonUtility.GetBuildPoint().x + DungeonUtility.GetWallDimensions().x, DungeonUtility.GetBuildPoint().y + a, 0, true, TileType.Wall, DungeonUtility.GetTilemap());
                     DungeonUtility.RemoveBuildPoint();
                 }
             }
@@ -34,19 +34,19 @@ namespace DungeonGeneration
                 {
                     if (DungeonUtility.GetTileSurrounding(0).name.Contains("Floor") && DungeonUtility.GetTileSurrounding(1).name.Contains("Floor") || DungeonUtility.GetTileSurrounding(0).name == "Wall" && DungeonUtility.GetTileSurrounding(1).name.Contains("Floor") || DungeonUtility.GetTileSurrounding(0).name.Contains("Floor") && DungeonUtility.GetTileSurrounding(1).name.Contains("Wall"))
                     {
-                        BuildTilePiece.ChangeTilePiece(DungeonUtility.GetWallPositions()[i], 0, TileType.Floor, DungeonUtility.GetTilemap());
+                        TileManager.ChangeTilePiece(DungeonUtility.GetWallPositions()[i], 0, TileType.Floor, DungeonUtility.GetTilemap());
                     }
                 }
                 if (DungeonUtility.GetTileSurrounding(2) && DungeonUtility.GetTileSurrounding(3))
                 {
                     if (DungeonUtility.GetTileSurrounding(2).name.Contains("Floor") && DungeonUtility.GetTileSurrounding(3).name.Contains("Floor") || DungeonUtility.GetTileSurrounding(2).name.Contains("Wall") && DungeonUtility.GetTileSurrounding(3).name.Contains("Floor") || DungeonUtility.GetTileSurrounding(2).name.Contains("Floor") && DungeonUtility.GetTileSurrounding(3).name.Contains("Wall"))
                     {
-                        BuildTilePiece.ChangeTilePiece(DungeonUtility.GetWallPositions()[i], 0, TileType.Floor, DungeonUtility.GetTilemap());
+                        TileManager.ChangeTilePiece(DungeonUtility.GetWallPositions()[i], 0, TileType.Floor, DungeonUtility.GetTilemap());
                     }
                 }
                 if (DungeonUtility.GetTileSurrounding(0) == null || DungeonUtility.GetTileSurrounding(1) == null || DungeonUtility.GetTileSurrounding(2) == null || DungeonUtility.GetTileSurrounding(3) == null)
                 {
-                    BuildTilePiece.ChangeTilePiece(DungeonUtility.GetWallPositions()[i], 0, TileType.Wall, DungeonUtility.GetTilemap());
+                    TileManager.ChangeTilePiece(DungeonUtility.GetWallPositions()[i], 0, TileType.Wall, DungeonUtility.GetTilemap());
                 }
                 DungeonUtility.ClearSurroundPositions();
             }
