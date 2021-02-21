@@ -9,7 +9,7 @@ namespace DungeonGeneration
     public struct TileData
     {
         public TileBase TileBase;
-       public CustomTile CustomTile;
+        public CustomTile CustomTile;
     }
     public class TileManager
     {
@@ -71,9 +71,9 @@ namespace DungeonGeneration
             return m_tileHolderToReturn;
         }
 
-        public static void BuildPiece(int _value1, int _value2, int _tileIndex, bool _isWallPiece, TileType _type, Tilemap _map)
+        public static void BuildPiece(int _pos1, int _pos2, int _tileIndex, bool _isWallPiece, TileType _type, Tilemap _map)
         {
-            Vector3Int posY = new Vector3Int(_value1, _value2, 0);
+            Vector3Int posY = new Vector3Int(_pos1, _pos2, 0);
             if (_map.GetTile(posY) == null)
                 _map.SetTile(posY, GetCertainTile(_type, _tileIndex).Tile[0]);
             DungeonUtility.SetTilePosition(posY);

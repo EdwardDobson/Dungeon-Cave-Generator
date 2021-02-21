@@ -14,6 +14,10 @@ namespace DungeonGeneration
         {
             m_walls = _walls;
         }
+        public static Tilemap GetTilemap()
+        {
+            return m_walls;
+        }
         public static void PlaceWalls()
         {
             BoundsInt Bounds = DungeonUtility.GetTilemap().cellBounds;

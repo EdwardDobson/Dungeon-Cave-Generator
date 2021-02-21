@@ -17,7 +17,7 @@ MonoBehaviour:
   Type: 0
   TileColour: {r: 0.46226418, g: 0.1360743, b: 0, a: 1}
   Speed: 0
-  Health: 2
+  Health: 1
   Damage: 0
   CurrentAttackCoolDown: 0
   MaxAttackCoolDown: 0

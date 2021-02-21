@@ -61,6 +61,7 @@ public class Dig : MonoBehaviour
                         }
                         if (WallsTouched[i].Health <= 0)
                         {
+                            
                             TileManager.RemoveTilePiece(m_hitLocation, WallTileMap);
                             TileManager.ChangeTilePiece(m_hitLocation, 0, TileType.Path, Map);
                             TileManager.GetTileDictionary().Remove(m_hitLocation);
