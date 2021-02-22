@@ -684,6 +684,38 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5732313281069836440, guid: 19ca195e8b792464f90811226cae5251, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2.626125
+      objectReference: {fileID: 0}
+    - target: {fileID: 5732313281069836440, guid: 19ca195e8b792464f90811226cae5251, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.3050001
+      objectReference: {fileID: 0}
+    - target: {fileID: 5732313281069836440, guid: 19ca195e8b792464f90811226cae5251, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.36041
+      objectReference: {fileID: 0}
+    - target: {fileID: 5732313281071629140, guid: 19ca195e8b792464f90811226cae5251, type: 3}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5732313281071629140, guid: 19ca195e8b792464f90811226cae5251, type: 3}
+      propertyPath: m_margin.z
+      value: -42.503235
+      objectReference: {fileID: 0}
+    - target: {fileID: 5732313281071629142, guid: 19ca195e8b792464f90811226cae5251, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.3875
+      objectReference: {fileID: 0}
+    - target: {fileID: 5732313281071629142, guid: 19ca195e8b792464f90811226cae5251, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.7812416
+      objectReference: {fileID: 0}
+    - target: {fileID: 5732313281071629142, guid: 19ca195e8b792464f90811226cae5251, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 41.5
+      objectReference: {fileID: 0}
     - target: {fileID: 8670859152482462304, guid: 19ca195e8b792464f90811226cae5251, type: 3}
       propertyPath: m_Color.a
       value: 1
@@ -765,6 +797,10 @@ PrefabInstance:
       propertyPath: Map
       value: 
       objectReference: {fileID: 914786644}
+    - target: {fileID: 7794398217402429729, guid: a7a415f56d409c94aa73a4fccef2d957, type: 3}
+      propertyPath: DigDamage
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7794398217402429729, guid: a7a415f56d409c94aa73a4fccef2d957, type: 3}
       propertyPath: WallTileMap
       value: 

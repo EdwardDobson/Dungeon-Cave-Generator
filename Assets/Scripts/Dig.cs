@@ -11,6 +11,7 @@ public class Dig : MonoBehaviour
     public Tilemap WallTileMap;
     public Tilemap Map;
     public float MaxRange;
+    public int DigDamage;
     public List<CustomTile> WallsTouched = new List<CustomTile>();
     void Update()
     {
@@ -40,7 +41,7 @@ public class Dig : MonoBehaviour
                         {
                             if (WallsTouched[i].Health > 0)
                             {
-                                WallsTouched[i].Health--;
+                                WallsTouched[i].Health-= DigDamage;
                             }
                             if (WallsTouched[i].Health <= 0)
                             {
