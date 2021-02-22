@@ -80,6 +80,16 @@ namespace DungeonGeneration
             if (_isWallPiece && !WallGen.GetWallPositions().Contains(posY))
                 WallGen.AddWallPositions(posY);
         }
+        //Used to manually place tiles in game
+        public static void PlaceTile(Vector3Int _pos,int _index, Tilemap _mapToRemove, Tilemap _mapToPlace, List<CustomTile> _tiles)
+        {
+            RemoveTilePiece(_pos, _mapToRemove);
+            m_tileDatas.Remove(_pos);
+            if (_mapToPlace.GetTile(_pos) == null)
+                _mapToPlace.SetTile(_pos, _tiles[_index].Tile[0]);
+            FillDictionary(_pos, _tiles, _index, _mapToPlace);
+            ChangeTileColour(_mapToPlace, _pos, _tiles[_index]);
+        }
         public static void ChangeTilePiece(Vector3Int _pos, int _tileIndex, TileType _type, Tilemap _map)
         {
             _map.SetTile(_pos, GetCertainTile(_type, _tileIndex).Tile[0]);

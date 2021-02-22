@@ -14,8 +14,11 @@ GameObject:
   - component: {fileID: 7794398217402429733}
   - component: {fileID: 7794398217402429729}
   - component: {fileID: 7794398217402429786}
+  - component: {fileID: 1325159179}
+  - component: {fileID: 1325159184}
+  - component: {fileID: 1325159186}
   m_Layer: 0
-  m_Name: Player 1
+  m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -136,6 +139,7 @@ MonoBehaviour:
   Distance: 1
   WallTileMap: {fileID: 0}
   Map: {fileID: 0}
+  MaxRange: 5
   WallsTouched: []
 --- !u!58 &7794398217402429786
 CircleCollider2D:
@@ -153,3 +157,68 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &1325159179
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7794398217402429787}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac1d8334897f9604593664f78acfbaa4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Bomb: {fileID: 4098400179186950490, guid: f2b5113f2fe6d5e47b0bdfa9e3192285, type: 3}
+  BombParent: {fileID: 0}
+--- !u!114 &1325159184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7794398217402429787}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00f41871d07b8dd44ae43b36d56b8b74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_map: {fileID: 0}
+  Health: 1000
+  m_damageTiles: []
+--- !u!114 &1325159186
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7794398217402429787}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1877e05d7ae29640bd3504674d41bdf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_index: 0
+  PlaceImage: {fileID: 0}
+  PlaceImages:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  m_customTilesToPlace:
+  - {fileID: 11400000, guid: 32ce5bd22f398e142922795d26db5e9d, type: 2}
+  - {fileID: 11400000, guid: 86e3fe86fd537d749a64dfd20f748394, type: 2}
+  - {fileID: 11400000, guid: c872726bf2eba0e48b813866f523a5bc, type: 2}
+  - {fileID: 11400000, guid: d1100af8f9db729449bd2e5b57379ec4, type: 2}
+  - {fileID: 11400000, guid: ec670892b67fa97438801f7198221023, type: 2}
+  - {fileID: 11400000, guid: ba8231b485dc26a4c8acb0ab4d4722fc, type: 2}
+  - {fileID: 11400000, guid: 0999c9e98ded89d49bb2e410d553ea94, type: 2}
+  - {fileID: 11400000, guid: d47a01f03b2b5c14c8b8893c3a929aac, type: 2}
+  - {fileID: 11400000, guid: 9a8e4aec07a7d154d9b0b9dfc1662b8f, type: 2}
+  MaxRange: 5
+  BlockInfo: {fileID: 0}

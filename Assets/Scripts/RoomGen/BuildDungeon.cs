@@ -47,6 +47,6 @@ public class BuildDungeon : MonoBehaviour
         }
         WallGen.SetWallsTileMap(m_walls);
         WallGen.PlaceWalls();
-        GameObject.Find("Player").GetComponent<PlaceTile>().GetComponent<PlaceTile>().FillTilesList();
+      //  GameObject.Find("Player").GetComponent<PlaceTile>().GetComponent<PlaceTile>().FillTilesList();
     }
 }
