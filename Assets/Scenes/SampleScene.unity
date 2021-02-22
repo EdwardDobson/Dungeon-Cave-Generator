@@ -805,6 +805,10 @@ PrefabInstance:
       propertyPath: WallTileMap
       value: 
       objectReference: {fileID: 1287630955}
+    - target: {fileID: 7794398217402429729, guid: a7a415f56d409c94aa73a4fccef2d957, type: 3}
+      propertyPath: HealthPrefab
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 7794398217402429733, guid: a7a415f56d409c94aa73a4fccef2d957, type: 3}
       propertyPath: Map
       value: 
