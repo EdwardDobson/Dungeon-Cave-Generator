@@ -149,6 +149,7 @@ public class PlaceTile : MonoBehaviour
                     {
                         if (m_tilesForHotBar[m_index].Type == TileType.Wall)
                         {
+                            if(new Vector3Int((int)transform.position.x,(int)transform.position.y,0) != v)
                             TileManager.PlaceTile(v, m_index, DungeonUtility.GetTilemap(), WallGen.GetTilemap(), m_tilesForHotBar);
                             // Debug.Log("Building Tile: " + WallGen.GetTilemap().GetTile(v).name + worldPosition);
                         }
