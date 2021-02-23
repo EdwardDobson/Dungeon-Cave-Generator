@@ -22,7 +22,7 @@ namespace DungeonGeneration
 
         static List<Vector3Int> m_otherTilePositions = new List<Vector3Int>();
         static List<Vector2Int> m_pathPoints = new List<Vector2Int>();
-        public static void DungeonSetup(Vector2Int _dungeonDimensions, Vector2Int _wallDimensions, Tilemap _map, List<TileBase> _tiles)
+        public static void DungeonSetup(Vector2Int _dungeonDimensions, Tilemap _map)
         {
             m_dungeonDimensions = _dungeonDimensions;
             m_tilemap = _map;

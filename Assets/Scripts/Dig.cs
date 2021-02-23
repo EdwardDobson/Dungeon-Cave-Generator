@@ -15,6 +15,7 @@ public class Dig : MonoBehaviour
     public List<CustomTile> WallsTouched = new List<CustomTile>();
     void Update()
     {
+        if(Time.timeScale > 0)
         FindTile();
     }
 

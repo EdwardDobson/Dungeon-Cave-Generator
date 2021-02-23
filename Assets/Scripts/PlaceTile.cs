@@ -11,6 +11,8 @@ public class PlaceTile : MonoBehaviour
     public Image[] PlaceImages;
     [SerializeField]
     List<CustomTile> m_customTilesToPlace = new List<CustomTile>();
+    [SerializeField]
+    List<CustomTile> m_tilesForHotBar = new List<CustomTile>();
     public float MaxRange;
     public TextMeshProUGUI BlockInfo;
 
@@ -67,70 +69,106 @@ public class PlaceTile : MonoBehaviour
             m_index = 8;
         }
     }
-    private void Start()
+    private void Awake()
     {
         for (int i = 0; i < m_customTilesToPlace.Count; ++i)
         {
-            PlaceImages[i].color = m_customTilesToPlace[i].TileColour;
+            if(i < 9)
+            m_tilesForHotBar.Add(m_customTilesToPlace[i]);
+      
+        }
+        for(int i = 0; i < m_tilesForHotBar.Count; ++i)
+        {
+            PlaceImages[i].color = m_tilesForHotBar[i].TileColour;
+            PlaceImages[i].GetComponent<HoldCustomTile>().CustomTile = m_tilesForHotBar[i];
         }
     }
-    void Update()
+    public void RefreshTileImages()
     {
-        SwitchBlockWithInput();
+        for (int i = 0; i < m_tilesForHotBar.Count; ++i)
+        {
+            PlaceImages[i].color = PlaceImages[i].GetComponent<HoldCustomTile>().CustomTile.TileColour;
+            m_tilesForHotBar[i] = PlaceImages[i].GetComponent<HoldCustomTile>().CustomTile;
+        }
         for (int i = 0; i < PlaceImages.Length; ++i)
         {
-            if(i == m_index)
+            if (i == m_index)
             {
-                PlaceImages[i].color = m_customTilesToPlace[i].TileColour;
+                PlaceImages[i].color = m_tilesForHotBar[i].TileColour;
             }
             else
             {
-                PlaceImages[i].color = new Color(m_customTilesToPlace[i].TileColour.r, m_customTilesToPlace[i].TileColour.g, m_customTilesToPlace[i].TileColour.b, 0.3f);
-            }
-         
-        }
-        BlockInfo.text = m_customTilesToPlace[m_index].name + "\nType: " + m_customTilesToPlace[m_index].Type.ToString();
-        float d = Input.GetAxis("Mouse ScrollWheel");
-        if (d > 0f)
-        {
-            m_index++;
-            if (m_index > m_customTilesToPlace.Count - 1)
-            {
-                m_index = 0;
+                PlaceImages[i].color = new Color(m_tilesForHotBar[i].TileColour.r, m_tilesForHotBar[i].TileColour.g, m_tilesForHotBar[i].TileColour.b, 0.3f);
             }
         }
-        else if (d < 0f)
+        BlockInfo.text = m_tilesForHotBar[m_index].name + "\nType: " + m_tilesForHotBar[m_index].Type.ToString();
+    }
+    void Update()
+    {
+        if(Time.timeScale > 0)
         {
-            m_index--;
-            if (m_index < 0)
+            SwitchBlockWithInput();
+            for (int i = 0; i < PlaceImages.Length; ++i)
             {
-                m_index = m_customTilesToPlace.Count - 1;
-            }
-        }
-        Vector2 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector3Int v = new Vector3Int((int)worldPosition.x, (int)worldPosition.y, 0);
-        float distance = Vector3Int.Distance(v, new Vector3Int((int)transform.position.x, (int)transform.position.y, (int)transform.position.z));
-        if (distance <= MaxRange)
-        {
-            if (Input.GetMouseButtonDown(1))
-            {
-                if (WallGen.GetTilemap().GetTile(v) == null)
+                if (i == m_index)
                 {
-                    if (m_customTilesToPlace[m_index].Type == TileType.Wall)
-                    {
-                        TileManager.PlaceTile(v, m_index, DungeonUtility.GetTilemap(), WallGen.GetTilemap(), m_customTilesToPlace);
-                       // Debug.Log("Building Tile: " + WallGen.GetTilemap().GetTile(v).name + worldPosition);
-                    }
+                    PlaceImages[i].color = m_tilesForHotBar[i].TileColour;
                 }
-                if (DungeonUtility.GetTilemap().GetTile(v) != null  && WallGen.GetTilemap().GetTile(v) == null)
+                else
                 {
-                    if (m_customTilesToPlace[m_index].Type == TileType.Floor)
-                    {
-                        TileManager.PlaceTile(v, m_index ,DungeonUtility.GetTilemap(), DungeonUtility.GetTilemap(),m_customTilesToPlace);
-                      //  Debug.Log("Building Tile: " + DungeonUtility.GetTilemap().GetTile(v).name + worldPosition);
-                    }
+                    PlaceImages[i].color = new Color(m_tilesForHotBar[i].TileColour.r, m_tilesForHotBar[i].TileColour.g, m_tilesForHotBar[i].TileColour.b, 0.3f);
+                }
+
+            }
+            BlockInfo.text = m_tilesForHotBar[m_index].name + "\nType: " + m_tilesForHotBar[m_index].Type.ToString();
+            float d = Input.GetAxis("Mouse ScrollWheel");
+            if (d > 0f)
+            {
+                m_index++;
+                if (m_index > m_tilesForHotBar.Count - 1)
+                {
+                    m_index = 0;
                 }
             }
+            else if (d < 0f)
+            {
+                m_index--;
+                if (m_index < 0)
+                {
+                    m_index = m_tilesForHotBar.Count - 1;
+                }
+            }
+            Vector2 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector3Int v = new Vector3Int((int)worldPosition.x, (int)worldPosition.y, 0);
+            float distance = Vector3Int.Distance(v, new Vector3Int((int)transform.position.x, (int)transform.position.y, (int)transform.position.z));
+            if (distance <= MaxRange)
+            {
+                if (Input.GetMouseButtonDown(1))
+                {
+                    if (WallGen.GetTilemap().GetTile(v) == null)
+                    {
+                        if (m_tilesForHotBar[m_index].Type == TileType.Wall)
+                        {
+                            TileManager.PlaceTile(v, m_index, DungeonUtility.GetTilemap(), WallGen.GetTilemap(), m_tilesForHotBar);
+                            // Debug.Log("Building Tile: " + WallGen.GetTilemap().GetTile(v).name + worldPosition);
+                        }
+                    }
+                    if (DungeonUtility.GetTilemap().GetTile(v) != null && WallGen.GetTilemap().GetTile(v) == null)
+                    {
+                        if (m_tilesForHotBar[m_index].Type == TileType.Floor)
+                        {
+                            TileManager.PlaceTile(v, m_index, DungeonUtility.GetTilemap(), DungeonUtility.GetTilemap(), m_tilesForHotBar);
+                            //  Debug.Log("Building Tile: " + DungeonUtility.GetTilemap().GetTile(v).name + worldPosition);
+                        }
+                    }
+                }
+            }
         }
+       
+    }
+
+    public List<CustomTile> GetCustomTiles()
+    {
+        return m_customTilesToPlace;
     }
 }

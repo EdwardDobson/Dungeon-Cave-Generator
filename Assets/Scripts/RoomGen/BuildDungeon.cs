@@ -1,7 +1,8 @@
 using DungeonGeneration;
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
+using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 public class BuildDungeon : MonoBehaviour
@@ -30,23 +31,24 @@ public class BuildDungeon : MonoBehaviour
     int m_roomAmount;
     void Start()
     {
+        Stopwatch SW = new Stopwatch();
+        SW.Start();
         TileManager.LoadTileManager();
-        DungeonUtility.DungeonSetup(m_dungeonDimensions, m_wallDimensions, m_tilemap, m_tiles);
+        DungeonUtility.DungeonSetup(m_dungeonDimensions, m_tilemap);
         WallGen.SetWallSizes(m_wallDimensions);
         for (int i = 0; i < m_roomAmount; ++i)
         {
             DungeonUtility.PickBuildPoint();
             WallGen.RandomiseWallSizes(m_wallMaxX, m_wallMaxY, m_wallMinX, m_wallMaxY);
             FloorGen.FillFloor();
-        }
-
-        for (int r = 0; r < m_roomAmount; ++r)
-        {
-            ConnectRoom.PlacePositions(r);
+            ConnectRoom.PlacePositions(i);
             ConnectRoom.FindOtherRoom();
         }
         WallGen.SetWallsTileMap(m_walls);
         WallGen.PlaceWalls();
+        SW.Stop();
+        TimeSpan ts = SW.Elapsed;
+        UnityEngine.Debug.Log("Building Dungeon Took: " + ts.Milliseconds + " ms");
       //  GameObject.Find("Player").GetComponent<PlaceTile>().GetComponent<PlaceTile>().FillTilesList();
     }
 }
