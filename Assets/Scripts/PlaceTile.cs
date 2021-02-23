@@ -143,7 +143,7 @@ public class PlaceTile : MonoBehaviour
             float distance = Vector3Int.Distance(v, new Vector3Int((int)transform.position.x, (int)transform.position.y, (int)transform.position.z));
             if (distance <= MaxRange)
             {
-                if (Input.GetMouseButtonDown(1))
+                if (Input.GetMouseButton(1))
                 {
                     if (WallGen.GetTilemap().GetTile(v) == null)
                     {

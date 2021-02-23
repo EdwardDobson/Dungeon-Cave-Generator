@@ -12,7 +12,13 @@ public class Dig : MonoBehaviour
     public Tilemap Map;
     public float MaxRange;
     public int DigDamage;
+    public float MaxDigSpeed;
+    public float CurrentDigSpeed;
     public List<CustomTile> WallsTouched = new List<CustomTile>();
+    private void Start()
+    {
+        CurrentDigSpeed = MaxDigSpeed;
+    }
     void Update()
     {
         if(Time.timeScale > 0)
@@ -28,31 +34,36 @@ public class Dig : MonoBehaviour
         {
             if (WallTileMap.GetTile(v) != null)
             {
-                if (Input.GetMouseButtonDown(0))
+                if (Input.GetMouseButton(0))
                 {
-                    if (WallsTouched.All(w => w.Pos != v))
+                    CurrentDigSpeed -= Time.deltaTime;
+                    if(CurrentDigSpeed <= 0)
                     {
-                        CustomTile copy = Instantiate(TileManager.GetTileDictionary()[v].CustomTile);
-                        copy.Pos = v;
-                        WallsTouched.Add(copy);
-                    }
-                    for (int i = 0; i < WallsTouched.Count; ++i)
-                    {
-                        if (WallsTouched[i].Pos == v)
+                        if (WallsTouched.All(w => w.Pos != v))
                         {
-                            if (WallsTouched[i].Health > 0)
+                            CustomTile copy = Instantiate(TileManager.GetTileDictionary()[v].CustomTile);
+                            copy.Pos = v;
+                            WallsTouched.Add(copy);
+                        }
+                        for (int i = 0; i < WallsTouched.Count; ++i)
+                        {
+                            if (WallsTouched[i].Pos == v)
                             {
-                                WallsTouched[i].Health-= DigDamage;
-                            }
-                            if (WallsTouched[i].Health <= 0)
-                            {
-                                TileManager.RemoveTilePiece(v, WallTileMap);
-                                TileManager.ChangeTilePiece(v, 0, TileType.Path, Map);
-                                TileManager.GetTileDictionary().Remove(v);
-                                TileManager.FillDictionary(v, TileManager.GetAllTiles(TileType.Path), 0, Map);
-                                WallsTouched.RemoveAt(i);
+                                if (WallsTouched[i].Health > 0)
+                                {
+                                    WallsTouched[i].Health -= DigDamage;
+                                }
+                                if (WallsTouched[i].Health <= 0)
+                                {
+                                    TileManager.RemoveTilePiece(v, WallTileMap);
+                                    TileManager.ChangeTilePiece(v, 0, TileType.Path, Map);
+                                    TileManager.GetTileDictionary().Remove(v);
+                                    TileManager.FillDictionary(v, TileManager.GetAllTiles(TileType.Path), 0, Map);
+                                    WallsTouched.RemoveAt(i);
+                                }
                             }
                         }
+                        CurrentDigSpeed = MaxDigSpeed;
                     }
                 }
             }
