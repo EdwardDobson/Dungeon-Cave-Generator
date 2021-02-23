@@ -30,10 +30,10 @@ namespace DungeonGeneration
                 m_tileHolders.Add(t);
             }
         }
-        public static void FillDictionary(Vector3Int _pos, List<CustomTile> _customTiles, int _index, Tilemap _map)
+        public static void FillDictionary(Vector3Int _pos, CustomTile _customTile, Tilemap _map)
         {
             TileData td = new TileData();
-            td.CustomTile = _customTiles[_index];
+            td.CustomTile = _customTile;
             td.TileBase = _map.GetTile(_pos);
             if (!m_tileDatas.ContainsKey(_pos))
                 m_tileDatas.Add(_pos, td);
@@ -81,18 +81,22 @@ namespace DungeonGeneration
                 WallGen.AddWallPositions(posY);
         }
         //Used to manually place tiles in game
-        public static void PlaceTile(Vector3Int _pos,int _index, Tilemap _mapToRemove, Tilemap _mapToPlace, List<CustomTile> _tiles)
+        public static void PlaceTile(Vector3Int _pos,int _index, Tilemap _mapToRemove, Tilemap _mapToPlace, CustomTile _tile)
         {
             RemoveTilePiece(_pos, _mapToRemove);
             m_tileDatas.Remove(_pos);
             if (_mapToPlace.GetTile(_pos) == null)
-                _mapToPlace.SetTile(_pos, _tiles[_index].Tile[0]);
-            FillDictionary(_pos, _tiles, _index, _mapToPlace);
-            ChangeTileColour(_mapToPlace, _pos, _tiles[_index]);
+                _mapToPlace.SetTile(_pos, _tile.Tile[0]);
+            FillDictionary(_pos, _tile, _mapToPlace);
+            ChangeTileColour(_mapToPlace, _pos, _tile);
         }
         public static void ChangeTilePiece(Vector3Int _pos, int _tileIndex, TileType _type, Tilemap _map)
         {
             _map.SetTile(_pos, GetCertainTile(_type, _tileIndex).Tile[0]);
+        }
+        public static void ChangeTilePieceDig(Vector3Int _pos,TileBase _base, Tilemap _map)
+        {
+            _map.SetTile(_pos, _base);
         }
         public static void RemoveTilePiece(Vector3Int _pos, Tilemap _map)
         {

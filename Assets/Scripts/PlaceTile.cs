@@ -15,7 +15,11 @@ public class PlaceTile : MonoBehaviour
     List<CustomTile> m_tilesForHotBar = new List<CustomTile>();
     public float MaxRange;
     public TextMeshProUGUI BlockInfo;
-
+    public Dictionary<Vector3Int, CustomTile> PlacedOnTiles;
+    private void Start()
+    {
+        PlacedOnTiles = new Dictionary<Vector3Int, CustomTile>();
+    }
     public void FillTilesList()
     {
         for (int i = 0; i < TileManager.GetTileHolder(TileType.Wall).Tiles.Count; ++i)
@@ -150,7 +154,11 @@ public class PlaceTile : MonoBehaviour
                         if (m_tilesForHotBar[m_index].Type == TileType.Wall)
                         {
                             if(new Vector3Int((int)transform.position.x,(int)transform.position.y,0) != v)
-                            TileManager.PlaceTile(v, m_index, DungeonUtility.GetTilemap(), WallGen.GetTilemap(), m_tilesForHotBar);
+                            {
+                                if(TileManager.GetTileDictionary().ContainsKey(v))
+                                PlacedOnTiles.Add(v, TileManager.GetTileDictionary()[v].CustomTile);
+                                TileManager.PlaceTile(v, m_index, DungeonUtility.GetTilemap(), WallGen.GetTilemap(), m_tilesForHotBar[m_index]);
+                            }
                             // Debug.Log("Building Tile: " + WallGen.GetTilemap().GetTile(v).name + worldPosition);
                         }
                     }
@@ -158,7 +166,7 @@ public class PlaceTile : MonoBehaviour
                     {
                         if (m_tilesForHotBar[m_index].Type == TileType.Floor)
                         {
-                            TileManager.PlaceTile(v, m_index, DungeonUtility.GetTilemap(), DungeonUtility.GetTilemap(), m_tilesForHotBar);
+                            TileManager.PlaceTile(v, m_index, DungeonUtility.GetTilemap(), DungeonUtility.GetTilemap(), m_tilesForHotBar[m_index]);
                             //  Debug.Log("Building Tile: " + DungeonUtility.GetTilemap().GetTile(v).name + worldPosition);
                         }
                     }
