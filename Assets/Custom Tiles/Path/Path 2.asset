@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b87fb5b0c88f4644fb2a9e567623d2ec, type: 3}
+  m_Name: Path 2
+  m_EditorClassIdentifier: 
+  Tile: []
+  Type: 0
+  Attributes: 
+  BlockSound: {fileID: 0}
+  TileColour: {r: 0, g: 0, b: 0, a: 0}
+  Speed: 0
+  Health: 0
+  Damage: 0
+  CurrentAttackCoolDown: 0
+  MaxAttackCoolDown: 0
+  Pos: {x: 0, y: 0, z: 0}
+  PickChance: 0

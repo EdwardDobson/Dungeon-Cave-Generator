@@ -153,7 +153,9 @@ public class PlayerMovement : MonoBehaviour
             }
             if (Map.GetTile(pos).name.Contains("Path"))
             {
-                Speed = 5;
+                CustomTile copy = Instantiate(TileManager.GetTileDictionary()[pos].CustomTile);
+                copy.Pos = pos;
+                Speed = copy.Speed;
             }
         }
     }

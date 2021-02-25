@@ -167,7 +167,7 @@ public class PlaceTile : MonoBehaviour
                     {
                         if(TileManager.GetTileDictionary()[v].CustomTile != m_tilesForHotBar[m_index])
                         {
-                            if (m_tilesForHotBar[m_index].Type == TileType.Floor)
+                            if (m_tilesForHotBar[m_index].Type == TileType.Floor || m_tilesForHotBar[m_index].Type == TileType.Path)
                             {
                                 TileManager.PlaceTile(v, m_index, DungeonUtility.GetTilemap(), DungeonUtility.GetTilemap(), m_tilesForHotBar[m_index]);
                                 Instantiate(m_audioPlaceSource);
