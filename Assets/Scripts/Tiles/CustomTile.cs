@@ -22,6 +22,7 @@ public class CustomTile : ScriptableObject
     public List< TileBase> Tile;
     public TileType Type;
     public Attributes[] Attributes;
+    public AudioClip BlockSound;
     public Color TileColour;
     public float Speed;
     public float Health;

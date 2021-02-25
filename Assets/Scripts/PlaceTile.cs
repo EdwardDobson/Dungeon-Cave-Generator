@@ -16,6 +16,8 @@ public class PlaceTile : MonoBehaviour
     public float MaxRange;
     public TextMeshProUGUI BlockInfo;
     public Dictionary<Vector3Int, CustomTile> PlacedOnTiles;
+    [SerializeField]
+    GameObject m_audioPlaceSource;
     private void Start()
     {
         PlacedOnTiles = new Dictionary<Vector3Int, CustomTile>();
@@ -32,11 +34,11 @@ public class PlaceTile : MonoBehaviour
             if (!m_customTilesToPlace.Contains(TileManager.GetTileHolder(TileType.Floor).Tiles[i]))
                 m_customTilesToPlace.Add(TileManager.GetTileHolder(TileType.Floor).Tiles[i]);
         }
-   
+
     }
     void SwitchBlockWithInput()
     {
-        if(Input.GetKeyDown(KeyCode.Alpha1))
+        if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             m_index = 0;
         }
@@ -77,11 +79,11 @@ public class PlaceTile : MonoBehaviour
     {
         for (int i = 0; i < m_customTilesToPlace.Count; ++i)
         {
-            if(i < 9)
-            m_tilesForHotBar.Add(m_customTilesToPlace[i]);
-      
+            if (i < 9)
+                m_tilesForHotBar.Add(m_customTilesToPlace[i]);
+
         }
-        for(int i = 0; i < m_tilesForHotBar.Count; ++i)
+        for (int i = 0; i < m_tilesForHotBar.Count; ++i)
         {
             PlaceImages[i].color = m_tilesForHotBar[i].TileColour;
             PlaceImages[i].GetComponent<HoldCustomTile>().CustomTile = m_tilesForHotBar[i];
@@ -109,7 +111,7 @@ public class PlaceTile : MonoBehaviour
     }
     void Update()
     {
-        if(Time.timeScale > 0)
+        if (Time.timeScale > 0)
         {
             SwitchBlockWithInput();
             for (int i = 0; i < PlaceImages.Length; ++i)
@@ -120,9 +122,8 @@ public class PlaceTile : MonoBehaviour
                 }
                 else
                 {
-                    PlaceImages[i].color = new Color(m_tilesForHotBar[i].TileColour.r, m_tilesForHotBar[i].TileColour.g, m_tilesForHotBar[i].TileColour.b, 0.3f);
+                    PlaceImages[i].color = new Color(m_tilesForHotBar[i].TileColour.r, m_tilesForHotBar[i].TileColour.g, m_tilesForHotBar[i].TileColour.b, 0.5f);
                 }
-
             }
             BlockInfo.text = m_tilesForHotBar[m_index].name + "\nType: " + m_tilesForHotBar[m_index].Type.ToString();
             float d = Input.GetAxis("Mouse ScrollWheel");
@@ -153,27 +154,29 @@ public class PlaceTile : MonoBehaviour
                     {
                         if (m_tilesForHotBar[m_index].Type == TileType.Wall)
                         {
-                            if(new Vector3Int((int)transform.position.x,(int)transform.position.y,0) != v)
+                            if (new Vector3Int((int)transform.position.x, (int)transform.position.y, 0) != v)
                             {
-                                if(TileManager.GetTileDictionary().ContainsKey(v))
-                                PlacedOnTiles.Add(v, TileManager.GetTileDictionary()[v].CustomTile);
+                                if (TileManager.GetTileDictionary().ContainsKey(v))
+                                    PlacedOnTiles.Add(v, TileManager.GetTileDictionary()[v].CustomTile);
                                 TileManager.PlaceTile(v, m_index, DungeonUtility.GetTilemap(), WallGen.GetTilemap(), m_tilesForHotBar[m_index]);
+                                Instantiate(m_audioPlaceSource);
                             }
-                            // Debug.Log("Building Tile: " + WallGen.GetTilemap().GetTile(v).name + worldPosition);
                         }
                     }
                     if (DungeonUtility.GetTilemap().GetTile(v) != null && WallGen.GetTilemap().GetTile(v) == null)
                     {
-                        if (m_tilesForHotBar[m_index].Type == TileType.Floor)
+                        if(TileManager.GetTileDictionary()[v].CustomTile != m_tilesForHotBar[m_index])
                         {
-                            TileManager.PlaceTile(v, m_index, DungeonUtility.GetTilemap(), DungeonUtility.GetTilemap(), m_tilesForHotBar[m_index]);
-                            //  Debug.Log("Building Tile: " + DungeonUtility.GetTilemap().GetTile(v).name + worldPosition);
-                        }
+                            if (m_tilesForHotBar[m_index].Type == TileType.Floor)
+                            {
+                                TileManager.PlaceTile(v, m_index, DungeonUtility.GetTilemap(), DungeonUtility.GetTilemap(), m_tilesForHotBar[m_index]);
+                                Instantiate(m_audioPlaceSource);
+                            }
+                        } 
                     }
                 }
             }
         }
-       
     }
 
     public List<CustomTile> GetCustomTiles()

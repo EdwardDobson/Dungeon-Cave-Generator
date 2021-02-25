@@ -10,17 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b87fb5b0c88f4644fb2a9e567623d2ec, type: 3}
-  m_Name: Wall 5
+  m_Name: Black Wall
   m_EditorClassIdentifier: 
   Tile:
   - {fileID: 11400000, guid: 9ed8494dace98294690c26800236abd8, type: 2}
   Type: 0
   Attributes: 00000000
-  TileColour: {r: 0, g: 1, b: 0.98099947, a: 1}
+  BlockSound: {fileID: 8300000, guid: 01228ed0cc9f8dd46b1db4abdb6e37c5, type: 3}
+  TileColour: {r: 0, g: 0, b: 0, a: 1}
   Speed: 0
-  Health: 15
+  Health: 2
   Damage: 0
   CurrentAttackCoolDown: 0
   MaxAttackCoolDown: 0
   Pos: {x: 0, y: 0, z: 0}
-  PickChance: 0
+  PickChance: 100

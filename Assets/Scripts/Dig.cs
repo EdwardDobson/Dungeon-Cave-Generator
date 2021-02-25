@@ -16,10 +16,13 @@ public class Dig : MonoBehaviour
     public float CurrentDigSpeed;
     public List<CustomTile> WallsTouched = new List<CustomTile>();
     PlaceTile m_pTile;
+    [SerializeField]
+    AudioSource m_source;
     private void Start()
     {
         CurrentDigSpeed = MaxDigSpeed;
         m_pTile = GetComponent<PlaceTile>();
+
     }
     void Update()
     {
@@ -54,6 +57,11 @@ public class Dig : MonoBehaviour
                                 if (WallsTouched[i].Health > 0)
                                 {
                                     WallsTouched[i].Health -= DigDamage;
+                                    if(WallsTouched[i].BlockSound != null)
+                                    {
+                                        m_source.clip = WallsTouched[i].BlockSound;
+                                        m_source.Play();
+                                    }                        
                                 }
                                 if (WallsTouched[i].Health <= 0)
                                 {
