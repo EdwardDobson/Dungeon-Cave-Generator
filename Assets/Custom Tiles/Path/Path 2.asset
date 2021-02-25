@@ -12,15 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b87fb5b0c88f4644fb2a9e567623d2ec, type: 3}
   m_Name: Path 2
   m_EditorClassIdentifier: 
-  Tile: []
-  Type: 0
-  Attributes: 
+  Tile:
+  - {fileID: 11400000, guid: 4a2681e4219e3784085df619a701c16e, type: 2}
+  Type: 2
+  Attributes: 02000000
   BlockSound: {fileID: 0}
-  TileColour: {r: 0, g: 0, b: 0, a: 0}
-  Speed: 0
+  TileColour: {r: 0.5849056, g: 0.5849056, b: 0.5849056, a: 1}
+  Speed: 1
   Health: 0
   Damage: 0
   CurrentAttackCoolDown: 0
   MaxAttackCoolDown: 0
   Pos: {x: 0, y: 0, z: 0}
-  PickChance: 0
+  PickChance: 31.8

@@ -883,7 +883,7 @@ PrefabInstance:
       objectReference: {fileID: 712498159}
     - target: {fileID: 1325159186, guid: a7a415f56d409c94aa73a4fccef2d957, type: 3}
       propertyPath: m_customTilesToPlace.Array.size
-      value: 12
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 1325159186, guid: a7a415f56d409c94aa73a4fccef2d957, type: 3}
       propertyPath: m_customTilesToPlace.Array.data[9]
@@ -900,7 +900,7 @@ PrefabInstance:
     - target: {fileID: 1325159186, guid: a7a415f56d409c94aa73a4fccef2d957, type: 3}
       propertyPath: m_customTilesToPlace.Array.data[12]
       value: 
-      objectReference: {fileID: 11400000, guid: 983821c51c443cd4f9e4a69e193bc1a3, type: 2}
+      objectReference: {fileID: 11400000, guid: eccf2b4ae340b8f4084c1ad95484c5ac, type: 2}
     - target: {fileID: 1325159186, guid: a7a415f56d409c94aa73a4fccef2d957, type: 3}
       propertyPath: m_customTilesToPlace.Array.data[13]
       value: 

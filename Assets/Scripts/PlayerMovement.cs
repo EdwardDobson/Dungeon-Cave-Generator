@@ -145,17 +145,14 @@ public class PlayerMovement : MonoBehaviour
         Vector3Int pos = new Vector3Int((int)transform.position.x, (int)transform.position.y, (int)transform.position.z);
         if (Map.GetTile(pos) != null)
         {
-            if (Map.GetTile(pos).name.Contains("Floor"))
+            for(int a = 0; a < TileManager.GetTileDictionary()[pos].CustomTile.Attributes.Length; ++a)
             {
-                CustomTile copy = Instantiate(TileManager.GetTileDictionary()[pos].CustomTile);
-                copy.Pos = pos;
-                Speed = copy.Speed;
-            }
-            if (Map.GetTile(pos).name.Contains("Path"))
-            {
-                CustomTile copy = Instantiate(TileManager.GetTileDictionary()[pos].CustomTile);
-                copy.Pos = pos;
-                Speed = copy.Speed;
+                if (TileManager.GetTileDictionary()[pos].CustomTile.Attributes[a] == Attributes.Speed)
+                {
+                    CustomTile copy = Instantiate(TileManager.GetTileDictionary()[pos].CustomTile);
+                    copy.Pos = pos;
+                    Speed = copy.Speed;
+                }
             }
         }
     }
