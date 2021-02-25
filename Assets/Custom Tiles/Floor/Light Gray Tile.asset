@@ -16,6 +16,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3eb5bd367a6cf8d44b26eabcf38d18e0, type: 2}
   Type: 1
   Attributes: 02000000
+  BlockSound: {fileID: 0}
   TileColour: {r: 0.5849056, g: 0.5849056, b: 0.5849056, a: 1}
   Speed: 3
   Health: 0
@@ -23,4 +24,4 @@ MonoBehaviour:
   CurrentAttackCoolDown: 0
   MaxAttackCoolDown: 0
   Pos: {x: 0, y: 0, z: 0}
-  PickChance: 40.8
+  PickChance: 25
