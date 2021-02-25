@@ -75,6 +75,7 @@ public class Dig : MonoBehaviour
                                     //   TileManager.FillDictionary(v, TileManager.GetAllTiles(TileType.Path), 0, Map);
                                     for (int a = 0; a < m_pTile.PlacedOnTiles.Count; ++a)
                                     {
+                                  
                                         if (m_pTile.PlacedOnTiles.ContainsKey(v))
                                         {
                                             TileManager.RemoveTilePiece(v, WallTileMap);
@@ -84,8 +85,9 @@ public class Dig : MonoBehaviour
                                             TileManager.ChangeTileColour(Map, v, m_pTile.PlacedOnTiles[v]);
                                             m_pTile.PlacedOnTiles.Remove(v);
                                         }
+                                     
                                     }
-                                
+                                 
                                     WallsTouched.RemoveAt(i);
                                 }
                             }

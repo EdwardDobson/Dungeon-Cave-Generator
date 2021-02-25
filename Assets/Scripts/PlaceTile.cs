@@ -154,10 +154,10 @@ public class PlaceTile : MonoBehaviour
                     {
                         if (m_tilesForHotBar[m_index].Type == TileType.Wall)
                         {
+                            if(!PlacedOnTiles.ContainsKey(v))
+                            PlacedOnTiles.Add(v, TileManager.GetTileDictionary()[v].CustomTile);
                             if (new Vector3Int((int)transform.position.x, (int)transform.position.y, 0) != v)
                             {
-                                if (TileManager.GetTileDictionary().ContainsKey(v))
-                                    PlacedOnTiles.Add(v, TileManager.GetTileDictionary()[v].CustomTile);
                                 TileManager.PlaceTile(v, m_index, DungeonUtility.GetTilemap(), WallGen.GetTilemap(), m_tilesForHotBar[m_index]);
                                 Instantiate(m_audioPlaceSource);
                             }
