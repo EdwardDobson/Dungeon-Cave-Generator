@@ -71,6 +71,7 @@ public class Dig : MonoBehaviour
                                         TileManager.ChangeTilePiece(v, 0, TileType.Path, Map);
                                         TileManager.GetTileDictionary().Remove(v);
                                         TileManager.FillDictionary(v, TileManager.GetTileHolder(TileType.Path).Tiles[0], Map);
+                                        TileManager.ChangeTileColour(Map, v, TileManager.GetTileHolder(TileType.Path).Tiles[0]);
                                     }
                                     //   TileManager.FillDictionary(v, TileManager.GetAllTiles(TileType.Path), 0, Map);
                                     for (int a = 0; a < m_pTile.PlacedOnTiles.Count; ++a)

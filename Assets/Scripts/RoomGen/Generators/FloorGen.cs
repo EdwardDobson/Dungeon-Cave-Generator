@@ -21,8 +21,8 @@ namespace DungeonGeneration
                     tilesWithinRange = tileHolder.Tiles.Where(t => t.PickChance >= randomFreq).ToList();
                     int tempTileIndex;
 
-                    TileManager.BuildPiece(DungeonUtility.GetBuildPoint().x + i, DungeonUtility.GetBuildPoint().y + a, Random.Range(0, tilesWithinRange.Count), false, TileType.Floor, DungeonUtility.GetTilemap());
                     tempTileIndex = Random.Range(0, tilesWithinRange.Count);
+                    TileManager.BuildPiece(DungeonUtility.GetBuildPoint().x + i, DungeonUtility.GetBuildPoint().y + a, tempTileIndex, false, TileType.Floor, DungeonUtility.GetTilemap());
                     TileManager.FillDictionary(new Vector3Int(DungeonUtility.GetBuildPoint().x + i, DungeonUtility.GetBuildPoint().y + a, 0), tilesWithinRange[tempTileIndex], DungeonUtility.GetTilemap());
 
                     TileManager.ChangeTileColour(DungeonUtility.GetTilemap(), new Vector3Int(DungeonUtility.GetBuildPoint().x + i, DungeonUtility.GetBuildPoint().y + a, 0), tilesWithinRange[tempTileIndex]);
