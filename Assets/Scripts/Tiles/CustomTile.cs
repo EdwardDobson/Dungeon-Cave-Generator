@@ -10,11 +10,18 @@ public enum TileType
     Door
 
 }
+public enum Attributes
+{
+    Health,
+    Damage,
+    Speed
+}
 [CreateAssetMenu(fileName = "Custom Tile", menuName = "Create Custom Tile", order = 1)]
 public class CustomTile : ScriptableObject
 {
     public List< TileBase> Tile;
     public TileType Type;
+    public Attributes[] Attributes;
     public Color TileColour;
     public float Speed;
     public float Health;

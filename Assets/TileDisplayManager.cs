@@ -21,18 +21,12 @@ public class TileDisplayManager : MonoBehaviour,IPointerEnterHandler, IPointerEx
     string m_damageInfo;
     string m_healthInfo;
     string m_speedInfo;
+    TileType m_tempType;
+    public TMP_InputField InputField;
     void Start()
     {
         m_pTile = GameObject.Find("Player").GetComponent<PlaceTile>();
-        for (int i = 0; i < PTile.GetCustomTiles().Count; ++i)
-        {
-            GameObject temp = Instantiate(SlotPrefab.gameObject);
-            temp.transform.SetParent(Parent);
-  
-            temp.transform.localScale = new Vector3(1, 1, 1);
-            temp.GetComponent<HoldCustomTile>().CustomTile = PTile.GetCustomTiles()[i];
-            temp.GetComponent<Image>().color = PTile.GetCustomTiles()[i].TileColour;
-        }
+        SwitchTab(0);
     }
     void Update()
     {
@@ -65,6 +59,86 @@ public class TileDisplayManager : MonoBehaviour,IPointerEnterHandler, IPointerEx
             TileImage.gameObject.SetActive(false);
         }
     }
+
+    public void SwitchTab(int _index)
+    {
+        foreach (Transform g in Parent)
+        {
+            Destroy(g.gameObject);
+        }
+        switch (_index)
+        {
+            case 1:
+                m_tempType = TileType.Wall;
+                break;
+            case 2:
+                m_tempType = TileType.Floor;
+                break;
+            case 3:
+                m_tempType = TileType.Door;
+                break;
+            case 4:
+                m_tempType = TileType.Path;
+                break;
+        }
+        if(_index > 0)
+        {
+            for (int i = 0; i < PTile.GetCustomTiles().Count; ++i)
+            {
+                if (PTile.GetCustomTiles()[i].Type == m_tempType)
+                {
+                    GameObject temp = Instantiate(SlotPrefab.gameObject);
+                    temp.transform.SetParent(Parent);
+                    temp.transform.localScale = new Vector3(1, 1, 1);
+                    temp.GetComponent<HoldCustomTile>().CustomTile = PTile.GetCustomTiles()[i];
+                    temp.GetComponent<Image>().color = PTile.GetCustomTiles()[i].TileColour;
+                }
+            }
+        }
+        else if(_index <= 0)
+        {
+            for (int i = 0; i < PTile.GetCustomTiles().Count; ++i)
+            {
+                    GameObject temp = Instantiate(SlotPrefab.gameObject);
+                    temp.transform.SetParent(Parent);
+                    temp.transform.localScale = new Vector3(1, 1, 1);
+                    temp.GetComponent<HoldCustomTile>().CustomTile = PTile.GetCustomTiles()[i];
+                    temp.GetComponent<Image>().color = PTile.GetCustomTiles()[i].TileColour;
+            }
+        }
+
+    }
+    public void Search()
+    {
+        string searchField = InputField.text;
+        foreach (Transform g in Parent)
+        {
+            Destroy(g.gameObject);
+        }
+        for (int i = 0; i < PTile.GetCustomTiles().Count; ++i)
+        {
+            if(PTile.GetCustomTiles()[i].name.Contains(searchField) || PTile.GetCustomTiles()[i].Type.ToString().Contains(searchField))
+            {
+                GameObject temp = Instantiate(SlotPrefab.gameObject);
+                temp.transform.SetParent(Parent);
+                temp.transform.localScale = new Vector3(1, 1, 1);
+                temp.GetComponent<HoldCustomTile>().CustomTile = PTile.GetCustomTiles()[i];
+                temp.GetComponent<Image>().color = PTile.GetCustomTiles()[i].TileColour;
+            }
+            for (int a = 0; a < PTile.GetCustomTiles()[i].Attributes.Length; ++a)
+            {
+                if(PTile.GetCustomTiles()[i].Attributes[a].ToString().Contains(searchField))
+                {
+                    GameObject temp = Instantiate(SlotPrefab.gameObject);
+                    temp.transform.SetParent(Parent);
+                    temp.transform.localScale = new Vector3(1, 1, 1);
+                    temp.GetComponent<HoldCustomTile>().CustomTile = PTile.GetCustomTiles()[i];
+                    temp.GetComponent<Image>().color = PTile.GetCustomTiles()[i].TileColour;
+                }
+            }
+        }
+    }
+
     public void OnPointerClick(PointerEventData _data)
     {
         if (_data.pointerCurrentRaycast.gameObject.GetComponent<HoldCustomTile>() != null && _data.pointerCurrentRaycast.gameObject.name.Contains("SlotPrefab") )

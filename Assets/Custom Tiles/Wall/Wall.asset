@@ -15,6 +15,7 @@ MonoBehaviour:
   Tile:
   - {fileID: 11400000, guid: 9ed8494dace98294690c26800236abd8, type: 2}
   Type: 0
+  Attributes: 00000000
   TileColour: {r: 0, g: 0, b: 0, a: 1}
   Speed: 0
   Health: 2
