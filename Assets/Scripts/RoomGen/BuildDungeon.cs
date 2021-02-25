@@ -41,6 +41,9 @@ public class BuildDungeon : MonoBehaviour
             DungeonUtility.PickBuildPoint();
             WallGen.RandomiseWallSizes(m_wallMaxX, m_wallMaxY, m_wallMinX, m_wallMaxY);
             FloorGen.FillFloor();
+        }
+        for (int i = 0; i < m_roomAmount; ++i)
+        {
             ConnectRoom.PlacePositions(i);
             ConnectRoom.FindOtherRoom();
         }

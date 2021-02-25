@@ -63,6 +63,8 @@ namespace DungeonGeneration
         public static void PickBuildPoint()
         {
             m_buildPointChoice = m_buildPoints[Random.Range(0, m_buildPoints.Count)];
+            Vector3Int pos = new Vector3Int(m_buildPointChoice.x, m_buildPointChoice.y, 0);
+            if(m_tilemap.GetTile(pos) == null)
             m_pathPoints.Add(m_buildPointChoice);
         }
         public static Vector2Int GetBuildPoint()

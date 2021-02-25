@@ -34,7 +34,7 @@ namespace DungeonGeneration
                     tempTileIndex = Random.Range(0, tilesWithinRange.Count);
                     if (tile == null)
                     {
-                        TileManager.BuildPiece(x, y, Random.Range(0, tilesWithinRange.Count), false, TileType.Wall, m_walls);
+                        TileManager.BuildPiece(x, y, tempTileIndex, false, TileType.Wall, m_walls);
                         TileManager.ChangeTileColour(m_walls, new Vector3Int(x, y, 0), tilesWithinRange[tempTileIndex]);
                      //   DungeonUtility.AddWallPositions(new Vector3Int(x, y, 0));
                         TileManager.FillDictionary(new Vector3Int(x, y, 0), tilesWithinRange[tempTileIndex], m_walls);

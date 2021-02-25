@@ -34,7 +34,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (transform.position.x - 0.5f > 0)
         {
-            if (Input.GetKeyDown(KeyCode.A))
+            if (Input.GetKey(KeyCode.A))
             {
    
               h = Input.GetAxisRaw("Horizontal");

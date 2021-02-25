@@ -22,13 +22,18 @@ namespace DungeonGeneration
                     int tempTileIndex;
 
                     tempTileIndex = Random.Range(0, tilesWithinRange.Count);
-                    TileManager.BuildPiece(DungeonUtility.GetBuildPoint().x + i, DungeonUtility.GetBuildPoint().y + a, tempTileIndex, false, TileType.Floor, DungeonUtility.GetTilemap());
-                    TileManager.FillDictionary(new Vector3Int(DungeonUtility.GetBuildPoint().x + i, DungeonUtility.GetBuildPoint().y + a, 0), tilesWithinRange[tempTileIndex], DungeonUtility.GetTilemap());
+                    Vector3Int t = new Vector3Int(DungeonUtility.GetBuildPoint().x + i, DungeonUtility.GetBuildPoint().y + a, 0);
+                    if (!TileManager.GetTileDictionary().ContainsKey(t))
+                    {
+                        TileManager.BuildPiece(DungeonUtility.GetBuildPoint().x + i, DungeonUtility.GetBuildPoint().y + a, tempTileIndex, false, TileType.Floor, DungeonUtility.GetTilemap());
+                        TileManager.ChangeTileColour(DungeonUtility.GetTilemap(), new Vector3Int(DungeonUtility.GetBuildPoint().x + i, DungeonUtility.GetBuildPoint().y + a, 0), tilesWithinRange[tempTileIndex]);
+                        TileManager.FillDictionary(new Vector3Int(DungeonUtility.GetBuildPoint().x + i, DungeonUtility.GetBuildPoint().y + a, 0), tilesWithinRange[tempTileIndex], DungeonUtility.GetTilemap());
+                        temp = new Vector3Int(DungeonUtility.GetBuildPoint().x + i, DungeonUtility.GetBuildPoint().y + a, 0);
+                        if (DungeonUtility.GetTilemap().GetTile(temp).name.Contains("Floor"))
+                            m_floorPositions.Add(temp);
 
-                    TileManager.ChangeTileColour(DungeonUtility.GetTilemap(), new Vector3Int(DungeonUtility.GetBuildPoint().x + i, DungeonUtility.GetBuildPoint().y + a, 0), tilesWithinRange[tempTileIndex]);
-                    temp = new Vector3Int(DungeonUtility.GetBuildPoint().x + i, DungeonUtility.GetBuildPoint().y + a, 0);
-                    if (DungeonUtility.GetTilemap().GetTile(temp).name.Contains("Floor"))
-                        m_floorPositions.Add(temp);
+                    }
+                  
                 }
             }
         }
