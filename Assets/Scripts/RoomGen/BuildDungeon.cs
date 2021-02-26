@@ -16,8 +16,6 @@ public class BuildDungeon : MonoBehaviour
     [SerializeField]
     Tilemap m_walls;
     [SerializeField]
-    List<TileBase> m_tiles = new List<TileBase>();
-    [SerializeField]
     int m_wallMaxX;
     [SerializeField]
     int m_wallMinX;
@@ -28,30 +26,48 @@ public class BuildDungeon : MonoBehaviour
     [SerializeField]
     int m_maxDoorAmount;
     [SerializeField]
-    int m_roomAmount;
+    int m_squareRoomAmount;
+    [SerializeField]
+    int m_circleRoomAmount;
+    [SerializeField]
+    int m_pathAmount;
     void Start()
     {
         Stopwatch SW = new Stopwatch();
         SW.Start();
         TileManager.LoadTileManager();
         DungeonUtility.DungeonSetup(m_dungeonDimensions, m_tilemap);
+
         WallGen.SetWallSizes(m_wallDimensions);
-        for (int i = 0; i < m_roomAmount; ++i)
+        WallGen.SetWallsTileMap(m_walls);
+        for (int i = 0; i < m_circleRoomAmount; ++i)
+        {
+            DungeonUtility.PickBuildPoint();
+            FloorGen.FillFloorCircle();
+        }
+        for (int i = 0; i < m_squareRoomAmount; ++i)
         {
             DungeonUtility.PickBuildPoint();
             WallGen.RandomiseWallSizes(m_wallMaxX, m_wallMaxY, m_wallMinX, m_wallMaxY);
             FloorGen.FillFloor();
+       
+        //    FloorGen.FillFloorDiamond();
+   
         }
-        for (int i = 0; i < m_roomAmount; ++i)
+
+        for (int i = 0; i < m_pathAmount; ++i)
         {
             ConnectRoom.PlacePositions(i);
             ConnectRoom.FindOtherRoom();
         }
-        WallGen.SetWallsTileMap(m_walls);
         WallGen.PlaceWalls();
         SW.Stop();
         TimeSpan ts = SW.Elapsed;
         UnityEngine.Debug.Log("Building Dungeon Took: " + ts.Milliseconds + " ms");
       //  GameObject.Find("Player").GetComponent<PlaceTile>().GetComponent<PlaceTile>().FillTilesList();
+    }
+    public void PlaceWalls()
+    {
+        WallGen.PlaceWalls();
     }
 }
