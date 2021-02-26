@@ -47,127 +47,168 @@ namespace DungeonGeneration
 
             }
         }
-        public static void FillFloorDiamond()
+        public static void FillFloorDiamond(int _minRowLength, int _maxRowAmount)
         {
-            int MinRowLength = 1;
             int CurrentRowLength;
-            int MaxRowAmount = 10;
-            CurrentRowLength = MinRowLength;
-            for (int y = 0; y < MaxRowAmount; ++y)
+            CurrentRowLength = _minRowLength;
+            for (int y = 0; y < _maxRowAmount; ++y)
             {
-                if (y < MaxRowAmount / 2)
+                if (y < _maxRowAmount / 2)
                 {
                     for (int xLength = 0; xLength < CurrentRowLength; ++xLength)
                     {
+                        if(DungeonUtility.GetBuildPoint().x + xLength < DungeonUtility.GetDungeonDimensions().x + 1 && DungeonUtility.GetBuildPoint().y + y < DungeonUtility.GetDungeonDimensions().y +1 
+                            && DungeonUtility.GetBuildPoint().x + xLength > -1 && DungeonUtility.GetBuildPoint().y + y > -1)
                         PlaceFloorTile(xLength, y, DungeonUtility.GetBuildPoint());
                     }
                     CurrentRowLength++;
                 }
-                if (y >= MaxRowAmount / 2)
+                if (y >= _maxRowAmount / 2)
                 {
                     CurrentRowLength--;
                     for (int xLength = 0; xLength < CurrentRowLength; ++xLength)
                     {
-                        PlaceFloorTile(xLength, y,DungeonUtility.GetBuildPoint());
+                        if (DungeonUtility.GetBuildPoint().x + xLength < DungeonUtility.GetDungeonDimensions().x + 1 && DungeonUtility.GetBuildPoint().y + y < DungeonUtility.GetDungeonDimensions().y + 1
+               && DungeonUtility.GetBuildPoint().x + xLength > -1 && DungeonUtility.GetBuildPoint().y + y > -1)
+                            PlaceFloorTile(xLength, y,DungeonUtility.GetBuildPoint());
                     }
                 }
             }
-            CurrentRowLength = MinRowLength;
-            for (int y = 0; y < MaxRowAmount; ++y)
+            CurrentRowLength = _minRowLength;
+            for (int y = 0; y < _maxRowAmount; ++y)
             {
-                if (y < MaxRowAmount / 2)
+                if (y < _maxRowAmount / 2)
                 {
 
                     for (int xLength = 0; xLength < CurrentRowLength; ++xLength)
                     {
-                        PlaceFloorTile(-xLength, y, DungeonUtility.GetBuildPoint());
+                        if (DungeonUtility.GetBuildPoint().x + -xLength < DungeonUtility.GetDungeonDimensions().x + 1&& DungeonUtility.GetBuildPoint().y + y < DungeonUtility.GetDungeonDimensions().y + 1
+               && DungeonUtility.GetBuildPoint().x + -xLength > -1 && DungeonUtility.GetBuildPoint().y + y > -1)
+                            PlaceFloorTile(-xLength, y, DungeonUtility.GetBuildPoint());
                     }
                     CurrentRowLength++;
                 }
-                if (y >= MaxRowAmount / 2)
+                if (y >= _maxRowAmount / 2)
                 {
                     CurrentRowLength--;
                     for (int xLength = 0; xLength < CurrentRowLength; ++xLength)
                     {
-                        PlaceFloorTile(-xLength, y, DungeonUtility.GetBuildPoint());
+                        if (DungeonUtility.GetBuildPoint().x + -xLength < DungeonUtility.GetDungeonDimensions().x + 1 && DungeonUtility.GetBuildPoint().y + y < DungeonUtility.GetDungeonDimensions().y + 1
+               && DungeonUtility.GetBuildPoint().x + -xLength > -1 && DungeonUtility.GetBuildPoint().y + y > -1)
+                            PlaceFloorTile(-xLength, y, DungeonUtility.GetBuildPoint());
                     }
 
                 }
             }
         }
-
-        public static void FillFloorCircle()
+        static void CircleFill(List<Vector2Int> _circlePoints, Vector2Int _startPoint, int _indexX, int _indexY)
         {
-            int startAmount = 3;
-            int index = 0;
-            Vector2Int startPoint = new Vector2Int(DungeonUtility.GetBuildPoint().x + startAmount/2, DungeonUtility.GetBuildPoint().y);
-            for (int i = 0; i < startAmount; ++i)
+            Vector2Int point = new Vector2Int(_startPoint.x + _indexX, _startPoint.y + _indexY);
+            if (point.x < DungeonUtility.GetDungeonDimensions().x + 1 && point.y < DungeonUtility.GetDungeonDimensions().y + 1 && point.x > -1 && point.y > -1)
+                _circlePoints.Add(point);
+        }
+        public static void FillFloorCircle(int _startAmount, int _middleAmount)
+        {
+            Vector2Int startPoint = new Vector2Int(DungeonUtility.GetBuildPoint().x +_startAmount / 2, DungeonUtility.GetBuildPoint().y);
+            List<Vector2Int> CirclePoints = new List<Vector2Int>();
+            //Right Side
+            for(int i =0; i < _startAmount; ++i)
             {
-                PlaceFloorTile(i, index, startPoint);
-              PlaceFloorTile(-i, index, startPoint);
+                CircleFill(CirclePoints, startPoint, i, 0);
             }
-
-            index++;
-            for (int i = 0; i < startAmount + 2; ++i)
+            for (int i = 0; i < _startAmount + 2; ++i)
             {
-                PlaceFloorTile(i, index, startPoint);
-              PlaceFloorTile(-i, index, startPoint);
+                CircleFill(CirclePoints, startPoint, i, 1);
             }
-
-            index++;
-            for (int i = 0; i < startAmount + 3; ++i)
+            for (int i = 0; i < _startAmount + 3; ++i)
             {
-                PlaceFloorTile(i, index, startPoint);
-             PlaceFloorTile(-i, index, startPoint);
+                CircleFill(CirclePoints, startPoint, i, 2);
             }
-
-            for (int a = 0; a < 2; ++a)
+            for (int i = 0; i < _startAmount + 4; ++i)
             {
-                index++;
-                for (int i = 0; i < startAmount + 4; ++i)
+                CircleFill(CirclePoints, startPoint, i, 3);
+
+            }
+            for (int i = 0; i < _startAmount + 4; ++i)
+            {
+                CircleFill(CirclePoints, startPoint, i, 4);
+            }
+            int num = 0;
+            for (int a = 0; a < _middleAmount; ++a)
+            {
+                for (int i = 0; i < _startAmount + 5; ++i)
                 {
-                    PlaceFloorTile(i, index, startPoint);
-                 PlaceFloorTile(-i, index, startPoint);
+                    CircleFill(CirclePoints, startPoint, i, 5 + a);
                 }
+                num = 5 + a;
             }
-            for (int a = 0; a < 6; ++a)
+            for (int i = 0; i < _startAmount + 4; ++i)
             {
-                index++;
-                for (int i = 0; i < startAmount + 5; ++i)
+                CircleFill(CirclePoints, startPoint, i, num + 1);
+            }
+            for (int i = 0; i < _startAmount + 4; ++i)
+            {
+                CircleFill(CirclePoints, startPoint, i, num + 2);
+            }
+            for (int i = 0; i < _startAmount + 3; ++i)
+            {
+                CircleFill(CirclePoints, startPoint, i, num + 3);
+            }
+            for (int i = 0; i < _startAmount + 1; ++i)
+            {
+                CircleFill(CirclePoints, startPoint, i, num + 4);
+            }
+            for (int i = 0; i < _startAmount; ++i)
+            {
+                CircleFill(CirclePoints, startPoint, i, num + 5);
+            }
+            //LeftSide
+            for (int i = 0; i < _startAmount ; ++i)
+            {
+                CircleFill(CirclePoints, startPoint, -i, 1);
+            }
+            for (int i = 0; i < _startAmount  + 1; ++i)
+            {
+                CircleFill(CirclePoints, startPoint, -i, 2);
+            }
+            for (int i = 0; i < _startAmount  + 2; ++i)
+            {
+                CircleFill(CirclePoints, startPoint, -i, 3);
+            }
+            for (int i = 0; i < _startAmount + 2; ++i)
+            {
+                CircleFill(CirclePoints, startPoint, -i, 4);
+            }
+            int num2 = 0;
+            for(int a = 0; a < _middleAmount; ++a)
+            {
+                for (int i = 0; i < _startAmount + 3; ++i)
                 {
-                    PlaceFloorTile(i, index, startPoint);
-                  PlaceFloorTile(-i, index, startPoint);
+                    
+                    CircleFill(CirclePoints, startPoint, -i, 5 + a);
                 }
+                num2 = 5 + a;
             }
-            for (int a = 0; a < 2; ++a)
+            for (int i = 0; i < _startAmount + 2; ++i)
             {
-                index++;
-                for (int i = 0; i < startAmount + 4; ++i)
-                {
-                    PlaceFloorTile(i, index, startPoint);
-                 PlaceFloorTile(-i, index, startPoint);
-                }
+                CircleFill(CirclePoints, startPoint, -i, num2 + 1);
             }
-
-            index++;
-            for (int i = 0; i < startAmount + 3; ++i)
+            for (int i = 0; i < _startAmount+ 2; ++i)
             {
-                PlaceFloorTile(i, index, startPoint);
-                PlaceFloorTile(-i, index, startPoint);
+                CircleFill(CirclePoints, startPoint, -i, num2 + 2);
             }
-
-            index++;
-            for (int i = 0; i < startAmount + 2; ++i)
+            for (int i = 0; i < _startAmount  + 1; ++i)
             {
-                PlaceFloorTile(i, index, startPoint);
-               PlaceFloorTile(-i, index, startPoint);
+                CircleFill(CirclePoints, startPoint, -i, num2 + 3);
+            }
+            for (int i = 0; i < _startAmount  - 1; ++i)
+            {
+                CircleFill(CirclePoints, startPoint, -i, num2 + 4);
             }
 
-            index++;
-            for (int i = 0; i < startAmount; ++i)
+            for (int Cp = 0; Cp < CirclePoints.Count; ++Cp)
             {
-                PlaceFloorTile(i, index, startPoint);
-               PlaceFloorTile(-i, index, startPoint);
+                PlaceFloorTile(0, 0, CirclePoints[Cp]);
             }
         }
     }

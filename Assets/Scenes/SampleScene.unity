@@ -727,12 +727,44 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2472697036052015728, guid: 70b7b7d86201aa347a1655130c239a0a, type: 3}
+      propertyPath: m_circleStartSize
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2472697036052015728, guid: 70b7b7d86201aa347a1655130c239a0a, type: 3}
+      propertyPath: m_circleMiddleSize
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2472697036052015728, guid: 70b7b7d86201aa347a1655130c239a0a, type: 3}
       propertyPath: m_circleRoomAmount
-      value: 0
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 2472697036052015728, guid: 70b7b7d86201aa347a1655130c239a0a, type: 3}
       propertyPath: m_squareRoomAmount
-      value: 100
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 2472697036052015728, guid: 70b7b7d86201aa347a1655130c239a0a, type: 3}
+      propertyPath: m_diamondRoomAmount
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 2472697036052015728, guid: 70b7b7d86201aa347a1655130c239a0a, type: 3}
+      propertyPath: m_circleMiddleAmount
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2472697036052015728, guid: 70b7b7d86201aa347a1655130c239a0a, type: 3}
+      propertyPath: m_diamondMaxRowAmount
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2472697036052015728, guid: 70b7b7d86201aa347a1655130c239a0a, type: 3}
+      propertyPath: m_diamondMinRowAmount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2472697036052015728, guid: 70b7b7d86201aa347a1655130c239a0a, type: 3}
+      propertyPath: m_dungeonDimensions.x
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 2472697036052015728, guid: 70b7b7d86201aa347a1655130c239a0a, type: 3}
+      propertyPath: m_dungeonDimensions.y
+      value: 150
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 70b7b7d86201aa347a1655130c239a0a, type: 3}

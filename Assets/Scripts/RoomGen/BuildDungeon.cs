@@ -24,11 +24,21 @@ public class BuildDungeon : MonoBehaviour
     [SerializeField]
     int m_wallMinY;
     [SerializeField]
+    int m_circleStartSize;
+    [SerializeField]
+    int m_circleMiddleAmount;
+    [SerializeField]
+    int m_diamondMinRowAmount;
+    [SerializeField]
+    int m_diamondMaxRowAmount;
+    [SerializeField]
     int m_maxDoorAmount;
     [SerializeField]
     int m_squareRoomAmount;
     [SerializeField]
     int m_circleRoomAmount;
+    [SerializeField]
+    int m_diamondRoomAmount;
     [SerializeField]
     int m_pathAmount;
     void Start()
@@ -40,19 +50,21 @@ public class BuildDungeon : MonoBehaviour
 
         WallGen.SetWallSizes(m_wallDimensions);
         WallGen.SetWallsTileMap(m_walls);
-        for (int i = 0; i < m_circleRoomAmount; ++i)
-        {
-            DungeonUtility.PickBuildPoint();
-            FloorGen.FillFloorCircle();
-        }
         for (int i = 0; i < m_squareRoomAmount; ++i)
         {
             DungeonUtility.PickBuildPoint();
             WallGen.RandomiseWallSizes(m_wallMaxX, m_wallMaxY, m_wallMinX, m_wallMaxY);
             FloorGen.FillFloor();
-       
-        //    FloorGen.FillFloorDiamond();
-   
+        }
+        for (int i = 0; i < m_circleRoomAmount; ++i)
+        {
+            DungeonUtility.PickBuildPoint();
+            FloorGen.FillFloorCircle(m_circleStartSize, m_circleMiddleAmount);
+        }
+        for (int i = 0; i < m_diamondRoomAmount; ++i)
+        {
+            DungeonUtility.PickBuildPoint();
+            FloorGen.FillFloorDiamond(m_diamondMinRowAmount, m_diamondMaxRowAmount);
         }
 
         for (int i = 0; i < m_pathAmount; ++i)
