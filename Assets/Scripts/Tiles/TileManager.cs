@@ -104,8 +104,11 @@ namespace DungeonGeneration
         }
         public static void ChangeTileColour(Tilemap _map, Vector3Int _tilePos, CustomTile _customTile)
         {
-            _map.SetTileFlags(_tilePos, TileFlags.None);
-            _map.SetColor(_tilePos, _customTile.TileColour);
+            if (_customTile.ShouldUseColour)
+            {
+                _map.SetTileFlags(_tilePos, TileFlags.None);
+                _map.SetColor(_tilePos, _customTile.TileColour);
+            }
         }
     }
 }

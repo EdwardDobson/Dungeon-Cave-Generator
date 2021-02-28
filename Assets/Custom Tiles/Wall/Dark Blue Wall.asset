@@ -17,7 +17,10 @@ MonoBehaviour:
   Type: 0
   Attributes: 00000000
   BlockSound: {fileID: 8300000, guid: 01228ed0cc9f8dd46b1db4abdb6e37c5, type: 3}
+  ShouldUseColour: 1
   TileColour: {r: 0, g: 0.07855129, b: 1, a: 1}
+  TileBreakingColour: {r: 0, g: 0.078431375, b: 1, a: 1}
+  DisplaySprite: {fileID: 0}
   Speed: 0
   Health: 8
   Damage: 0

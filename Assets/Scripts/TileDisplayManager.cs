@@ -94,6 +94,7 @@ public class TileDisplayManager : MonoBehaviour, IPointerEnterHandler, IPointerE
                     temp.transform.localScale = m_scale;
                     temp.transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile = PTile.GetCustomTiles()[i];
                     temp.transform.GetChild(0).GetComponent<Image>().color = PTile.GetCustomTiles()[i].TileColour;
+                    temp.transform.GetChild(0).GetComponent<Image>().sprite = PTile.GetCustomTiles()[i].DisplaySprite;
                 }
             }
         }
@@ -106,6 +107,7 @@ public class TileDisplayManager : MonoBehaviour, IPointerEnterHandler, IPointerE
                 temp.transform.localScale = m_scale;
                 temp.transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile = PTile.GetCustomTiles()[i];
                 temp.transform.GetChild(0).GetComponent<Image>().color = PTile.GetCustomTiles()[i].TileColour;
+                temp.transform.GetChild(0).GetComponent<Image>().sprite = PTile.GetCustomTiles()[i].DisplaySprite;
             }
         }
 
@@ -126,6 +128,7 @@ public class TileDisplayManager : MonoBehaviour, IPointerEnterHandler, IPointerE
                 temp.transform.localScale = m_scale;
                 temp.transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile = PTile.GetCustomTiles()[i];
                 temp.transform.GetChild(0).GetComponent<Image>().color = PTile.GetCustomTiles()[i].TileColour;
+                temp.transform.GetChild(0).GetComponent<Image>().sprite = PTile.GetCustomTiles()[i].DisplaySprite;
             }
             if(searchField != "")
             {
@@ -138,6 +141,7 @@ public class TileDisplayManager : MonoBehaviour, IPointerEnterHandler, IPointerE
                         temp.transform.localScale = m_scale;
                         temp.transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile = PTile.GetCustomTiles()[i];
                         temp.transform.GetChild(0).GetComponent<Image>().color = PTile.GetCustomTiles()[i].TileColour;
+                        temp.transform.GetChild(0).GetComponent<Image>().sprite = PTile.GetCustomTiles()[i].DisplaySprite;
                     }
                 }
             }
@@ -151,6 +155,7 @@ public class TileDisplayManager : MonoBehaviour, IPointerEnterHandler, IPointerE
             TileToSwitch = _data.pointerCurrentRaycast.gameObject.GetComponent<HoldCustomTile>().CustomTile;
             TileImage.gameObject.SetActive(true);
             TileImage.transform.GetChild(0).GetComponent<Image>().color = _data.pointerCurrentRaycast.gameObject.GetComponent<HoldCustomTile>().CustomTile.TileColour;
+            TileImage.transform.GetChild(0).GetComponent<Image>().sprite = _data.pointerCurrentRaycast.gameObject.GetComponent<HoldCustomTile>().CustomTile.DisplaySprite;
         }
         if (_data.pointerCurrentRaycast.gameObject.name.Contains("Slot "))
         {

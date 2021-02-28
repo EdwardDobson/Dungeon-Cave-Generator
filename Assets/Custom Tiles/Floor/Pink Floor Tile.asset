@@ -17,11 +17,14 @@ MonoBehaviour:
   Type: 1
   Attributes: 0200000001000000
   BlockSound: {fileID: 0}
+  ShouldUseColour: 1
   TileColour: {r: 1, g: 0.6179246, b: 0.6179246, a: 1}
+  DisplaySprite: {fileID: 0}
   Speed: 3
   Health: 0
   Damage: 5
   CurrentAttackCoolDown: 0.7479248
   MaxAttackCoolDown: 2
+  ScoreDispense: 0
   Pos: {x: 0, y: 0, z: 0}
   PickChance: 5

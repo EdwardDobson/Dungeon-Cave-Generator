@@ -190,6 +190,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2472697035314329763}
   - component: {fileID: 2472697035314329760}
+  - component: {fileID: 1320296755}
   m_Layer: 0
   m_Name: Grid
   m_TagString: Untagged
@@ -225,6 +226,25 @@ Grid:
   m_CellGap: {x: 0, y: 0, z: 0}
   m_CellLayout: 0
   m_CellSwizzle: 0
+--- !u!114 &1320296755
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2472697035314329761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e8bd4d10659b4a4ca33a29abbaa47b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShouldDetect: 1
+  TileName: 
+  TileType: 
+  MaxTileHealth: 0
+  TileSpeed: 0
+  TileDamage: 0
+  TileScore: 0
 --- !u!1 &2472697036052015733
 GameObject:
   m_ObjectHideFlags: 0
@@ -360,11 +380,20 @@ MonoBehaviour:
   m_wallDimensions: {x: 0, y: 0}
   m_tilemap: {fileID: 2472697036052015729}
   m_walls: {fileID: 3637410397251561591}
-  m_wallMaxX: 10
-  m_wallMinX: 5
-  m_wallMaxY: 10
-  m_wallMinY: 5
+  m_wallSizesSquare: 050000000a000000050000000a000000
+  m_wallSizesTShape: 080000000a0000000a00000003000000
+  m_wallLengthLShape: 5
+  m_wallHeightLShape: 3
+  m_circleStartSize: 3
+  m_circleMiddleAmount: 3
+  m_diamondMinRowAmount: 1
+  m_diamondMaxRowAmount: 10
   m_maxDoorAmount: 1
-  m_squareRoomAmount: 0
-  m_circleRoomAmount: 100
+  m_squareRoomAmount: 25
+  m_lShapeRoomAmount: 25
+  m_TShapeRoomAmount: 25
+  m_circleRoomAmount: 25
+  m_diamondRoomAmount: 25
   m_pathAmount: 25
+  m_scoreAmount: 2000
+  ScorePrefab: {fileID: 6681691683834933147, guid: f2f88ab00049ad245a2606b3c8c8f8af, type: 3}

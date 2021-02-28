@@ -19,6 +19,7 @@ public class Dig : MonoBehaviour
     PlaceTile m_pTile;
     [SerializeField]
     AudioSource m_source;
+   public GameObject BreakingEffectPrefab;
     private void Start()
     {
         CurrentDigSpeed = MaxDigSpeed;
@@ -66,6 +67,10 @@ public class Dig : MonoBehaviour
                                 }
                                 if (WallsTouched[i].Health <= 0)
                                 {
+                                    Vector3 breakingPos = new Vector3(v.x + 0.5f, v.y + 0.5f,-2);
+                                    GameObject breakingEffectClone = Instantiate(BreakingEffectPrefab, breakingPos, Quaternion.identity);
+                                    ParticleSystem.MainModule breakingEffect = breakingEffectClone.GetComponent<ParticleSystem>().main;
+                                  breakingEffect.startColor = WallsTouched[i].TileBreakingColour;
                                     GetComponent<Scoring>().IncreaseScore(WallsTouched[i].ScoreDispense);
                                     if (!m_pTile.PlacedOnTiles.ContainsKey(v))
                                     {

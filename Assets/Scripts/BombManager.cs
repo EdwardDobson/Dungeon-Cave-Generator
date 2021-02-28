@@ -11,6 +11,7 @@ public class BombManager : MonoBehaviour
     RaycastHit2D m_hit;
     public float Distance;
     public PlaceTile pTile;
+    public GameObject BreakingEffectPrefab;
     void HitPosFunction(Vector2 _dir, int _valueX, int _valueY)
     {
         m_hit = Physics2D.Raycast(transform.GetChild(0).position, _dir, Distance);
@@ -49,6 +50,10 @@ public class BombManager : MonoBehaviour
                 
                         if (m_tilesAround[i].Health <= 0)
                         {
+                            Vector3 breakingPos = new Vector3(m_hitLocation.x + 0.5f, m_hitLocation.y + 0.5f, -2);
+                            GameObject breakingEffectClone = Instantiate(BreakingEffectPrefab, breakingPos, Quaternion.identity);
+                            ParticleSystem.MainModule breakingEffect = breakingEffectClone.GetComponent<ParticleSystem>().main;
+                            breakingEffect.startColor = m_tilesAround[i].TileBreakingColour;
                             pTile.GetComponent<Scoring>().IncreaseScore(m_tilesAround[i].ScoreDispense);
                             if (!pTile.PlacedOnTiles.ContainsKey(m_hitLocation))
                             {

@@ -85,26 +85,29 @@ public class PlaceTile : MonoBehaviour
         }
         for (int i = 0; i < m_tilesForHotBar.Count; ++i)
         {
-            PlaceImages[i].color = m_tilesForHotBar[i].TileColour;
             PlaceImages[i].GetComponent<HoldCustomTile>().CustomTile = m_tilesForHotBar[i];
+            PlaceImages[i].color = m_tilesForHotBar[i].TileColour;
+            PlaceImages[i].sprite = m_tilesForHotBar[i].DisplaySprite;
         }
     }
     public void RefreshTileImages()
     {
         for (int i = 0; i < m_tilesForHotBar.Count; ++i)
         {
-            PlaceImages[i].color = PlaceImages[i].GetComponent<HoldCustomTile>().CustomTile.TileColour;
             m_tilesForHotBar[i] = PlaceImages[i].GetComponent<HoldCustomTile>().CustomTile;
+            PlaceImages[i].color = PlaceImages[i].GetComponent<HoldCustomTile>().CustomTile.TileColour;
+            PlaceImages[i].sprite = m_tilesForHotBar[i].DisplaySprite;
         }
         for (int i = 0; i < PlaceImages.Length; ++i)
         {
             if (i == m_index)
             {
                 PlaceImages[i].color = m_tilesForHotBar[i].TileColour;
+                PlaceImages[i].sprite = m_tilesForHotBar[i].DisplaySprite;
             }
             else
             {
-                PlaceImages[i].color = new Color(m_tilesForHotBar[i].TileColour.r, m_tilesForHotBar[i].TileColour.g, m_tilesForHotBar[i].TileColour.b, 0.3f);
+                PlaceImages[i].color = new Color(m_tilesForHotBar[i].TileColour.r, m_tilesForHotBar[i].TileColour.g, m_tilesForHotBar[i].TileColour.b, 0.6f);
             }
         }
         BlockInfo.text = m_tilesForHotBar[m_index].name + "\nType: " + m_tilesForHotBar[m_index].Type.ToString();
@@ -119,6 +122,7 @@ public class PlaceTile : MonoBehaviour
                 if (i == m_index)
                 {
                     PlaceImages[i].color = m_tilesForHotBar[i].TileColour;
+                    PlaceImages[i].sprite = m_tilesForHotBar[i].DisplaySprite;
                 }
                 else
                 {
