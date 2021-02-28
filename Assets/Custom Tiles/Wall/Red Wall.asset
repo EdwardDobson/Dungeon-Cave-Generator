@@ -23,5 +23,6 @@ MonoBehaviour:
   Damage: 0
   CurrentAttackCoolDown: 0
   MaxAttackCoolDown: 0
+  ScoreDispense: 50
   Pos: {x: 0, y: 0, z: 0}
-  PickChance: 15
+  PickChance: 10

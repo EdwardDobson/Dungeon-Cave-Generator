@@ -17,11 +17,12 @@ MonoBehaviour:
   Type: 0
   Attributes: 00000000
   BlockSound: {fileID: 8300000, guid: 01228ed0cc9f8dd46b1db4abdb6e37c5, type: 3}
-  TileColour: {r: 0.4245283, g: 0.4245283, b: 0.4245283, a: 1}
+  TileColour: {r: 0.7735849, g: 0.7735849, b: 0.7735849, a: 1}
   Speed: 0
   Health: 2
   Damage: 0
   CurrentAttackCoolDown: 0
   MaxAttackCoolDown: 0
+  ScoreDispense: 0
   Pos: {x: 0, y: 0, z: 0}
-  PickChance: 0
+  PickChance: 50

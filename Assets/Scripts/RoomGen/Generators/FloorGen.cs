@@ -7,15 +7,26 @@ namespace DungeonGeneration
     public class FloorGen
     {
         static List<Vector3Int> m_floorPositions = new List<Vector3Int>();
-        public static void FillFloor()
+        static List<Vector2Int> m_floorTilePositions = new List<Vector2Int>();
+        public static void Square()
         {
             for (int i = 0; i < WallGen.GetWallDimensions().x + 1; ++i)
             {
                 for (int a = 0; a < WallGen.GetWallDimensions().y; ++a)
                 {
-                    PlaceFloorTile(i, a, DungeonUtility.GetBuildPoint());
+                    Vector2Int pos = new Vector2Int(DungeonUtility.GetBuildPoint().x + i, DungeonUtility.GetBuildPoint().y + a);
+                    AddToFloorTilePositions(pos);
                 }
             }
+        }
+        public static void AddToFloorTilePositions(Vector2Int _pointToAdd)
+        {
+            if(_pointToAdd.x > -1 && _pointToAdd.y > -1)
+            m_floorTilePositions.Add(_pointToAdd);
+        }
+        public static List<Vector2Int> GetFloorTilePositions()
+        {
+            return m_floorTilePositions;
         }
         public static List<Vector3Int> GetFloorPositions()
         {
@@ -23,31 +34,103 @@ namespace DungeonGeneration
         }
         public static void AddFloorPositions(Vector3Int _pos)
         {
+            if(_pos.x > - 1&& _pos.y >  -1)
             m_floorPositions.Add(_pos);
         }
-        static void PlaceFloorTile(int _index1, int _index2 , Vector2Int _buildPoint)
+        public static void PlaceFloorTile(Vector2Int _buildPoint)
         {
             TileHolder tileHolder = TileManager.GetTileHolder(TileType.Floor);
-            Vector3Int temp = new Vector3Int();
             float randomFreq = Random.Range(1, tileHolder.Tiles.OrderByDescending(t => t.PickChance).First().PickChance);
             List<CustomTile> tilesWithinRange = new List<CustomTile>();
             tilesWithinRange = tileHolder.Tiles.Where(t => t.PickChance >= randomFreq).ToList();
             int tempTileIndex;
 
             tempTileIndex = Random.Range(0, tilesWithinRange.Count);
-            Vector3Int t = new Vector3Int(_buildPoint.x + _index1, _buildPoint.y + _index2, 0);
-            if (!TileManager.GetTileDictionary().ContainsKey(t))
+            Vector3Int t = new Vector3Int(_buildPoint.x, _buildPoint.y, 0);
+                if (!TileManager.GetTileDictionary().ContainsKey(t))
+                {
+                    TileManager.BuildPiece(_buildPoint.x, _buildPoint.y, tempTileIndex, false, TileType.Floor, DungeonUtility.GetTilemap());
+                    TileManager.ChangeTileColour(DungeonUtility.GetTilemap(), new Vector3Int(_buildPoint.x, _buildPoint.y, 0), tilesWithinRange[tempTileIndex]);
+                    TileManager.FillDictionary(new Vector3Int(_buildPoint.x, _buildPoint.y, 0), tilesWithinRange[tempTileIndex], DungeonUtility.GetTilemap());
+                     m_floorPositions.Add(t);
+                }
+        }
+        public static void LShape(int _roomLength,int _roomHeight,int _directionIndex)
+        {
+            Square();
+            for (int i = 0; i < _roomLength + 1; ++i)
             {
-                TileManager.BuildPiece(_buildPoint.x + _index1, _buildPoint.y + _index2, tempTileIndex, false, TileType.Floor, DungeonUtility.GetTilemap());
-                TileManager.ChangeTileColour(DungeonUtility.GetTilemap(), new Vector3Int(_buildPoint.x + _index1, _buildPoint.y + _index2, 0), tilesWithinRange[tempTileIndex]);
-                TileManager.FillDictionary(new Vector3Int(_buildPoint.x + _index1, _buildPoint.y + _index2, 0), tilesWithinRange[tempTileIndex], DungeonUtility.GetTilemap());
-                temp = new Vector3Int(_buildPoint.x + _index1, _buildPoint.y + _index2, 0);
-                if (DungeonUtility.GetTilemap().GetTile(temp).name.Contains("Floor"))
-                    m_floorPositions.Add(temp);
-
+                for (int a = 0; a < _roomHeight; ++a)
+                {
+                    switch (_directionIndex)
+                    {
+                        case 0://Right
+                            Vector2Int pos = ShapeDirectionVector(_roomLength + i + 1, 0 + a);
+                            AddToFloorTilePositions(pos);
+                            break;
+                        case 1://Left
+                            Vector2Int pos2 = ShapeDirectionVector(0 - i , 0 + a);
+                            AddToFloorTilePositions(pos2);
+                            break;
+                        case 2://UpRight
+                            Vector2Int pos3 = ShapeDirectionVector(WallGen.GetWallDimensions().x + 1 + i, WallGen.GetWallDimensions().y - _roomHeight + a);
+                            AddToFloorTilePositions(pos3);
+                            break;
+                        case 3://UpLeft
+                            Vector2Int pos4 = ShapeDirectionVector(0 - i, WallGen.GetWallDimensions().y - _roomHeight + a);
+                            AddToFloorTilePositions(pos4);
+                            break;
+                    } 
+                 
+                }
             }
         }
-        public static void FillFloorDiamond(int _minRowLength, int _maxRowAmount)
+        static Vector2Int ShapeDirectionVector(int _roomLength,int _roomHeight)
+        {
+            Vector2Int pos = new Vector2Int(DungeonUtility.GetBuildPoint().x + _roomLength, DungeonUtility.GetBuildPoint().y + _roomHeight);
+            return pos;
+        }
+        public static void TShape(int _stemWidth,int _stemHeight,int _roomLength, int _roomHeight, int _directionIndex)
+        {
+            for (int i = 0; i < _stemWidth + 1; ++i)
+            {
+                for (int a = 0; a < _stemHeight; ++a)
+                {
+                    Vector2Int pos = new Vector2Int(DungeonUtility.GetBuildPoint().x + i, DungeonUtility.GetBuildPoint().y + a);
+                    AddToFloorTilePositions(pos);
+                }
+            }
+            for (int i = 0; i < _roomLength + 1; ++i)
+            {
+                for (int a = 0; a < _roomHeight; ++a)
+                {
+                    switch (_directionIndex)
+                    {
+                        case 0://Right
+                            Vector2Int pos = ShapeDirectionVector(_stemWidth + i, ((_stemHeight - _roomHeight) / 2) + a);
+                            AddToFloorTilePositions(pos);
+                            break;
+                        case 1://Left
+                            Vector2Int pos2 = ShapeDirectionVector((_stemWidth - _roomHeight) / 2 - i, ((_stemHeight - _roomHeight) / 2) + a);
+                            AddToFloorTilePositions(pos2);
+                            break;
+                        case 2://Up
+                            Vector2Int pos3 = ShapeDirectionVector(_stemWidth / 2  -i, _stemHeight + a);
+                            Vector2Int pos3a = ShapeDirectionVector(_stemWidth / 2 + i, _stemHeight + a);
+                            AddToFloorTilePositions(pos3);
+                            AddToFloorTilePositions(pos3a);
+                            break;
+                        case 3://Down
+                            Vector2Int pos4 = ShapeDirectionVector(_stemWidth / 2-i,  a);
+                            Vector2Int pos4a = ShapeDirectionVector(_stemWidth / 2 + i, a);
+                            AddToFloorTilePositions(pos4);
+                            AddToFloorTilePositions(pos4a);
+                            break;
+                    }
+                }
+            }
+        }
+        public static void Diamond(int _minRowLength, int _maxRowAmount)
         {
             int CurrentRowLength;
             CurrentRowLength = _minRowLength;
@@ -57,9 +140,8 @@ namespace DungeonGeneration
                 {
                     for (int xLength = 0; xLength < CurrentRowLength; ++xLength)
                     {
-                        if(DungeonUtility.GetBuildPoint().x + xLength < DungeonUtility.GetDungeonDimensions().x + 1 && DungeonUtility.GetBuildPoint().y + y < DungeonUtility.GetDungeonDimensions().y +1 
-                            && DungeonUtility.GetBuildPoint().x + xLength > -1 && DungeonUtility.GetBuildPoint().y + y > -1)
-                        PlaceFloorTile(xLength, y, DungeonUtility.GetBuildPoint());
+                        Vector2Int pos = ShapeDirectionVector(xLength,  y);
+                        AddToFloorTilePositions(pos);
                     }
                     CurrentRowLength++;
                 }
@@ -68,9 +150,8 @@ namespace DungeonGeneration
                     CurrentRowLength--;
                     for (int xLength = 0; xLength < CurrentRowLength; ++xLength)
                     {
-                        if (DungeonUtility.GetBuildPoint().x + xLength < DungeonUtility.GetDungeonDimensions().x + 1 && DungeonUtility.GetBuildPoint().y + y < DungeonUtility.GetDungeonDimensions().y + 1
-               && DungeonUtility.GetBuildPoint().x + xLength > -1 && DungeonUtility.GetBuildPoint().y + y > -1)
-                            PlaceFloorTile(xLength, y,DungeonUtility.GetBuildPoint());
+                        Vector2Int pos = ShapeDirectionVector(xLength,+ y);
+                        AddToFloorTilePositions(pos);
                     }
                 }
             }
@@ -79,12 +160,10 @@ namespace DungeonGeneration
             {
                 if (y < _maxRowAmount / 2)
                 {
-
                     for (int xLength = 0; xLength < CurrentRowLength; ++xLength)
                     {
-                        if (DungeonUtility.GetBuildPoint().x + -xLength < DungeonUtility.GetDungeonDimensions().x + 1&& DungeonUtility.GetBuildPoint().y + y < DungeonUtility.GetDungeonDimensions().y + 1
-               && DungeonUtility.GetBuildPoint().x + -xLength > -1 && DungeonUtility.GetBuildPoint().y + y > -1)
-                            PlaceFloorTile(-xLength, y, DungeonUtility.GetBuildPoint());
+                        Vector2Int pos = ShapeDirectionVector( -xLength, y);
+                        AddToFloorTilePositions(pos);
                     }
                     CurrentRowLength++;
                 }
@@ -93,21 +172,19 @@ namespace DungeonGeneration
                     CurrentRowLength--;
                     for (int xLength = 0; xLength < CurrentRowLength; ++xLength)
                     {
-                        if (DungeonUtility.GetBuildPoint().x + -xLength < DungeonUtility.GetDungeonDimensions().x + 1 && DungeonUtility.GetBuildPoint().y + y < DungeonUtility.GetDungeonDimensions().y + 1
-               && DungeonUtility.GetBuildPoint().x + -xLength > -1 && DungeonUtility.GetBuildPoint().y + y > -1)
-                            PlaceFloorTile(-xLength, y, DungeonUtility.GetBuildPoint());
+                        Vector2Int pos = ShapeDirectionVector(- xLength,  y);
+                        AddToFloorTilePositions(pos);
                     }
-
                 }
             }
         }
         static void CircleFill(List<Vector2Int> _circlePoints, Vector2Int _startPoint, int _indexX, int _indexY)
         {
             Vector2Int point = new Vector2Int(_startPoint.x + _indexX, _startPoint.y + _indexY);
-            if (point.x < DungeonUtility.GetDungeonDimensions().x + 1 && point.y < DungeonUtility.GetDungeonDimensions().y + 1 && point.x > -1 && point.y > -1)
-                _circlePoints.Add(point);
+            if ( point.x > -1 && point.y > -1)
+                AddToFloorTilePositions(point);
         }
-        public static void FillFloorCircle(int _startAmount, int _middleAmount)
+        public static void Circle(int _startAmount, int _middleAmount)
         {
             Vector2Int startPoint = new Vector2Int(DungeonUtility.GetBuildPoint().x +_startAmount / 2, DungeonUtility.GetBuildPoint().y);
             List<Vector2Int> CirclePoints = new List<Vector2Int>();
@@ -184,7 +261,6 @@ namespace DungeonGeneration
             {
                 for (int i = 0; i < _startAmount + 3; ++i)
                 {
-                    
                     CircleFill(CirclePoints, startPoint, -i, 5 + a);
                 }
                 num2 = 5 + a;
@@ -204,11 +280,6 @@ namespace DungeonGeneration
             for (int i = 0; i < _startAmount  - 1; ++i)
             {
                 CircleFill(CirclePoints, startPoint, -i, num2 + 4);
-            }
-
-            for (int Cp = 0; Cp < CirclePoints.Count; ++Cp)
-            {
-                PlaceFloorTile(0, 0, CirclePoints[Cp]);
             }
         }
     }

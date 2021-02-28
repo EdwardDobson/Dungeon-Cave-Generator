@@ -29,6 +29,7 @@ public class CustomTile : ScriptableObject
     public float Damage;
     public float CurrentAttackCoolDown;
     public float MaxAttackCoolDown;
+    public float ScoreDispense;
     public Vector3Int Pos;
     [Range(1,100)]
     public float PickChance;

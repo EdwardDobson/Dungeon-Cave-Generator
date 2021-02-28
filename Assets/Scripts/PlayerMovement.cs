@@ -20,7 +20,9 @@ public class PlayerMovement : MonoBehaviour
     {
         if (FloorGen.GetFloorPositions().Count > 0 && !m_playerPlaced)
         {
-            transform.position = FloorGen.GetFloorPositions()[Random.Range(0, FloorGen.GetFloorPositions().Count)];
+            Vector3Int position = FloorGen.GetFloorPositions()[Random.Range(0, FloorGen.GetFloorPositions().Count)];
+            Vector3 positionReadjusted = new Vector3(position.x + 0.5f, position.y + 0.5f, 0);
+            transform.position = positionReadjusted;
             m_playerPlaced = true;
         }
 

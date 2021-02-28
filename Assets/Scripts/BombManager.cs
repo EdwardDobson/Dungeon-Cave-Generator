@@ -49,6 +49,7 @@ public class BombManager : MonoBehaviour
                 
                         if (m_tilesAround[i].Health <= 0)
                         {
+                            pTile.GetComponent<Scoring>().IncreaseScore(m_tilesAround[i].ScoreDispense);
                             if (!pTile.PlacedOnTiles.ContainsKey(m_hitLocation))
                             {
                                 TileManager.RemoveTilePiece(m_hitLocation, WallGen.GetTilemap());

@@ -88,7 +88,7 @@ namespace DungeonGeneration
         {
             m_wallDimensions = _walls;
         }
-        public static void RandomiseWallSizes(int _wallMaxX, int _wallMaxY, int _wallMinX, int _wallMinY)
+        public static void RandomiseWallSizes(int _wallMinX, int _wallMaxX, int _wallMinY, int _wallMaxY)
         {
             m_wallDimensions = new Vector2Int(Random.Range(_wallMinX, _wallMaxX), Random.Range(_wallMinY, _wallMaxY));
         }

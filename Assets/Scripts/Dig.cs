@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.Tilemaps;
 
 public class Dig : MonoBehaviour
@@ -65,6 +66,7 @@ public class Dig : MonoBehaviour
                                 }
                                 if (WallsTouched[i].Health <= 0)
                                 {
+                                    GetComponent<Scoring>().IncreaseScore(WallsTouched[i].ScoreDispense);
                                     if (!m_pTile.PlacedOnTiles.ContainsKey(v))
                                     {
                                         TileManager.RemoveTilePiece(v, WallTileMap);
