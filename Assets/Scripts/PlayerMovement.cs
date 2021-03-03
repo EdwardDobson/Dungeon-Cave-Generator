@@ -39,7 +39,15 @@ public class PlayerMovement : MonoBehaviour
             if (Input.GetKey(KeyCode.A))
             {
                 TileChecker();
-                h = Input.GetAxisRaw("Horizontal");
+                Vector3Int tempPos = new Vector3Int((int)(transform.position.x -0.5f), (int)transform.position.y, 0);
+                if (TileManager.GetTileDictionaryWalls().ContainsKey(tempPos))
+                {
+                    h = 0;
+                }
+                else
+                {
+                    h = Input.GetAxisRaw("Horizontal");
+                }
             }
             if (Input.GetKeyUp(KeyCode.A))
             {
@@ -67,13 +75,20 @@ public class PlayerMovement : MonoBehaviour
             if (Input.GetKey(KeyCode.D))
             {
                 TileChecker();
-                h = Input.GetAxisRaw("Horizontal");
+                Vector3Int tempPos = new Vector3Int((int)(transform.position.x + 0.5f), (int)transform.position.y, 0);
+                if (TileManager.GetTileDictionaryWalls().ContainsKey(tempPos))
+                {
+                    h = 0;
+                }
+                else
+                {
+                    h = Input.GetAxisRaw("Horizontal");
+                }
             }
             if (Input.GetKeyUp(KeyCode.D))
             {
                 h = 0;
             }
-
         }
         if (transform.position.x + 0.5f > Map.cellBounds.xMax)
         {
@@ -97,7 +112,16 @@ public class PlayerMovement : MonoBehaviour
             if (Input.GetKey(KeyCode.W))
             {
                 TileChecker();
-                v = Input.GetAxisRaw("Vertical");
+                Vector3Int tempPos = new Vector3Int((int)transform.position.x, (int)(transform.position.y + 0.5f), 0);
+                if(TileManager.GetTileDictionaryWalls().ContainsKey(tempPos))
+                {
+                    v = 0;
+                }
+                else
+                {
+                    v = Input.GetAxisRaw("Vertical");
+                }
+             
             }
             if (Input.GetKeyUp(KeyCode.W))
             {
@@ -141,7 +165,15 @@ public class PlayerMovement : MonoBehaviour
             if (Input.GetKey(KeyCode.S))
             {
                 TileChecker();
-                v = Input.GetAxisRaw("Vertical");
+                Vector3Int tempPos = new Vector3Int((int)transform.position.x, (int)(transform.position.y - 0.5f), 0);
+                if (TileManager.GetTileDictionaryWalls().ContainsKey(tempPos))
+                {
+                    v = 0;
+                }
+                else
+                {
+                    v = Input.GetAxisRaw("Vertical");
+                }
             }
             if (Input.GetKeyUp(KeyCode.S))
             {

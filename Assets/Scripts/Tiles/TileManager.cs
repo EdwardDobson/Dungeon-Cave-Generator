@@ -41,6 +41,7 @@ namespace DungeonGeneration
         {
             TileData td = new TileData();
             td.CustomTile = _customTile;
+        
             td.TileBase = _map.GetTile(_pos);
             switch (_dirType)
             {

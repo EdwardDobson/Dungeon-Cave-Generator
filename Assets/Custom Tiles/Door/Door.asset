@@ -12,7 +12,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b87fb5b0c88f4644fb2a9e567623d2ec, type: 3}
   m_Name: Door
   m_EditorClassIdentifier: 
-  Tile: {fileID: 11400000, guid: be9c83ecb7977a8469d7bc1eb4f33f11, type: 2}
+  Tile:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   Type: 3
-  Colour: {r: 0, g: 0, b: 0, a: 0}
+  Attributes: 
+  BlockSound: {fileID: 0}
+  ShouldUseColour: 0
+  TileColour: {r: 0, g: 0, b: 0, a: 0}
+  TileBreakingColour: {r: 0, g: 0, b: 0, a: 0}
+  DisplaySprite: {fileID: 0}
   Speed: 0
+  Health: 0
+  Damage: 0
+  CurrentAttackCoolDown: 0
+  MaxAttackCoolDown: 0
+  ScoreDispense: 0
+  ID: 14
+  Pos: {x: 0, y: 0, z: 0}
+  PickChance: 0

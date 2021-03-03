@@ -7,80 +7,86 @@ public class BombManager : MonoBehaviour
 {
     [SerializeField]
     List<CustomTile> m_tilesAround = new List<CustomTile>();
-    Vector3Int m_hitLocation;
-    RaycastHit2D m_hit;
-    public float Distance;
     public PlaceTile pTile;
     public GameObject BreakingEffectPrefab;
-    void HitPosFunction(Vector2 _dir, int _valueX, int _valueY)
-    {
-        m_hit = Physics2D.Raycast(transform.GetChild(0).position, _dir, Distance);
-        Debug.DrawRay(transform.position, _dir, Color.red);
-        if (m_hit.collider != null)
-        {
-            if (m_hit.collider.tag == "Wall")
-            {
-                m_hitLocation = new Vector3Int((int)m_hit.point.x - _valueX, (int)m_hit.point.y - _valueY, 0);
-                // Debug.Log("Hit " + m_hit.collider.name + " @ " + m_hitLocation);
-            }
-        }
-    }
+    public List<Vector3Int> Directions = new List<Vector3Int>();
+    public float BombDamage;
     private void Update()
     {
-        if(transform.childCount > 0)
+        if (transform.childCount > 0)
         {
-            HitPosFunction(Vector2.right, 0, 0);
-            HitPosFunction(Vector2.up, 0, 0);
-            HitPosFunction(Vector2.down, 0, 1);
-            HitPosFunction(Vector2.left, 1, 0);
-            if (WallGen.GetTilemap().GetTile(m_hitLocation) != null)
+            if (BombDamage > 0)
             {
-                if (m_tilesAround.All(w => w.Pos != m_hitLocation))
+                DirectionsCalculate();
+                for (int i = 0; i < Directions.Count; ++i)
                 {
-                    CustomTile copy = Instantiate(TileManager.GetTileDictionaryWalls()[m_hitLocation].CustomTile);
-                    copy.Pos = m_hitLocation;
-                    m_tilesAround.Add(copy);
-                }
-
-                for (int i = 0; i < m_tilesAround.Count; ++i)
-                {
-                    if (m_tilesAround[i].Pos == m_hitLocation)
+                    if (TileManager.GetTileDictionaryWalls().ContainsKey(Directions[i]))
                     {
-                        m_tilesAround[i].Health--;
-                
-                        if (m_tilesAround[i].Health <= 0)
+                        CustomTile copy = Instantiate(TileManager.GetTileDictionaryWalls()[Directions[i]].CustomTile);
+                        copy.Pos = Directions[i];
+                        if (!m_tilesAround.Contains(copy))
+                            m_tilesAround.Add(copy);
+                    }
+                }
+                for (int b = 0; b < m_tilesAround.Count; ++b)
+                {
+                    if (Directions.Contains(m_tilesAround[b].Pos))
+                    {
+                        if (m_tilesAround[b].Health > 0)
+                            m_tilesAround[b].Health -= BombDamage;
+                        if (m_tilesAround[b].Health <= 0)
                         {
-                            Vector3 breakingPos = new Vector3(m_hitLocation.x + 0.5f, m_hitLocation.y + 0.5f, -2);
+                            pTile.gameObject.GetComponent<InventoryBackpack>().AddToStorage(m_tilesAround[b]);
+                            Vector3 breakingPos = new Vector3(m_tilesAround[b].Pos.x + 0.5f, m_tilesAround[b].Pos.y + 0.5f, -2);
                             GameObject breakingEffectClone = Instantiate(BreakingEffectPrefab, breakingPos, Quaternion.identity);
                             ParticleSystem.MainModule breakingEffect = breakingEffectClone.GetComponent<ParticleSystem>().main;
-                            breakingEffect.startColor = m_tilesAround[i].TileBreakingColour;
-                            pTile.GetComponent<Scoring>().IncreaseScore(m_tilesAround[i].ScoreDispense);
-                            if (!pTile.PlacedOnTiles.ContainsKey(m_hitLocation))
+                            breakingEffect.startColor = m_tilesAround[b].TileBreakingColour;
+                            pTile.GetComponent<Scoring>().IncreaseScore(m_tilesAround[b].ScoreDispense);
+                            if (TileManager.GetTileDictionaryWalls().ContainsKey(m_tilesAround[b].Pos))
                             {
-                                TileManager.RemoveTilePiece(m_hitLocation, WallGen.GetTilemap());
-                                TileManager.ChangeTilePiece(m_hitLocation, 0, TileType.Path, DungeonUtility.GetTilemap());
-                                TileManager.GetTileDictionaryWalls().Remove(m_hitLocation);
-                                TileManager.FillDictionary(m_hitLocation, TileManager.GetTileHolder(TileType.Path).Tiles[0], DungeonUtility.GetTilemap(),DictionaryType.Floor);
-                                m_tilesAround.RemoveAt(i);
+                                TileManager.RemoveTilePiece(m_tilesAround[b].Pos, WallGen.GetTilemap());
+                                TileManager.ChangeTilePiece(m_tilesAround[b].Pos, 0, TileType.Path, DungeonUtility.GetTilemap());
+                                TileManager.GetTileDictionaryWalls().Remove(m_tilesAround[b].Pos);
+                                TileManager.FillDictionary(m_tilesAround[b].Pos, TileManager.GetTileHolder(TileType.Path).Tiles[0], DungeonUtility.GetTilemap(), DictionaryType.Floor);
                             }
-                            //   TileManager.FillDictionary(v, TileManager.GetAllTiles(TileType.Path), 0, Map);
-                            for (int a = 0; a < pTile.PlacedOnTiles.Count; ++a)
+                            if (TileManager.GetTileDictionaryFloor().ContainsKey(m_tilesAround[b].Pos))
                             {
-                                if (pTile.PlacedOnTiles.ContainsKey(m_hitLocation))
-                                {
-                                    TileManager.RemoveTilePiece(m_hitLocation, WallGen.GetTilemap());
-                                    TileManager.ChangeTilePieceDig(m_hitLocation, pTile.PlacedOnTiles[m_hitLocation].Tile[0], DungeonUtility.GetTilemap());
-                                    TileManager.GetTileDictionaryWalls().Remove(m_hitLocation);
-                                    TileManager.FillDictionary(m_hitLocation, pTile.PlacedOnTiles[m_hitLocation], DungeonUtility.GetTilemap(),DictionaryType.Floor);
-                                    TileManager.ChangeTileColour(DungeonUtility.GetTilemap(), m_hitLocation, pTile.PlacedOnTiles[m_hitLocation]);
-                                    pTile.PlacedOnTiles.Remove(m_hitLocation);
-                                    m_tilesAround.RemoveAt(i);
-                                }
+                                TileManager.ChangeTilePieceDig(m_tilesAround[b].Pos, TileManager.GetTileDictionaryFloor()[m_tilesAround[b].Pos].TileBase, DungeonUtility.GetTilemap());
+                                TileManager.ChangeTileColour(DungeonUtility.GetTilemap(), m_tilesAround[b].Pos, TileManager.GetTileDictionaryFloor()[m_tilesAround[b].Pos].CustomTile);
                             }
+                            m_tilesAround.RemoveAt(b);
                         }
                     }
-                }  
+                }
             }
+            Directions.Clear();
         }
+    }
+    void DirectionsCalculate()
+    {
+        Vector3Int tempPosX = new Vector3Int((int)(transform.GetChild(0).position.x - 1), (int)transform.GetChild(0).position.y, 0);
+        if (!Directions.Contains(tempPosX))
+            Directions.Add(tempPosX);
+        Vector3Int tempPosXPlus = new Vector3Int((int)(transform.GetChild(0).position.x + 1), (int)transform.GetChild(0).position.y, 0);
+        if (!Directions.Contains(tempPosXPlus))
+            Directions.Add(tempPosXPlus);
+        Vector3Int tempPosY = new Vector3Int((int)transform.GetChild(0).position.x, (int)(transform.GetChild(0).position.y - 1), 0);
+        if (!Directions.Contains(tempPosY))
+            Directions.Add(tempPosY);
+        Vector3Int tempPosYPlus = new Vector3Int((int)transform.GetChild(0).position.x, (int)(transform.GetChild(0).position.y + 1), 0);
+        if (!Directions.Contains(tempPosYPlus))
+            Directions.Add(tempPosYPlus);
+        Vector3Int tempPosYXRight = new Vector3Int((int)(transform.GetChild(0).position.x + 1), (int)(transform.GetChild(0).position.y + 1), 0);
+        if (!Directions.Contains(tempPosYXRight))
+            Directions.Add(tempPosYXRight);
+        Vector3Int tempPosYXDownLeft = new Vector3Int((int)(transform.GetChild(0).position.x - 1), (int)(transform.GetChild(0).position.y - 1), 0);
+        if (!Directions.Contains(tempPosYXDownLeft))
+            Directions.Add(tempPosYXDownLeft);
+        Vector3Int tempPosYXDownRight = new Vector3Int((int)(transform.GetChild(0).position.x + 1), (int)(transform.GetChild(0).position.y - 1), 0);
+        if (!Directions.Contains(tempPosYXDownRight))
+            Directions.Add(tempPosYXDownRight);
+        Vector3Int tempPosYXUpLeft = new Vector3Int((int)(transform.GetChild(0).position.x - 1), (int)(transform.GetChild(0).position.y + 1), 0);
+        if (!Directions.Contains(tempPosYXUpLeft))
+            Directions.Add(tempPosYXUpLeft);
     }
 }

@@ -21,8 +21,8 @@ namespace DungeonGeneration
         }
         public static void AddToFloorTilePositions(Vector2Int _pointToAdd)
         {
-            if(_pointToAdd.x > -1 && _pointToAdd.y > -1)
-            m_floorTilePositions.Add(_pointToAdd);
+            if (_pointToAdd.x > -1 && _pointToAdd.y > -1)
+                m_floorTilePositions.Add(_pointToAdd);
         }
         public static List<Vector2Int> GetFloorTilePositions()
         {
@@ -34,8 +34,8 @@ namespace DungeonGeneration
         }
         public static void AddFloorPositions(Vector3Int _pos)
         {
-            if(_pos.x > - 1&& _pos.y >  -1)
-            m_floorPositions.Add(_pos);
+            if (_pos.x > -1 && _pos.y > -1)
+                m_floorPositions.Add(_pos);
         }
         public static void PlaceFloorTile(Vector2Int _buildPoint)
         {
@@ -47,15 +47,15 @@ namespace DungeonGeneration
 
             tempTileIndex = Random.Range(0, tilesWithinRange.Count);
             Vector3Int t = new Vector3Int(_buildPoint.x, _buildPoint.y, 0);
-                if (!TileManager.GetTileDictionaryFloor().ContainsKey(t))
-                {
-                    TileManager.BuildPiece(_buildPoint.x, _buildPoint.y, tempTileIndex, false, TileType.Floor, DungeonUtility.GetTilemap());
-                    TileManager.ChangeTileColour(DungeonUtility.GetTilemap(), new Vector3Int(_buildPoint.x, _buildPoint.y, 0), tilesWithinRange[tempTileIndex]);
-                    TileManager.FillDictionary(new Vector3Int(_buildPoint.x, _buildPoint.y, 0), tilesWithinRange[tempTileIndex], DungeonUtility.GetTilemap(),DictionaryType.Floor);
-                     m_floorPositions.Add(t);
-                }
+            if (!TileManager.GetTileDictionaryFloor().ContainsKey(t))
+            {
+                TileManager.BuildPiece(_buildPoint.x, _buildPoint.y, tempTileIndex, false, TileType.Floor, DungeonUtility.GetTilemap());
+                TileManager.ChangeTileColour(DungeonUtility.GetTilemap(), new Vector3Int(_buildPoint.x, _buildPoint.y, 0), tilesWithinRange[tempTileIndex]);
+                TileManager.FillDictionary(new Vector3Int(_buildPoint.x, _buildPoint.y, 0), tilesWithinRange[tempTileIndex], DungeonUtility.GetTilemap(), DictionaryType.Floor);
+                m_floorPositions.Add(t);
+            }
         }
-        public static void LShape(int _roomLength,int _roomHeight,int _directionIndex)
+        public static void LShape(int _roomLength, int _roomHeight, int _directionIndex)
         {
             Square();
             for (int i = 0; i < _roomLength + 1; ++i)
@@ -69,7 +69,7 @@ namespace DungeonGeneration
                             AddToFloorTilePositions(pos);
                             break;
                         case 1://Left
-                            Vector2Int pos2 = ShapeDirectionVector(0 - i , 0 + a);
+                            Vector2Int pos2 = ShapeDirectionVector(0 - i, 0 + a);
                             AddToFloorTilePositions(pos2);
                             break;
                         case 2://UpRight
@@ -80,17 +80,17 @@ namespace DungeonGeneration
                             Vector2Int pos4 = ShapeDirectionVector(0 - i, WallGen.GetWallDimensions().y - _roomHeight + a);
                             AddToFloorTilePositions(pos4);
                             break;
-                    } 
-                 
+                    }
+
                 }
             }
         }
-        static Vector2Int ShapeDirectionVector(int _roomLength,int _roomHeight)
+        static Vector2Int ShapeDirectionVector(int _roomLength, int _roomHeight)
         {
             Vector2Int pos = new Vector2Int(DungeonUtility.GetBuildPoint().x + _roomLength, DungeonUtility.GetBuildPoint().y + _roomHeight);
             return pos;
         }
-        public static void TShape(int _stemWidth,int _stemHeight,int _roomLength, int _roomHeight, int _directionIndex)
+        public static void TShape(int _stemWidth, int _stemHeight, int _roomLength, int _roomHeight, int _directionIndex)
         {
             for (int i = 0; i < _stemWidth + 1; ++i)
             {
@@ -115,13 +115,13 @@ namespace DungeonGeneration
                             AddToFloorTilePositions(pos2);
                             break;
                         case 2://Up
-                            Vector2Int pos3 = ShapeDirectionVector(_stemWidth / 2  -i, _stemHeight + a);
+                            Vector2Int pos3 = ShapeDirectionVector(_stemWidth / 2 - i, _stemHeight + a);
                             Vector2Int pos3a = ShapeDirectionVector(_stemWidth / 2 + i, _stemHeight + a);
                             AddToFloorTilePositions(pos3);
                             AddToFloorTilePositions(pos3a);
                             break;
                         case 3://Down
-                            Vector2Int pos4 = ShapeDirectionVector(_stemWidth / 2-i,  a);
+                            Vector2Int pos4 = ShapeDirectionVector(_stemWidth / 2 - i, a);
                             Vector2Int pos4a = ShapeDirectionVector(_stemWidth / 2 + i, a);
                             AddToFloorTilePositions(pos4);
                             AddToFloorTilePositions(pos4a);
@@ -140,7 +140,7 @@ namespace DungeonGeneration
                 {
                     for (int xLength = 0; xLength < CurrentRowLength; ++xLength)
                     {
-                        Vector2Int pos = ShapeDirectionVector(xLength,  y);
+                        Vector2Int pos = ShapeDirectionVector(xLength, y);
                         AddToFloorTilePositions(pos);
                     }
                     CurrentRowLength++;
@@ -150,7 +150,7 @@ namespace DungeonGeneration
                     CurrentRowLength--;
                     for (int xLength = 0; xLength < CurrentRowLength; ++xLength)
                     {
-                        Vector2Int pos = ShapeDirectionVector(xLength,+ y);
+                        Vector2Int pos = ShapeDirectionVector(xLength, +y);
                         AddToFloorTilePositions(pos);
                     }
                 }
@@ -162,7 +162,7 @@ namespace DungeonGeneration
                 {
                     for (int xLength = 0; xLength < CurrentRowLength; ++xLength)
                     {
-                        Vector2Int pos = ShapeDirectionVector( -xLength, y);
+                        Vector2Int pos = ShapeDirectionVector(-xLength, y);
                         AddToFloorTilePositions(pos);
                     }
                     CurrentRowLength++;
@@ -172,7 +172,7 @@ namespace DungeonGeneration
                     CurrentRowLength--;
                     for (int xLength = 0; xLength < CurrentRowLength; ++xLength)
                     {
-                        Vector2Int pos = ShapeDirectionVector(- xLength,  y);
+                        Vector2Int pos = ShapeDirectionVector(-xLength, y);
                         AddToFloorTilePositions(pos);
                     }
                 }
@@ -181,15 +181,15 @@ namespace DungeonGeneration
         static void CircleFill(List<Vector2Int> _circlePoints, Vector2Int _startPoint, int _indexX, int _indexY)
         {
             Vector2Int point = new Vector2Int(_startPoint.x + _indexX, _startPoint.y + _indexY);
-            if ( point.x > -1 && point.y > -1)
+            if (point.x > -1 && point.y > -1)
                 AddToFloorTilePositions(point);
         }
         public static void Circle(int _startAmount, int _middleAmount)
         {
-            Vector2Int startPoint = new Vector2Int(DungeonUtility.GetBuildPoint().x +_startAmount / 2, DungeonUtility.GetBuildPoint().y);
+            Vector2Int startPoint = new Vector2Int(DungeonUtility.GetBuildPoint().x + _startAmount / 2, DungeonUtility.GetBuildPoint().y);
             List<Vector2Int> CirclePoints = new List<Vector2Int>();
             //Right Side
-            for(int i =0; i < _startAmount; ++i)
+            for (int i = 0; i < _startAmount; ++i)
             {
                 CircleFill(CirclePoints, startPoint, i, 0);
             }
@@ -240,15 +240,15 @@ namespace DungeonGeneration
                 CircleFill(CirclePoints, startPoint, i, num + 5);
             }
             //LeftSide
-            for (int i = 0; i < _startAmount ; ++i)
+            for (int i = 0; i < _startAmount; ++i)
             {
                 CircleFill(CirclePoints, startPoint, -i, 1);
             }
-            for (int i = 0; i < _startAmount  + 1; ++i)
+            for (int i = 0; i < _startAmount + 1; ++i)
             {
                 CircleFill(CirclePoints, startPoint, -i, 2);
             }
-            for (int i = 0; i < _startAmount  + 2; ++i)
+            for (int i = 0; i < _startAmount + 2; ++i)
             {
                 CircleFill(CirclePoints, startPoint, -i, 3);
             }
@@ -257,7 +257,7 @@ namespace DungeonGeneration
                 CircleFill(CirclePoints, startPoint, -i, 4);
             }
             int num2 = 0;
-            for(int a = 0; a < _middleAmount; ++a)
+            for (int a = 0; a < _middleAmount; ++a)
             {
                 for (int i = 0; i < _startAmount + 3; ++i)
                 {
@@ -269,15 +269,15 @@ namespace DungeonGeneration
             {
                 CircleFill(CirclePoints, startPoint, -i, num2 + 1);
             }
-            for (int i = 0; i < _startAmount+ 2; ++i)
+            for (int i = 0; i < _startAmount + 2; ++i)
             {
                 CircleFill(CirclePoints, startPoint, -i, num2 + 2);
             }
-            for (int i = 0; i < _startAmount  + 1; ++i)
+            for (int i = 0; i < _startAmount + 1; ++i)
             {
                 CircleFill(CirclePoints, startPoint, -i, num2 + 3);
             }
-            for (int i = 0; i < _startAmount  - 1; ++i)
+            for (int i = 0; i < _startAmount - 1; ++i)
             {
                 CircleFill(CirclePoints, startPoint, -i, num2 + 4);
             }

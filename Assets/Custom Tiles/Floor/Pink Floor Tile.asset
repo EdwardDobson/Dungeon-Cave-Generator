@@ -19,6 +19,7 @@ MonoBehaviour:
   BlockSound: {fileID: 0}
   ShouldUseColour: 1
   TileColour: {r: 1, g: 0.6179246, b: 0.6179246, a: 1}
+  TileBreakingColour: {r: 0, g: 0, b: 0, a: 0}
   DisplaySprite: {fileID: 0}
   Speed: 3
   Health: 0
@@ -26,5 +27,6 @@ MonoBehaviour:
   CurrentAttackCoolDown: 0.7479248
   MaxAttackCoolDown: 2
   ScoreDispense: 0
+  ID: 10
   Pos: {x: 0, y: 0, z: 0}
   PickChance: 5

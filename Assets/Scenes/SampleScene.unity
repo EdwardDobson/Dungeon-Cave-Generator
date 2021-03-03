@@ -128,7 +128,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1325159186, guid: a7a415f56d409c94aa73a4fccef2d957, type: 3}
   m_PrefabInstance: {fileID: 7794398216400669157}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 7794398216400669158}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b1877e05d7ae29640bd3504674d41bdf, type: 3}
@@ -346,6 +346,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!19719996 &677261662 stripped
+TilemapCollider2D:
+  m_CorrespondingSourceObject: {fileID: 1287630958, guid: 70b7b7d86201aa347a1655130c239a0a, type: 3}
+  m_PrefabInstance: {fileID: 2472697035154531109}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &712498159 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3752592369801730583, guid: 19ca195e8b792464f90811226cae5251, type: 3}
@@ -514,9 +519,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 250050311}
     - target: {fileID: 294914409977119403, guid: a6045116bc2ebed4da45abc907c89063, type: 3}
+      propertyPath: BombDamage
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 294914409977119403, guid: a6045116bc2ebed4da45abc907c89063, type: 3}
       propertyPath: BreakingEffectPrefab
       value: 
       objectReference: {fileID: 7484531073081907237, guid: b6432d5a014aaa045ba408a8b3c9e903, type: 3}
+    - target: {fileID: 294914409977119403, guid: a6045116bc2ebed4da45abc907c89063, type: 3}
+      propertyPath: Directions.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a6045116bc2ebed4da45abc907c89063, type: 3}
 --- !u!1001 &2376251158540447989
@@ -623,6 +636,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1287630958, guid: 70b7b7d86201aa347a1655130c239a0a, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1287630958, guid: 70b7b7d86201aa347a1655130c239a0a, type: 3}
+      propertyPath: m_UsedByComposite
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1287630959, guid: 70b7b7d86201aa347a1655130c239a0a, type: 3}
+      propertyPath: m_ColliderPaths.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1287630959, guid: 70b7b7d86201aa347a1655130c239a0a, type: 3}
+      propertyPath: m_ColliderPaths.Array.data[0].m_Collider
+      value: 
+      objectReference: {fileID: 677261662}
     - target: {fileID: 2472697035314329761, guid: 70b7b7d86201aa347a1655130c239a0a, type: 3}
       propertyPath: m_Name
       value: Grid
@@ -672,12 +701,48 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2472697036052015728, guid: 70b7b7d86201aa347a1655130c239a0a, type: 3}
+      propertyPath: m_pathAmount
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 2472697036052015728, guid: 70b7b7d86201aa347a1655130c239a0a, type: 3}
+      propertyPath: m_scoreAmount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2472697036052015728, guid: 70b7b7d86201aa347a1655130c239a0a, type: 3}
+      propertyPath: m_TShapeRoomAmount
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 2472697036052015728, guid: 70b7b7d86201aa347a1655130c239a0a, type: 3}
+      propertyPath: m_circleRoomAmount
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 2472697036052015728, guid: 70b7b7d86201aa347a1655130c239a0a, type: 3}
+      propertyPath: m_lShapeRoomAmount
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 2472697036052015728, guid: 70b7b7d86201aa347a1655130c239a0a, type: 3}
+      propertyPath: m_squareRoomAmount
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 2472697036052015728, guid: 70b7b7d86201aa347a1655130c239a0a, type: 3}
+      propertyPath: m_diamondRoomAmount
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 2472697036052015728, guid: 70b7b7d86201aa347a1655130c239a0a, type: 3}
       propertyPath: m_dungeonDimensions.x
       value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 2472697036052015728, guid: 70b7b7d86201aa347a1655130c239a0a, type: 3}
       propertyPath: m_dungeonDimensions.y
       value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 2472697036052015734, guid: 70b7b7d86201aa347a1655130c239a0a, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9064305073223868958, guid: 70b7b7d86201aa347a1655130c239a0a, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 70b7b7d86201aa347a1655130c239a0a, type: 3}
@@ -968,3 +1033,51 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7a415f56d409c94aa73a4fccef2d957, type: 3}
+--- !u!1 &7794398216400669158 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7794398217402429787, guid: a7a415f56d409c94aa73a4fccef2d957, type: 3}
+  m_PrefabInstance: {fileID: 7794398216400669157}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7794398216400669159
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7794398216400669158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ec9d8d9acd3e054fa284040452de04b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Storage:
+  - Items: []
+  - Items: []
+  - Items: []
+  - Items: []
+  - Items: []
+  - Items: []
+  - Items: []
+  - Items: []
+  - Items: []
+  - Items: []
+  - Items: []
+  - Items: []
+  - Items: []
+  - Items: []
+  - Items: []
+  - Items: []
+  - Items: []
+  - Items: []
+  - Items: []
+  - Items: []
+  - Items: []
+  - Items: []
+  - Items: []
+  - Items: []
+  - Items: []
+  - Items: []
+  - Items: []
+  - Items: []
+  - Items: []
+  - Items: []
