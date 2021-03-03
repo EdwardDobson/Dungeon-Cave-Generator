@@ -29,7 +29,7 @@ public class PlayerMovement : MonoBehaviour
         BorderDetection();
         Vector2 moveVector = new Vector2(h, v);
         m_rb2d.velocity = moveVector * Speed;
-        TileChecker();
+        
     }
     //Handes border detection and movement
     void BorderDetection()
@@ -38,8 +38,8 @@ public class PlayerMovement : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.A))
             {
-   
-              h = Input.GetAxisRaw("Horizontal");
+                TileChecker();
+                h = Input.GetAxisRaw("Horizontal");
             }
             if (Input.GetKeyUp(KeyCode.A))
             {
@@ -54,6 +54,7 @@ public class PlayerMovement : MonoBehaviour
             }
             if (Input.GetKey(KeyCode.D))
             {
+                TileChecker();
                 h = Input.GetAxisRaw("Horizontal");
             }
             if (Input.GetKeyUp(KeyCode.D))
@@ -65,6 +66,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.D))
             {
+                TileChecker();
                 h = Input.GetAxisRaw("Horizontal");
             }
             if (Input.GetKeyUp(KeyCode.D))
@@ -81,6 +83,7 @@ public class PlayerMovement : MonoBehaviour
             }
             if (Input.GetKey(KeyCode.A))
             {
+                TileChecker();
                 h = Input.GetAxisRaw("Horizontal");
             }
             if (Input.GetKeyUp(KeyCode.A))
@@ -93,6 +96,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.W))
             {
+                TileChecker();
                 v = Input.GetAxisRaw("Vertical");
             }
             if (Input.GetKeyUp(KeyCode.W))
@@ -108,6 +112,7 @@ public class PlayerMovement : MonoBehaviour
             }
             if (Input.GetKey(KeyCode.S))
             {
+                TileChecker();
                 v = Input.GetAxisRaw("Vertical");
             }
             if (Input.GetKeyUp(KeyCode.S))
@@ -123,6 +128,7 @@ public class PlayerMovement : MonoBehaviour
             }
             if (Input.GetKey(KeyCode.W))
             {
+                TileChecker();
                 v = Input.GetAxisRaw("Vertical");
             }
             if (Input.GetKeyUp(KeyCode.W))
@@ -134,6 +140,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.S))
             {
+                TileChecker();
                 v = Input.GetAxisRaw("Vertical");
             }
             if (Input.GetKeyUp(KeyCode.S))
@@ -147,11 +154,11 @@ public class PlayerMovement : MonoBehaviour
         Vector3Int pos = new Vector3Int((int)transform.position.x, (int)transform.position.y, (int)transform.position.z);
         if (Map.GetTile(pos) != null)
         {
-            for(int a = 0; a < TileManager.GetTileDictionary()[pos].CustomTile.Attributes.Length; ++a)
+            for(int a = 0; a < TileManager.GetTileDictionaryFloor()[pos].CustomTile.Attributes.Length; ++a)
             {
-                if (TileManager.GetTileDictionary()[pos].CustomTile.Attributes[a] == Attributes.Speed)
+                if (TileManager.GetTileDictionaryFloor()[pos].CustomTile.Attributes[a] == Attributes.Speed)
                 {
-                    CustomTile copy = Instantiate(TileManager.GetTileDictionary()[pos].CustomTile);
+                    CustomTile copy = Instantiate(TileManager.GetTileDictionaryFloor()[pos].CustomTile);
                     copy.Pos = pos;
                     Speed = copy.Speed;
                 }

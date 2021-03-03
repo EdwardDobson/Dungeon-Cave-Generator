@@ -37,7 +37,7 @@ public class BombManager : MonoBehaviour
             {
                 if (m_tilesAround.All(w => w.Pos != m_hitLocation))
                 {
-                    CustomTile copy = Instantiate(TileManager.GetTileDictionary()[m_hitLocation].CustomTile);
+                    CustomTile copy = Instantiate(TileManager.GetTileDictionaryWalls()[m_hitLocation].CustomTile);
                     copy.Pos = m_hitLocation;
                     m_tilesAround.Add(copy);
                 }
@@ -59,8 +59,8 @@ public class BombManager : MonoBehaviour
                             {
                                 TileManager.RemoveTilePiece(m_hitLocation, WallGen.GetTilemap());
                                 TileManager.ChangeTilePiece(m_hitLocation, 0, TileType.Path, DungeonUtility.GetTilemap());
-                                TileManager.GetTileDictionary().Remove(m_hitLocation);
-                                TileManager.FillDictionary(m_hitLocation, TileManager.GetTileHolder(TileType.Path).Tiles[0], DungeonUtility.GetTilemap());
+                                TileManager.GetTileDictionaryWalls().Remove(m_hitLocation);
+                                TileManager.FillDictionary(m_hitLocation, TileManager.GetTileHolder(TileType.Path).Tiles[0], DungeonUtility.GetTilemap(),DictionaryType.Floor);
                                 m_tilesAround.RemoveAt(i);
                             }
                             //   TileManager.FillDictionary(v, TileManager.GetAllTiles(TileType.Path), 0, Map);
@@ -70,8 +70,8 @@ public class BombManager : MonoBehaviour
                                 {
                                     TileManager.RemoveTilePiece(m_hitLocation, WallGen.GetTilemap());
                                     TileManager.ChangeTilePieceDig(m_hitLocation, pTile.PlacedOnTiles[m_hitLocation].Tile[0], DungeonUtility.GetTilemap());
-                                    TileManager.GetTileDictionary().Remove(m_hitLocation);
-                                    TileManager.FillDictionary(m_hitLocation, pTile.PlacedOnTiles[m_hitLocation], DungeonUtility.GetTilemap());
+                                    TileManager.GetTileDictionaryWalls().Remove(m_hitLocation);
+                                    TileManager.FillDictionary(m_hitLocation, pTile.PlacedOnTiles[m_hitLocation], DungeonUtility.GetTilemap(),DictionaryType.Floor);
                                     TileManager.ChangeTileColour(DungeonUtility.GetTilemap(), m_hitLocation, pTile.PlacedOnTiles[m_hitLocation]);
                                     pTile.PlacedOnTiles.Remove(m_hitLocation);
                                     m_tilesAround.RemoveAt(i);

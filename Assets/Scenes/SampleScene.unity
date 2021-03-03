@@ -671,6 +671,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2472697036052015728, guid: 70b7b7d86201aa347a1655130c239a0a, type: 3}
+      propertyPath: m_dungeonDimensions.x
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 2472697036052015728, guid: 70b7b7d86201aa347a1655130c239a0a, type: 3}
+      propertyPath: m_dungeonDimensions.y
+      value: 150
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 70b7b7d86201aa347a1655130c239a0a, type: 3}
 --- !u!1001 &2815028619245585175
@@ -953,6 +961,10 @@ PrefabInstance:
     - target: {fileID: 7794398217402429787, guid: a7a415f56d409c94aa73a4fccef2d957, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 7794398217402429787, guid: a7a415f56d409c94aa73a4fccef2d957, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7a415f56d409c94aa73a4fccef2d957, type: 3}

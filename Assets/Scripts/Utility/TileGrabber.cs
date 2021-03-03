@@ -26,9 +26,19 @@ public class TileGrabber : MonoBehaviour
             {
                 Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 Vector3Int mousePosAdjusted = new Vector3Int((int)mousePos.x, (int)mousePos.y, 0);
-                if (TileManager.GetTileDictionary().ContainsKey(mousePosAdjusted))
+                if (TileManager.GetTileDictionaryFloor().ContainsKey(mousePosAdjusted))
                 {
-                    CustomTile cT = TileManager.GetTileDictionary()[mousePosAdjusted].CustomTile;
+                    CustomTile cT = TileManager.GetTileDictionaryFloor()[mousePosAdjusted].CustomTile;
+                    TileName = cT.name;
+                    TileType = cT.Type.ToString();
+                    MaxTileHealth = cT.Health;
+                    TileSpeed = cT.Speed;
+                    TileDamage = cT.Damage;
+                    TileScore = cT.ScoreDispense;
+                }
+                if (TileManager.GetTileDictionaryWalls().ContainsKey(mousePosAdjusted))
+                {
+                    CustomTile cT = TileManager.GetTileDictionaryWalls()[mousePosAdjusted].CustomTile;
                     TileName = cT.name;
                     TileType = cT.Type.ToString();
                     MaxTileHealth = cT.Health;

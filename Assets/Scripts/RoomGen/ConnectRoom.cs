@@ -27,8 +27,6 @@ namespace DungeonGeneration
         }
         static void BuildPathTile(Vector3Int _pos, int _posX, int _posY)
         {
-            if (!TileManager.GetTileDictionary().ContainsKey(_pos))
-            {
                 TileHolder tileHolder = TileManager.GetTileHolder(TileType.Path);
                 float randomFreq = Random.Range(1, tileHolder.Tiles.OrderByDescending(t => t.PickChance).First().PickChance);
                 List<CustomTile> tilesWithinRange = new List<CustomTile>();
@@ -36,9 +34,8 @@ namespace DungeonGeneration
                 int tempTileIndex;
                 tempTileIndex = Random.Range(0, tilesWithinRange.Count);
                 TileManager.BuildPiece(_posX, _posY, tempTileIndex, false, TileType.Path, DungeonUtility.GetTilemap());
-                TileManager.FillDictionary(_pos, tilesWithinRange[tempTileIndex], DungeonUtility.GetTilemap());
+                TileManager.FillDictionary(_pos, tilesWithinRange[tempTileIndex], DungeonUtility.GetTilemap(),DictionaryType.Floor);
                 TileManager.ChangeTileColour(DungeonUtility.GetTilemap(), _pos, tilesWithinRange[tempTileIndex]);
-            }
         }
         static void BuildToRoom()
         {

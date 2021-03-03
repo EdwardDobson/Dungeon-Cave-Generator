@@ -48,11 +48,11 @@ public class PlayerDamage : MonoBehaviour
         {
             if (m_map.GetTile(m_pos).name.Contains("Floor"))
             {
-                if(TileManager.GetTileDictionary()[m_pos].CustomTile.MaxAttackCoolDown > 0)
+                if(TileManager.GetTileDictionaryFloor()[m_pos].CustomTile.MaxAttackCoolDown > 0)
                 {
                     if (m_damageTiles.All(d => d.Pos != m_pos))
                     {
-                        CustomTile copy = Instantiate(TileManager.GetTileDictionary()[m_pos].CustomTile);
+                        CustomTile copy = Instantiate(TileManager.GetTileDictionaryFloor()[m_pos].CustomTile);
                         copy.Pos = m_pos;
                         m_damageTiles.Add(copy);
                     }

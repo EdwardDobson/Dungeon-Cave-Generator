@@ -47,11 +47,11 @@ namespace DungeonGeneration
 
             tempTileIndex = Random.Range(0, tilesWithinRange.Count);
             Vector3Int t = new Vector3Int(_buildPoint.x, _buildPoint.y, 0);
-                if (!TileManager.GetTileDictionary().ContainsKey(t))
+                if (!TileManager.GetTileDictionaryFloor().ContainsKey(t))
                 {
                     TileManager.BuildPiece(_buildPoint.x, _buildPoint.y, tempTileIndex, false, TileType.Floor, DungeonUtility.GetTilemap());
                     TileManager.ChangeTileColour(DungeonUtility.GetTilemap(), new Vector3Int(_buildPoint.x, _buildPoint.y, 0), tilesWithinRange[tempTileIndex]);
-                    TileManager.FillDictionary(new Vector3Int(_buildPoint.x, _buildPoint.y, 0), tilesWithinRange[tempTileIndex], DungeonUtility.GetTilemap());
+                    TileManager.FillDictionary(new Vector3Int(_buildPoint.x, _buildPoint.y, 0), tilesWithinRange[tempTileIndex], DungeonUtility.GetTilemap(),DictionaryType.Floor);
                      m_floorPositions.Add(t);
                 }
         }

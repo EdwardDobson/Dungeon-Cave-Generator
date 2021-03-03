@@ -6,6 +6,11 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 namespace DungeonGeneration
 {
+    public enum DictionaryType
+    {
+        Walls,
+        Floor
+    }
     public struct TileData
     {
         public TileBase TileBase;
@@ -18,11 +23,13 @@ namespace DungeonGeneration
         static List<TileHolder> m_tileHolders;
         static CustomTile m_tileToReturn;
         static List<CustomTile> m_tilesToReturn = new List<CustomTile>();
-        static Dictionary<Vector3Int, TileData> m_tileDatas;
+        static Dictionary<Vector3Int, TileData> m_tileDatasFloor;
+        static Dictionary<Vector3Int, TileData> m_tileDatasWalls;
         public  static void LoadTileManager()
         {
             tiledatas = Resources.LoadAll("Tiles", typeof(TileHolder));
-            m_tileDatas = new Dictionary<Vector3Int, TileData>();
+            m_tileDatasFloor = new Dictionary<Vector3Int, TileData>();
+            m_tileDatasWalls = new Dictionary<Vector3Int, TileData>();
             m_tileHolders = new List<TileHolder>();
             foreach (TileHolder t in tiledatas)
             {
@@ -30,18 +37,33 @@ namespace DungeonGeneration
                 m_tileHolders.Add(t);
             }
         }
-        public static void FillDictionary(Vector3Int _pos, CustomTile _customTile, Tilemap _map)
+        public static void FillDictionary(Vector3Int _pos, CustomTile _customTile, Tilemap _map,DictionaryType _dirType)
         {
             TileData td = new TileData();
             td.CustomTile = _customTile;
             td.TileBase = _map.GetTile(_pos);
-            if (!m_tileDatas.ContainsKey(_pos))
-                m_tileDatas.Add(_pos, td);
+            switch (_dirType)
+            {
+                case DictionaryType.Walls:
+                    if (!m_tileDatasWalls.ContainsKey(_pos))
+                        m_tileDatasWalls.Add(_pos, td);
+                    break;
+                case DictionaryType.Floor:
+                    if (!m_tileDatasFloor.ContainsKey(_pos))
+                        m_tileDatasFloor.Add(_pos, td);
+                    break;
+            }
+
+     
         }
 
-        public static Dictionary<Vector3Int, TileData> GetTileDictionary()
+        public static Dictionary<Vector3Int, TileData> GetTileDictionaryFloor()
         {
-            return m_tileDatas;
+            return m_tileDatasFloor;
+        }
+        public static Dictionary<Vector3Int, TileData> GetTileDictionaryWalls()
+        {
+            return m_tileDatasWalls;
         }
         public static CustomTile GetCertainTile(TileType _type, int _index)
         {
@@ -81,13 +103,20 @@ namespace DungeonGeneration
                 WallGen.AddWallPositions(posY);
         }
         //Used to manually place tiles in game
-        public static void PlaceTile(Vector3Int _pos,int _index, Tilemap _mapToRemove, Tilemap _mapToPlace, CustomTile _tile)
+        public static void PlaceTile(Vector3Int _pos,int _index, Tilemap _mapToRemove, Tilemap _mapToPlace, CustomTile _tile, DictionaryType _dirType)
         {
             RemoveTilePiece(_pos, _mapToRemove);
-            m_tileDatas.Remove(_pos);
+            if(_dirType == DictionaryType.Walls)
+            {
+            m_tileDatasWalls.Remove(_pos);
+            }
+            if (_dirType == DictionaryType.Floor)
+            {
+                m_tileDatasFloor.Remove(_pos);
+            }
             if (_mapToPlace.GetTile(_pos) == null)
                 _mapToPlace.SetTile(_pos, _tile.Tile[0]);
-            FillDictionary(_pos, _tile, _mapToPlace);
+            FillDictionary(_pos, _tile, _mapToPlace, _dirType);
             ChangeTileColour(_mapToPlace, _pos, _tile);
         }
         public static void ChangeTilePiece(Vector3Int _pos, int _tileIndex, TileType _type, Tilemap _map)

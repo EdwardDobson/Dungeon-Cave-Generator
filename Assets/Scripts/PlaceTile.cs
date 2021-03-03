@@ -152,28 +152,28 @@ public class PlaceTile : MonoBehaviour
             float distance = Vector3Int.Distance(v, new Vector3Int((int)transform.position.x, (int)transform.position.y, (int)transform.position.z));
             if (distance <= MaxRange)
             {
-                if (Input.GetMouseButton(1))
+                if (Input.GetMouseButtonDown(1))
                 {
                     if (WallGen.GetTilemap().GetTile(v) == null)
                     {
                         if (m_tilesForHotBar[m_index].Type == TileType.Wall)
                         {
                             if(!PlacedOnTiles.ContainsKey(v))
-                            PlacedOnTiles.Add(v, TileManager.GetTileDictionary()[v].CustomTile);
+                            PlacedOnTiles.Add(v, TileManager.GetTileDictionaryFloor()[v].CustomTile);
                             if (new Vector3Int((int)transform.position.x, (int)transform.position.y, 0) != v)
                             {
-                                TileManager.PlaceTile(v, m_index, DungeonUtility.GetTilemap(), WallGen.GetTilemap(), m_tilesForHotBar[m_index]);
+                                TileManager.PlaceTile(v, m_index, DungeonUtility.GetTilemap(), WallGen.GetTilemap(), m_tilesForHotBar[m_index],DictionaryType.Walls);
                                 Instantiate(m_audioPlaceSource);
                             }
                         }
                     }
                     if (DungeonUtility.GetTilemap().GetTile(v) != null && WallGen.GetTilemap().GetTile(v) == null)
                     {
-                        if(TileManager.GetTileDictionary()[v].CustomTile != m_tilesForHotBar[m_index])
+                        if(TileManager.GetTileDictionaryFloor()[v].CustomTile != m_tilesForHotBar[m_index])
                         {
                             if (m_tilesForHotBar[m_index].Type == TileType.Floor || m_tilesForHotBar[m_index].Type == TileType.Path)
                             {
-                                TileManager.PlaceTile(v, m_index, DungeonUtility.GetTilemap(), DungeonUtility.GetTilemap(), m_tilesForHotBar[m_index]);
+                                TileManager.PlaceTile(v, m_index, DungeonUtility.GetTilemap(), DungeonUtility.GetTilemap(), m_tilesForHotBar[m_index],DictionaryType.Floor);
                                 Instantiate(m_audioPlaceSource);
                             }
                         } 

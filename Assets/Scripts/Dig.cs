@@ -48,7 +48,7 @@ public class Dig : MonoBehaviour
                     {
                         if (WallsTouched.All(w => w.Pos != v))
                         {
-                            CustomTile copy = Instantiate(TileManager.GetTileDictionary()[v].CustomTile);
+                            CustomTile copy = Instantiate(TileManager.GetTileDictionaryWalls()[v].CustomTile);
                             copy.Pos = v;
                             WallsTouched.Add(copy);
                         }
@@ -76,26 +76,23 @@ public class Dig : MonoBehaviour
                                     {
                                         TileManager.RemoveTilePiece(v, WallTileMap);
                                         TileManager.ChangeTilePiece(v, 0, TileType.Path, Map);
-                                        TileManager.GetTileDictionary().Remove(v);
-                                        TileManager.FillDictionary(v, TileManager.GetTileHolder(TileType.Path).Tiles[0], Map);
+                                        TileManager.GetTileDictionaryWalls().Remove(v);
+                                        TileManager.FillDictionary(v, TileManager.GetTileHolder(TileType.Path).Tiles[0], Map,DictionaryType.Floor);
                                         TileManager.ChangeTileColour(Map, v, TileManager.GetTileHolder(TileType.Path).Tiles[0]);
                                     }
                                     //   TileManager.FillDictionary(v, TileManager.GetAllTiles(TileType.Path), 0, Map);
                                     for (int a = 0; a < m_pTile.PlacedOnTiles.Count; ++a)
                                     {
-                                  
                                         if (m_pTile.PlacedOnTiles.ContainsKey(v))
                                         {
                                             TileManager.RemoveTilePiece(v, WallTileMap);
                                             TileManager.ChangeTilePieceDig(v, m_pTile.PlacedOnTiles[v].Tile[0], Map);
-                                            TileManager.GetTileDictionary().Remove(v);
-                                            TileManager.FillDictionary(v, m_pTile.PlacedOnTiles[v], Map);
+                                            TileManager.GetTileDictionaryWalls().Remove(v);
+                                            TileManager.FillDictionary(v, m_pTile.PlacedOnTiles[v], Map,DictionaryType.Floor);
                                             TileManager.ChangeTileColour(Map, v, m_pTile.PlacedOnTiles[v]);
                                             m_pTile.PlacedOnTiles.Remove(v);
                                         }
-                                     
                                     }
-                                 
                                     WallsTouched.RemoveAt(i);
                                 }
                             }
