@@ -44,5 +44,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_tilesAround: []
-  Distance: 1
   pTile: {fileID: 0}
+  BreakingEffectPrefab: {fileID: 7484531073081907237, guid: b6432d5a014aaa045ba408a8b3c9e903, type: 3}
+  Directions: []
+  BombDamage: 5

@@ -1,18 +1,162 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using TMPro;
 using UnityEngine;
-
-public class InventoryDisplay : MonoBehaviour
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
+public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler
 {
-   
+    InventoryBackpack m_inventoryBackPack;
+    public GameObject SlotPrefab;
+    Vector3 m_scale = new Vector3(1, 1, 1);
+    public Transform Parent;
+    [SerializeField]
+    List<GameObject> Slots = new List<GameObject>();
+    public GameObject StorageHolder;
+    public Image TileImage;
+    public CustomTile TileToSwitch;
+    public GameObject EndPointSlot;
+    public GameObject StartPointSlot;
+
+    public CustomTile ChosenTile;
+    public CustomTile TransitTile;
+    public CustomTile EndTile;
+    public CustomTile SwappingTile;
+    int m_tileCount;
+    Color SlotColour = new Color(195, 195, 195);
     void Start()
     {
-        
+        m_inventoryBackPack = GameObject.Find("Player").GetComponent<InventoryBackpack>();
+        for (int i = 0; i < m_inventoryBackPack.StorageCapacity; ++i)
+        {
+            GameObject temp = Instantiate(SlotPrefab.gameObject);
+            temp.transform.SetParent(Parent);
+            temp.transform.localScale = m_scale;
+            Slots.Add(temp);
+        }
+        StorageHolder.SetActive(false);
     }
-
-
     void Update()
     {
-        
+        if (TileImage.gameObject.activeSelf)
+        {
+            TileImage.transform.position = Input.mousePosition;
+        }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (StorageHolder.activeSelf)
+                StorageHolder.SetActive(false);
+            else StorageHolder.SetActive(true);
+            DisplayCount();
+        }
+    
+   
+    }
+    public void OnPointerEnter(PointerEventData _data)
+    {
+        if (_data.pointerCurrentRaycast.gameObject.name.Contains("SlotPrefab"))
+        {
+           SetEndTile(_data.pointerCurrentRaycast.gameObject);
+            if(_data.pointerCurrentRaycast.gameObject.GetComponent<HoldCustomTile>().CustomTile != null && TransitTile != null)
+            SwappingTile = _data.pointerCurrentRaycast.gameObject.GetComponent<HoldCustomTile>().CustomTile;
+        }
+    }
+    public void AddToSlot(CustomTile _tile)
+    {
+      GameObject slot =  Slots.Where(s => s.transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile == null).First();
+        slot.transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile = _tile;
+        slot.transform.GetChild(0).GetComponent<Image>().sprite = _tile.DisplaySprite;
+        slot.transform.GetChild(0).GetComponent<Image>().color = _tile.TileColour;
+   
+    }
+    void DisplayCount()
+    {
+        for (int i = 0; i < m_inventoryBackPack.Storage.Count; ++i)
+        {
+            for(int a =0; a < m_inventoryBackPack.Storage[i].Items.Count; ++a )
+            {
+                for(int b = 0; b < Slots.Count; ++b)
+                {
+                    if(Slots[b].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile == m_inventoryBackPack.Storage[i].Items[a])
+                    {
+                        Slots[b].transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = m_inventoryBackPack.Storage[i].Items.Count.ToString();
+                    }
+                }
+            }
+        }
+    }
+    public void OnPointerClick(PointerEventData _data)
+    {
+  
+        if (_data.pointerCurrentRaycast.gameObject.GetComponent<HoldCustomTile>() != null && _data.pointerCurrentRaycast.gameObject.name.Contains("SlotPrefab"))
+        {
+                SetTransitTile();
+            if(TransitTile == null && _data.pointerCurrentRaycast.gameObject.GetComponent<HoldCustomTile>().CustomTile != null)
+            {
+                PickTile(_data.pointerCurrentRaycast.gameObject);
+            }
+            if(_data.pointerCurrentRaycast.gameObject.GetComponent<HoldCustomTile>().CustomTile == null)
+            {
+            PlaceEndTile(_data.pointerCurrentRaycast.gameObject);
+            }
+            else
+            {
+                SwapTile(_data.pointerCurrentRaycast.gameObject);
+              
+            }
+        }
+    }
+
+    void PickTile(GameObject _chosenTile)
+    {
+        ChosenTile = _chosenTile.GetComponent<HoldCustomTile>().CustomTile;
+        _chosenTile.GetComponent<HoldCustomTile>().CustomTile = null;
+        _chosenTile.GetComponent<Image>().sprite = null;
+        _chosenTile.GetComponent<Image>().color = SlotColour;
+        _chosenTile.transform.parent.GetChild(1).GetComponent<TextMeshProUGUI>().text = "";
+
+        TileImage.gameObject.SetActive(true);
+        TileImage.transform.GetChild(0).GetComponent<Image>().sprite = ChosenTile.DisplaySprite;
+        TileImage.transform.GetChild(0).GetComponent<Image>().color = ChosenTile.TileColour;
+    }
+    void SetTransitTile()
+    {
+        TransitTile = ChosenTile;
+
+    }
+    void SetEndTile(GameObject _exitTile)
+    {
+        EndTile = _exitTile.GetComponent<HoldCustomTile>().CustomTile;
+
+    }
+    void SwapTile(GameObject _otherTile)
+    {
+        ChosenTile = _otherTile.GetComponent<HoldCustomTile>().CustomTile;
+        _otherTile.GetComponent<HoldCustomTile>().CustomTile = TransitTile; 
+        TileImage.transform.GetChild(0).GetComponent<Image>().sprite = ChosenTile.DisplaySprite;
+        TileImage.transform.GetChild(0).GetComponent<Image>().color = ChosenTile.TileColour;
+        _otherTile.GetComponent<Image>().color = _otherTile.GetComponent<HoldCustomTile>().CustomTile.TileColour;
+        _otherTile.GetComponent<Image>().sprite = _otherTile.GetComponent<HoldCustomTile>().CustomTile.DisplaySprite;
+        DisplayCount();
+    }
+    void PlaceEndTile(GameObject _finalTile)
+    {
+        if(TransitTile != null)
+        {
+            _finalTile.GetComponent<HoldCustomTile>().CustomTile = TransitTile;
+            _finalTile.GetComponent<Image>().sprite = TransitTile.DisplaySprite;
+            _finalTile.GetComponent<Image>().color = TransitTile.TileColour;
+            for (int i = 0; i < m_inventoryBackPack.Storage.Count; ++i)
+            {
+                if (m_inventoryBackPack.Storage[i].Items.Contains(_finalTile.GetComponent<HoldCustomTile>().CustomTile))
+                {
+                    _finalTile.transform.parent.GetChild(1).GetComponent<TextMeshProUGUI>().text = m_inventoryBackPack.Storage[i].Items.Count.ToString();
+                }
+            }
+            TileImage.gameObject.SetActive(false);
+            TransitTile = null;
+            ChosenTile = null;
+        }
     }
 }

@@ -171,7 +171,7 @@ TilemapCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2357527219770146980}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
@@ -376,7 +376,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a4103f10fd0f9a43afc966e4c69346f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_dungeonDimensions: {x: 150, y: 150}
+  m_dungeonDimensions: {x: 25, y: 25}
   m_wallDimensions: {x: 0, y: 0}
   m_tilemap: {fileID: 2472697036052015729}
   m_walls: {fileID: 3637410397251561591}
@@ -389,11 +389,11 @@ MonoBehaviour:
   m_diamondMinRowAmount: 1
   m_diamondMaxRowAmount: 10
   m_maxDoorAmount: 1
-  m_squareRoomAmount: 25
-  m_lShapeRoomAmount: 25
-  m_TShapeRoomAmount: 25
-  m_circleRoomAmount: 25
-  m_diamondRoomAmount: 25
-  m_pathAmount: 25
-  m_scoreAmount: 2000
+  m_squareRoomAmount: 1
+  m_lShapeRoomAmount: 1
+  m_TShapeRoomAmount: 1
+  m_circleRoomAmount: 1
+  m_diamondRoomAmount: 1
+  m_pathAmount: 1
+  m_scoreAmount: 0
   ScorePrefab: {fileID: 6681691683834933147, guid: f2f88ab00049ad245a2606b3c8c8f8af, type: 3}
