@@ -11,10 +11,12 @@ public class PlacedBomb : MonoBehaviour
     public GameObject BreakingEffectPrefab;
     public float BombDamage;
     InventoryBackpack m_inventoryBackpack;
-
+    public GameObject BlockDrop;
+    AudioSource m_source;
     void Start()
     {
         m_inventoryBackpack = GameObject.Find("Player").GetComponent<InventoryBackpack>();
+        m_source = GameObject.Find("Player").GetComponent<AudioSource>();
         DirectionsCalculate();
         GetSurroundingTiles();
         DamageTiles();
@@ -29,6 +31,11 @@ public class PlacedBomb : MonoBehaviour
                 if (m_tilesAround[i].Health > 0)
                 {
                     m_tilesAround[i].Health -= BombDamage;
+                    if (m_tilesAround[i].BlockSound != null)
+                    {
+                        m_source.clip = m_tilesAround[i].BlockSound;
+                        m_source.Play();
+                    }
                 }
                 RemoveDeadTiles(i);
             }
@@ -72,8 +79,12 @@ public class PlacedBomb : MonoBehaviour
         {
             if (TileManager.GetTileHolder(m_tilesAround[_index].Type).Tiles[a].ID == m_tilesAround[_index].ID)
             {
+                Vector3 pos = new Vector3(m_tilesAround[_index].Pos.x + 0.5f, m_tilesAround[_index].Pos.y + 0.5f, 0);
                 m_tilesAround[_index] = TileManager.GetTileHolder(m_tilesAround[_index].Type).Tiles[a];
-                m_inventoryBackpack.AddToStorage(m_tilesAround[_index]);
+                GameObject c = Instantiate(BlockDrop, pos, Quaternion.identity);
+                c.GetComponent<BlockDrop>().SetUp(m_tilesAround[_index]);
+
+                m_tilesAround[_index] = TileManager.GetTileHolder(m_tilesAround[_index].Type).Tiles[a];
             }
         }
     }

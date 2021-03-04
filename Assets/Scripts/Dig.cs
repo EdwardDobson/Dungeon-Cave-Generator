@@ -16,6 +16,7 @@ public class Dig : MonoBehaviour
     public float MaxDigSpeed;
     public float CurrentDigSpeed;
     public List<CustomTile> WallsTouched = new List<CustomTile>();
+    public GameObject BlockDrop;
     PlaceTile m_pTile;
     [SerializeField]
     AudioSource m_source;
@@ -79,8 +80,12 @@ public class Dig : MonoBehaviour
                                         {
                                             if (TileManager.GetTileHolder(WallsTouched[i].Type).Tiles[a].ID == WallsTouched[i].ID)
                                             {
+                                                Vector3 pos = new Vector3(WallsTouched[i].Pos.x + 0.5f, WallsTouched[i].Pos.y + 0.5f, 0);
                                                 WallsTouched[i] = TileManager.GetTileHolder(WallsTouched[i].Type).Tiles[a];
-                                                GetComponent<InventoryBackpack>().AddToStorage(WallsTouched[i]);
+                                                GameObject c = Instantiate(BlockDrop, pos, Quaternion.identity);
+                                                c.GetComponent<BlockDrop>().SetUp(WallsTouched[i]);
+                                               
+                                          
                                             }
                                         }
                                     }

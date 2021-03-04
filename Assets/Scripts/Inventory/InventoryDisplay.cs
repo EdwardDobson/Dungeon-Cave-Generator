@@ -61,7 +61,6 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
             if (Input.GetKey(KeyCode.LeftShift) && Input.GetMouseButtonDown(0))
             {
                 ShiftClickTile();
-
             }
         }
 

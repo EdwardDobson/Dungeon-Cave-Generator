@@ -147,6 +147,7 @@ MonoBehaviour:
   MaxDigSpeed: 0.1
   CurrentDigSpeed: 0
   WallsTouched: []
+  BlockDrop: {fileID: 0}
   m_source: {fileID: 1068161047}
   BreakingEffectPrefab: {fileID: 7484531073081907237, guid: b6432d5a014aaa045ba408a8b3c9e903, type: 3}
 --- !u!58 &7794398217402429786
@@ -178,7 +179,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Bomb: {fileID: 4098400179186950490, guid: f2b5113f2fe6d5e47b0bdfa9e3192285, type: 3}
-  BombParent: {fileID: 0}
 --- !u!114 &1325159184
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -235,6 +235,8 @@ MonoBehaviour:
   MaxRange: 5
   BlockInfo: {fileID: 0}
   m_audioPlaceSource: {fileID: 7930459745383362355, guid: 34daeb9937afe394d9470a5b3ecd0251, type: 3}
+  HotBarScrolling: {fileID: 0}
+  BackPack: {fileID: 0}
 --- !u!82 &1068161047
 AudioSource:
   m_ObjectHideFlags: 0
@@ -361,3 +363,4 @@ MonoBehaviour:
   StorageCapacity: 30
   DisplayBuffer: []
   Display: {fileID: 0}
+  HotBarScrolling: {fileID: 0}
