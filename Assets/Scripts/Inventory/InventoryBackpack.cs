@@ -33,10 +33,22 @@ public class InventoryBackpack : MonoBehaviour
             {
                 if (Storage[i].Items.Any(t => t.ID == _customTile.ID))
                 {
-                    
                     Storage[i].Items.RemoveAt(0);
                     HotBarScrolling.UpdateCountDisplay(Storage[i].Items.Count);
                     Debug.Log("Remove Tile");
+                }
+            }
+        }
+    }
+    public void ClearStorage(CustomTile _customTile)
+    {
+        for (int i = 0; i < Storage.Count; ++i)
+        {
+            if (Storage[i].Items.Count > 0)
+            {
+                if (Storage[i].Items.Any(t => t.ID == _customTile.ID))
+                {
+                    Storage[i].Items.Clear();
                 }
             }
         }

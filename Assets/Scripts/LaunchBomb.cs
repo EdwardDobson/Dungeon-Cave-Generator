@@ -5,7 +5,6 @@ using UnityEngine;
 public class LaunchBomb : MonoBehaviour
 {
    public GameObject Bomb;
-    public Transform BombParent;
     void Update()
     {
         if(Input.GetKeyDown(KeyCode.Q))
@@ -15,6 +14,6 @@ public class LaunchBomb : MonoBehaviour
     }
     void DropBomb()
     {
-        GameObject bombClone = Instantiate(Bomb,transform.position,Quaternion.identity, BombParent);
+        GameObject bombClone = Instantiate(Bomb,transform.position,Quaternion.identity);
     }
 }

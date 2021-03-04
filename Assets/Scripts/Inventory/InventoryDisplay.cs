@@ -113,6 +113,12 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
               
             }
         }
+        if (_data.pointerCurrentRaycast.gameObject.name.Contains("Bin"))
+        {
+            m_inventoryBackPack.ClearStorage(ChosenTile);
+            ChosenTile = null;
+            TileImage.gameObject.SetActive(false);
+        }
     }
 
     void PickTile(GameObject _chosenTile)
