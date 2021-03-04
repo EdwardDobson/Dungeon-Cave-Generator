@@ -9,21 +9,21 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
 {
     InventoryBackpack m_inventoryBackPack;
     public GameObject SlotPrefab;
-
     Vector3 m_scale = new Vector3(1, 1, 1);
     public Transform Parent;
-
     [SerializeField]
     List<GameObject> Slots = new List<GameObject>();
-
-    public HotBarScrolling HotBar;
     public GameObject StorageHolder;
     public Image TileImage;
     public CustomTile TileToSwitch;
+    public GameObject EndPointSlot;
+    public GameObject StartPointSlot;
+
     public CustomTile ChosenTile;
     public CustomTile TransitTile;
     public CustomTile EndTile;
     public CustomTile SwappingTile;
+    int m_tileCount;
     Color SlotColour = new Color(195, 195, 195);
     void Start()
     {
@@ -36,7 +36,6 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
             Slots.Add(temp);
         }
         StorageHolder.SetActive(false);
-        HotBar = GetComponent<HotBarScrolling>();
     }
     void Update()
     {
@@ -65,17 +64,11 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
     }
     public void AddToSlot(CustomTile _tile)
     {
-        for(int i =0; i < HotBar.SlotsHotbar.Count; ++i)
-        {
-            if(HotBar.SlotsHotbar[i].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile == null)
-            {
-                HotBar.SlotsHotbar[i].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile = _tile;
-                HotBar.SlotsHotbar[i].transform.GetChild(0).GetComponent<Image>().sprite = _tile.DisplaySprite;
-                HotBar.SlotsHotbar[i].transform.GetChild(0).GetComponent<Image>().color = _tile.TileColour;
-                break;
-            }
-        }
-
+      GameObject slot =  Slots.Where(s => s.transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile == null).First();
+        slot.transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile = _tile;
+        slot.transform.GetChild(0).GetComponent<Image>().sprite = _tile.DisplaySprite;
+        slot.transform.GetChild(0).GetComponent<Image>().color = _tile.TileColour;
+   
     }
     void DisplayCount()
     {
@@ -127,7 +120,6 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
         TileImage.transform.GetChild(0).GetComponent<Image>().sprite = ChosenTile.DisplaySprite;
         TileImage.transform.GetChild(0).GetComponent<Image>().color = ChosenTile.TileColour;
     }
-
     void SetTransitTile()
     {
         TransitTile = ChosenTile;
