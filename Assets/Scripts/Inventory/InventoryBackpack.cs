@@ -14,7 +14,6 @@ public class InventoryBackpack : MonoBehaviour
     [SerializeField]
     public List<ItemInventory> Storage;
     public int StorageCapacity;
-    public List<CustomTile> DisplayBuffer;
     public InventoryDisplay Display;
     public HotBarScrolling HotBarScrolling;
     private void Start()
@@ -104,19 +103,14 @@ public class InventoryBackpack : MonoBehaviour
                 if (Storage[i].Items.Any(t => t.ID == _customTile.ID))
                 {
                     Storage[i].Items.Add(_customTile);
-                    if(DisplayBuffer.All(t => t.ID != _customTile.ID))
-                    DisplayBuffer.Add(_customTile);
                     if(Storage[i].Items.Count <= 1)
                         Display.AddToSlot(_customTile);
-
                     break;
                 }
             }
             if (Storage[i].Items.Count <= 0)
             {
                 Storage[i].Items.Add(_customTile);
-                if (DisplayBuffer.All(t => t.ID != _customTile.ID))
-                    DisplayBuffer.Add(_customTile);
                 Display.AddToSlot(_customTile);
                 break;
             }

@@ -713,6 +713,38 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2472697036052015728, guid: 70b7b7d86201aa347a1655130c239a0a, type: 3}
+      propertyPath: m_pathAmount
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 2472697036052015728, guid: 70b7b7d86201aa347a1655130c239a0a, type: 3}
+      propertyPath: m_TShapeRoomAmount
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 2472697036052015728, guid: 70b7b7d86201aa347a1655130c239a0a, type: 3}
+      propertyPath: m_circleRoomAmount
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 2472697036052015728, guid: 70b7b7d86201aa347a1655130c239a0a, type: 3}
+      propertyPath: m_lShapeRoomAmount
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 2472697036052015728, guid: 70b7b7d86201aa347a1655130c239a0a, type: 3}
+      propertyPath: m_squareRoomAmount
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 2472697036052015728, guid: 70b7b7d86201aa347a1655130c239a0a, type: 3}
+      propertyPath: m_diamondRoomAmount
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 2472697036052015728, guid: 70b7b7d86201aa347a1655130c239a0a, type: 3}
+      propertyPath: m_dungeonDimensions.x
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 2472697036052015728, guid: 70b7b7d86201aa347a1655130c239a0a, type: 3}
+      propertyPath: m_dungeonDimensions.y
+      value: 150
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 70b7b7d86201aa347a1655130c239a0a, type: 3}
 --- !u!1001 &2815028619245585175
@@ -1057,6 +1089,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2021844749, guid: ac0294aebad7413478d92baa80b97740, type: 3}
+      propertyPath: HotBarSize
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2021844749, guid: ac0294aebad7413478d92baa80b97740, type: 3}
       propertyPath: InventoryBackpack
       value: 
       objectReference: {fileID: 2010751336}
@@ -1067,6 +1103,10 @@ PrefabInstance:
     - target: {fileID: 664211619911969988, guid: ac0294aebad7413478d92baa80b97740, type: 3}
       propertyPath: m_Spacing.y
       value: 55
+      objectReference: {fileID: 0}
+    - target: {fileID: 664211619911969988, guid: ac0294aebad7413478d92baa80b97740, type: 3}
+      propertyPath: m_Padding.m_Left
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 4271319250126024307, guid: ac0294aebad7413478d92baa80b97740, type: 3}
       propertyPath: m_Name
@@ -1245,6 +1285,22 @@ PrefabInstance:
       propertyPath: HotBarScrolling
       value: 
       objectReference: {fileID: 2021844749}
+    - target: {fileID: 7794398216400669159, guid: a7a415f56d409c94aa73a4fccef2d957, type: 3}
+      propertyPath: StorageCapacity
+      value: 36
+      objectReference: {fileID: 0}
+    - target: {fileID: 7794398216400669159, guid: a7a415f56d409c94aa73a4fccef2d957, type: 3}
+      propertyPath: Storage.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7794398216400669159, guid: a7a415f56d409c94aa73a4fccef2d957, type: 3}
+      propertyPath: DisplayBuffer.Array.size
+      value: 36
+      objectReference: {fileID: 0}
+    - target: {fileID: 7794398216400669159, guid: a7a415f56d409c94aa73a4fccef2d957, type: 3}
+      propertyPath: Storage.Array.data[0].Items.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7794398217402429729, guid: a7a415f56d409c94aa73a4fccef2d957, type: 3}
       propertyPath: Map
       value: 

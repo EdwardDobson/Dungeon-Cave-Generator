@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b87fb5b0c88f4644fb2a9e567623d2ec, type: 3}
-  m_Name: Stone
+  m_Name: Purple Wall
   m_EditorClassIdentifier: 
   Tile:
   - {fileID: 11400000, guid: 9ed8494dace98294690c26800236abd8, type: 2}
@@ -18,15 +18,15 @@ MonoBehaviour:
   Attributes: 00000000
   BlockSound: {fileID: 8300000, guid: 01228ed0cc9f8dd46b1db4abdb6e37c5, type: 3}
   ShouldUseColour: 1
-  TileColour: {r: 0.122641504, g: 0.122641504, b: 0.122641504, a: 1}
-  TileBreakingColour: {r: 0.12156863, g: 0.12156863, b: 0.12156863, a: 1}
+  TileColour: {r: 0.29547048, g: 0.051886797, b: 1, a: 1}
+  TileBreakingColour: {r: 0.29411766, g: 0.050980393, b: 1, a: 1}
   DisplaySprite: {fileID: 0}
   Speed: 0
-  Health: 2
+  Health: 1
   Damage: 0
   CurrentAttackCoolDown: 0
   MaxAttackCoolDown: 0
   ScoreDispense: 0
-  ID: 3
+  ID: 18
   Pos: {x: 0, y: 0, z: 0}
-  PickChance: 50
+  PickChance: 25

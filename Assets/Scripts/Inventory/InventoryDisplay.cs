@@ -28,12 +28,13 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
     [SerializeField]
     GameObject m_clickedObj;
     Color SlotColour = new Color(195, 195, 195);
-
+    int m_slotFullindex;
     void Start()
     {
         m_inventoryBackPack = GameObject.Find("Player").GetComponent<InventoryBackpack>();
-
-        for (int i = 0; i < m_inventoryBackPack.StorageCapacity; ++i)
+        HotBar = GetComponent<HotBarScrolling>();
+        int amountOfSlots = m_inventoryBackPack.StorageCapacity - HotBar.HotBarSize;
+        for (int i = 0; i < amountOfSlots; ++i)
         {
             GameObject temp = Instantiate(SlotPrefab.gameObject);
             temp.transform.SetParent(Parent);
@@ -41,7 +42,7 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
             Slots.Add(temp);
         }
         StorageHolder.SetActive(false);
-        HotBar = GetComponent<HotBarScrolling>();
+
     }
     void Update()
     {
@@ -84,6 +85,19 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
     }
     public void AddToSlot(CustomTile _tile)
     {
+        if (HotBar.SlotsHotbar.All(i => i.transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile != null))
+        {
+            for (int a = 0; a < Slots.Count; ++a)
+            {
+                if (Slots[a].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile == null)
+                {
+                    Slots[a].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile = _tile;
+                    Slots[a].transform.GetChild(0).GetComponent<Image>().sprite = _tile.DisplaySprite;
+                    Slots[a].transform.GetChild(0).GetComponent<Image>().color = _tile.TileColour;
+                    break;
+                }
+            }
+        }
         for (int i = 0; i < HotBar.SlotsHotbar.Count; ++i)
         {
             if (HotBar.SlotsHotbar[i].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile == null)
@@ -93,8 +107,8 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
                 HotBar.SlotsHotbar[i].transform.GetChild(0).GetComponent<Image>().color = _tile.TileColour;
                 break;
             }
-        }
 
+        }
     }
     void DisplayCount()
     {
@@ -145,7 +159,7 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
             m_clickedObj.GetComponent<Image>().sprite = null;
             m_clickedObj.GetComponent<HoldCustomTile>().CustomTile = null;
             m_clickedObj.GetComponent<Image>().color = SlotColour;
-   
+
             if (m_clickedObj.transform.parent.parent.name.Contains("Content"))
             {
                 for (int i = 0; i < HotBar.SlotsHotbar.Count; ++i)
@@ -156,7 +170,7 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
                         HotBar.SlotsHotbar[i].transform.GetChild(0).GetComponent<Image>().sprite = ShiftSwapTile.DisplaySprite;
                         HotBar.SlotsHotbar[i].transform.GetChild(0).GetComponent<Image>().color = ShiftSwapTile.TileColour;
                         HotBar.SlotsHotbar[i].transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = m_clickedObj.transform.parent.GetChild(1).GetComponent<TextMeshProUGUI>().text;
-                 
+
                         ShiftSwapTile = null;
                         ChosenTile = null;
                         EndTile = null;

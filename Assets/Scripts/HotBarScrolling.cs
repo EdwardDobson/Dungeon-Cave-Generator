@@ -18,7 +18,7 @@ public class HotBarScrolling : MonoBehaviour
     public Transform ParentHotBar;
     public GameObject SlotPrefabHotBar;
     public InventoryBackpack InventoryBackpack;
-
+    public int HotBarSize;
     void Start()
     {
         FillHotBar();
@@ -111,7 +111,7 @@ public class HotBarScrolling : MonoBehaviour
     }
     void FillHotBar()
     {
-        for (int i = 0; i < 9; ++i)
+        for (int i = 0; i < HotBarSize; ++i)
         {
             GameObject temp = Instantiate(SlotPrefabHotBar.gameObject);
             temp.transform.SetParent(ParentHotBar);

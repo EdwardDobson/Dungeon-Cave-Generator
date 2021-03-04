@@ -1,11 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class BlockDrop : MonoBehaviour
 {
     public CustomTile Tile;
     public SpriteRenderer Sprite;
+    InventoryDisplay m_display;
+    private void Start()
+    {
+        m_display = GameObject.Find("Inventory").GetComponent<InventoryDisplay>();
+    }
     public void SetUp(CustomTile _tile)
     {
         Tile = _tile;
@@ -16,6 +22,9 @@ public class BlockDrop : MonoBehaviour
         
         }
         Sprite.color = _tile.TileColour;
+        transform.position = new Vector3(transform.position.x, transform.position.y, -0.1f);
+        m_display = GameObject.Find("Inventory").GetComponent<InventoryDisplay>();
+
     }
     private void Update()
     {
@@ -25,8 +34,12 @@ public class BlockDrop : MonoBehaviour
     {
         if(collision.gameObject.tag.Contains("Player"))
         {
-            collision.GetComponent<InventoryBackpack>().AddToStorage(Tile);
-            Destroy(gameObject);
+            if(collision.GetComponent<InventoryBackpack>().Storage.Any(i => i.Items.Count <=0) || m_display.HotBar.SlotsHotbar.Any(i => i.transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile == null))
+            {
+                collision.GetComponent<InventoryBackpack>().AddToStorage(Tile);
+                Destroy(gameObject);
+            }
+            
         }
     }
 }
