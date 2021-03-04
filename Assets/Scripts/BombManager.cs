@@ -36,7 +36,7 @@ public class BombManager : MonoBehaviour
                             m_tilesAround[b].Health -= BombDamage;
                         if (m_tilesAround[b].Health <= 0)
                         {
-                            pTile.gameObject.GetComponent<InventoryBackpack>().AddToStorage(m_tilesAround[b]);
+                      
                             Vector3 breakingPos = new Vector3(m_tilesAround[b].Pos.x + 0.5f, m_tilesAround[b].Pos.y + 0.5f, -2);
                             GameObject breakingEffectClone = Instantiate(BreakingEffectPrefab, breakingPos, Quaternion.identity);
                             ParticleSystem.MainModule breakingEffect = breakingEffectClone.GetComponent<ParticleSystem>().main;
@@ -53,6 +53,14 @@ public class BombManager : MonoBehaviour
                             {
                                 TileManager.ChangeTilePieceDig(m_tilesAround[b].Pos, TileManager.GetTileDictionaryFloor()[m_tilesAround[b].Pos].TileBase, DungeonUtility.GetTilemap());
                                 TileManager.ChangeTileColour(DungeonUtility.GetTilemap(), m_tilesAround[b].Pos, TileManager.GetTileDictionaryFloor()[m_tilesAround[b].Pos].CustomTile);
+                            }
+                            for (int a = 0; a < TileManager.GetTileHolder(m_tilesAround[b].Type).Tiles.Count; ++a)
+                            {
+                                if (TileManager.GetTileHolder(m_tilesAround[b].Type).Tiles[a].ID == m_tilesAround[b].ID)
+                                {
+                                    m_tilesAround[b] = TileManager.GetTileHolder(m_tilesAround[b].Type).Tiles[a];
+                                    pTile.gameObject.GetComponent<InventoryBackpack>().AddToStorage(m_tilesAround[b]);
+                                }
                             }
                             m_tilesAround.RemoveAt(b);
                         }

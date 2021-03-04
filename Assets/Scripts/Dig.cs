@@ -67,7 +67,14 @@ public class Dig : MonoBehaviour
                                 }
                                 if (WallsTouched[i].Health <= 0)
                                 {
-                                    GetComponent<InventoryBackpack>().AddToStorage(WallsTouched[i]);
+                                    for(int a = 0; a < TileManager.GetTileHolder(WallsTouched[i].Type).Tiles.Count; ++a)
+                                    {
+                                        if (TileManager.GetTileHolder(WallsTouched[i].Type).Tiles[a].ID == WallsTouched[i].ID)
+                                        {
+                                            WallsTouched[i] = TileManager.GetTileHolder(WallsTouched[i].Type).Tiles[a];
+                                            GetComponent<InventoryBackpack>().AddToStorage(WallsTouched[i]);
+                                        }
+                                    }
                                     Vector3 breakingPos = new Vector3(v.x + 0.5f, v.y + 0.5f,-2);
                                     GameObject breakingEffectClone = Instantiate(BreakingEffectPrefab, breakingPos, Quaternion.identity);
                                     ParticleSystem.MainModule breakingEffect = breakingEffectClone.GetComponent<ParticleSystem>().main;
