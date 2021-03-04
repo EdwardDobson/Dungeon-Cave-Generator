@@ -17,6 +17,9 @@ public class TileDisplayManager : MonoBehaviour, IPointerEnterHandler, IPointerE
     PlaceTile m_pTile;
     public CustomTile TileToSwitch;
     public GameObject TileDisplay;
+    public GameObject TileSlotHolder;
+    public List<GameObject> Slots;
+    public TextMeshProUGUI BlockInfo;
     bool m_tileDisplayOpen;
     string m_damageInfo;
     string m_healthInfo;
@@ -24,6 +27,9 @@ public class TileDisplayManager : MonoBehaviour, IPointerEnterHandler, IPointerE
     TileType m_tempType;
     public TMP_InputField InputField;
     Vector3 m_scale = new Vector3(1, 1, 1);
+    int m_index;
+    [SerializeField]
+    CustomTile m_tileToPlace;
     void Start()
     {
         m_pTile = GameObject.Find("Player").GetComponent<PlaceTile>();
@@ -60,6 +66,12 @@ public class TileDisplayManager : MonoBehaviour, IPointerEnterHandler, IPointerE
         {
             TileImage.gameObject.SetActive(false);
         }
+        SwitchBlockWithInput();
+        Scroll();
+        HighlightSlot();
+
+        m_tileToPlace = Slots[m_index].GetComponent<HoldCustomTile>().CustomTile;
+        PTile.PlaceTileClick(m_tileToPlace);
     }
 
     public void SwitchTab(int _index)
@@ -167,6 +179,7 @@ public class TileDisplayManager : MonoBehaviour, IPointerEnterHandler, IPointerE
                 TileImage.gameObject.SetActive(false);
             }
         }
+
     }
     public void OnPointerEnter(PointerEventData _data)
     {
@@ -203,5 +216,79 @@ public class TileDisplayManager : MonoBehaviour, IPointerEnterHandler, IPointerE
     public void OnPointerExit(PointerEventData _data)
     {
         TextInfo.SetActive(false);
+    }
+    void SwitchBlockWithInput()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            m_index = 0;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            m_index = 1;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            m_index = 2;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            m_index = 3;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            m_index = 4;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha6))
+        {
+            m_index = 5;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha7))
+        {
+            m_index = 6;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha8))
+        {
+            m_index = 7;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha9))
+        {
+            m_index = 8;
+        }
+    }
+    void Scroll()
+    {
+        float d = Input.GetAxis("Mouse ScrollWheel");
+        if (d > 0f)
+        {
+            m_index++;
+            if (m_index > TileSlotHolder.transform.childCount - 1)
+            {
+                m_index = 0;
+            }
+        }
+        else if (d < 0f)
+        {
+            m_index--;
+            if (m_index < 0)
+            {
+                m_index = TileSlotHolder.transform.childCount - 1;
+            }
+        }
+    }
+    void HighlightSlot()
+    {
+        for(int i = 0;i < Slots.Count; ++i)
+        {
+            if(i == m_index)
+            {
+                Slots[i].GetComponent<Image>().color = Slots[i].GetComponent<HoldCustomTile>().CustomTile.TileColour;
+                BlockInfo.GetComponent<TextMeshProUGUI>().text = Slots[i].GetComponent<HoldCustomTile>().CustomTile.name + "\nType: " + Slots[i].GetComponent<HoldCustomTile>().CustomTile.Type.ToString();
+            }
+            else
+            {
+                Slots[i].GetComponent<Image>().color = new Color(Slots[i].GetComponent<HoldCustomTile>().CustomTile.TileColour.r, Slots[i].GetComponent<HoldCustomTile>().CustomTile.TileColour.g, Slots[i].GetComponent<HoldCustomTile>().CustomTile.TileColour.b, 0.5f);
+            }
+        }
     }
 }

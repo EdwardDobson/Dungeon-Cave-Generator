@@ -20,16 +20,22 @@ public class Dig : MonoBehaviour
     [SerializeField]
     AudioSource m_source;
    public GameObject BreakingEffectPrefab;
+    GameManager m_manager;
+
     private void Start()
     {
         CurrentDigSpeed = MaxDigSpeed;
         m_pTile = GetComponent<PlaceTile>();
-
+        m_manager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
     void Update()
     {
         if (Time.timeScale > 0)
             FindTile();
+        if (m_manager.Creative)
+            DigDamage = 1000;
+        else
+            DigDamage = 1;
     }
 
     void FindTile()
@@ -67,14 +73,18 @@ public class Dig : MonoBehaviour
                                 }
                                 if (WallsTouched[i].Health <= 0)
                                 {
-                                    for(int a = 0; a < TileManager.GetTileHolder(WallsTouched[i].Type).Tiles.Count; ++a)
+                                    if(!m_manager.Creative)
                                     {
-                                        if (TileManager.GetTileHolder(WallsTouched[i].Type).Tiles[a].ID == WallsTouched[i].ID)
+                                        for (int a = 0; a < TileManager.GetTileHolder(WallsTouched[i].Type).Tiles.Count; ++a)
                                         {
-                                            WallsTouched[i] = TileManager.GetTileHolder(WallsTouched[i].Type).Tiles[a];
-                                            GetComponent<InventoryBackpack>().AddToStorage(WallsTouched[i]);
+                                            if (TileManager.GetTileHolder(WallsTouched[i].Type).Tiles[a].ID == WallsTouched[i].ID)
+                                            {
+                                                WallsTouched[i] = TileManager.GetTileHolder(WallsTouched[i].Type).Tiles[a];
+                                                GetComponent<InventoryBackpack>().AddToStorage(WallsTouched[i]);
+                                            }
                                         }
                                     }
+                           
                                     Vector3 breakingPos = new Vector3(v.x + 0.5f, v.y + 0.5f,-2);
                                     GameObject breakingEffectClone = Instantiate(BreakingEffectPrefab, breakingPos, Quaternion.identity);
                                     ParticleSystem.MainModule breakingEffect = breakingEffectClone.GetComponent<ParticleSystem>().main;

@@ -18,7 +18,7 @@ public class HotBarScrolling : MonoBehaviour
     public Transform ParentHotBar;
     public GameObject SlotPrefabHotBar;
     public InventoryBackpack InventoryBackpack;
-    // Start is called before the first frame update
+
     void Start()
     {
         FillHotBar();

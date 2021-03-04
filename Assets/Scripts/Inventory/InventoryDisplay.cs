@@ -25,14 +25,14 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
     public CustomTile EndTile;
     public CustomTile SwappingTile;
     public CustomTile ShiftSwapTile;
-    bool m_overInventorySlot;
-    bool m_shouldShiftClick;
     [SerializeField]
     GameObject m_clickedObj;
     Color SlotColour = new Color(195, 195, 195);
+
     void Start()
     {
         m_inventoryBackPack = GameObject.Find("Player").GetComponent<InventoryBackpack>();
+
         for (int i = 0; i < m_inventoryBackPack.StorageCapacity; ++i)
         {
             GameObject temp = Instantiate(SlotPrefab.gameObject);
@@ -61,11 +61,6 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
             if (Input.GetKey(KeyCode.LeftShift) && Input.GetMouseButtonDown(0))
             {
                 ShiftClickTile();
-
-            }
-            if (Input.GetKeyUp(KeyCode.LeftShift))
-            {
-                m_shouldShiftClick = false;
 
             }
         }
