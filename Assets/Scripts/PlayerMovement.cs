@@ -31,6 +31,10 @@ public class PlayerMovement : MonoBehaviour
         m_rb2d.velocity = moveVector * Speed;
         
     }
+    public bool GetPlayerPlaced()
+    {
+        return m_playerPlaced;
+    }
     //Handes border detection and movement
     void BorderDetection()
     {

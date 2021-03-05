@@ -8,23 +8,28 @@ public class BlockDrop : MonoBehaviour
     public CustomTile Tile;
     public SpriteRenderer Sprite;
     InventoryDisplay m_display;
+    GameManager m_manager;
     private void Start()
     {
-        m_display = GameObject.Find("Inventory").GetComponent<InventoryDisplay>();
+        if (!m_manager.Creative)
+            m_display = GameObject.Find("Inventory").GetComponent<InventoryDisplay>();
+
     }
     public void SetUp(CustomTile _tile)
     {
+        m_manager = GameObject.Find("GameManager").GetComponent<GameManager>();
         Tile = _tile;
         Sprite = GetComponent<SpriteRenderer>();
         if(_tile.DisplaySprite != null)
         {
             Sprite.sprite = _tile.DisplaySprite;
-        
         }
+        if(_tile.ShouldUseColour)
         Sprite.color = _tile.TileColour;
-        transform.position = new Vector3(transform.position.x, transform.position.y, -0.1f);
-        m_display = GameObject.Find("Inventory").GetComponent<InventoryDisplay>();
-
+        float randomPlacementX = Random.Range(transform.position.x - 0.5f, transform.position.x + 0.5f);
+        float randomPlacementY = Random.Range(transform.position.y - 0.5f, transform.position.y + 0.5f);
+        transform.position = new Vector3(randomPlacementX, randomPlacementY, -0.1f);
+   
     }
     private void Update()
     {

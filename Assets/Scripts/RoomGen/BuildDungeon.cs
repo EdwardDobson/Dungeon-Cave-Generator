@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.Tilemaps;
 public class BuildDungeon : MonoBehaviour
 {
@@ -49,6 +50,8 @@ public class BuildDungeon : MonoBehaviour
     [SerializeField]
     int m_scoreAmount;
     public GameObject ScorePrefab;
+    public List<GameObject> Scores;
+    public bool ScoresPlaced;
     void Start()
     {
         Stopwatch SW = new Stopwatch();
@@ -110,9 +113,10 @@ public class BuildDungeon : MonoBehaviour
                 FloorGen.GetFloorPositions().Remove(position);
                 GameObject scoreClone = Instantiate(ScorePrefab, positionReadjusted, Quaternion.identity, transform);
                 scoreClone.GetComponent<ScorePoint>().ScoreWorth = UnityEngine.Random.Range(1, 25);
+                Scores.Add(scoreClone);
             }
-        
         }
+        ScoresPlaced = true;
         SW.Stop();
         TimeSpan ts = SW.Elapsed;
         UnityEngine.Debug.Log("Building Dungeon Took: " + ts.Milliseconds + " ms");
@@ -120,5 +124,9 @@ public class BuildDungeon : MonoBehaviour
     public void PlaceWalls()
     {
         WallGen.PlaceWalls();
+    }
+    public int GetScoreAmount()
+    {
+        return m_scoreAmount;
     }
 }

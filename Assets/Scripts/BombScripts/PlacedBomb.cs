@@ -13,10 +13,12 @@ public class PlacedBomb : MonoBehaviour
     InventoryBackpack m_inventoryBackpack;
     public GameObject BlockDrop;
     AudioSource m_source;
+    GameManager m_manager;
     void Start()
     {
         m_inventoryBackpack = GameObject.Find("Player").GetComponent<InventoryBackpack>();
         m_source = GameObject.Find("Player").GetComponent<AudioSource>();
+        m_manager = GameObject.Find("GameManager").GetComponent<GameManager>();
         DirectionsCalculate();
         GetSurroundingTiles();
         DamageTiles();
@@ -79,11 +81,12 @@ public class PlacedBomb : MonoBehaviour
         {
             if (TileManager.GetTileHolder(m_tilesAround[_index].Type).Tiles[a].ID == m_tilesAround[_index].ID)
             {
-                Vector3 pos = new Vector3(m_tilesAround[_index].Pos.x + 0.5f, m_tilesAround[_index].Pos.y + 0.5f, 0);
-                m_tilesAround[_index] = TileManager.GetTileHolder(m_tilesAround[_index].Type).Tiles[a];
-                GameObject c = Instantiate(BlockDrop, pos, Quaternion.identity);
-                c.GetComponent<BlockDrop>().SetUp(m_tilesAround[_index]);
-
+                if(!m_manager.Creative)
+                {
+                    Vector3 pos = new Vector3(m_tilesAround[_index].Pos.x + 0.5f, m_tilesAround[_index].Pos.y + 0.5f, 0);
+                    GameObject c = Instantiate(BlockDrop, pos, Quaternion.identity);
+                    c.GetComponent<BlockDrop>().SetUp(m_tilesAround[_index]);
+                }
                 m_tilesAround[_index] = TileManager.GetTileHolder(m_tilesAround[_index].Type).Tiles[a];
             }
         }

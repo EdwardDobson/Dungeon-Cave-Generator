@@ -80,11 +80,14 @@ public class Dig : MonoBehaviour
                                         {
                                             if (TileManager.GetTileHolder(WallsTouched[i].Type).Tiles[a].ID == WallsTouched[i].ID)
                                             {
-                                                Vector3 pos = new Vector3(WallsTouched[i].Pos.x + 0.5f, WallsTouched[i].Pos.y + 0.5f, 0);
-                                                WallsTouched[i] = TileManager.GetTileHolder(WallsTouched[i].Type).Tiles[a];
-                                                GameObject c = Instantiate(BlockDrop, pos, Quaternion.identity);
-                                                c.GetComponent<BlockDrop>().SetUp(WallsTouched[i]);
+                                                if (!m_manager.Creative)
+                                                {
+                                                    Vector3 pos = new Vector3(WallsTouched[i].Pos.x + 0.5f, WallsTouched[i].Pos.y + 0.5f, 0);
+                                                    GameObject c = Instantiate(BlockDrop, pos, Quaternion.identity);
+                                                    c.GetComponent<BlockDrop>().SetUp(WallsTouched[i]);
+                                                }
                                                
+                                                WallsTouched[i] = TileManager.GetTileHolder(WallsTouched[i].Type).Tiles[a];
                                           
                                             }
                                         }
