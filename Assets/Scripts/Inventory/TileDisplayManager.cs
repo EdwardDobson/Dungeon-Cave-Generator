@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -69,7 +70,6 @@ public class TileDisplayManager : MonoBehaviour, IPointerEnterHandler, IPointerE
         SwitchBlockWithInput();
         Scroll();
         HighlightSlot();
-
         m_tileToPlace = Slots[m_index].GetComponent<HoldCustomTile>().CustomTile;
         PTile.PlaceTileClick(m_tileToPlace);
     }
@@ -99,14 +99,17 @@ public class TileDisplayManager : MonoBehaviour, IPointerEnterHandler, IPointerE
         {
             for (int i = 0; i < PTile.GetCustomTiles().Count; ++i)
             {
-                if (PTile.GetCustomTiles()[i].Type == m_tempType)
+                if(_index < 5)
                 {
-                    GameObject temp = Instantiate(SlotPrefab.gameObject);
-                    temp.transform.SetParent(Parent);
-                    temp.transform.localScale = m_scale;
-                    temp.transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile = PTile.GetCustomTiles()[i];
-                    temp.transform.GetChild(0).GetComponent<Image>().color = PTile.GetCustomTiles()[i].TileColour;
-                    temp.transform.GetChild(0).GetComponent<Image>().sprite = PTile.GetCustomTiles()[i].DisplaySprite;
+                    if (PTile.GetCustomTiles()[i].Type == m_tempType)
+                    {
+                        GameObject temp = Instantiate(SlotPrefab.gameObject);
+                        temp.transform.SetParent(Parent);
+                        temp.transform.localScale = m_scale;
+                        temp.transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile = PTile.GetCustomTiles()[i];
+                        temp.transform.GetChild(0).GetComponent<Image>().color = PTile.GetCustomTiles()[i].TileColour;
+                        temp.transform.GetChild(0).GetComponent<Image>().sprite = PTile.GetCustomTiles()[i].DisplaySprite;
+                    }
                 }
             }
         }
@@ -122,7 +125,6 @@ public class TileDisplayManager : MonoBehaviour, IPointerEnterHandler, IPointerE
                 temp.transform.GetChild(0).GetComponent<Image>().sprite = PTile.GetCustomTiles()[i].DisplaySprite;
             }
         }
-
     }
     public void Search()
     {
@@ -190,7 +192,7 @@ public class TileDisplayManager : MonoBehaviour, IPointerEnterHandler, IPointerE
             float xPos = _data.pointerCurrentRaycast.gameObject.transform.parent.position.x + _data.pointerCurrentRaycast.gameObject.GetComponent<RectTransform>().rect.width;
             Vector2 pos = new Vector2(xPos, _data.pointerCurrentRaycast.gameObject.transform.position.y);
             TextInfo.transform.position = pos;
-            string defaultInfo = hCustomTile.CustomTile.name + "\nType: " +
+            string defaultInfo = hCustomTile.CustomTile.TileName + "\nType: " +
                hCustomTile.CustomTile.Type.ToString() + "\n";
             if (hCustomTile.CustomTile.Damage > 0)
             {
@@ -210,7 +212,7 @@ public class TileDisplayManager : MonoBehaviour, IPointerEnterHandler, IPointerE
             }
             else
                 m_healthInfo = null;
-            TextInfo.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = defaultInfo + m_speedInfo + m_damageInfo + m_healthInfo;
+            TextInfo.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = defaultInfo + "ID: " + hCustomTile.CustomTile.ID+"\n" + m_speedInfo + m_damageInfo + m_healthInfo;
         }
     }
     public void OnPointerExit(PointerEventData _data)
@@ -283,7 +285,7 @@ public class TileDisplayManager : MonoBehaviour, IPointerEnterHandler, IPointerE
             if(i == m_index)
             {
                 Slots[i].GetComponent<Image>().color = Slots[i].GetComponent<HoldCustomTile>().CustomTile.TileColour;
-                BlockInfo.GetComponent<TextMeshProUGUI>().text = Slots[i].GetComponent<HoldCustomTile>().CustomTile.name + "\nType: " + Slots[i].GetComponent<HoldCustomTile>().CustomTile.Type.ToString();
+                BlockInfo.GetComponent<TextMeshProUGUI>().text = Slots[i].GetComponent<HoldCustomTile>().CustomTile.TileName + "\nType: " + Slots[i].GetComponent<HoldCustomTile>().CustomTile.Type.ToString();
             }
             else
             {

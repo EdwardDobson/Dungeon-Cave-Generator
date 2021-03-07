@@ -29,6 +29,11 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
     GameObject m_clickedObj;
     Color SlotColour = new Color(195, 195, 195);
     int m_slotFullindex;
+
+    string m_damageInfo;
+    string m_healthInfo;
+    string m_speedInfo;
+    public GameObject TextInfo;
     void Start()
     {
         m_inventoryBackPack = GameObject.Find("Player").GetComponent<InventoryBackpack>();
@@ -64,7 +69,10 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
                 ShiftClickTile();
             }
         }
-
+        if (!StorageHolder.activeSelf)
+        {
+            TextInfo.gameObject.SetActive(false);
+        }
     }
     public void OnPointerEnter(PointerEventData _data)
     {
@@ -72,9 +80,20 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
         {
             SetEndTile(_data.pointerCurrentRaycast.gameObject);
             if (_data.pointerCurrentRaycast.gameObject.GetComponent<HoldCustomTile>().CustomTile != null && TransitTile != null)
+            {
                 SwappingTile = _data.pointerCurrentRaycast.gameObject.GetComponent<HoldCustomTile>().CustomTile;
+            }
+           
             ShiftSwapTile = _data.pointerCurrentRaycast.gameObject.GetComponent<HoldCustomTile>().CustomTile;
             m_clickedObj = _data.pointerCurrentRaycast.gameObject;
+            if (_data.pointerCurrentRaycast.gameObject.GetComponent<HoldCustomTile>().CustomTile != null && _data.pointerCurrentRaycast.gameObject.transform.parent.parent.name != "Hotbar")
+            {
+                HoldCustomTile hCustomTile = _data.pointerCurrentRaycast.gameObject.GetComponent<HoldCustomTile>();
+                float xPos = _data.pointerCurrentRaycast.gameObject.transform.parent.position.x + _data.pointerCurrentRaycast.gameObject.GetComponent<RectTransform>().rect.width;
+                Vector2 pos = new Vector2(xPos, _data.pointerCurrentRaycast.gameObject.transform.position.y);
+                TextPopup(hCustomTile.CustomTile, pos);
+            }
+             
         }
 
     }
@@ -82,6 +101,7 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
     {
         ShiftSwapTile = null;
         m_clickedObj = null;
+        TextInfo.SetActive(false);
     }
     public void AddToSlot(CustomTile _tile)
     {
@@ -214,12 +234,10 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
     void SetTransitTile()
     {
         TransitTile = ChosenTile;
-
     }
     void SetEndTile(GameObject _exitTile)
     {
         EndTile = _exitTile.GetComponent<HoldCustomTile>().CustomTile;
-
     }
     void SwapTile(GameObject _otherTile)
     {
@@ -246,9 +264,38 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
                 }
             }
             TileImage.gameObject.SetActive(false);
-            ShiftSwapTile = ChosenTile;
+            Vector2 pos = new Vector2(Input.mousePosition.x + 100, Input.mousePosition.y);
+            TextPopup(TransitTile, pos);
+               ShiftSwapTile = ChosenTile;
             TransitTile = null;
             ChosenTile = null;
         }
+    }
+    void TextPopup(CustomTile _data, Vector2 _pos)
+    {
+        TextInfo.SetActive(true);
+  
+        TextInfo.transform.position = _pos;
+        string defaultInfo = _data.TileName + "\nType: " +
+           _data.Type.ToString() + "\n";
+        if (_data.Damage > 0)
+        {
+            m_damageInfo = "Damage: " + TransitTile.Damage.ToString() + "\n";
+        }
+        else
+            m_damageInfo = null;
+        if (_data.Speed > 0)
+        {
+            m_speedInfo = "Speed: " + _data.Speed.ToString() + "\n";
+        }
+        else
+            m_speedInfo = null;
+        if (_data.Health > 0)
+        {
+            m_healthInfo = "Health: " + _data.Health.ToString() + "\n";
+        }
+        else
+            m_healthInfo = null;
+        TextInfo.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = defaultInfo + "ID: " + _data.ID + "\n" + m_speedInfo + m_damageInfo + m_healthInfo;
     }
 }

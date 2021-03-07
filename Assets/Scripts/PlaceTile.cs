@@ -1,6 +1,7 @@
 using DungeonGeneration;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -38,6 +39,16 @@ public class PlaceTile : MonoBehaviour
         {
             if (!m_customTilesToPlace.Contains(TileManager.GetTileHolder(TileType.Floor).Tiles[i]))
                 m_customTilesToPlace.Add(TileManager.GetTileHolder(TileType.Floor).Tiles[i]);
+        }
+        for (int i = 0; i < TileManager.GetTileHolder(TileType.Path).Tiles.Count; ++i)
+        {
+            if (!m_customTilesToPlace.Contains(TileManager.GetTileHolder(TileType.Path).Tiles[i]))
+                m_customTilesToPlace.Add(TileManager.GetTileHolder(TileType.Path).Tiles[i]);
+        }
+        for (int i = 0; i < TileManager.GetTileHolder(TileType.Door).Tiles.Count; ++i)
+        {
+            if (!m_customTilesToPlace.Contains(TileManager.GetTileHolder(TileType.Door).Tiles[i]))
+                m_customTilesToPlace.Add(TileManager.GetTileHolder(TileType.Door).Tiles[i]);
         }
     }
     private void Awake()
@@ -138,7 +149,7 @@ public class PlaceTile : MonoBehaviour
                             }
                         }
                     }
-                    if(TileManager.GetTileDictionaryFloor()[v].CustomTile.ID != _tile.ID)
+                    if(TileManager.GetTileDictionaryFloor().ContainsKey(v) && TileManager.GetTileDictionaryFloor()[v].CustomTile.ID != _tile.ID)
                     {
                         if (DungeonUtility.GetTilemap().GetTile(v) != null && WallGen.GetTilemap().GetTile(v) == null)
                         {

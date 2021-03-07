@@ -27,6 +27,6 @@ MonoBehaviour:
   CurrentAttackCoolDown: 0.7479248
   MaxAttackCoolDown: 2
   ScoreDispense: 0
-  ID: 10
+  ID: 3
   Pos: {x: 0, y: 0, z: 0}
   PickChance: 5

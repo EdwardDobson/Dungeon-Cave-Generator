@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour
     int m_totalScoreNeeded;
     [SerializeField]
     int m_totalScore;
+    public DamagedTiles DamagedTiles;
     private void Start()
     {
         if (Creative)
@@ -116,6 +117,7 @@ public class GameManager : MonoBehaviour
     }
     private void Update()
     {
+        DamagedTiles.RemoveDamagedTiles();
         if(ScoreMode || ExitMode)
         {
             if(ScoreMode)

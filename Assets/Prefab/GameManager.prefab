@@ -44,5 +44,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Creative: 0
+  FindMode: 0
   CreativeCanvas: {fileID: 0}
   SurvivalCanvas: {fileID: 0}
+  Button: {fileID: 0}
+  FindModeButton: {fileID: 0}
+  Timer: 0
+  SetTimer: 0
+  FreeMode: 0
+  ScoreMode: 0
+  ExitMode: 0
+  Player: {fileID: 0}
+  EndPoint: {fileID: 0}
+  TimerText: {fileID: 0}
+  PlayerPosText: {fileID: 0}
+  EndPosText: {fileID: 0}
+  m_totalScoreNeeded: 0
+  m_totalScore: 0

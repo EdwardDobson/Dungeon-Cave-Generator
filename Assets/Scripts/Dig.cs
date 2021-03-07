@@ -63,10 +63,20 @@ public class Dig : MonoBehaviour
                         {
                             if (WallsTouched[i].Pos == v)
                             {
+                                for (int dT = 0; dT < m_manager.DamagedTiles.DamagedTilesList.Count; ++dT)
+                                {
+                                    if (m_manager.DamagedTiles.DamagedTilesList[dT].Pos == WallsTouched[i].Pos)
+                                    {
+                                        WallsTouched[i].Health = m_manager.DamagedTiles.DamagedTilesList[dT].Health;
+                                        Debug.Log("Damaged Tiles: " + m_manager.DamagedTiles.DamagedTilesList.Count);
+                                    }
+                                }
                                 if (WallsTouched[i].Health > 0)
                                 {
                                     WallsTouched[i].Health -= DigDamage;
-                                    if(WallsTouched[i].BlockSound != null)
+
+                                    m_manager.DamagedTiles.Add(WallsTouched[i]);
+                                    if (WallsTouched[i].BlockSound != null)
                                     {
                                         m_source.clip = WallsTouched[i].BlockSound;
                                         m_source.Play();
@@ -90,7 +100,6 @@ public class Dig : MonoBehaviour
                                             }
                                         }
                                     }
-                           
                                     Vector3 breakingPos = new Vector3(v.x + 0.5f, v.y + 0.5f,-2);
                                     GameObject breakingEffectClone = Instantiate(BreakingEffectPrefab, breakingPos, Quaternion.identity);
                                     ParticleSystem.MainModule breakingEffect = breakingEffectClone.GetComponent<ParticleSystem>().main;

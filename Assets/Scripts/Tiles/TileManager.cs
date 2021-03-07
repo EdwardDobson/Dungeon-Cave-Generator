@@ -23,18 +23,37 @@ namespace DungeonGeneration
         static List<TileHolder> m_tileHolders;
         static CustomTile m_tileToReturn;
         static List<CustomTile> m_tilesToReturn = new List<CustomTile>();
+        static List<CustomTile> m_allTiles = new List<CustomTile>();
         static Dictionary<Vector3Int, TileData> m_tileDatasFloor;
         static Dictionary<Vector3Int, TileData> m_tileDatasWalls;
+        static int m_idIndex = 1;
         public  static void LoadTileManager()
         {
             tiledatas = Resources.LoadAll("Tiles", typeof(TileHolder));
             m_tileDatasFloor = new Dictionary<Vector3Int, TileData>();
             m_tileDatasWalls = new Dictionary<Vector3Int, TileData>();
             m_tileHolders = new List<TileHolder>();
+
             foreach (TileHolder t in tiledatas)
             {
                 if(!m_tileHolders.Contains(t))
                 m_tileHolders.Add(t);
+          
+            }
+    
+            for (int i = 0; i < m_tileHolders.Count; ++i)
+            {
+                for(int a = 0; a < m_tileHolders[i].Tiles.Count; ++a)
+                {
+                    m_tileHolders[i].Tiles[a].ID = 0;
+                    m_allTiles.Add(m_tileHolders[i].Tiles[a]);
+                }
+            }
+       
+            for (int i = 0; i < m_allTiles.Count; ++i)
+            {
+                m_allTiles[i].ID = m_idIndex;
+                m_idIndex++;
             }
         }
         public static void FillDictionary(Vector3Int _pos, CustomTile _customTile, Tilemap _map,DictionaryType _dirType)

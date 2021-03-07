@@ -124,7 +124,7 @@ public class BuildDungeon : MonoBehaviour
             }
 
         }
-     
+        GameObject.Find("Player").GetComponent<PlaceTile>().FillTilesList();
         SW.Stop();
         TimeSpan ts = SW.Elapsed;
         UnityEngine.Debug.Log("Building Dungeon Took: " + ts.Milliseconds + " ms");

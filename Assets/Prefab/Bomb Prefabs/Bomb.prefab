@@ -47,7 +47,7 @@ MonoBehaviour:
   Directions: []
   m_tilesAround: []
   BreakingEffectPrefab: {fileID: 7484531073081907237, guid: b6432d5a014aaa045ba408a8b3c9e903, type: 3}
-  BombDamage: 5
+  BombDamage: 1
   BlockDrop: {fileID: 9176706611779030483, guid: ca554d3c25dd1a9429be58dd210a664f, type: 3}
 --- !u!212 &5249399031741633916
 SpriteRenderer:

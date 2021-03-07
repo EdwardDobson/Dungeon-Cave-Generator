@@ -146,7 +146,6 @@ GameObject:
   - component: {fileID: 5578876733692336619}
   - component: {fileID: 4933861484143542068}
   - component: {fileID: 2390745980806431746}
-  - component: {fileID: 474632464961263247}
   m_Layer: 5
   m_Name: Resume
   m_TagString: Untagged
@@ -256,9 +255,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 474632464961263247}
-        m_TargetAssemblyTypeName: Quit, Assembly-CSharp
-        m_MethodName: QuitGame
+      - m_Target: {fileID: 2985000388573063206}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: Resume
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -268,18 +267,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &474632464961263247
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2460278154715700844}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a48145a1d4f5fe44a9a42b5e44ef147e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2985000388573063203
 GameObject:
   m_ObjectHideFlags: 0
@@ -339,7 +326,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!114 &2985000388573063205
 MonoBehaviour:
@@ -394,6 +381,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_paused: 0
+  MainMenu: {fileID: 6779801133131840141}
 --- !u!1 &2985000389106862733
 GameObject:
   m_ObjectHideFlags: 0
@@ -691,7 +679,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2985000389335706477
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1042,7 +1030,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 0.33962262, g: 0.33962262, b: 0.33962262, a: 0.8666667}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1071,7 +1059,6 @@ GameObject:
   - component: {fileID: 4613162829408989587}
   - component: {fileID: 903446831198061820}
   - component: {fileID: 6779801133131840141}
-  - component: {fileID: 7914318220039603103}
   m_Layer: 5
   m_Name: MainMenu
   m_TagString: Untagged
@@ -1180,28 +1167,4 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 903446831198061820}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7914318220039603103}
-        m_TargetAssemblyTypeName: Quit, Assembly-CSharp
-        m_MethodName: QuitGame
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &7914318220039603103
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4101833760370192138}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a48145a1d4f5fe44a9a42b5e44ef147e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+      m_Calls: []

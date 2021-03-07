@@ -30,9 +30,18 @@ public class PlacedBomb : MonoBehaviour
         {
             if (Directions.Contains(m_tilesAround[i].Pos))
             {
+                for(int dT = 0; dT < m_manager.DamagedTiles.DamagedTilesList.Count; ++dT)
+                {
+                    if(m_manager.DamagedTiles.DamagedTilesList[dT].Pos == m_tilesAround[i].Pos)
+                    {
+                        m_tilesAround[i].Health = m_manager.DamagedTiles.DamagedTilesList[dT].Health;
+                        Debug.Log("Damaged Tiles: " + m_manager.DamagedTiles.DamagedTilesList.Count);
+                    }
+                }
                 if (m_tilesAround[i].Health > 0)
                 {
                     m_tilesAround[i].Health -= BombDamage;
+                    m_manager.DamagedTiles.Add(m_tilesAround[i]);
                     if (m_tilesAround[i].BlockSound != null)
                     {
                         m_source.clip = m_tilesAround[i].BlockSound;
@@ -40,6 +49,7 @@ public class PlacedBomb : MonoBehaviour
                     }
                 }
                 RemoveDeadTiles(i);
+            
             }
         }
     }
