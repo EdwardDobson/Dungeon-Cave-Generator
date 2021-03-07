@@ -10,24 +10,27 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b87fb5b0c88f4644fb2a9e567623d2ec, type: 3}
-  m_Name: Green Wall
+  m_Name: Diamond Ore
   m_EditorClassIdentifier: 
   Tile:
-  - {fileID: 11400000, guid: 461d3ae5225528e49bf04a3dd0b4d034, type: 2}
-  TileName: Green Brick
+  - {fileID: 11400000, guid: 9f4bfcf13979d544f97ce59a75389f5c, type: 2}
+  SpriteVariations:
+  - {fileID: 21300000, guid: 3b4c8b4a44af2ca4b8b0d0b9b29690c1, type: 3}
+  - {fileID: 21300000, guid: dcac96146dcb2b945b7912a9fae5b7e5, type: 3}
+  TileName: Diamond Ore
   Type: 0
   Attributes: 00000000
   BlockSound: {fileID: 8300000, guid: 01228ed0cc9f8dd46b1db4abdb6e37c5, type: 3}
-  ShouldUseColour: 1
-  TileColour: {r: 0, g: 1, b: 0.024334192, a: 1}
-  TileBreakingColour: {r: 0, g: 1, b: 0.023529412, a: 1}
-  DisplaySprite: {fileID: 21300000, guid: 76439c5c0fad4ce40a6ef5395dafe199, type: 3}
+  ShouldUseColour: 0
+  TileColour: {r: 1, g: 1, b: 1, a: 1}
+  TileBreakingColour: {r: 0, g: 1, b: 0.98039216, a: 1}
+  DisplaySprite: {fileID: 21300000, guid: 3b4c8b4a44af2ca4b8b0d0b9b29690c1, type: 3}
   Speed: 0
-  Health: 4
+  Health: 10
   Damage: 0
   CurrentAttackCoolDown: 0
   MaxAttackCoolDown: 0
-  ScoreDispense: 0
-  ID: 15
+  ScoreDispense: 1000
+  ID: 13
   Pos: {x: 0, y: 0, z: 0}
-  PickChance: 25
+  PickChance: 5

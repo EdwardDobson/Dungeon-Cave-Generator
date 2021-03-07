@@ -35,7 +35,6 @@ public class PlacedBomb : MonoBehaviour
                     if(m_manager.DamagedTiles.DamagedTilesList[dT].Pos == m_tilesAround[i].Pos)
                     {
                         m_tilesAround[i].Health = m_manager.DamagedTiles.DamagedTilesList[dT].Health;
-                        Debug.Log("Damaged Tiles: " + m_manager.DamagedTiles.DamagedTilesList.Count);
                     }
                 }
                 if (m_tilesAround[i].Health > 0)

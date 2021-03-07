@@ -25,7 +25,7 @@ namespace DungeonGeneration
 
             BuildToRoom();
         }
-        static void BuildPathTile(Vector3Int _pos, int _posX, int _posY)
+        static void BuildPathTile(Vector3Int _pos)
         {
                 TileHolder tileHolder = TileManager.GetTileHolder(TileType.Path);
                 float randomFreq = Random.Range(1, tileHolder.Tiles.OrderByDescending(t => t.PickChance).First().PickChance);
@@ -33,7 +33,7 @@ namespace DungeonGeneration
                 tilesWithinRange = tileHolder.Tiles.Where(t => t.PickChance >= randomFreq).ToList();
                 int tempTileIndex;
                 tempTileIndex = Random.Range(0, tilesWithinRange.Count);
-                TileManager.BuildPiece(_posX, _posY, tempTileIndex, false, TileType.Path, DungeonUtility.GetTilemap());
+                TileManager.BuildPiece(_pos, tilesWithinRange[tempTileIndex].Tile[0], DungeonUtility.GetTilemap());
                 TileManager.FillDictionary(_pos, tilesWithinRange[tempTileIndex], DungeonUtility.GetTilemap(),DictionaryType.Floor);
                 TileManager.ChangeTileColour(DungeonUtility.GetTilemap(), _pos, tilesWithinRange[tempTileIndex]);
         }
@@ -49,7 +49,7 @@ namespace DungeonGeneration
                 {
                     if (DungeonUtility.GetTilemap().GetTile(new Vector3Int(m_startPos.x - x, m_startPos.y, 0)) == null)
                     {
-                        BuildPathTile(new Vector3Int(m_startPos.x - x, m_startPos.y, 0), m_startPos.x - x, m_startPos.y);
+                        BuildPathTile(new Vector3Int(m_startPos.x - x, m_startPos.y, 0));
                     }
                 }
             }
@@ -59,13 +59,13 @@ namespace DungeonGeneration
                 {
                     if (DungeonUtility.GetTilemap().GetTile(new Vector3Int(m_startPos.x - x, m_startPos.y, 0)) == null)
                     {
-                        BuildPathTile(new Vector3Int(m_startPos.x - x, m_startPos.y, 0), m_startPos.x - x, m_startPos.y);
+                        BuildPathTile(new Vector3Int(m_startPos.x - x, m_startPos.y, 0));
                     }
                     if (DungeonUtility.GetTilemap().GetTile(new Vector3Int(m_startPos.x - x, m_startPos.y, 0)) != null)
                     {
                         if (DungeonUtility.GetTilemap().GetTile(new Vector3Int(m_startPos.x - x, m_startPos.y, 0)).name.Contains("Wall"))
                         {
-                            BuildPathTile(new Vector3Int(m_startPos.x - x, m_startPos.y, 0), m_startPos.x - x, m_startPos.y);
+                            BuildPathTile(new Vector3Int(m_startPos.x - x, m_startPos.y, 0));
                         }
                     }
                 }
@@ -76,7 +76,7 @@ namespace DungeonGeneration
                 {
                     if (DungeonUtility.GetTilemap().GetTile(new Vector3Int(m_startPos.x - xAmount, m_startPos.y - y, 0)) == null)
                     {
-                        BuildPathTile(new Vector3Int(m_startPos.x - xAmount, m_startPos.y - y, 0), m_startPos.x - xAmount, m_startPos.y - y);
+                        BuildPathTile(new Vector3Int(m_startPos.x - xAmount, m_startPos.y - y, 0));
                     }
                     if (DungeonUtility.GetTilemap().GetTile(new Vector3Int(m_startPos.x - xAmount, m_startPos.y - y - 1, 0)) != null)
                     {
@@ -86,9 +86,9 @@ namespace DungeonGeneration
                             TileManager.RemoveTilePiece(new Vector3Int(m_startPos.x - xAmount, m_startPos.y - y - 1, 0), DungeonUtility.GetTilemap());
 
                             if (DungeonUtility.GetTilemap().GetTile(new Vector3Int(m_startPos.x - xAmount, m_startPos.y - y - 2, 0)) == null)
-                                BuildPathTile(new Vector3Int(m_startPos.x - xAmount, m_startPos.y - y - 1, 0), m_startPos.x - xAmount, m_startPos.y - y - 1);
+                                BuildPathTile(new Vector3Int(m_startPos.x - xAmount, m_startPos.y - y - 1, 0));
                             else
-                                BuildPathTile(new Vector3Int(m_startPos.x - xAmount, m_startPos.y - y - 1, 0), m_startPos.x - xAmount, m_startPos.y - y - 1);
+                                BuildPathTile(new Vector3Int(m_startPos.x - xAmount, m_startPos.y - y - 1, 0));
                         }
                     }
                 }
@@ -101,7 +101,7 @@ namespace DungeonGeneration
                     {
                         if (DungeonUtility.GetTilemap().GetTile(new Vector3Int(m_startPos.x + -xAmount, m_startPos.y - y, 0)) == null)
                         {
-                            BuildPathTile(new Vector3Int(m_startPos.x + -xAmount, m_startPos.y - y, 0), m_startPos.x - xAmount, m_startPos.y - y);
+                            BuildPathTile(new Vector3Int(m_startPos.x + -xAmount, m_startPos.y - y, 0));
                         }
                         if (DungeonUtility.GetTilemap().GetTile(new Vector3Int(m_startPos.x + -xAmount, m_startPos.y - y + 1, 0)) != null)
                         {
@@ -109,9 +109,9 @@ namespace DungeonGeneration
                             {
                                 TileManager.RemoveTilePiece(new Vector3Int(m_startPos.x + -xAmount, m_startPos.y - y + 1, 0), DungeonUtility.GetTilemap());
                                 if (DungeonUtility.GetTilemap().GetTile(new Vector3Int(m_startPos.x - xAmount, m_startPos.y - y + 2, 0)) == null)
-                                    BuildPathTile(new Vector3Int(m_startPos.x + -xAmount, m_startPos.y - y + 1, 0), m_startPos.x - xAmount, m_startPos.y - y + 1);
+                                    BuildPathTile(new Vector3Int(m_startPos.x + -xAmount, m_startPos.y - y + 1, 0));
                                 else
-                                    BuildPathTile(new Vector3Int(m_startPos.x + -xAmount, m_startPos.y - y + 1, 0), m_startPos.x - xAmount, m_startPos.y - y + 1);
+                                    BuildPathTile(new Vector3Int(m_startPos.x + -xAmount, m_startPos.y - y + 1, 0));
                             }
                         }
                     }

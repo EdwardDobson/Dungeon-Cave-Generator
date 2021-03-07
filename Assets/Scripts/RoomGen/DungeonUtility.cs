@@ -13,11 +13,9 @@ namespace DungeonGeneration
 
         static Tilemap m_tilemap;
         static int m_doorAmount;
-        static Vector3Int m_tilePosition = new Vector3Int();
         static List<Vector2Int> m_buildPoints = new List<Vector2Int>();
         static Vector2Int m_buildPoint = new Vector2Int();
         static Vector2Int m_buildPointChoice = new Vector2Int();
-        static List<Vector3Int> m_tilePositions = new List<Vector3Int>();
         static List<Vector3Int> m_doorPositions = new List<Vector3Int>();
 
         static List<Vector3Int> m_otherTilePositions = new List<Vector3Int>();
@@ -28,33 +26,11 @@ namespace DungeonGeneration
             m_tilemap = _map;
             PlaceBuildPoints();
         }
-        #region TilePositionFunctions
-        public static Vector3Int GetTilePosition()
-        {
-            return m_tilePosition;
-        }
-        public static Vector3Int SetTilePosition(Vector3Int _pos)
-        {
-            return m_tilePosition = _pos;
-        }
-        public static List<Vector3Int> GetTilePositions()
-        {
-            return m_tilePositions;
-        }
-        #endregion
         public static Tilemap GetTilemap()
         {
             return m_tilemap;
         }
 
-        public static void SetDungeonDimensions(int _x, int _y)
-        {
-            m_dungeonDimensions = new Vector2Int(_x, _y);
-        }
-        public static Vector2Int GetDungeonDimensions()
-        {
-            return m_dungeonDimensions;
-        }
         public static List<Vector2Int> GetAllPathPoints()
         {
             return m_pathPoints;
@@ -75,10 +51,6 @@ namespace DungeonGeneration
         {
             return m_buildPoints;
         }
-        public static void RemoveBuildPoint()
-        {
-            m_buildPoints.Remove((Vector2Int)m_tilePosition);
-        }
         public static void PlaceBuildPoints()
         {
             for (int x = 0; x < m_dungeonDimensions.x; ++x)
@@ -91,14 +63,6 @@ namespace DungeonGeneration
             }
         }
         #endregion
-
-        public static void CheckIfWall(Vector2Int _wallDimensions)
-        {
-            if (m_tilePosition != new Vector3Int(m_buildPointChoice.x, m_buildPointChoice.y, 0) && m_tilePosition != new Vector3Int(m_buildPointChoice.x, m_buildPointChoice.y + _wallDimensions.y, 0) && m_tilePosition != new Vector3Int(m_buildPointChoice.x + _wallDimensions.x, m_buildPointChoice.y, 0))
-            {
-                m_tilePositions.Add(m_tilePosition);
-            }
-        }
 
         #region DoorFunctions
         public static void RandomiseDoorAmount(int _maxDoorAmount)

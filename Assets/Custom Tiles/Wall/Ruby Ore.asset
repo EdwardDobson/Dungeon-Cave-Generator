@@ -10,24 +10,26 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b87fb5b0c88f4644fb2a9e567623d2ec, type: 3}
-  m_Name: Dark Blue Wall
+  m_Name: Ruby Ore
   m_EditorClassIdentifier: 
   Tile:
-  - {fileID: 11400000, guid: 9ed8494dace98294690c26800236abd8, type: 2}
-  TileName: Dark Blue Brick
+  - {fileID: 11400000, guid: e970e65aaf329ba419d4771f96273c70, type: 2}
+  SpriteVariations:
+  - {fileID: 21300000, guid: 425aa91261dd60144abefea32d27e246, type: 3}
+  TileName: Ruby Ore
   Type: 0
   Attributes: 00000000
   BlockSound: {fileID: 8300000, guid: 01228ed0cc9f8dd46b1db4abdb6e37c5, type: 3}
-  ShouldUseColour: 1
-  TileColour: {r: 0, g: 0.07855129, b: 1, a: 1}
-  TileBreakingColour: {r: 0, g: 0.078431375, b: 1, a: 1}
-  DisplaySprite: {fileID: 0}
+  ShouldUseColour: 0
+  TileColour: {r: 1, g: 1, b: 1, a: 1}
+  TileBreakingColour: {r: 1, g: 0, b: 0.05490196, a: 1}
+  DisplaySprite: {fileID: 21300000, guid: 425aa91261dd60144abefea32d27e246, type: 3}
   Speed: 0
-  Health: 8
+  Health: 3
   Damage: 0
   CurrentAttackCoolDown: 0
   MaxAttackCoolDown: 0
-  ScoreDispense: 100
-  ID: 12
+  ScoreDispense: 50
+  ID: 11
   Pos: {x: 0, y: 0, z: 0}
-  PickChance: 5
+  PickChance: 15

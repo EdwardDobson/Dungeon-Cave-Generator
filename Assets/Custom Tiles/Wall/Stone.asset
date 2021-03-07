@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Tile:
   - {fileID: 11400000, guid: 9ed8494dace98294690c26800236abd8, type: 2}
+  SpriteVariations:
+  - {fileID: 7482667652216324306, guid: e422618a0fddb4543be6844d1e21e559, type: 3}
   TileName: Stone
   Type: 0
   Attributes: 00000000
@@ -30,4 +32,4 @@ MonoBehaviour:
   ScoreDispense: 0
   ID: 14
   Pos: {x: 0, y: 0, z: 0}
-  PickChance: 50
+  PickChance: 25

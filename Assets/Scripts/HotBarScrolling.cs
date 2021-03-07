@@ -78,7 +78,7 @@ public class HotBarScrolling : MonoBehaviour
             {
                 if (SlotsHotbar[m_index].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile != null)
                 {
-                m_hotBarImages[i].GetComponent<Image>().color = SlotsHotbar[m_index].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile.TileColour;
+                    m_hotBarImages[i].GetComponent<Image>().color = SlotsHotbar[m_index].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile.TileColour;
                     BlockInfo.GetComponent<TextMeshProUGUI>().text = SlotsHotbar[m_index].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile.TileName + "\nType: " + SlotsHotbar[m_index].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile.Type.ToString();
                     BlockInfo.transform.parent.gameObject.SetActive(true);
                     for (int a = 0; a < InventoryBackpack.Storage.Count; ++a)

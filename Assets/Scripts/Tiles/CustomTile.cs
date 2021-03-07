@@ -20,6 +20,7 @@ public enum Attributes
 public class CustomTile : ScriptableObject
 {
     public List< TileBase> Tile;
+    public Sprite[] SpriteVariations;
     public string TileName;
     public TileType Type;
     public Attributes[] Attributes;

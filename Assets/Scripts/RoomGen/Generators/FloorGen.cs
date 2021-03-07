@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Tilemaps;
+
 namespace DungeonGeneration
 {
     public class FloorGen
@@ -39,20 +41,26 @@ namespace DungeonGeneration
         }
         public static void PlaceFloorTile(Vector2Int _buildPoint)
         {
-            TileHolder tileHolder = TileManager.GetTileHolder(TileType.Floor);
-            float randomFreq = Random.Range(1, tileHolder.Tiles.OrderByDescending(t => t.PickChance).First().PickChance);
-            List<CustomTile> tilesWithinRange = new List<CustomTile>();
-            tilesWithinRange = tileHolder.Tiles.Where(t => t.PickChance >= randomFreq).ToList();
-            int tempTileIndex;
-
-            tempTileIndex = Random.Range(0, tilesWithinRange.Count);
             Vector3Int t = new Vector3Int(_buildPoint.x, _buildPoint.y, 0);
             if (!TileManager.GetTileDictionaryFloor().ContainsKey(t))
             {
-                TileManager.BuildPiece(_buildPoint.x, _buildPoint.y, tempTileIndex, false, TileType.Floor, DungeonUtility.GetTilemap());
+                TileHolder tileHolder = TileManager.GetTileHolder(TileType.Floor);
+                float randomFreq = Random.Range(1, tileHolder.Tiles.OrderByDescending(t => t.PickChance).First().PickChance);
+                List<CustomTile> tilesWithinRange = new List<CustomTile>();
+                tilesWithinRange = tileHolder.Tiles.Where(t => t.PickChance >= randomFreq).ToList();
+                int tempTileIndex;
+                tempTileIndex = Random.Range(0, tilesWithinRange.Count);
+                TileManager.BuildPiece(t, tilesWithinRange[tempTileIndex].Tile[0], DungeonUtility.GetTilemap());
                 TileManager.ChangeTileColour(DungeonUtility.GetTilemap(), new Vector3Int(_buildPoint.x, _buildPoint.y, 0), tilesWithinRange[tempTileIndex]);
                 TileManager.FillDictionary(new Vector3Int(_buildPoint.x, _buildPoint.y, 0), tilesWithinRange[tempTileIndex], DungeonUtility.GetTilemap(), DictionaryType.Floor);
                 m_floorPositions.Add(t);
+                Tile tileT = DungeonUtility.GetTilemap().GetTile<Tile>(t);
+                if (tilesWithinRange[tempTileIndex].SpriteVariations.Length > 0)
+                {
+                    Sprite sT = tilesWithinRange[tempTileIndex].SpriteVariations[Random.Range(0, tilesWithinRange[tempTileIndex].SpriteVariations.Length)];
+                    if (sT != null)
+                        tileT.sprite = sT;
+                }
             }
         }
         public static void LShape(int _roomLength, int _roomHeight, int _directionIndex)

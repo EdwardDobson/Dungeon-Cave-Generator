@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
@@ -10,6 +11,7 @@ public class GameManager : MonoBehaviour
     public bool FindMode;
     public GameObject CreativeCanvas;
     public GameObject SurvivalCanvas;
+    public GameObject ControlsInfoObj;
     public Button Button;
     public Button FindModeButton;
     public float Timer;
@@ -160,5 +162,16 @@ public class GameManager : MonoBehaviour
     public void SetFreeMode(bool _state)
     {
         FreeMode = _state;
+    }
+    public void HideControlsDescription()
+    {
+        if(ControlsInfoObj.activeSelf)
+        {
+            ControlsInfoObj.SetActive(false);
+        }
+        else
+        {
+            ControlsInfoObj.SetActive(true);
+        }
     }
 }

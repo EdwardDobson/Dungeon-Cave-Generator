@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Tile:
   - {fileID: 11400000, guid: 9ed8494dace98294690c26800236abd8, type: 2}
+  SpriteVariations:
+  - {fileID: 0}
   TileName: Purple Brick
   Type: 0
   Attributes: 00000000
@@ -28,6 +30,6 @@ MonoBehaviour:
   CurrentAttackCoolDown: 0
   MaxAttackCoolDown: 0
   ScoreDispense: 0
-  ID: 18
+  ID: 17
   Pos: {x: 0, y: 0, z: 0}
-  PickChance: 25
+  PickChance: 5

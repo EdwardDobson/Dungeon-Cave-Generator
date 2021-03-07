@@ -94,6 +94,10 @@ namespace DungeonGeneration
             }
             return m_tileToReturn;
         }
+        public static TileBase GetCertainTileBase(CustomTile _tile)
+        {
+            return _tile.Tile[0];
+        }
         public static List<CustomTile> GetAllTiles(TileType _type)
         {
             foreach (TileHolder t in m_tileHolders)
@@ -113,14 +117,10 @@ namespace DungeonGeneration
             return m_tileHolderToReturn;
         }
 
-        public static void BuildPiece(int _pos1, int _pos2, int _tileIndex, bool _isWallPiece, TileType _type, Tilemap _map)
+        public static void BuildPiece(Vector3Int _location,TileBase _tbTile, Tilemap _map)
         {
-            Vector3Int posY = new Vector3Int(_pos1, _pos2, 0);
-            if (_map.GetTile(posY) == null)
-                _map.SetTile(posY, GetCertainTile(_type, _tileIndex).Tile[0]);
-            DungeonUtility.SetTilePosition(posY);
-            if (_isWallPiece && !WallGen.GetWallPositions().Contains(posY))
-                WallGen.AddWallPositions(posY);
+            if (_map.GetTile(_location) == null)
+                _map.SetTile(_location, _tbTile);
         }
         //Used to manually place tiles in game
         public static void PlaceTile(Vector3Int _pos,int _index, Tilemap _mapToRemove, Tilemap _mapToPlace, CustomTile _tile, DictionaryType _dirType)

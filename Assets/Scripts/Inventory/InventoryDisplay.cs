@@ -28,7 +28,6 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
     [SerializeField]
     GameObject m_clickedObj;
     Color SlotColour = new Color(195, 195, 195);
-    int m_slotFullindex;
 
     string m_damageInfo;
     string m_healthInfo;
