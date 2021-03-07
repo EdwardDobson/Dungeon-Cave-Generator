@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Tile:
   - {fileID: 11400000, guid: 4a2681e4219e3784085df619a701c16e, type: 2}
+  TileName: Slow Path
   Type: 2
   Attributes: 02000000
   BlockSound: {fileID: 0}

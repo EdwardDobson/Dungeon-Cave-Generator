@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Tile:
   - {fileID: 11400000, guid: 3eb5bd367a6cf8d44b26eabcf38d18e0, type: 2}
+  TileName: Light Gray Tile
   Type: 1
   Attributes: 02000000
   BlockSound: {fileID: 0}

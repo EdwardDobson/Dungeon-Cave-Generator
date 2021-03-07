@@ -16,6 +16,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  TileName: Door
   Type: 3
   Attributes: 
   BlockSound: {fileID: 0}

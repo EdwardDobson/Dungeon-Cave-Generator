@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Tile:
   - {fileID: 11400000, guid: 461d3ae5225528e49bf04a3dd0b4d034, type: 2}
+  TileName: Dirt
   Type: 0
   Attributes: 00000000
   BlockSound: {fileID: 8300000, guid: 01228ed0cc9f8dd46b1db4abdb6e37c5, type: 3}
