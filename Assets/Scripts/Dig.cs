@@ -86,9 +86,7 @@ public class Dig : MonoBehaviour
                                                     GameObject c = Instantiate(BlockDrop, pos, Quaternion.identity);
                                                     c.GetComponent<BlockDrop>().SetUp(WallsTouched[i]);
                                                 }
-                                               
                                                 WallsTouched[i] = TileManager.GetTileHolder(WallsTouched[i].Type).Tiles[a];
-                                          
                                             }
                                         }
                                     }

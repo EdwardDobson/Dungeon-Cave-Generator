@@ -14,6 +14,11 @@ public class GameManager : MonoBehaviour
     public Button FindModeButton;
     public float Timer;
     public bool SetTimer;
+
+    public bool FreeMode;
+    public bool ScoreMode;
+    public bool ExitMode;
+
     public GameObject Player;
     public GameObject EndPoint;
     public TextMeshProUGUI TimerText;
@@ -35,6 +40,36 @@ public class GameManager : MonoBehaviour
             Button.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Creative";
         }
         m_dungeon = GameObject.Find("Map").GetComponent<BuildDungeon>();
+        if(GameObject.Find("LevelLoader")!= null)
+        {
+             FreeMode = GameObject.Find("LevelLoader").GetComponent<LevelLoad>().FreeMode;
+            ScoreMode = GameObject.Find("LevelLoader").GetComponent<LevelLoad>().ScoreMode;
+            ExitMode = GameObject.Find("LevelLoader").GetComponent<LevelLoad>().ExitMode;
+        }
+        DisableObjs();
+    }
+    void DisableObjs()
+    {
+        if(FreeMode)
+        {
+            TimerText.transform.parent.gameObject.SetActive(false);
+            GameObject.Find("ScoreBackground").gameObject.SetActive(false);
+            EndPosText.transform.parent.gameObject.SetActive(false);
+        }
+        if(ScoreMode)
+        {
+            TimerText.transform.parent.gameObject.SetActive(true);
+            GameObject.Find("ScoreBackground").gameObject.SetActive(true);
+            EndPosText.transform.parent.gameObject.SetActive(false);
+            Button.gameObject.SetActive(false);
+        }
+        if(ExitMode)
+        {
+            TimerText.transform.parent.gameObject.SetActive(true);
+            GameObject.Find("ScoreBackground").gameObject.SetActive(false);
+            Button.gameObject.SetActive(false);
+        }
+
     }
     public void SetCreative()
     {
@@ -81,31 +116,34 @@ public class GameManager : MonoBehaviour
     }
     private void Update()
     {
-        WinState();
-        if (!SetTimer && Player.GetComponent<PlayerMovement>().GetPlayerPlaced() && EndPoint.GetComponent<EndGoal>().GetEndPointSet())
+        if(ScoreMode || ExitMode)
         {
-            float distance = Vector2.Distance(Player.transform.position, EndPoint.transform.position);
-            Timer = distance * 2;
-            TimerText.text = "Time: " + Timer;
-            SetTimer = true;
+            if(ScoreMode)
+            WinState();
+            if (!SetTimer && Player.GetComponent<PlayerMovement>().GetPlayerPlaced() && EndPoint.GetComponent<EndGoal>().GetEndPointSet())
+            {
+                float distance = Vector2.Distance(Player.transform.position, EndPoint.transform.position);
+                Timer = distance * 2;
+                TimerText.text = "Time: " + Timer;
+                SetTimer = true;
+            }
+            if (SetTimer)
+            {
+                Timer -= Time.deltaTime;
+                TimerText.text = "Time: " + (int)Timer;
+                if (Timer <= 0)
+                {
+                    Destroy(Player);
+                    Time.timeScale = 0;
+                }
+            }
         }
         if (EndPoint != null && Player != null)
         {
-            PlayerPosText.text = "X: " +(int)Player.transform.position.x + "\nY: " + (int)Player.transform.position.y;
+            PlayerPosText.text = "X: " + (int)Player.transform.position.x + "\nY: " + (int)Player.transform.position.y;
             EndPosText.text = "End Door\nX: " + (int)EndPoint.transform.position.x + "\nY: " + (int)EndPoint.transform.position.y;
         }
- 
-        if (SetTimer && FindMode)
-        {
-            Timer -= Time.deltaTime;
-            TimerText.text = "Time: " + (int)Timer;
-            if (Timer <= 0)
-            {
-                Destroy(Player);
-                Time.timeScale = 0;
-            }
-        }
-      
+
         if (Creative)
         {
             CreativeCanvas.SetActive(true);
@@ -116,5 +154,9 @@ public class GameManager : MonoBehaviour
             CreativeCanvas.SetActive(false);
             SurvivalCanvas.SetActive(true);
         }
+    }
+    public void SetFreeMode(bool _state)
+    {
+        FreeMode = _state;
     }
 }

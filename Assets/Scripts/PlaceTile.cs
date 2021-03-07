@@ -106,6 +106,13 @@ public class PlaceTile : MonoBehaviour
                             {
                                 if (!m_manager.Creative && BackPack.GetStorageTypeCount(_tile) > 0)
                                 {
+                                    for (int a = 0; a < TileManager.GetTileHolder(newCopy.Type).Tiles.Count; ++a)
+                                    {
+                                        if (TileManager.GetTileHolder(newCopy.Type).Tiles[a].ID == newCopy.ID)
+                                        {
+                                            newCopy = TileManager.GetTileHolder(newCopy.Type).Tiles[a];
+                                        }
+                                    }
                                     TileManager.PlaceTile(v, m_index, DungeonUtility.GetTilemap(), WallGen.GetTilemap(), newCopy, DictionaryType.Walls);
                                     Instantiate(m_audioPlaceSource);
                                     BackPack.RemoveFromStorage(newCopy);
@@ -113,6 +120,13 @@ public class PlaceTile : MonoBehaviour
                                 }
                                 if (m_manager.Creative)
                                 {
+                                    for (int a = 0; a < TileManager.GetTileHolder(newCopy.Type).Tiles.Count; ++a)
+                                    {
+                                        if (TileManager.GetTileHolder(newCopy.Type).Tiles[a].ID == newCopy.ID)
+                                        {
+                                            newCopy = TileManager.GetTileHolder(newCopy.Type).Tiles[a];
+                                        }
+                                    }
                                     TileManager.PlaceTile(v, m_index, DungeonUtility.GetTilemap(), WallGen.GetTilemap(), newCopy, DictionaryType.Walls);
                                     Instantiate(m_audioPlaceSource);
                                 }
@@ -132,6 +146,13 @@ public class PlaceTile : MonoBehaviour
                             {
                                 if (!m_manager.Creative && BackPack.GetStorageTypeCount(_tile) > 0)
                                 {
+                                    for (int a = 0; a < TileManager.GetTileHolder(newCopy.Type).Tiles.Count; ++a)
+                                    {
+                                        if (TileManager.GetTileHolder(newCopy.Type).Tiles[a].ID == newCopy.ID)
+                                        {
+                                            newCopy = TileManager.GetTileHolder(newCopy.Type).Tiles[a];
+                                        }
+                                    }
                                     TileManager.PlaceTile(v, m_index, DungeonUtility.GetTilemap(), DungeonUtility.GetTilemap(), newCopy, DictionaryType.Floor);
 
                                     Instantiate(m_audioPlaceSource);
@@ -140,6 +161,13 @@ public class PlaceTile : MonoBehaviour
                                 }
                                 if (m_manager.Creative)
                                 {
+                                    for (int a = 0; a < TileManager.GetTileHolder(newCopy.Type).Tiles.Count; ++a)
+                                    {
+                                        if (TileManager.GetTileHolder(newCopy.Type).Tiles[a].ID == newCopy.ID)
+                                        {
+                                            newCopy = TileManager.GetTileHolder(newCopy.Type).Tiles[a];
+                                        }
+                                    }
                                     TileManager.PlaceTile(v, m_index, DungeonUtility.GetTilemap(), DungeonUtility.GetTilemap(), newCopy, DictionaryType.Floor);
                                     Instantiate(m_audioPlaceSource);
                                     Debug.Log("Placing floor: " + _tile.name);

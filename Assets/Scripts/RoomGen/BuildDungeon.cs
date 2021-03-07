@@ -104,19 +104,27 @@ public class BuildDungeon : MonoBehaviour
             ConnectRoom.FindOtherRoom();
         }
         WallGen.PlaceWalls();
-        for(int i = 0; i < m_scoreAmount; ++i)
+        if(GameObject.Find("LevelLoader") != null)
         {
-            if(FloorGen.GetFloorPositions().Count > 1)
+            if(GameObject.Find("LevelLoader").GetComponent<LevelLoad>().ScoreMode)
             {
-                Vector3Int position = FloorGen.GetFloorPositions()[UnityEngine.Random.Range(0, FloorGen.GetFloorPositions().Count)];
-                Vector3 positionReadjusted = new Vector3(position.x + 0.5f, position.y + 0.5f, 0);
-                FloorGen.GetFloorPositions().Remove(position);
-                GameObject scoreClone = Instantiate(ScorePrefab, positionReadjusted, Quaternion.identity, transform);
-                scoreClone.GetComponent<ScorePoint>().ScoreWorth = UnityEngine.Random.Range(1, 25);
-                Scores.Add(scoreClone);
+                for (int i = 0; i < m_scoreAmount; ++i)
+                {
+                    if (FloorGen.GetFloorPositions().Count > 1)
+                    {
+                        Vector3Int position = FloorGen.GetFloorPositions()[UnityEngine.Random.Range(0, FloorGen.GetFloorPositions().Count)];
+                        Vector3 positionReadjusted = new Vector3(position.x + 0.5f, position.y + 0.5f, 0);
+                        FloorGen.GetFloorPositions().Remove(position);
+                        GameObject scoreClone = Instantiate(ScorePrefab, positionReadjusted, Quaternion.identity, transform);
+                        scoreClone.GetComponent<ScorePoint>().ScoreWorth = UnityEngine.Random.Range(1, 25);
+                        Scores.Add(scoreClone);
+                    }
+                }
+                ScoresPlaced = true;
             }
+
         }
-        ScoresPlaced = true;
+     
         SW.Stop();
         TimeSpan ts = SW.Elapsed;
         UnityEngine.Debug.Log("Building Dungeon Took: " + ts.Milliseconds + " ms");
