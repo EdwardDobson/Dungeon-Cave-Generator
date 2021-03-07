@@ -50,7 +50,7 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
         {
             TileImage.transform.position = Input.mousePosition;
         }
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.I))
         {
             if (StorageHolder.activeSelf)
                 StorageHolder.SetActive(false);

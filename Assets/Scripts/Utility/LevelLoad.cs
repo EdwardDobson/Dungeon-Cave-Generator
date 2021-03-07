@@ -7,26 +7,47 @@ using UnityEngine.UI;
 
 public class LevelLoad : MonoBehaviour
 {
+    static LevelLoad m_instance;
     public GameObject LoadingBar;
     public bool FreeMode;
     public bool ScoreMode;
     public bool ExitMode;
     private void Start()
     {
-        DontDestroyOnLoad(gameObject);
+        DontDestroyOnLoad(this);
+
+        if (m_instance == null)
+        {
+            m_instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
-    public void LoadLevel()
+    public void LoadLevel(int _index)
     {
-        LoadingBar.SetActive(true);
-        StartCoroutine(LoadLevelAsync());
+        if (SceneManager.GetActiveScene().buildIndex == 0 && LoadingBar == null)
+        {
+            LoadingBar = GameObject.Find("Main").transform.GetChild(8).gameObject;
+        }
+        if (LoadingBar != null)
+        {
+            LoadingBar.SetActive(true);
+        }
+        StartCoroutine(LoadLevelAsync(_index));
     }
-    IEnumerator LoadLevelAsync()
+    IEnumerator LoadLevelAsync(int _index)
     {
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(1);
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(_index);
         while (!asyncLoad.isDone)
         {
-            LoadingBar.transform.GetChild(0).GetComponent<Slider>().value = asyncLoad.progress * 100;
-            LoadingBar.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = asyncLoad.progress * 100 + " %";
+            if (LoadingBar != null)
+            {
+                LoadingBar.transform.GetChild(0).GetComponent<Slider>().value = asyncLoad.progress * 100;
+                LoadingBar.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = asyncLoad.progress * 100 + " %";
+            }
+            
             yield return null;
         }
     }

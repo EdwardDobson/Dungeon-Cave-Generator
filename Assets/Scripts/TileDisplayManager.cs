@@ -37,7 +37,7 @@ public class TileDisplayManager : MonoBehaviour, IPointerEnterHandler, IPointerE
     }
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.I))
         {
             if (!m_tileDisplayOpen)
             {
