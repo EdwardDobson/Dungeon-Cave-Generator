@@ -50,9 +50,8 @@ namespace DungeonGeneration
                 tilesWithinRange = tileHolder.Tiles.Where(t => t.PickChance >= randomFreq).ToList();
                 int tempTileIndex;
                 tempTileIndex = Random.Range(0, tilesWithinRange.Count);
-                TileManager.BuildPiece(t, tilesWithinRange[tempTileIndex].Tile[0], DungeonUtility.GetTilemap());
-                TileManager.ChangeTileColour(DungeonUtility.GetTilemap(), new Vector3Int(_buildPoint.x, _buildPoint.y, 0), tilesWithinRange[tempTileIndex]);
-                TileManager.FillDictionary(new Vector3Int(_buildPoint.x, _buildPoint.y, 0), tilesWithinRange[tempTileIndex], DungeonUtility.GetTilemap(), DictionaryType.Floor);
+                TileManager.PlaceTile(t, tempTileIndex, null, DungeonUtility.GetTilemap(), tilesWithinRange[tempTileIndex], DictionaryType.Floor);
+     
                 m_floorPositions.Add(t);
                 Tile tileT = DungeonUtility.GetTilemap().GetTile<Tile>(t);
                 if (tilesWithinRange[tempTileIndex].SpriteVariations.Length > 0)
@@ -89,7 +88,6 @@ namespace DungeonGeneration
                             AddToFloorTilePositions(pos4);
                             break;
                     }
-
                 }
             }
         }

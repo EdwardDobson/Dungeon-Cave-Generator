@@ -22,27 +22,22 @@ namespace DungeonGeneration
         {
             m_startPos = m_roomsToConnect[Random.Range(0, m_roomsToConnect.Count)];
             m_endPos = m_roomsToConnect[Random.Range(0, m_roomsToConnect.Count)];
-
             BuildToRoom();
         }
         static void BuildPathTile(Vector3Int _pos)
         {
-                TileHolder tileHolder = TileManager.GetTileHolder(TileType.Path);
-                float randomFreq = Random.Range(1, tileHolder.Tiles.OrderByDescending(t => t.PickChance).First().PickChance);
-                List<CustomTile> tilesWithinRange = new List<CustomTile>();
-                tilesWithinRange = tileHolder.Tiles.Where(t => t.PickChance >= randomFreq).ToList();
-                int tempTileIndex;
-                tempTileIndex = Random.Range(0, tilesWithinRange.Count);
-                TileManager.BuildPiece(_pos, tilesWithinRange[tempTileIndex].Tile[0], DungeonUtility.GetTilemap());
-                TileManager.FillDictionary(_pos, tilesWithinRange[tempTileIndex], DungeonUtility.GetTilemap(),DictionaryType.Floor);
-                TileManager.ChangeTileColour(DungeonUtility.GetTilemap(), _pos, tilesWithinRange[tempTileIndex]);
+            TileHolder tileHolder = TileManager.GetTileHolder(TileType.Path);
+            float randomFreq = Random.Range(1, tileHolder.Tiles.OrderByDescending(t => t.PickChance).First().PickChance);
+            List<CustomTile> tilesWithinRange = new List<CustomTile>();
+            tilesWithinRange = tileHolder.Tiles.Where(t => t.PickChance >= randomFreq).ToList();
+            int tempTileIndex;
+            tempTileIndex = Random.Range(0, tilesWithinRange.Count);
+            TileManager.PlaceTile(_pos, tempTileIndex, WallGen.GetTilemap(), DungeonUtility.GetTilemap(), tilesWithinRange[tempTileIndex], DictionaryType.Floor);
         }
         static void BuildToRoom()
         {
             int xAmount = m_startPos.x - m_endPos.x;
             int yAmount = m_startPos.y - m_endPos.y;
-            //    Debug.Log("StartPos: " + m_startPos);
-            //    Debug.Log("EndPos: " + m_endPos);
             if (xAmount < 0)
             {
                 for (int x = 0; x > xAmount; --x)//Left

@@ -36,11 +36,7 @@ namespace DungeonGeneration
                     Vector3Int pos = new Vector3Int(x, y, 0);
                     if (tile == null)
                     {
-                    
-                        TileManager.BuildPiece(pos, tilesWithinRange[tempTileIndex].Tile[0], m_walls);
-                        TileManager.ChangeTileColour(m_walls, new Vector3Int(x, y, 0), tilesWithinRange[tempTileIndex]);
-                     //   DungeonUtility.AddWallPositions(new Vector3Int(x, y, 0));
-                        TileManager.FillDictionary(new Vector3Int(x, y, 0), tilesWithinRange[tempTileIndex], m_walls,DictionaryType.Walls);
+                        TileManager.PlaceTile(pos, tempTileIndex, null, m_walls, tilesWithinRange[tempTileIndex], DictionaryType.Walls);      
                         Tile tileT = m_walls.GetTile<Tile>(pos);
                         if (tilesWithinRange[tempTileIndex].SpriteVariations.Length >0)
                         {

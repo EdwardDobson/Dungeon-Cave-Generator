@@ -33,14 +33,11 @@ namespace DungeonGeneration
             m_tileDatasFloor = new Dictionary<Vector3Int, TileData>();
             m_tileDatasWalls = new Dictionary<Vector3Int, TileData>();
             m_tileHolders = new List<TileHolder>();
-
             foreach (TileHolder t in tiledatas)
             {
                 if(!m_tileHolders.Contains(t))
                 m_tileHolders.Add(t);
-          
             }
-    
             for (int i = 0; i < m_tileHolders.Count; ++i)
             {
                 for(int a = 0; a < m_tileHolders[i].Tiles.Count; ++a)
@@ -49,7 +46,6 @@ namespace DungeonGeneration
                     m_allTiles.Add(m_tileHolders[i].Tiles[a]);
                 }
             }
-       
             for (int i = 0; i < m_allTiles.Count; ++i)
             {
                 m_allTiles[i].ID = m_idIndex;
@@ -60,7 +56,6 @@ namespace DungeonGeneration
         {
             TileData td = new TileData();
             td.CustomTile = _customTile;
-        
             td.TileBase = _map.GetTile(_pos);
             switch (_dirType)
             {
@@ -73,10 +68,7 @@ namespace DungeonGeneration
                         m_tileDatasFloor.Add(_pos, td);
                     break;
             }
-
-     
         }
-
         public static Dictionary<Vector3Int, TileData> GetTileDictionaryFloor()
         {
             return m_tileDatasFloor;
@@ -116,23 +108,18 @@ namespace DungeonGeneration
             }
             return m_tileHolderToReturn;
         }
-
-        public static void BuildPiece(Vector3Int _location,TileBase _tbTile, Tilemap _map)
-        {
-            if (_map.GetTile(_location) == null)
-                _map.SetTile(_location, _tbTile);
-        }
-        //Used to manually place tiles in game
         public static void PlaceTile(Vector3Int _pos,int _index, Tilemap _mapToRemove, Tilemap _mapToPlace, CustomTile _tile, DictionaryType _dirType)
         {
             RemoveTilePiece(_pos, _mapToRemove);
             if(_dirType == DictionaryType.Walls)
             {
-            m_tileDatasWalls.Remove(_pos);
+                if(m_tileDatasWalls != null)
+                m_tileDatasWalls.Remove(_pos);
             }
             if (_dirType == DictionaryType.Floor)
             {
-                m_tileDatasFloor.Remove(_pos);
+                if (m_tileDatasFloor != null)
+                    m_tileDatasFloor.Remove(_pos);
             }
             if (_mapToPlace.GetTile(_pos) == null)
                 _mapToPlace.SetTile(_pos, _tile.Tile[0]);
@@ -149,6 +136,7 @@ namespace DungeonGeneration
         }
         public static void RemoveTilePiece(Vector3Int _pos, Tilemap _map)
         {
+            if(_map != null)
             _map.SetTile(_pos, null);
         }
         public static void ChangeTileColour(Tilemap _map, Vector3Int _tilePos, CustomTile _customTile)
