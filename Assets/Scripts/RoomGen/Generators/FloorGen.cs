@@ -36,7 +36,7 @@ namespace DungeonGeneration
         }
         public static void AddFloorPositions(Vector3Int _pos)
         {
-            if (_pos.x > -1 && _pos.y > -1)
+            if (_pos.x >= 0 && _pos.y >= 0)
                 m_floorPositions.Add(_pos);
         }
         public static void PlaceFloorTile(Vector2Int _buildPoint)
@@ -192,101 +192,107 @@ namespace DungeonGeneration
         }
         public static void Circle(int _startAmount, int _middleAmount)
         {
-            Vector2Int startPoint = new Vector2Int(DungeonUtility.GetBuildPoint().x + _startAmount / 2, DungeonUtility.GetBuildPoint().y);
+            Vector2Int startPoint = new Vector2Int(DungeonUtility.GetBuildPoint().x, DungeonUtility.GetBuildPoint().y);
             List<Vector2Int> CirclePoints = new List<Vector2Int>();
-            //Right Side
+            CircleRightSide(CirclePoints, _startAmount, startPoint, _middleAmount);
+            CircleLeftSide(CirclePoints, startPoint, _middleAmount);
+        }
+        static void CircleRightSide(List<Vector2Int> _circlePoints, int _startAmount, Vector2Int _startPoint, int _middleAmount)
+        {
             for (int i = 0; i < _startAmount; ++i)
             {
-                CircleFill(CirclePoints, startPoint, i, 0);
+                CircleFill(_circlePoints, _startPoint, i, 0);
             }
             for (int i = 0; i < _startAmount + 2; ++i)
             {
-                CircleFill(CirclePoints, startPoint, i, 1);
+                CircleFill(_circlePoints, _startPoint, i, 1);
             }
             for (int i = 0; i < _startAmount + 3; ++i)
             {
-                CircleFill(CirclePoints, startPoint, i, 2);
+                CircleFill(_circlePoints, _startPoint, i, 2);
             }
             for (int i = 0; i < _startAmount + 4; ++i)
             {
-                CircleFill(CirclePoints, startPoint, i, 3);
-
+                CircleFill(_circlePoints, _startPoint, i, 3);
             }
             for (int i = 0; i < _startAmount + 4; ++i)
             {
-                CircleFill(CirclePoints, startPoint, i, 4);
+                CircleFill(_circlePoints, _startPoint, i, 4);
             }
             int num = 0;
             for (int a = 0; a < _middleAmount; ++a)
             {
                 for (int i = 0; i < _startAmount + 5; ++i)
                 {
-                    CircleFill(CirclePoints, startPoint, i, 5 + a);
+                    CircleFill(_circlePoints, _startPoint, i, 5 + a);
                 }
                 num = 5 + a;
             }
             for (int i = 0; i < _startAmount + 4; ++i)
             {
-                CircleFill(CirclePoints, startPoint, i, num + 1);
+                CircleFill(_circlePoints, _startPoint, i, num + 1);
             }
             for (int i = 0; i < _startAmount + 4; ++i)
             {
-                CircleFill(CirclePoints, startPoint, i, num + 2);
+                CircleFill(_circlePoints, _startPoint, i, num + 2);
             }
             for (int i = 0; i < _startAmount + 3; ++i)
             {
-                CircleFill(CirclePoints, startPoint, i, num + 3);
+                CircleFill(_circlePoints, _startPoint, i, num + 3);
             }
             for (int i = 0; i < _startAmount + 1; ++i)
             {
-                CircleFill(CirclePoints, startPoint, i, num + 4);
+                CircleFill(_circlePoints, _startPoint, i, num + 4);
             }
             for (int i = 0; i < _startAmount; ++i)
             {
-                CircleFill(CirclePoints, startPoint, i, num + 5);
+                CircleFill(_circlePoints, _startPoint, i, num + 5);
             }
-            //LeftSide
-            for (int i = 0; i < _startAmount; ++i)
+        }
+        static void CircleLeftSide(List<Vector2Int> _circlePoints, Vector2Int _startPoint, int _middleAmount)
+        {
+            for (int i = 0; i < 3; ++i)
             {
-                CircleFill(CirclePoints, startPoint, -i, 1);
+                CircleFill(_circlePoints, _startPoint, -i, 1);
             }
-            for (int i = 0; i < _startAmount + 1; ++i)
+            for (int i = 0; i < 4; ++i)
             {
-                CircleFill(CirclePoints, startPoint, -i, 2);
+                CircleFill(_circlePoints, _startPoint, -i, 2);
             }
-            for (int i = 0; i < _startAmount + 2; ++i)
+            for (int i = 0; i < 5; ++i)
             {
-                CircleFill(CirclePoints, startPoint, -i, 3);
+                CircleFill(_circlePoints, _startPoint, -i, 3);
             }
-            for (int i = 0; i < _startAmount + 2; ++i)
+            for (int i = 0; i < 5; ++i)
             {
-                CircleFill(CirclePoints, startPoint, -i, 4);
+                CircleFill(_circlePoints, _startPoint, -i, 4);
             }
             int num2 = 0;
             for (int a = 0; a < _middleAmount; ++a)
             {
-                for (int i = 0; i < _startAmount + 3; ++i)
+                for (int i = 0; i < 6; ++i)
                 {
-                    CircleFill(CirclePoints, startPoint, -i, 5 + a);
+                    CircleFill(_circlePoints, _startPoint, -i, 5 + a);
                 }
                 num2 = 5 + a;
             }
-            for (int i = 0; i < _startAmount + 2; ++i)
+            for (int i = 0; i < 5; ++i)
             {
-                CircleFill(CirclePoints, startPoint, -i, num2 + 1);
+                CircleFill(_circlePoints, _startPoint, -i, num2 + 1);
             }
-            for (int i = 0; i < _startAmount + 2; ++i)
+            for (int i = 0; i < 5; ++i)
             {
-                CircleFill(CirclePoints, startPoint, -i, num2 + 2);
+                CircleFill(_circlePoints, _startPoint, -i, num2 + 2);
             }
-            for (int i = 0; i < _startAmount + 1; ++i)
+            for (int i = 0; i <4; ++i)
             {
-                CircleFill(CirclePoints, startPoint, -i, num2 + 3);
+                CircleFill(_circlePoints, _startPoint, -i, num2 + 3);
             }
-            for (int i = 0; i < _startAmount - 1; ++i)
+            for (int i = 0; i < 2; ++i)
             {
-                CircleFill(CirclePoints, startPoint, -i, num2 + 4);
+                CircleFill(_circlePoints, _startPoint, -i, num2 + 4);
             }
         }
     }
+ 
 }

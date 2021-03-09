@@ -39,5 +39,4 @@ public class CustomTile : ScriptableObject
     public Vector3Int Pos;
     [Range(1,100)]
     public float PickChance;
- 
 }

@@ -25,15 +25,11 @@ public class BuildDungeon : MonoBehaviour
     [SerializeField]
     int m_wallHeightLShape;
     [SerializeField]
-    int m_circleStartSize;
-    [SerializeField]
+    int m_circleStartSizeMax;
     int m_circleMiddleAmount;
-    [SerializeField]
-    int m_diamondMinRowAmount;
+    [Range(10,1000)]
     [SerializeField]
     int m_diamondMaxRowAmount;
-    [SerializeField]
-    int m_maxDoorAmount;
     [SerializeField]
     int m_squareRoomAmount;
     [SerializeField]
@@ -56,9 +52,9 @@ public class BuildDungeon : MonoBehaviour
     {
         Stopwatch SW = new Stopwatch();
         SW.Start();
+
         TileManager.LoadTileManager();
         DungeonUtility.DungeonSetup(m_dungeonDimensions, m_tilemap);
-
         WallGen.SetWallSizes(m_wallDimensions);
         WallGen.SetWallsTileMap(m_walls);
         for (int i = 0; i < m_squareRoomAmount; ++i)
@@ -86,13 +82,16 @@ public class BuildDungeon : MonoBehaviour
         }
         for (int i = 0; i < m_circleRoomAmount; ++i)
         {
+            int randomCircleSize = UnityEngine.Random.Range(1,m_circleStartSizeMax);
             DungeonUtility.PickBuildPoint();
-            FloorGen.Circle(m_circleStartSize, m_circleMiddleAmount);
+            m_circleMiddleAmount = randomCircleSize;
+            FloorGen.Circle(randomCircleSize, m_circleMiddleAmount);
         }
         for (int i = 0; i < m_diamondRoomAmount; ++i)
         {
+            int RandomMaxRowAmount = UnityEngine.Random.Range(10, m_diamondMaxRowAmount);
             DungeonUtility.PickBuildPoint();
-            FloorGen.Diamond(m_diamondMinRowAmount, m_diamondMaxRowAmount);
+            FloorGen.Diamond(1, RandomMaxRowAmount);
         }
         for (int i =0; i< FloorGen.GetFloorTilePositions().Count; ++i)
         {
@@ -122,13 +121,13 @@ public class BuildDungeon : MonoBehaviour
                 }
                 ScoresPlaced = true;
             }
-
         }
         GameObject.Find("Player").GetComponent<PlaceTile>().FillTilesList();
         SW.Stop();
         TimeSpan ts = SW.Elapsed;
         UnityEngine.Debug.Log("Building Dungeon Took: " + ts.Milliseconds + " ms");
     }
+    //Used for buttons
     public void PlaceWalls()
     {
         WallGen.PlaceWalls();
