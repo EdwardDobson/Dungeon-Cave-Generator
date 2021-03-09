@@ -68,7 +68,6 @@ public class Dig : MonoBehaviour
                                     if (m_manager.DamagedTiles.DamagedTilesList[dT].Pos == WallsTouched[i].Pos)
                                     {
                                         WallsTouched[i].Health = m_manager.DamagedTiles.DamagedTilesList[dT].Health;
-                                        Debug.Log("Damaged Tiles: " + m_manager.DamagedTiles.DamagedTilesList.Count);
                                     }
                                 }
                                 if (WallsTouched[i].Health > 0)
