@@ -20,7 +20,7 @@ public class Dig : MonoBehaviour
     PlaceTile m_pTile;
     [SerializeField]
     AudioSource m_source;
-   public GameObject BreakingEffectPrefab;
+    public GameObject BreakingEffectPrefab;
     GameManager m_manager;
 
     private void Start()
@@ -79,37 +79,37 @@ public class Dig : MonoBehaviour
                                     {
                                         m_source.clip = WallsTouched[i].BlockSound;
                                         m_source.Play();
-                                    }                        
+                                    }
                                 }
                                 if (WallsTouched[i].Health <= 0)
                                 {
-                                    if(!m_manager.Creative)
+                                    if (!m_manager.Creative)
                                     {
                                         for (int a = 0; a < TileManager.GetTileHolder(WallsTouched[i].Type).Tiles.Count; ++a)
                                         {
                                             if (TileManager.GetTileHolder(WallsTouched[i].Type).Tiles[a].ID == WallsTouched[i].ID)
                                             {
-                                                if (!m_manager.Creative)
-                                                {
-                                                    Vector3 pos = new Vector3(WallsTouched[i].Pos.x + 0.5f, WallsTouched[i].Pos.y + 0.5f, 0);
-                                                    GameObject c = Instantiate(BlockDrop, pos, Quaternion.identity);
-                                                    c.GetComponent<BlockDrop>().SetUp(WallsTouched[i]);
-                                                }
-                                                WallsTouched[i] = TileManager.GetTileHolder(WallsTouched[i].Type).Tiles[a];
+                                                ShouldBlockDrop(i);
+                                                    WallsTouched[i] = TileManager.GetTileHolder(WallsTouched[i].Type).Tiles[a];
                                             }
                                         }
                                     }
-                                    Vector3 breakingPos = new Vector3(v.x + 0.5f, v.y + 0.5f,-2);
+                                    Vector3 breakingPos = new Vector3(v.x + 0.5f, v.y + 0.5f, -2);
                                     GameObject breakingEffectClone = Instantiate(BreakingEffectPrefab, breakingPos, Quaternion.identity);
                                     ParticleSystem.MainModule breakingEffect = breakingEffectClone.GetComponent<ParticleSystem>().main;
-                                     breakingEffect.startColor = WallsTouched[i].TileBreakingColour;
-                                    GetComponent<Scoring>().IncreaseScore(WallsTouched[i].ScoreDispense);
+                                    breakingEffect.startColor = WallsTouched[i].TileBreakingColour;
+                                    if (WallsTouched[i].ShouldGiveScore)
+                                    {
+                                        WallsTouched[i].ScoreDispense = Random.Range(WallsTouched[i].ScoreDispenseMin, WallsTouched[i].ScoreDispenseMax);
+                                        WallsTouched[i].ScoreDispense = (int)WallsTouched[i].ScoreDispense;
+                                        GetComponent<Scoring>().IncreaseScore(WallsTouched[i].ScoreDispense);
+                                    }
                                     if (!m_pTile.PlacedOnTiles.ContainsKey(v))
                                     {
                                         TileManager.RemoveTilePiece(v, WallTileMap);
                                         TileManager.ChangeTilePiece(v, 0, TileType.Path, Map);
                                         TileManager.GetTileDictionaryWalls().Remove(v);
-                                        TileManager.FillDictionary(v, TileManager.GetTileHolder(TileType.Path).Tiles[0], Map,DictionaryType.Floor);
+                                        TileManager.FillDictionary(v, TileManager.GetTileHolder(TileType.Path).Tiles[0], Map, DictionaryType.Floor);
                                         TileManager.ChangeTileColour(Map, v, TileManager.GetTileHolder(TileType.Path).Tiles[0]);
                                     }
                                     //   TileManager.FillDictionary(v, TileManager.GetAllTiles(TileType.Path), 0, Map);
@@ -120,7 +120,7 @@ public class Dig : MonoBehaviour
                                             TileManager.RemoveTilePiece(v, WallTileMap);
                                             TileManager.ChangeTilePieceDig(v, m_pTile.PlacedOnTiles[v].Tile[0], Map);
                                             TileManager.GetTileDictionaryWalls().Remove(v);
-                                            TileManager.FillDictionary(v, m_pTile.PlacedOnTiles[v], Map,DictionaryType.Floor);
+                                            TileManager.FillDictionary(v, m_pTile.PlacedOnTiles[v], Map, DictionaryType.Floor);
                                             TileManager.ChangeTileColour(Map, v, m_pTile.PlacedOnTiles[v]);
                                             m_pTile.PlacedOnTiles.Remove(v);
                                         }
@@ -133,6 +133,21 @@ public class Dig : MonoBehaviour
                     }
                 }
             }
+        }
+    }
+    void ShouldBlockDrop(int _blockIndex)
+    {
+        if (!m_manager.Creative && !m_manager.ScoreMode)
+        {
+            Vector3 pos = new Vector3(WallsTouched[_blockIndex].Pos.x + 0.5f, WallsTouched[_blockIndex].Pos.y + 0.5f, 0);
+            GameObject c = Instantiate(BlockDrop, pos, Quaternion.identity);
+            c.GetComponent<BlockDrop>().SetUp(WallsTouched[_blockIndex]);
+        }
+        if (m_manager.ScoreMode && !WallsTouched[_blockIndex].ShouldGiveScore)
+        {
+            Vector3 pos = new Vector3(WallsTouched[_blockIndex].Pos.x + 0.5f, WallsTouched[_blockIndex].Pos.y + 0.5f, 0);
+            GameObject c = Instantiate(BlockDrop, pos, Quaternion.identity);
+            c.GetComponent<BlockDrop>().SetUp(WallsTouched[_blockIndex]);
         }
     }
 }

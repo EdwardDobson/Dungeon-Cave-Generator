@@ -29,7 +29,7 @@ public class LevelLoad : MonoBehaviour
     {
         if (SceneManager.GetActiveScene().buildIndex == 0 && LoadingBar == null)
         {
-            LoadingBar = GameObject.Find("Main").transform.GetChild(8).gameObject;
+            LoadingBar = GameObject.Find("Main").transform.GetChild(7).gameObject;
         }
         if (LoadingBar != null)
         {
@@ -47,7 +47,6 @@ public class LevelLoad : MonoBehaviour
                 LoadingBar.transform.GetChild(0).GetComponent<Slider>().value = asyncLoad.progress * 100;
                 LoadingBar.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = asyncLoad.progress * 100 + " %";
             }
-            
             yield return null;
         }
     }

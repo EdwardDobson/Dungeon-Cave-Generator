@@ -34,6 +34,9 @@ public class CustomTile : ScriptableObject
     public float Damage;
     public float CurrentAttackCoolDown;
     public float MaxAttackCoolDown;
+    public bool ShouldGiveScore;
+    public float ScoreDispenseMin;
+    public float ScoreDispenseMax;
     public float ScoreDispense;
     public int ID;
     public Vector3Int Pos;

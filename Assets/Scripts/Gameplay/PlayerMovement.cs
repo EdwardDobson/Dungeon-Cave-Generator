@@ -1,6 +1,7 @@
 using DungeonGeneration;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 public class PlayerMovement : MonoBehaviour
@@ -38,42 +39,13 @@ public class PlayerMovement : MonoBehaviour
     //Handes border detection and movement
     void BorderDetection()
     {
-        if (transform.position.x - 0.5f > 0)
-        {
-            if (Input.GetKey(KeyCode.A))
-            {
-                TileChecker();
-                h = Input.GetAxisRaw("Horizontal");
-            }
-            if (Input.GetKeyUp(KeyCode.A))
-            {
-                h = 0;
-            }
-        }
+        h = Input.GetAxisRaw("Horizontal");
+        v = Input.GetAxisRaw("Vertical");
+        if(h != 0 || v != 0)
+        TileChecker();
         if (transform.position.x - 0.5f < 0)
         {
             if (Input.GetKey(KeyCode.A))
-            {
-                h = 0;
-            }
-            if (Input.GetKey(KeyCode.D))
-            {
-                TileChecker();
-                h = Input.GetAxisRaw("Horizontal");
-            }
-            if (Input.GetKeyUp(KeyCode.D))
-            {
-                h = 0;
-            }
-        }
-        if (transform.position.x + 0.5f < Map.cellBounds.xMax)
-        {
-            if (Input.GetKey(KeyCode.D))
-            {
-                TileChecker();
-                h = Input.GetAxisRaw("Horizontal");
-            }
-            if (Input.GetKeyUp(KeyCode.D))
             {
                 h = 0;
             }
@@ -84,41 +56,10 @@ public class PlayerMovement : MonoBehaviour
             {
                 h = 0;
             }
-            if (Input.GetKey(KeyCode.A))
-            {
-                TileChecker();
-                h = Input.GetAxisRaw("Horizontal");
-            }
-            if (Input.GetKeyUp(KeyCode.A))
-            {
-                h = 0;
-            }
-
-        }
-        if (transform.position.y + 0.5f < Map.cellBounds.yMax)
-        {
-            if (Input.GetKey(KeyCode.W))
-            {
-                TileChecker();
-          v = Input.GetAxisRaw("Vertical");
-            }
-            if (Input.GetKeyUp(KeyCode.W))
-            {
-                v = 0;
-            }
         }
         if (transform.position.y + 0.5f > Map.cellBounds.yMax)
         {
             if (Input.GetKey(KeyCode.W))
-            {
-                v = 0;
-            }
-            if (Input.GetKey(KeyCode.S))
-            {
-                TileChecker();
-                v = Input.GetAxisRaw("Vertical");
-            }
-            if (Input.GetKeyUp(KeyCode.S))
             {
                 v = 0;
             }
@@ -129,27 +70,6 @@ public class PlayerMovement : MonoBehaviour
             {
                 v = 0;
             }
-            if (Input.GetKey(KeyCode.W))
-            {
-                TileChecker();
-                v = Input.GetAxisRaw("Vertical");
-            }
-            if (Input.GetKeyUp(KeyCode.W))
-            {
-                v = 0;
-            }
-        }
-        if (transform.position.y - 0.5f > 0)
-        {
-            if (Input.GetKey(KeyCode.S))
-            {
-                TileChecker();
-                v = Input.GetAxisRaw("Vertical");
-            }
-            if (Input.GetKeyUp(KeyCode.S))
-            {
-                v = 0;
-            }
         }
     }
     void TileChecker()
@@ -157,9 +77,7 @@ public class PlayerMovement : MonoBehaviour
         Vector3Int pos = new Vector3Int((int)transform.position.x, (int)transform.position.y, (int)transform.position.z);
         if (Map.GetTile(pos) != null)
         {
-            for(int a = 0; a < TileManager.GetTileDictionaryFloor()[pos].CustomTile.Attributes.Length; ++a)
-            {
-                if (TileManager.GetTileDictionaryFloor()[pos].CustomTile.Attributes[a] == Attributes.Speed)
+                if (TileManager.GetTileDictionaryFloor()[pos].CustomTile.Attributes.Any(a => a == Attributes.Speed))
                 {
                     CustomTile copy = Instantiate(TileManager.GetTileDictionaryFloor()[pos].CustomTile);
                     copy.Pos = pos;
@@ -168,7 +86,6 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
-}
 /*
  * 
  * Wall detection without tilemap colliders

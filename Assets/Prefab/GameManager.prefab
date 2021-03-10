@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1364234361229821305}
   - component: {fileID: 1364234361229821304}
+  - component: {fileID: 1392091137}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -47,6 +48,7 @@ MonoBehaviour:
   FindMode: 0
   CreativeCanvas: {fileID: 0}
   SurvivalCanvas: {fileID: 0}
+  ControlsInfoObj: {fileID: 0}
   Button: {fileID: 0}
   FindModeButton: {fileID: 0}
   Timer: 0
@@ -61,3 +63,17 @@ MonoBehaviour:
   EndPosText: {fileID: 0}
   m_totalScoreNeeded: 0
   m_totalScore: 0
+  DamagedTiles: {fileID: 1392091137}
+--- !u!114 &1392091137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1364234361229821303}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 014bdec854343b84db075ab9ac4b1f2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DamagedTilesList: []

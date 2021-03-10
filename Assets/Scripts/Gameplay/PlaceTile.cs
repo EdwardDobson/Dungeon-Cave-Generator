@@ -22,11 +22,13 @@ public class PlaceTile : MonoBehaviour
     public HotBarScrolling HotBarScrolling;
     public InventoryBackpack BackPack;
     GameManager m_manager;
+    EnemySpawner m_enemySpawner;
     private void Start()
     {
         PlacedOnTiles = new Dictionary<Vector3Int, CustomTile>();
         BackPack = GetComponent<InventoryBackpack>();
         m_manager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        m_enemySpawner = GameObject.Find("EnemySpawner").GetComponent<EnemySpawner>();
     }
     public void FillTilesList()
     {
@@ -102,92 +104,95 @@ public class PlaceTile : MonoBehaviour
         {
             Vector2 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector3Int v = new Vector3Int((int)worldPosition.x, (int)worldPosition.y, 0);
-            float distance = Vector3Int.Distance(v, new Vector3Int((int)transform.position.x, (int)transform.position.y, (int)transform.position.z));
-            CustomTile newCopy = Instantiate(_tile);
-            if (distance <= MaxRange)
+            if (m_enemySpawner.Enemies.All(g => new Vector3Int((int)g.transform.position.x, (int)g.transform.position.y, (int)g.transform.position.z) != v))
             {
-                if (Input.GetMouseButton(1))
+                float distance = Vector3Int.Distance(v, new Vector3Int((int)transform.position.x, (int)transform.position.y, (int)transform.position.z));
+                CustomTile newCopy = Instantiate(_tile);
+                if (distance <= MaxRange)
                 {
-                    if (WallGen.GetTilemap().GetTile(v) == null)
+                    if (Input.GetMouseButton(1))
                     {
-                        if (newCopy.Type == TileType.Wall)
+                        if (WallGen.GetTilemap().GetTile(v) == null)
                         {
-                         
-                            if (new Vector3Int((int)transform.position.x, (int)transform.position.y, 0) != v)
+                            if (newCopy.Type == TileType.Wall)
                             {
-                                if (!m_manager.Creative && BackPack.GetStorageTypeCount(_tile) > 0)
+                                if (new Vector3Int((int)transform.position.x, (int)transform.position.y, 0) != v)
                                 {
-                                    for (int a = 0; a < TileManager.GetTileHolder(newCopy.Type).Tiles.Count; ++a)
+                                    if (!m_manager.Creative && BackPack.GetStorageTypeCount(_tile) > 0)
                                     {
-                                        if (TileManager.GetTileHolder(newCopy.Type).Tiles[a].ID == newCopy.ID)
+                                        for (int a = 0; a < TileManager.GetTileHolder(newCopy.Type).Tiles.Count; ++a)
                                         {
-                                            newCopy = TileManager.GetTileHolder(newCopy.Type).Tiles[a];
+                                            if (TileManager.GetTileHolder(newCopy.Type).Tiles[a].ID == newCopy.ID)
+                                            {
+                                                newCopy = TileManager.GetTileHolder(newCopy.Type).Tiles[a];
+                                            }
                                         }
+                                        TileManager.PlaceTile(v, m_index, DungeonUtility.GetTilemap(), WallGen.GetTilemap(), newCopy, DictionaryType.Walls);
+                                        Instantiate(m_audioPlaceSource);
+                                        BackPack.RemoveFromStorage(newCopy);
+                                        newCopy = BackPack.GetNewItem(_tile);
                                     }
-                                    TileManager.PlaceTile(v, m_index, DungeonUtility.GetTilemap(), WallGen.GetTilemap(), newCopy, DictionaryType.Walls);
-                                    Instantiate(m_audioPlaceSource);
-                                    BackPack.RemoveFromStorage(newCopy);
-                                    newCopy = BackPack.GetNewItem(_tile);
-                                }
-                                if (m_manager.Creative)
-                                {
-                                    for (int a = 0; a < TileManager.GetTileHolder(newCopy.Type).Tiles.Count; ++a)
+                                    if (m_manager.Creative)
                                     {
-                                        if (TileManager.GetTileHolder(newCopy.Type).Tiles[a].ID == newCopy.ID)
+                                        for (int a = 0; a < TileManager.GetTileHolder(newCopy.Type).Tiles.Count; ++a)
                                         {
-                                            newCopy = TileManager.GetTileHolder(newCopy.Type).Tiles[a];
+                                            if (TileManager.GetTileHolder(newCopy.Type).Tiles[a].ID == newCopy.ID)
+                                            {
+                                                newCopy = TileManager.GetTileHolder(newCopy.Type).Tiles[a];
+                                            }
                                         }
+                                        TileManager.PlaceTile(v, m_index, DungeonUtility.GetTilemap(), WallGen.GetTilemap(), newCopy, DictionaryType.Walls);
+                                        Instantiate(m_audioPlaceSource);
                                     }
-                                    TileManager.PlaceTile(v, m_index, DungeonUtility.GetTilemap(), WallGen.GetTilemap(), newCopy, DictionaryType.Walls);
-                                    Instantiate(m_audioPlaceSource);
-                                }
-                                if (!PlacedOnTiles.ContainsKey(v))
-                                {
-                                    PlacedOnTiles.Add(v, TileManager.GetTileDictionaryFloor()[v].CustomTile);
-                                    Debug.Log(TileManager.GetTileDictionaryFloor()[v].CustomTile.name);
+                                    if (!PlacedOnTiles.ContainsKey(v))
+                                    {
+                                        PlacedOnTiles.Add(v, TileManager.GetTileDictionaryFloor()[v].CustomTile);
+                                        Debug.Log(TileManager.GetTileDictionaryFloor()[v].CustomTile.name);
+                                    }
                                 }
                             }
                         }
-                    }
-                    if(TileManager.GetTileDictionaryFloor().ContainsKey(v) && TileManager.GetTileDictionaryFloor()[v].CustomTile.ID != _tile.ID)
-                    {
-                        if (DungeonUtility.GetTilemap().GetTile(v) != null && WallGen.GetTilemap().GetTile(v) == null)
+                        if (TileManager.GetTileDictionaryFloor().ContainsKey(v) && TileManager.GetTileDictionaryFloor()[v].CustomTile.ID != _tile.ID)
                         {
-                            if (newCopy.Type == TileType.Floor || newCopy.Type == TileType.Path)
+                            if (DungeonUtility.GetTilemap().GetTile(v) != null && WallGen.GetTilemap().GetTile(v) == null)
                             {
-                                if (!m_manager.Creative && BackPack.GetStorageTypeCount(_tile) > 0)
+                                if (newCopy.Type == TileType.Floor || newCopy.Type == TileType.Path)
                                 {
-                                    for (int a = 0; a < TileManager.GetTileHolder(newCopy.Type).Tiles.Count; ++a)
+                                    if (!m_manager.Creative && BackPack.GetStorageTypeCount(_tile) > 0)
                                     {
-                                        if (TileManager.GetTileHolder(newCopy.Type).Tiles[a].ID == newCopy.ID)
+                                        for (int a = 0; a < TileManager.GetTileHolder(newCopy.Type).Tiles.Count; ++a)
                                         {
-                                            newCopy = TileManager.GetTileHolder(newCopy.Type).Tiles[a];
+                                            if (TileManager.GetTileHolder(newCopy.Type).Tiles[a].ID == newCopy.ID)
+                                            {
+                                                newCopy = TileManager.GetTileHolder(newCopy.Type).Tiles[a];
+                                            }
                                         }
-                                    }
-                                    TileManager.PlaceTile(v, m_index, DungeonUtility.GetTilemap(), DungeonUtility.GetTilemap(), newCopy, DictionaryType.Floor);
+                                        TileManager.PlaceTile(v, m_index, DungeonUtility.GetTilemap(), DungeonUtility.GetTilemap(), newCopy, DictionaryType.Floor);
 
-                                    Instantiate(m_audioPlaceSource);
-                                    BackPack.RemoveFromStorage(newCopy);
-                                    newCopy = BackPack.GetNewItem(_tile);
-                                }
-                                if (m_manager.Creative)
-                                {
-                                    for (int a = 0; a < TileManager.GetTileHolder(newCopy.Type).Tiles.Count; ++a)
-                                    {
-                                        if (TileManager.GetTileHolder(newCopy.Type).Tiles[a].ID == newCopy.ID)
-                                        {
-                                            newCopy = TileManager.GetTileHolder(newCopy.Type).Tiles[a];
-                                        }
+                                        Instantiate(m_audioPlaceSource);
+                                        BackPack.RemoveFromStorage(newCopy);
+                                        newCopy = BackPack.GetNewItem(_tile);
                                     }
-                                    TileManager.PlaceTile(v, m_index, DungeonUtility.GetTilemap(), DungeonUtility.GetTilemap(), newCopy, DictionaryType.Floor);
-                                    Instantiate(m_audioPlaceSource);
-                                    Debug.Log("Placing floor: " + _tile.name);
+                                    if (m_manager.Creative)
+                                    {
+                                        for (int a = 0; a < TileManager.GetTileHolder(newCopy.Type).Tiles.Count; ++a)
+                                        {
+                                            if (TileManager.GetTileHolder(newCopy.Type).Tiles[a].ID == newCopy.ID)
+                                            {
+                                                newCopy = TileManager.GetTileHolder(newCopy.Type).Tiles[a];
+                                            }
+                                        }
+                                        TileManager.PlaceTile(v, m_index, DungeonUtility.GetTilemap(), DungeonUtility.GetTilemap(), newCopy, DictionaryType.Floor);
+                                        Instantiate(m_audioPlaceSource);
+                                        Debug.Log("Placing floor: " + _tile.name);
+                                    }
                                 }
                             }
                         }
+
                     }
-          
                 }
+
             }
         }
 

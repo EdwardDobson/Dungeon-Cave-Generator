@@ -29,7 +29,10 @@ MonoBehaviour:
   Damage: 0
   CurrentAttackCoolDown: 0
   MaxAttackCoolDown: 0
-  ScoreDispense: 165
+  ShouldGiveScore: 1
+  ScoreDispenseMin: 500
+  ScoreDispenseMax: 1000
+  ScoreDispense: 0
   ID: 15
   Pos: {x: 0, y: 0, z: 0}
   PickChance: 5

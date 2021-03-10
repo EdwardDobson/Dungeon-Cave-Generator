@@ -13,10 +13,8 @@ public class PlayerDamage : MonoBehaviour
     [SerializeField]
     List<CustomTile> m_damageTiles = new List<CustomTile>();
     Vector3Int m_pos;
-    void Start()
-    {
+    public GameObject GameOverScreen;
 
-    }
     void Update()
     {
         TileDetection();
@@ -38,6 +36,10 @@ public class PlayerDamage : MonoBehaviour
                 m_damageTiles.RemoveAt(i);
                 GetComponent<PlayerMovement>().Speed = 5;
             }
+        }
+        if(Health <= 0)
+        {
+            GameOverScreen.SetActive(true);
         }
     }
     void TileDetection()
@@ -61,5 +63,6 @@ public class PlayerDamage : MonoBehaviour
             }
         }
     }
+
 
 }
