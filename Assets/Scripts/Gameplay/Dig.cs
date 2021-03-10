@@ -17,6 +17,7 @@ public class Dig : MonoBehaviour
     public float CurrentDigSpeed;
     public List<CustomTile> WallsTouched = new List<CustomTile>();
     public GameObject BlockDrop;
+    public bool CanDig;
     PlaceTile m_pTile;
     [SerializeField]
     AudioSource m_source;
@@ -32,11 +33,16 @@ public class Dig : MonoBehaviour
     void Update()
     {
         if (Time.timeScale > 0)
-            FindTile();
-        if (m_manager.Creative)
-            DigDamage = 1000;
-        else
-            DigDamage = 1;
+        {
+            if(CanDig)
+            {
+                FindTile();
+                if (m_manager.Creative)
+                    DigDamage = 1000;
+                else
+                    DigDamage = 1;
+            }
+        }
     }
 
     void FindTile()

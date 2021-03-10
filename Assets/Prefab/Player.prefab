@@ -20,6 +20,8 @@ GameObject:
   - component: {fileID: 1068161047}
   - component: {fileID: 66240656}
   - component: {fileID: 7794398216400669159}
+  - component: {fileID: 1010843059}
+  - component: {fileID: 1010843060}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -148,6 +150,7 @@ MonoBehaviour:
   CurrentDigSpeed: 0
   WallsTouched: []
   BlockDrop: {fileID: 9176706611779030483, guid: ca554d3c25dd1a9429be58dd210a664f, type: 3}
+  CanDig: 0
   m_source: {fileID: 1068161047}
   BreakingEffectPrefab: {fileID: 7484531073081907237, guid: b6432d5a014aaa045ba408a8b3c9e903, type: 3}
 --- !u!58 &7794398217402429786
@@ -192,9 +195,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_map: {fileID: 0}
-  Health: 1000
+  MaxHealth: 100
   m_damageTiles: []
   GameOverScreen: {fileID: 0}
+  HealthBar: {fileID: 0}
 --- !u!114 &1325159186
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -364,3 +368,36 @@ MonoBehaviour:
   StorageCapacity: 36
   Display: {fileID: 0}
   HotBarScrolling: {fileID: 0}
+--- !u!114 &1010843059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7794398217402429787}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1a96135b35d0ea4f97243fe5baab6da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ProjectilePrefab: {fileID: 173109851419450169, guid: 91f74bf3d34c4164ea92fe13711aa3c1, type: 3}
+  RateOfFire: 0.1
+  Damage: 1
+  ProjectileSpeed: 5
+  CanAttack: 0
+--- !u!114 &1010843060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7794398217402429787}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49f8e57ff8f91304296268ae9d605a3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ToolIcon: {fileID: 0}
+  Icons:
+  - {fileID: 21300000, guid: 6c6c7320aed8b6c45bf8ebeba745719c, type: 3}
+  - {fileID: 21300000, guid: 37f9ccdec2619a74fba66d9d137fb8a7, type: 3}

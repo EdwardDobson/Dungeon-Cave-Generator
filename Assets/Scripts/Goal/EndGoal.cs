@@ -23,14 +23,6 @@ public class EndGoal : MonoBehaviour
             m_endPointPlaced = true;
         }
     }
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if(collision.gameObject.tag.Contains("Player"))
-        {
-            Time.timeScale = 0;
-            Destroy(gameObject);
-        }
-    }
     public bool GetEndPointSet()
     {
         return m_endPointPlaced;

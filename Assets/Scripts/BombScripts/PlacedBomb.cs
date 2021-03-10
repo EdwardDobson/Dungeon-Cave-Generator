@@ -10,13 +10,11 @@ public class PlacedBomb : MonoBehaviour
     List<CustomTile> m_tilesAround = new List<CustomTile>();
     public GameObject BreakingEffectPrefab;
     public float BombDamage;
-    InventoryBackpack m_inventoryBackpack;
     public GameObject BlockDrop;
     AudioSource m_source;
     GameManager m_manager;
     void Start()
     {
-        m_inventoryBackpack = GameObject.Find("Player").GetComponent<InventoryBackpack>();
         m_source = GameObject.Find("Player").GetComponent<AudioSource>();
         m_manager = GameObject.Find("GameManager").GetComponent<GameManager>();
         DirectionsCalculate();
@@ -90,14 +88,15 @@ public class PlacedBomb : MonoBehaviour
         {
             if (TileManager.GetTileHolder(m_tilesAround[_index].Type).Tiles[a].ID == m_tilesAround[_index].ID)
             {
-                if(!m_manager.Creative)
-                {
-                    Vector3 pos = new Vector3(m_tilesAround[_index].Pos.x + 0.5f, m_tilesAround[_index].Pos.y + 0.5f, 0);
-                    GameObject c = Instantiate(BlockDrop, pos, Quaternion.identity);
-                    c.GetComponent<BlockDrop>().SetUp(m_tilesAround[_index]);
-                }
-                m_tilesAround[_index] = TileManager.GetTileHolder(m_tilesAround[_index].Type).Tiles[a];
+                ShouldBlockDrop(_index);
+                  m_tilesAround[_index] = TileManager.GetTileHolder(m_tilesAround[_index].Type).Tiles[a];
             }
+        }
+        if (m_tilesAround[_index].ShouldGiveScore)
+        {
+            m_tilesAround[_index].ScoreDispense = Random.Range(m_tilesAround[_index].ScoreDispenseMin, m_tilesAround[_index].ScoreDispenseMax);
+            m_tilesAround[_index].ScoreDispense = (int)m_tilesAround[_index].ScoreDispense;
+            m_source.GetComponent<Scoring>().IncreaseScore(m_tilesAround[_index].ScoreDispense);
         }
     }
     void GetSurroundingTiles()
@@ -139,5 +138,21 @@ public class PlacedBomb : MonoBehaviour
         Vector3Int tempPosYXUpLeft = new Vector3Int((int)(transform.position.x - 1), (int)(transform.position.y + 1), 0);
         if (!Directions.Contains(tempPosYXUpLeft))
             Directions.Add(tempPosYXUpLeft);
+    }
+
+    void ShouldBlockDrop(int _blockIndex)
+    {
+        if (!m_manager.Creative && !m_manager.ScoreMode)
+        {
+            Vector3 pos = new Vector3(m_tilesAround[_blockIndex].Pos.x + 0.5f, m_tilesAround[_blockIndex].Pos.y + 0.5f, 0);
+            GameObject c = Instantiate(BlockDrop, pos, Quaternion.identity);
+            c.GetComponent<BlockDrop>().SetUp(m_tilesAround[_blockIndex]);
+        }
+        if (m_manager.ScoreMode && !m_tilesAround[_blockIndex].ShouldGiveScore)
+        {
+            Vector3 pos = new Vector3(m_tilesAround[_blockIndex].Pos.x + 0.5f, m_tilesAround[_blockIndex].Pos.y + 0.5f, 0);
+            GameObject c = Instantiate(BlockDrop, pos, Quaternion.identity);
+            c.GetComponent<BlockDrop>().SetUp(m_tilesAround[_blockIndex]);
+        }
     }
 }

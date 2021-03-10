@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     public GameObject CreativeCanvas;
     public GameObject SurvivalCanvas;
     public GameObject ControlsInfoObj;
+    public GameObject WinScreen;
     public Button Button;
     public Button FindModeButton;
     public float Timer;
@@ -26,6 +27,7 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI TimerText;
     public TextMeshProUGUI PlayerPosText;
     public TextMeshProUGUI EndPosText;
+    public TextMeshProUGUI ScoreNeededText;
     BuildDungeon m_dungeon;
     [SerializeField]
     int m_totalScoreNeeded;
@@ -45,11 +47,13 @@ public class GameManager : MonoBehaviour
         m_dungeon = GameObject.Find("Map").GetComponent<BuildDungeon>();
         if(GameObject.Find("LevelLoader")!= null)
         {
-             FreeMode = GameObject.Find("LevelLoader").GetComponent<LevelLoad>().FreeMode;
-            ScoreMode = GameObject.Find("LevelLoader").GetComponent<LevelLoad>().ScoreMode;
-            ExitMode = GameObject.Find("LevelLoader").GetComponent<LevelLoad>().ExitMode;
+            LevelLoad temp = GameObject.Find("LevelLoader").GetComponent<LevelLoad>();
+             FreeMode = temp.FreeMode;
+            ScoreMode = temp.ScoreMode;
+            ExitMode = temp.ExitMode;
         }
         DisableObjs();
+        SetTimer = false;
     }
     void DisableObjs()
     {
@@ -58,6 +62,7 @@ public class GameManager : MonoBehaviour
             TimerText.transform.parent.gameObject.SetActive(false);
             GameObject.Find("ScoreBackground").gameObject.SetActive(false);
             EndPosText.transform.parent.gameObject.SetActive(false);
+            ScoreNeededText.transform.parent.gameObject.SetActive(false);
         }
         if(ScoreMode)
         {
@@ -65,12 +70,14 @@ public class GameManager : MonoBehaviour
             GameObject.Find("ScoreBackground").gameObject.SetActive(true);
             EndPosText.transform.parent.gameObject.SetActive(false);
             Button.gameObject.SetActive(false);
+            ScoreNeededText.transform.parent.gameObject.SetActive(true);
         }
         if(ExitMode)
         {
             TimerText.transform.parent.gameObject.SetActive(true);
             GameObject.Find("ScoreBackground").gameObject.SetActive(false);
             Button.gameObject.SetActive(false);
+            ScoreNeededText.transform.parent.gameObject.SetActive(false);
         }
 
     }
@@ -99,9 +106,21 @@ public class GameManager : MonoBehaviour
         }
 
         m_totalScoreNeeded = m_totalScore / 4;
-        if(Player.GetComponent<Scoring>().CurrentScore >= m_totalScoreNeeded)
+        ScoreNeededText.text = "Score Needed: " + m_totalScoreNeeded;
+        if (Player.GetComponent<Scoring>().CurrentScore >= m_totalScoreNeeded)
         {
-            Debug.Log("Player wins");
+            WinScreen.SetActive(true);
+            Time.timeScale = 0;
+        }
+    }
+    public void ExitWin()
+    {
+        Vector3Int PlayerPos = new Vector3Int((int)Player.transform.position.x, (int)Player.transform.position.y,0);
+        Vector3Int EndPos = new Vector3Int((int)EndPoint.transform.position.x, (int)EndPoint.transform.position.y, 0);
+        if (PlayerPos == EndPos)
+        {
+            WinScreen.SetActive(true);
+            Time.timeScale = 0;
         }
     }
     public void SetFindMode()
@@ -124,6 +143,8 @@ public class GameManager : MonoBehaviour
         {
             if(ScoreMode)
             WinState();
+            if (ExitMode)
+                ExitWin();
             if (!SetTimer && Player.GetComponent<PlayerMovement>().GetPlayerPlaced() && EndPoint.GetComponent<EndGoal>().GetEndPointSet())
             {
                 float distance = Vector2.Distance(Player.transform.position, EndPoint.transform.position);
@@ -139,12 +160,13 @@ public class GameManager : MonoBehaviour
                 {
                     Destroy(Player);
                     Time.timeScale = 0;
+                    
                 }
             }
         }
         if (EndPoint != null && Player != null)
         {
-            PlayerPosText.text = "X: " + (int)Player.transform.position.x + "\nY: " + (int)Player.transform.position.y;
+            PlayerPosText.text = "Player\nX: " + (int)Player.transform.position.x + "\nY: " + (int)Player.transform.position.y;
             EndPosText.text = "End Door\nX: " + (int)EndPoint.transform.position.x + "\nY: " + (int)EndPoint.transform.position.y;
         }
 

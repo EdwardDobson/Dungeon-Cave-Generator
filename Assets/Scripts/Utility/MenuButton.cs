@@ -8,6 +8,7 @@ public class MenuButton : MonoBehaviour
     {
         LevelLoad levelLoad = GameObject.Find("LevelLoader").GetComponent<LevelLoad>();
         levelLoad.LoadLevel(1);
+        Time.timeScale = 1;
         switch (_mode)
         {
             case "FreeMode":

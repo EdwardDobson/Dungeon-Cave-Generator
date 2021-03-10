@@ -4,19 +4,39 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.UI;
 
 public class PlayerDamage : MonoBehaviour
 {
     [SerializeField]
     Tilemap m_map;
-    public float Health;
+    float m_currentHealth;
+    public float MaxHealth;
     [SerializeField]
     List<CustomTile> m_damageTiles = new List<CustomTile>();
     Vector3Int m_pos;
     public GameObject GameOverScreen;
-
+    public Slider HealthBar;
+    GameManager m_manager;
+    private void Start()
+    {
+        m_currentHealth = MaxHealth;
+        HealthBar.maxValue = m_currentHealth;
+        HealthBar.value = m_currentHealth;
+        m_manager = GameObject.Find("GameManager").GetComponent<GameManager>();
+    }
     void Update()
     {
+        if (m_manager.Creative)
+        {
+            m_currentHealth = MaxHealth;
+            HealthBar.gameObject.SetActive(false);
+        }
+        else
+        {
+            HealthBar.gameObject.SetActive(true);
+        }
+        HealthBar.value = m_currentHealth;
         TileDetection();
         for (int i = 0; i < m_damageTiles.Count; ++i)
         {
@@ -25,7 +45,7 @@ public class PlayerDamage : MonoBehaviour
                 m_damageTiles[i].CurrentAttackCoolDown -= Time.deltaTime;
                 if (m_damageTiles[i].CurrentAttackCoolDown <= 0)
                 {
-                    Health -= m_damageTiles[i].Damage;
+                    m_currentHealth -= m_damageTiles[i].Damage;
                     m_damageTiles[i].CurrentAttackCoolDown = m_damageTiles[i].MaxAttackCoolDown;
                     GetComponent<PlayerMovement>().Speed = m_damageTiles[i].Speed;
                 }
@@ -37,7 +57,7 @@ public class PlayerDamage : MonoBehaviour
                 GetComponent<PlayerMovement>().Speed = 5;
             }
         }
-        if(Health <= 0)
+        if(m_currentHealth <= 0)
         {
             GameOverScreen.SetActive(true);
         }
@@ -63,6 +83,9 @@ public class PlayerDamage : MonoBehaviour
             }
         }
     }
-
+    public void DecreaseCurrentHealth(float _damage)
+    {
+        m_currentHealth -= _damage;
+     }
 
 }

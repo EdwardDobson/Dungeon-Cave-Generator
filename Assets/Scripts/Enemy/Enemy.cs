@@ -12,14 +12,15 @@ public class Enemy : MonoBehaviour
     int m_currentHealth;
     GameObject m_player;
     bool m_enemyPlaced;
-    bool m_foundPlayer;
+    public bool FoundPlayer;
     bool m_canSeePlayer;
     public GameObject Projectile;
     public float MaxRateOfFire;
     public float FireRange;
     float m_currentFireTimer;
     public float ProjectileSpeed;
-    public float ProjectileDamage;
+    public int ProjectileDamage;
+    bool m_isShooting;
     void Start()
     {
         m_currentHealth = MaxHealth;
@@ -36,7 +37,7 @@ public class Enemy : MonoBehaviour
             }
         if (ShouldMove && m_canSeePlayer)
             Movement();
-        if(m_foundPlayer)
+        if(FoundPlayer)
         {
             RaycastHit2D hit = Physics2D.Raycast(transform.position, -(transform.position - m_player.transform.position), LayerMask.GetMask("Level"));
             if (hit.collider != null)
@@ -52,6 +53,11 @@ public class Enemy : MonoBehaviour
             }
         }
         Fire();
+        if (m_currentHealth <= 0)
+        {
+            transform.parent.GetComponent<EnemySpawner>().Enemies.Remove(gameObject);
+            Destroy(gameObject);
+        }
     }
     void Movement()
     {
@@ -73,32 +79,31 @@ public class Enemy : MonoBehaviour
     }
     void Fire()
     {
-        if (m_canSeePlayer && ShouldShoot)
+        if (m_canSeePlayer && ShouldShoot &&  !m_isShooting)
         {
             m_currentFireTimer -= Time.deltaTime;
             if (m_currentFireTimer <= 0)
             {
-                GameObject clone = Instantiate(Projectile, transform.position, Quaternion.identity);
-                Vector2 dir = (transform.position - m_player.transform.position).normalized;
-                clone.GetComponent<Projectile>().SetValues(-dir, ProjectileSpeed,ProjectileDamage);
-                m_currentFireTimer = MaxRateOfFire;
+                m_isShooting = true;
+                SpawnBullet();
             }
         }
+ 
     }
-    private void OnTriggerEnter2D(Collider2D collision)
+    void SpawnBullet()
     {
-        if(collision.gameObject.tag.Contains("Player"))
-        {
-            m_foundPlayer = true;
-        }
+        GameObject clone = Instantiate(Projectile, transform.position, Quaternion.identity);
+        Vector2 dir = (transform.position - m_player.transform.position).normalized;
+        clone.GetComponent<Projectile>().SetValues(-dir, ProjectileSpeed, ProjectileDamage, ProjectileSide.Enemy);
+        m_currentFireTimer = MaxRateOfFire;
+        m_isShooting = false;
     }
-
-    private void OnTriggerExit2D(Collider2D collision)
+    public void DecreaseCurrentHealth(int _amount)
     {
-        if (collision.gameObject.tag.Contains("Player"))
-        {
-            m_foundPlayer = false;
-            m_currentFireTimer = 0;
-        }
+        m_currentHealth -= _amount;
+    }
+    public float SetCurrentFireTimer()
+    {
+        return m_currentFireTimer = MaxRateOfFire;
     }
 }
