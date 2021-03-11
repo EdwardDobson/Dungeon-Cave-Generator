@@ -33,9 +33,11 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
     string m_healthInfo;
     string m_speedInfo;
     public GameObject TextInfo;
+    UIManager m_manager;
     void Start()
     {
         m_inventoryBackPack = GameObject.Find("Player").GetComponent<InventoryBackpack>();
+        m_manager = GameObject.Find("PauseMenu").GetComponent<UIManager>();
         HotBar = GetComponent<HotBarScrolling>();
         int amountOfSlots = m_inventoryBackPack.StorageCapacity - HotBar.HotBarSize;
         for (int i = 0; i < amountOfSlots; ++i)
@@ -50,35 +52,39 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
     }
     void Update()
     {
-        if (TileImage.gameObject.activeSelf)
+        if(!m_manager.GetPausedState())
         {
-            TileImage.transform.position = Input.mousePosition;
-        }
-        if (Input.GetKeyDown(KeyCode.I))
-        {
+            if (TileImage.gameObject.activeSelf)
+            {
+                TileImage.transform.position = Input.mousePosition;
+            }
+            if (Input.GetKeyDown(KeyCode.I))
+            {
+                if (StorageHolder.activeSelf)
+                {
+                    StorageHolder.SetActive(false);
+                    Time.timeScale = 1;
+                }
+                else if (!StorageHolder.activeSelf)
+                {
+                    StorageHolder.SetActive(true);
+                    Time.timeScale = 0;
+                }
+                DisplayCount();
+            }
             if (StorageHolder.activeSelf)
             {
-                StorageHolder.SetActive(false);
-                Time.timeScale = 1;
+                if (Input.GetKey(KeyCode.LeftShift) && Input.GetMouseButtonDown(0))
+                {
+                    ShiftClickTile();
+                }
             }
-            else if (!StorageHolder.activeSelf)
+            if (!StorageHolder.activeSelf)
             {
-                StorageHolder.SetActive(true);
-                Time.timeScale = 0;
-            }
-            DisplayCount();
-        }
-        if (StorageHolder.activeSelf)
-        {
-            if (Input.GetKey(KeyCode.LeftShift) && Input.GetMouseButtonDown(0))
-            {
-                ShiftClickTile();
+                TextInfo.gameObject.SetActive(false);
             }
         }
-        if (!StorageHolder.activeSelf)
-        {
-            TextInfo.gameObject.SetActive(false);
-        }
+ 
     }
     public void OnPointerEnter(PointerEventData _data)
     {

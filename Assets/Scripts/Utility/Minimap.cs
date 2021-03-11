@@ -29,10 +29,7 @@ public class Minimap : MonoBehaviour
             LargeMap.gameObject.SetActive(false);
 
         }
-        if (!CreativeInventory.activeSelf && !Inventory.activeSelf)
-        {
-            Time.timeScale = 1;
-        }
+   
     }
     void ShowSmallMap()
     {

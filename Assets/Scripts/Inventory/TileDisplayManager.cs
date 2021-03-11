@@ -30,44 +30,50 @@ public class TileDisplayManager : MonoBehaviour, IPointerEnterHandler, IPointerE
     [SerializeField]
     CustomTile m_tileToPlace;
     int m_tabIndex;
+    UIManager m_manager;
     void Start()
     {
         m_pTile = GameObject.Find("Player").GetComponent<PlaceTile>();
+        m_manager = GameObject.Find("PauseMenu").GetComponent<UIManager>();
     }
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.I))
+        if(!m_manager.GetPausedState())
         {
-            if (TileDisplay.activeSelf)
+            if (Input.GetKeyDown(KeyCode.I))
             {
-                SwitchTab(m_tabIndex);
-                TileDisplay.SetActive(false);
-                Time.timeScale = 1;
+                if (TileDisplay.activeSelf)
+                {
+                    SwitchTab(m_tabIndex);
+                    TileDisplay.SetActive(false);
+                    Time.timeScale = 1;
+                }
+                else if (!TileDisplay.activeSelf)
+                {
+                    TileDisplay.SetActive(true);
+                    SwitchTab(m_tabIndex);
+                    Time.timeScale = 0;
+                }
             }
-            else if(!TileDisplay.activeSelf)
-             {
-                TileDisplay.SetActive(true);
-                SwitchTab(m_tabIndex);
-                Time.timeScale = 0;
-            }
-        }
-        if (TileToSwitch != null)
-        {
-            if (Input.GetMouseButtonDown(1))
+            if (TileToSwitch != null)
             {
-                TileToSwitch = null;
+                if (Input.GetMouseButtonDown(1))
+                {
+                    TileToSwitch = null;
+                }
+                TileImage.transform.position = Input.mousePosition;
             }
-            TileImage.transform.position = Input.mousePosition;
+            else
+            {
+                TileImage.gameObject.SetActive(false);
+            }
+            SwitchBlockWithInput();
+            Scroll();
+            HighlightSlot();
+            m_tileToPlace = Slots[m_index].GetComponent<HoldCustomTile>().CustomTile;
+            PTile.PlaceTileClick(m_tileToPlace);
         }
-        else
-        {
-            TileImage.gameObject.SetActive(false);
-        }
-        SwitchBlockWithInput();
-        Scroll();
-        HighlightSlot();
-        m_tileToPlace = Slots[m_index].GetComponent<HoldCustomTile>().CustomTile;
-        PTile.PlaceTileClick(m_tileToPlace);
+
     }
 
     public void SwitchTab(int _index)

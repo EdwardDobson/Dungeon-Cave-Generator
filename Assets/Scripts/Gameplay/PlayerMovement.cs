@@ -26,11 +26,9 @@ public class PlayerMovement : MonoBehaviour
             transform.position = positionReadjusted;
             m_playerPlaced = true;
         }
-
         BorderDetection();
         Vector2 moveVector = new Vector2(h, v);
         m_rb2d.velocity = moveVector * Speed;
-        
     }
     public bool GetPlayerPlaced()
     {

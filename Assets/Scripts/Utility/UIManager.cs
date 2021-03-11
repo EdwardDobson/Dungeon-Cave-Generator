@@ -36,7 +36,6 @@ public class UIManager : MonoBehaviour
             else
             {
                 Resume();
-             
             }
         }
     }
@@ -51,5 +50,9 @@ public class UIManager : MonoBehaviour
         Time.timeScale = 1;
         m_paused = false;
         transform.GetChild(0).gameObject.SetActive(false);
+    }
+    public bool GetPausedState()
+    {
+        return m_paused;
     }
 }
