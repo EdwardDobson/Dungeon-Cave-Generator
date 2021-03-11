@@ -1,11 +1,8 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 public class TileDisplayManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
@@ -21,6 +18,7 @@ public class TileDisplayManager : MonoBehaviour, IPointerEnterHandler, IPointerE
     public GameObject TileSlotHolder;
     public List<GameObject> Slots;
     public TextMeshProUGUI BlockInfo;
+    public TextMeshProUGUI InventoryTitle;
     bool m_tileDisplayOpen;
     string m_damageInfo;
     string m_healthInfo;
@@ -31,29 +29,27 @@ public class TileDisplayManager : MonoBehaviour, IPointerEnterHandler, IPointerE
     int m_index;
     [SerializeField]
     CustomTile m_tileToPlace;
+    int m_tabIndex;
     void Start()
     {
         m_pTile = GameObject.Find("Player").GetComponent<PlaceTile>();
-        SwitchTab(0);
     }
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.I))
         {
-            if (!m_tileDisplayOpen)
+            if (TileDisplay.activeSelf)
             {
-                TileDisplay.SetActive(true);
-                m_tileDisplayOpen = true;
-                Time.timeScale = 0;
-            }
-            else
-            {
+                SwitchTab(m_tabIndex);
                 TileDisplay.SetActive(false);
-                m_tileDisplayOpen = false;
-                TileImage.gameObject.SetActive(false);
                 Time.timeScale = 1;
             }
-
+            else if(!TileDisplay.activeSelf)
+             {
+                TileDisplay.SetActive(true);
+                SwitchTab(m_tabIndex);
+                Time.timeScale = 0;
+            }
         }
         if (TileToSwitch != null)
         {
@@ -82,17 +78,29 @@ public class TileDisplayManager : MonoBehaviour, IPointerEnterHandler, IPointerE
         }
         switch (_index)
         {
+            case 0:
+                m_tabIndex = 0;
+                InventoryTitle.text = "Blocks";
+                break;
             case 1:
                 m_tempType = TileType.Wall;
+                m_tabIndex = 1;
+                InventoryTitle.text = "Walls";
                 break;
             case 2:
                 m_tempType = TileType.Floor;
+                m_tabIndex = 2;
+                InventoryTitle.text = "Floors";
                 break;
             case 3:
                 m_tempType = TileType.Door;
+                m_tabIndex = 3;
+                InventoryTitle.text = "Doors";
                 break;
             case 4:
                 m_tempType = TileType.Path;
+                m_tabIndex = 4;
+                InventoryTitle.text = "Paths";
                 break;
         }
         if (_index > 0)

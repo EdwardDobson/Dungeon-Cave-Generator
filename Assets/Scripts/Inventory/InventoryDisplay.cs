@@ -57,8 +57,15 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
         if (Input.GetKeyDown(KeyCode.I))
         {
             if (StorageHolder.activeSelf)
+            {
                 StorageHolder.SetActive(false);
-            else StorageHolder.SetActive(true);
+                Time.timeScale = 1;
+            }
+            else if (!StorageHolder.activeSelf)
+            {
+                StorageHolder.SetActive(true);
+                Time.timeScale = 0;
+            }
             DisplayCount();
         }
         if (StorageHolder.activeSelf)

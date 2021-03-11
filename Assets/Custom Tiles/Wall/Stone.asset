@@ -13,22 +13,28 @@ MonoBehaviour:
   m_Name: Stone
   m_EditorClassIdentifier: 
   Tile:
-  - {fileID: 11400000, guid: 9ed8494dace98294690c26800236abd8, type: 2}
+  - {fileID: 11400000, guid: 2f21162f8f46c2d44a99fab1d2b4c5cf, type: 2}
   SpriteVariations:
-  - {fileID: 7482667652216324306, guid: e422618a0fddb4543be6844d1e21e559, type: 3}
+  - {fileID: 21300000, guid: fdbb5f7514001a54882ae88f9595310e, type: 3}
+  - {fileID: 21300000, guid: 828ce2d991ec8424eac1fe050defdda8, type: 3}
+  - {fileID: 21300000, guid: 882a157d2bcacd1498c84a11b30d8ed3, type: 3}
+  - {fileID: 21300000, guid: 80aa9c30b824531499e4d58c999fac8f, type: 3}
   TileName: Stone
   Type: 0
   Attributes: 00000000
   BlockSound: {fileID: 8300000, guid: 01228ed0cc9f8dd46b1db4abdb6e37c5, type: 3}
   ShouldUseColour: 1
-  TileColour: {r: 0.122641504, g: 0.122641504, b: 0.122641504, a: 1}
+  TileColour: {r: 1, g: 1, b: 1, a: 1}
   TileBreakingColour: {r: 0.12156863, g: 0.12156863, b: 0.12156863, a: 1}
-  DisplaySprite: {fileID: 0}
+  DisplaySprite: {fileID: 21300000, guid: 882a157d2bcacd1498c84a11b30d8ed3, type: 3}
   Speed: 0
   Health: 2
   Damage: 0
   CurrentAttackCoolDown: 0
   MaxAttackCoolDown: 0
+  ShouldGiveScore: 0
+  ScoreDispenseMin: 0
+  ScoreDispenseMax: 0
   ScoreDispense: 0
   ID: 14
   Pos: {x: 0, y: 0, z: 0}

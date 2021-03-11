@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.Tilemaps;
 
 public class Dig : MonoBehaviour
@@ -96,7 +95,7 @@ public class Dig : MonoBehaviour
                                             if (TileManager.GetTileHolder(WallsTouched[i].Type).Tiles[a].ID == WallsTouched[i].ID)
                                             {
                                                 ShouldBlockDrop(i);
-                                                    WallsTouched[i] = TileManager.GetTileHolder(WallsTouched[i].Type).Tiles[a];
+                                                WallsTouched[i] = TileManager.GetTileHolder(WallsTouched[i].Type).Tiles[a];
                                             }
                                         }
                                     }

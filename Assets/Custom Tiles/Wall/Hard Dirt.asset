@@ -13,22 +13,28 @@ MonoBehaviour:
   m_Name: Hard Dirt
   m_EditorClassIdentifier: 
   Tile:
-  - {fileID: 11400000, guid: 461d3ae5225528e49bf04a3dd0b4d034, type: 2}
+  - {fileID: 11400000, guid: 4ec215179462cbd45b0e00cf475494a6, type: 2}
   SpriteVariations:
-  - {fileID: 21300000, guid: 76439c5c0fad4ce40a6ef5395dafe199, type: 3}
+  - {fileID: 21300000, guid: 980300f6b4b6db948b9ef26301f88fae, type: 3}
+  - {fileID: 21300000, guid: cd9ed88acb21f3346bcceeb81791dab4, type: 3}
+  - {fileID: 21300000, guid: abb89a8700c7c8d4aa20eda84f2404b0, type: 3}
+  - {fileID: 21300000, guid: ca957871e5c317641935ab142e464523, type: 3}
   TileName: Hard Dirt
   Type: 0
   Attributes: 00000000
   BlockSound: {fileID: 8300000, guid: 01228ed0cc9f8dd46b1db4abdb6e37c5, type: 3}
-  ShouldUseColour: 1
-  TileColour: {r: 0.38679248, g: 0.07399102, b: 0, a: 1}
+  ShouldUseColour: 0
+  TileColour: {r: 1, g: 1, b: 1, a: 1}
   TileBreakingColour: {r: 0.3882353, g: 0.07450981, b: 0, a: 1}
-  DisplaySprite: {fileID: 21300000, guid: 76439c5c0fad4ce40a6ef5395dafe199, type: 3}
+  DisplaySprite: {fileID: 21300000, guid: abb89a8700c7c8d4aa20eda84f2404b0, type: 3}
   Speed: 0
   Health: 2
   Damage: 0
   CurrentAttackCoolDown: 0
   MaxAttackCoolDown: 0
+  ShouldGiveScore: 0
+  ScoreDispenseMin: 0
+  ScoreDispenseMax: 0
   ScoreDispense: 0
   ID: 9
   Pos: {x: 0, y: 0, z: 0}

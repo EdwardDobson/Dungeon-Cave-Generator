@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 public class PlaceTile : MonoBehaviour
 {
@@ -23,8 +24,12 @@ public class PlaceTile : MonoBehaviour
     public InventoryBackpack BackPack;
     GameManager m_manager;
     EnemySpawner m_enemySpawner;
+    public GameObject BlockDrop;
+    float m_currentDropTimer;
+    public float MaxDropTimer;
     private void Start()
     {
+        m_currentDropTimer = MaxDropTimer;
         PlacedOnTiles = new Dictionary<Vector3Int, CustomTile>();
         BackPack = GetComponent<InventoryBackpack>();
         m_manager = GameObject.Find("GameManager").GetComponent<GameManager>();
@@ -32,25 +37,29 @@ public class PlaceTile : MonoBehaviour
     }
     public void FillTilesList()
     {
-        for (int i = 0; i < TileManager.GetTileHolder(TileType.Wall).Tiles.Count; ++i)
+        List<CustomTile> Walls = TileManager.GetTileHolder(TileType.Wall).Tiles;
+        List<CustomTile> Floor = TileManager.GetTileHolder(TileType.Floor).Tiles;
+        List<CustomTile> Path = TileManager.GetTileHolder(TileType.Path).Tiles;
+        List<CustomTile> Door = TileManager.GetTileHolder(TileType.Door).Tiles;
+        for (int i = 0; i < Walls.Count; ++i)
         {
-            if (!m_customTilesToPlace.Contains(TileManager.GetTileHolder(TileType.Wall).Tiles[i]))
-                m_customTilesToPlace.Add(TileManager.GetTileHolder(TileType.Wall).Tiles[i]);
+            if(!m_customTilesToPlace.Contains(Walls[i]))
+            m_customTilesToPlace.Add(Walls[i]);
         }
-        for (int i = 0; i < TileManager.GetTileHolder(TileType.Floor).Tiles.Count; ++i)
+        for (int i = 0; i < Floor.Count; ++i)
         {
-            if (!m_customTilesToPlace.Contains(TileManager.GetTileHolder(TileType.Floor).Tiles[i]))
-                m_customTilesToPlace.Add(TileManager.GetTileHolder(TileType.Floor).Tiles[i]);
+            if (!m_customTilesToPlace.Contains(Floor[i]))
+                m_customTilesToPlace.Add(Floor[i]);
         }
-        for (int i = 0; i < TileManager.GetTileHolder(TileType.Path).Tiles.Count; ++i)
+        for (int i = 0; i < Path.Count; ++i)
         {
-            if (!m_customTilesToPlace.Contains(TileManager.GetTileHolder(TileType.Path).Tiles[i]))
-                m_customTilesToPlace.Add(TileManager.GetTileHolder(TileType.Path).Tiles[i]);
+            if (!m_customTilesToPlace.Contains(Path[i]))
+                m_customTilesToPlace.Add(Path[i]);
         }
-        for (int i = 0; i < TileManager.GetTileHolder(TileType.Door).Tiles.Count; ++i)
+        for (int i = 0; i < Door.Count; ++i)
         {
-            if (!m_customTilesToPlace.Contains(TileManager.GetTileHolder(TileType.Door).Tiles[i]))
-                m_customTilesToPlace.Add(TileManager.GetTileHolder(TileType.Door).Tiles[i]);
+            if (!m_customTilesToPlace.Contains(Door[i]))
+                m_customTilesToPlace.Add(Door[i]);
         }
     }
     private void Awake()
@@ -96,12 +105,17 @@ public class PlaceTile : MonoBehaviour
         {
             if (!m_manager.Creative)
                 PlaceTileClick(HotBarScrolling.TileToPlace());
+            if (Input.GetKeyUp(KeyCode.F))
+            {
+                m_currentDropTimer = 0;
+            }
         }
     }
     public void PlaceTileClick(CustomTile _tile)
     {
         if (_tile != null)
         {
+            DropBlock(_tile);
             Vector2 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector3Int v = new Vector3Int((int)worldPosition.x, (int)worldPosition.y, 0);
             if (m_enemySpawner.Enemies.All(g => new Vector3Int((int)g.transform.position.x, (int)g.transform.position.y, (int)g.transform.position.z) != v))
@@ -128,6 +142,7 @@ public class PlaceTile : MonoBehaviour
                                             }
                                         }
                                         TileManager.PlaceTile(v, m_index, DungeonUtility.GetTilemap(), WallGen.GetTilemap(), newCopy, DictionaryType.Walls);
+                                        ApplySpriteVariation(newCopy, WallGen.GetTilemap(), v);
                                         Instantiate(m_audioPlaceSource);
                                         BackPack.RemoveFromStorage(newCopy);
                                         newCopy = BackPack.GetNewItem(_tile);
@@ -142,6 +157,7 @@ public class PlaceTile : MonoBehaviour
                                             }
                                         }
                                         TileManager.PlaceTile(v, m_index, DungeonUtility.GetTilemap(), WallGen.GetTilemap(), newCopy, DictionaryType.Walls);
+                                        ApplySpriteVariation(newCopy, WallGen.GetTilemap(), v);
                                         Instantiate(m_audioPlaceSource);
                                     }
                                     if (!PlacedOnTiles.ContainsKey(v))
@@ -168,7 +184,7 @@ public class PlaceTile : MonoBehaviour
                                             }
                                         }
                                         TileManager.PlaceTile(v, m_index, DungeonUtility.GetTilemap(), DungeonUtility.GetTilemap(), newCopy, DictionaryType.Floor);
-
+                                        ApplySpriteVariation(newCopy, DungeonUtility.GetTilemap(), v);
                                         Instantiate(m_audioPlaceSource);
                                         BackPack.RemoveFromStorage(newCopy);
                                         newCopy = BackPack.GetNewItem(_tile);
@@ -183,19 +199,53 @@ public class PlaceTile : MonoBehaviour
                                             }
                                         }
                                         TileManager.PlaceTile(v, m_index, DungeonUtility.GetTilemap(), DungeonUtility.GetTilemap(), newCopy, DictionaryType.Floor);
+                                        ApplySpriteVariation(newCopy, DungeonUtility.GetTilemap(), v);
                                         Instantiate(m_audioPlaceSource);
                                         Debug.Log("Placing floor: " + _tile.name);
                                     }
                                 }
                             }
                         }
-
                     }
                 }
-
             }
         }
-
+    }
+    void DropBlock(CustomTile _tile)
+    {
+        if(Input.GetKey(KeyCode.F))
+        {
+            m_currentDropTimer -= Time.deltaTime;
+            if(m_currentDropTimer <= 0)
+            {
+                ShouldBlockDrop(_tile);
+                m_currentDropTimer = MaxDropTimer;
+            }
+        }
+    }
+    void ShouldBlockDrop(CustomTile _tile)
+    {
+        Vector2 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector3Int v = new Vector3Int((int)worldPosition.x, (int)worldPosition.y, 0);
+        if (Vector2.Distance(transform.position,worldPosition) > BackPack.PickupRange)
+        {
+            if(WallGen.GetTilemap().GetTile(v) == null)
+            {
+                GameObject c = Instantiate(BlockDrop, worldPosition, Quaternion.identity);
+                c.GetComponent<BlockDrop>().SetUp(_tile);
+                BackPack.RemoveFromStorage(_tile);
+            }
+        }
+    }
+    void ApplySpriteVariation(CustomTile _tile, Tilemap _map,Vector3Int _pos)
+    {
+        if (_tile.SpriteVariations.Length > 0)
+        {
+            Tile tileT = _map.GetTile<Tile>(_pos);
+            Sprite sT = _tile.DisplaySprite;
+            if (sT != null)
+                tileT.sprite = sT;
+        }
     }
     public List<CustomTile> GetCustomTiles()
     {

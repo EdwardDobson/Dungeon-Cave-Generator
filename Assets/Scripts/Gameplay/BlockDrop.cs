@@ -37,14 +37,32 @@ public class BlockDrop : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.tag.Contains("Player"))
+        if(collision.gameObject.tag.Contains("PlayerPick"))
         {
-            if(collision.GetComponent<InventoryBackpack>().Storage.Any(i => i.Items.Count <=0) || m_display.HotBar.SlotsHotbar.Any(i => i.transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile == null))
+            bool m_foundHotBarSlot =false;
+            for (int i = 0; i < m_display.HotBar.SlotsHotbar.Count; ++i)
             {
-                collision.GetComponent<InventoryBackpack>().AddToStorage(Tile);
-                Destroy(gameObject);
+                if (m_display.HotBar.SlotsHotbar[i].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile == null)
+                {
+                    m_foundHotBarSlot = true;
+                    collision.transform.parent.GetComponent<InventoryBackpack>().AddToStorage(Tile);
+                    break;
+                }
             }
-            
+            if(!m_foundHotBarSlot)
+            {
+                for (int i = 0; i < collision.transform.parent.GetComponent<InventoryBackpack>().Storage.Count; ++i)
+                {
+                    if (collision.transform.parent.GetComponent<InventoryBackpack>().Storage[i].Items.Count <= 0)
+                    {
+                        collision.transform.parent.GetComponent<InventoryBackpack>().AddToStorage(Tile);
+                        break;
+                    }
+                }
+            }
+      
+       
+            Destroy(gameObject);
         }
     }
 }

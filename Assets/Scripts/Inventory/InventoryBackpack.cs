@@ -16,6 +16,7 @@ public class InventoryBackpack : MonoBehaviour
     public int StorageCapacity;
     public InventoryDisplay Display;
     public HotBarScrolling HotBarScrolling;
+    public float PickupRange;
     private void Start()
     {
         for(int i  =0; i < StorageCapacity; ++i)
@@ -23,6 +24,11 @@ public class InventoryBackpack : MonoBehaviour
             ItemInventory tempList = new ItemInventory();
             Storage.Add(tempList);
         }
+        transform.GetChild(0).GetComponent<CircleCollider2D>().radius = PickupRange;
+    }
+    private void Update()
+    {
+        transform.GetChild(0).GetComponent<CircleCollider2D>().radius = PickupRange;
     }
     public void RemoveFromStorage(CustomTile _customTile)
     {

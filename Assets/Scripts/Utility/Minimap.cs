@@ -6,10 +6,12 @@ public class Minimap : MonoBehaviour
 {
     public GameObject SmallMap;
     public GameObject LargeMap;
+    public GameObject CreativeInventory;
+    public GameObject Inventory;
     bool m_mapOpen;
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.M))
+        if (Input.GetKeyDown(KeyCode.M))
         {
             if (m_mapOpen)
             {
@@ -19,6 +21,17 @@ public class Minimap : MonoBehaviour
             {
                 ShowLargeMap();
             }
+        }
+        if (CreativeInventory.activeSelf || Inventory.activeSelf)
+        {
+            m_mapOpen = false;
+            SmallMap.gameObject.SetActive(true);
+            LargeMap.gameObject.SetActive(false);
+
+        }
+        if (!CreativeInventory.activeSelf && !Inventory.activeSelf)
+        {
+            Time.timeScale = 1;
         }
     }
     void ShowSmallMap()

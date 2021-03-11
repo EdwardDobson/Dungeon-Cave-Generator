@@ -28,7 +28,7 @@ public class Projectile : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.tag.Contains("Player") && m_side == ProjectileSide.Enemy)
+        if(collision.gameObject.CompareTag("Player")  && m_side == ProjectileSide.Enemy)
         {
             collision.gameObject.GetComponent<PlayerDamage>().DecreaseCurrentHealth(m_damage);
             Destroy(gameObject);
