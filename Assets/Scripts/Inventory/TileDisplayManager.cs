@@ -31,10 +31,12 @@ public class TileDisplayManager : MonoBehaviour, IPointerEnterHandler, IPointerE
     CustomTile m_tileToPlace;
     int m_tabIndex;
     UIManager m_manager;
+    GameManager m_gameManager;
     void Start()
     {
         m_pTile = GameObject.Find("Player").GetComponent<PlaceTile>();
         m_manager = GameObject.Find("PauseMenu").GetComponent<UIManager>();
+        m_gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
     void Update()
     {
@@ -71,6 +73,7 @@ public class TileDisplayManager : MonoBehaviour, IPointerEnterHandler, IPointerE
             Scroll();
             HighlightSlot();
             m_tileToPlace = Slots[m_index].GetComponent<HoldCustomTile>().CustomTile;
+            if(m_gameManager.CanPerformAction && Input.GetMouseButton(1))
             PTile.PlaceTileClick(m_tileToPlace);
         }
 

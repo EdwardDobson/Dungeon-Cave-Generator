@@ -33,7 +33,7 @@ public class Dig : MonoBehaviour
     {
         if (Time.timeScale > 0)
         {
-            if(CanDig)
+            if(CanDig && m_manager.CanPerformAction)
             {
                 FindTile();
                 if (m_manager.Creative)

@@ -5,11 +5,19 @@ using UnityEngine;
 public class LaunchBomb : MonoBehaviour
 {
    public GameObject Bomb;
+    GameManager m_manager;
+    private void Start()
+    {
+        m_manager = GameObject.Find("GameManager").GetComponent<GameManager>();
+    }
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Q))
+        if (m_manager.CanPerformAction)
         {
-            DropBomb();
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                DropBomb();
+            }
         }
     }
     void DropBomb()

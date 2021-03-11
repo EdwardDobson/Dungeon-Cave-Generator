@@ -13,6 +13,11 @@ public class GameManager : MonoBehaviour
     public GameObject SurvivalCanvas;
     public GameObject ControlsInfoObj;
     public GameObject WinScreen;
+
+    public GameObject CreativeInventory;
+    public GameObject SurvivalInventory;
+    public bool CanPerformAction;
+
     public Button Button;
     public Button FindModeButton;
     public float Timer;
@@ -139,7 +144,8 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         DamagedTiles.RemoveDamagedTiles();
-        if(ScoreMode || ExitMode)
+        CanPerformActionFunction();
+        if (ScoreMode || ExitMode)
         {
             if(ScoreMode)
             WinState();
@@ -199,5 +205,16 @@ public class GameManager : MonoBehaviour
     public void ResetTime()
     {
         Time.timeScale = 1;
+    }
+    void CanPerformActionFunction()
+    {
+        if (!CreativeInventory.activeSelf && !SurvivalInventory.activeSelf)
+        {
+            CanPerformAction = true;
+        }
+        else
+        {
+            CanPerformAction = false;
+        }
     }
 }

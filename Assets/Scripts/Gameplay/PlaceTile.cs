@@ -27,6 +27,8 @@ public class PlaceTile : MonoBehaviour
     public GameObject BlockDrop;
     float m_currentDropTimer;
     public float MaxDropTimer;
+
+
     private void Start()
     {
         m_currentDropTimer = MaxDropTimer;
@@ -101,15 +103,20 @@ public class PlaceTile : MonoBehaviour
     }
     void Update()
     {
-        if (Time.timeScale > 0)
+        if(m_manager.CanPerformAction)
         {
-            if (!m_manager.Creative)
-                PlaceTileClick(HotBarScrolling.TileToPlace());
-            if (Input.GetKeyUp(KeyCode.F))
+            if (Time.timeScale > 0)
             {
-                m_currentDropTimer = 0;
+                if (!m_manager.Creative)
+                    PlaceTileClick(HotBarScrolling.TileToPlace());
+                if (Input.GetKeyUp(KeyCode.F))
+                {
+                    m_currentDropTimer = 0;
+                }
             }
+       
         }
+
     }
     public void PlaceTileClick(CustomTile _tile)
     {
@@ -118,6 +125,7 @@ public class PlaceTile : MonoBehaviour
             DropBlock(_tile);
             Vector2 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector3Int v = new Vector3Int((int)worldPosition.x, (int)worldPosition.y, 0);
+
             if (m_enemySpawner.Enemies.All(g => new Vector3Int((int)g.transform.position.x, (int)g.transform.position.y, (int)g.transform.position.z) != v))
             {
                 float distance = Vector3Int.Distance(v, new Vector3Int((int)transform.position.x, (int)transform.position.y, (int)transform.position.z));
@@ -163,7 +171,6 @@ public class PlaceTile : MonoBehaviour
                                     if (!PlacedOnTiles.ContainsKey(v))
                                     {
                                         PlacedOnTiles.Add(v, TileManager.GetTileDictionaryFloor()[v].CustomTile);
-                                        Debug.Log(TileManager.GetTileDictionaryFloor()[v].CustomTile.name);
                                     }
                                 }
                             }
@@ -201,7 +208,6 @@ public class PlaceTile : MonoBehaviour
                                         TileManager.PlaceTile(v, m_index, DungeonUtility.GetTilemap(), DungeonUtility.GetTilemap(), newCopy, DictionaryType.Floor);
                                         ApplySpriteVariation(newCopy, DungeonUtility.GetTilemap(), v);
                                         Instantiate(m_audioPlaceSource);
-                                        Debug.Log("Placing floor: " + _tile.name);
                                     }
                                 }
                             }
