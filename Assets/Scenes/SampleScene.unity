@@ -406,6 +406,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PauseMenu
       objectReference: {fileID: 0}
+    - target: {fileID: 2985000388573063204, guid: 8e5d51f3382fc754ab8a32b0adc45070, type: 3}
+      propertyPath: m_SortingOrder
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 2985000388573063207, guid: 8e5d51f3382fc754ab8a32b0adc45070, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -489,6 +493,18 @@ PrefabInstance:
     - target: {fileID: 2985000388573063207, guid: 8e5d51f3382fc754ab8a32b0adc45070, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6779801133131840141, guid: 8e5d51f3382fc754ab8a32b0adc45070, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6779801133131840141, guid: 8e5d51f3382fc754ab8a32b0adc45070, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6779801133131840141, guid: 8e5d51f3382fc754ab8a32b0adc45070, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8e5d51f3382fc754ab8a32b0adc45070, type: 3}
@@ -1666,6 +1682,10 @@ PrefabInstance:
     - target: {fileID: 5732313280482599833, guid: 19ca195e8b792464f90811226cae5251, type: 3}
       propertyPath: m_Name
       value: Creative Inventory
+      objectReference: {fileID: 0}
+    - target: {fileID: 5732313280482599908, guid: 19ca195e8b792464f90811226cae5251, type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5732313280482599909, guid: 19ca195e8b792464f90811226cae5251, type: 3}
       propertyPath: m_Pivot.x
