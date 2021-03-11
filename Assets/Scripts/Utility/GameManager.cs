@@ -196,4 +196,8 @@ public class GameManager : MonoBehaviour
             ControlsInfoObj.SetActive(true);
         }
     }
+    public void ResetTime()
+    {
+        Time.timeScale = 1;
+    }
 }

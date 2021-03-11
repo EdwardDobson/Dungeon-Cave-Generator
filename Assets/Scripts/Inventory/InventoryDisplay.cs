@@ -166,7 +166,7 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
             if (TransitTile == null && _data.pointerCurrentRaycast.gameObject.GetComponent<HoldCustomTile>().CustomTile != null)
             {
                 PickTile(_data.pointerCurrentRaycast.gameObject);
-
+                TextInfo.SetActive(false);
             }
             if (_data.pointerCurrentRaycast.gameObject.GetComponent<HoldCustomTile>().CustomTile == null)
             {
@@ -201,7 +201,7 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
                             HotBar.SlotsHotbar[i].transform.GetChild(0).GetComponent<Image>().sprite = ShiftSwapTile.DisplaySprite;
                             HotBar.SlotsHotbar[i].transform.GetChild(0).GetComponent<Image>().color = ShiftSwapTile.TileColour;
                             HotBar.SlotsHotbar[i].transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = m_clickedObj.transform.parent.GetChild(1).GetComponent<TextMeshProUGUI>().text;
-
+                            TextInfo.SetActive(false);
                             ShiftSwapTile = null;
                             ChosenTile = null;
                             EndTile = null;
@@ -219,6 +219,7 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
                         m_clickedObj.GetComponent<Image>().sprite = null;
                         m_clickedObj.GetComponent<HoldCustomTile>().CustomTile = null;
                         m_clickedObj.GetComponent<Image>().color = SlotColour;
+                        TextInfo.SetActive(false);
                         Slots[i].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile = ShiftSwapTile;
                         Slots[i].transform.GetChild(0).GetComponent<Image>().sprite = ShiftSwapTile.DisplaySprite;
                         Slots[i].transform.GetChild(0).GetComponent<Image>().color = ShiftSwapTile.TileColour;

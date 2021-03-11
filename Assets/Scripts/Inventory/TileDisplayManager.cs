@@ -184,6 +184,7 @@ public class TileDisplayManager : MonoBehaviour, IPointerEnterHandler, IPointerE
             TileImage.gameObject.SetActive(true);
             TileImage.transform.GetChild(0).GetComponent<Image>().color = _data.pointerCurrentRaycast.gameObject.GetComponent<HoldCustomTile>().CustomTile.TileColour;
             TileImage.transform.GetChild(0).GetComponent<Image>().sprite = _data.pointerCurrentRaycast.gameObject.GetComponent<HoldCustomTile>().CustomTile.DisplaySprite;
+            TextInfo.SetActive(false);
         }
         if (_data.pointerCurrentRaycast.gameObject.name.Contains("Slot "))
         {
