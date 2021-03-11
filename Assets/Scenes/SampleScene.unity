@@ -926,6 +926,14 @@ PrefabInstance:
       propertyPath: ScoreNeededText
       value: 
       objectReference: {fileID: 15386781}
+    - target: {fileID: 1364234361229821304, guid: 3350b0f82bb86514e8132a7440c958ea, type: 3}
+      propertyPath: CreativeInventory
+      value: 
+      objectReference: {fileID: 1747145354}
+    - target: {fileID: 1364234361229821304, guid: 3350b0f82bb86514e8132a7440c958ea, type: 3}
+      propertyPath: SurvivalInventory
+      value: 
+      objectReference: {fileID: 226989839}
     - target: {fileID: 1364234361229821305, guid: 3350b0f82bb86514e8132a7440c958ea, type: 3}
       propertyPath: m_RootOrder
       value: 8
@@ -2210,6 +2218,14 @@ PrefabInstance:
       propertyPath: HotBarScrolling
       value: 
       objectReference: {fileID: 2021844749}
+    - target: {fileID: 1325159186, guid: a7a415f56d409c94aa73a4fccef2d957, type: 3}
+      propertyPath: CreativeInventory
+      value: 
+      objectReference: {fileID: 1747145354}
+    - target: {fileID: 1325159186, guid: a7a415f56d409c94aa73a4fccef2d957, type: 3}
+      propertyPath: SurvivalInventory
+      value: 
+      objectReference: {fileID: 226989839}
     - target: {fileID: 1325159186, guid: a7a415f56d409c94aa73a4fccef2d957, type: 3}
       propertyPath: PlaceImages.Array.data[0]
       value: 
