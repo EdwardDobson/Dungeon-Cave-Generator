@@ -12,25 +12,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b87fb5b0c88f4644fb2a9e567623d2ec, type: 3}
   m_Name: Emerald Ore Dirt
   m_EditorClassIdentifier: 
-  Tile: []
-  SpriteVariations: []
-  TileName: 
+  Tile:
+  - {fileID: 11400000, guid: 29259bc4b68f0774181914eda310dd97, type: 2}
+  SpriteVariations:
+  - {fileID: 21300000, guid: 26b79480833799e498f5e25f4d950474, type: 3}
+  - {fileID: 21300000, guid: 8f7dc9e6771363444911af8a567a3fee, type: 3}
+  - {fileID: 21300000, guid: 6506fe0f6b5d98d4eb453cb3ebbf8131, type: 3}
+  - {fileID: 21300000, guid: a69574ac978e70247acb737315c37571, type: 3}
+  TileName: Emerald Ore
   Type: 0
-  Attributes: 
-  BlockSound: {fileID: 0}
+  Attributes: 00000000
+  BlockSound: {fileID: 8300000, guid: 01228ed0cc9f8dd46b1db4abdb6e37c5, type: 3}
   ShouldUseColour: 0
-  TileColour: {r: 0, g: 0, b: 0, a: 0}
-  TileBreakingColour: {r: 0, g: 0, b: 0, a: 0}
-  DisplaySprite: {fileID: 0}
+  TileColour: {r: 1, g: 1, b: 1, a: 1}
+  TileBreakingColour: {r: 0, g: 1, b: 0.023529412, a: 1}
+  DisplaySprite: {fileID: 21300000, guid: 26b79480833799e498f5e25f4d950474, type: 3}
   Speed: 0
-  Health: 0
+  Health: 3
   Damage: 0
   CurrentAttackCoolDown: 0
   MaxAttackCoolDown: 0
-  ShouldGiveScore: 0
-  ScoreDispenseMin: 0
-  ScoreDispenseMax: 0
-  ScoreDispense: 0
-  ID: 0
+  ShouldGiveScore: 1
+  ScoreDispenseMin: 250
+  ScoreDispenseMax: 500
+  ScoreDispense: 376
+  ID: 20
   Pos: {x: 0, y: 0, z: 0}
-  PickChance: 0
+  PickChance: 5
