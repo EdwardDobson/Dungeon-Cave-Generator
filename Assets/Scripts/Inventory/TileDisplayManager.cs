@@ -201,32 +201,36 @@ public class TileDisplayManager : MonoBehaviour, IPointerEnterHandler, IPointerE
     {
         if (_data.pointerCurrentRaycast.gameObject.GetComponent<HoldCustomTile>() != null)
         {
-            HoldCustomTile hCustomTile = _data.pointerCurrentRaycast.gameObject.GetComponent<HoldCustomTile>();
-            TextInfo.SetActive(true);
-            float xPos = _data.pointerCurrentRaycast.gameObject.transform.parent.position.x + _data.pointerCurrentRaycast.gameObject.GetComponent<RectTransform>().rect.width;
-            Vector2 pos = new Vector2(xPos, _data.pointerCurrentRaycast.gameObject.transform.position.y);
-            TextInfo.transform.position = pos;
-            string defaultInfo = hCustomTile.CustomTile.TileName + "\nType: " +
-               hCustomTile.CustomTile.Type.ToString() + "\n";
-            if (hCustomTile.CustomTile.Damage > 0)
+            if(!_data.pointerCurrentRaycast.gameObject.name.Contains("Slot "))
             {
-                m_damageInfo = "Damage: " + hCustomTile.CustomTile.Damage.ToString() + "\n";
+                HoldCustomTile hCustomTile = _data.pointerCurrentRaycast.gameObject.GetComponent<HoldCustomTile>();
+                TextInfo.SetActive(true);
+                float xPos = _data.pointerCurrentRaycast.gameObject.transform.parent.position.x + _data.pointerCurrentRaycast.gameObject.GetComponent<RectTransform>().rect.width;
+                Vector2 pos = new Vector2(xPos, _data.pointerCurrentRaycast.gameObject.transform.position.y);
+                TextInfo.transform.position = pos;
+                string defaultInfo = hCustomTile.CustomTile.TileName + "\nType: " +
+                   hCustomTile.CustomTile.Type.ToString() + "\n";
+                if (hCustomTile.CustomTile.Damage > 0)
+                {
+                    m_damageInfo = "Damage: " + hCustomTile.CustomTile.Damage.ToString() + "\n";
+                }
+                else
+                    m_damageInfo = null;
+                if (hCustomTile.CustomTile.Speed > 0)
+                {
+                    m_speedInfo = "Speed: " + hCustomTile.CustomTile.Speed.ToString() + "\n";
+                }
+                else
+                    m_speedInfo = null;
+                if (hCustomTile.CustomTile.Health > 0)
+                {
+                    m_healthInfo = "Health: " + hCustomTile.CustomTile.Health.ToString() + "\n";
+                }
+                else
+                    m_healthInfo = null;
+                TextInfo.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = defaultInfo + "ID: " + hCustomTile.CustomTile.ID + "\n" + m_speedInfo + m_damageInfo + m_healthInfo;
             }
-            else
-                m_damageInfo = null;
-            if (hCustomTile.CustomTile.Speed > 0)
-            {
-                m_speedInfo = "Speed: " + hCustomTile.CustomTile.Speed.ToString() + "\n";
-            }
-            else
-                m_speedInfo = null;
-            if (hCustomTile.CustomTile.Health > 0)
-            {
-                m_healthInfo = "Health: " + hCustomTile.CustomTile.Health.ToString() + "\n";
-            }
-            else
-                m_healthInfo = null;
-            TextInfo.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = defaultInfo + "ID: " + hCustomTile.CustomTile.ID+"\n" + m_speedInfo + m_damageInfo + m_healthInfo;
+         
         }
     }
     public void OnPointerExit(PointerEventData _data)
