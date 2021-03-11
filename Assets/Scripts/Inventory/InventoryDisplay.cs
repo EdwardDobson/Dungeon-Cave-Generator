@@ -182,34 +182,37 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
     {
         if (ShiftSwapTile != null)
         {
-            m_clickedObj.GetComponent<Image>().sprite = null;
-            m_clickedObj.GetComponent<HoldCustomTile>().CustomTile = null;
-            m_clickedObj.GetComponent<Image>().color = SlotColour;
-
             if (m_clickedObj.transform.parent.parent.name.Contains("Content"))
             {
-                for (int i = 0; i < HotBar.SlotsHotbar.Count; ++i)
-                {
-                    if (HotBar.SlotsHotbar[i].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile == null)
+                    for (int i = 0; i < HotBar.SlotsHotbar.Count; ++i)
                     {
-                        HotBar.SlotsHotbar[i].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile = ShiftSwapTile;
-                        HotBar.SlotsHotbar[i].transform.GetChild(0).GetComponent<Image>().sprite = ShiftSwapTile.DisplaySprite;
-                        HotBar.SlotsHotbar[i].transform.GetChild(0).GetComponent<Image>().color = ShiftSwapTile.TileColour;
-                        HotBar.SlotsHotbar[i].transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = m_clickedObj.transform.parent.GetChild(1).GetComponent<TextMeshProUGUI>().text;
+                        if (HotBar.SlotsHotbar[i].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile == null)
+                        {
+                            m_clickedObj.GetComponent<Image>().sprite = null;
+                            m_clickedObj.GetComponent<HoldCustomTile>().CustomTile = null;
+                            m_clickedObj.GetComponent<Image>().color = SlotColour;
+                            HotBar.SlotsHotbar[i].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile = ShiftSwapTile;
+                            HotBar.SlotsHotbar[i].transform.GetChild(0).GetComponent<Image>().sprite = ShiftSwapTile.DisplaySprite;
+                            HotBar.SlotsHotbar[i].transform.GetChild(0).GetComponent<Image>().color = ShiftSwapTile.TileColour;
+                            HotBar.SlotsHotbar[i].transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = m_clickedObj.transform.parent.GetChild(1).GetComponent<TextMeshProUGUI>().text;
 
-                        ShiftSwapTile = null;
-                        ChosenTile = null;
-                        EndTile = null;
-                        break;
+                            ShiftSwapTile = null;
+                            ChosenTile = null;
+                            EndTile = null;
+                            break;
+                        }
                     }
-                }
             }
             if (m_clickedObj.transform.parent.parent.name.Contains("Hotbar"))
             {
+
                 for (int i = 0; i < Slots.Count; ++i)
                 {
                     if (Slots[i].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile == null)
                     {
+                        m_clickedObj.GetComponent<Image>().sprite = null;
+                        m_clickedObj.GetComponent<HoldCustomTile>().CustomTile = null;
+                        m_clickedObj.GetComponent<Image>().color = SlotColour;
                         Slots[i].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile = ShiftSwapTile;
                         Slots[i].transform.GetChild(0).GetComponent<Image>().sprite = ShiftSwapTile.DisplaySprite;
                         Slots[i].transform.GetChild(0).GetComponent<Image>().color = ShiftSwapTile.TileColour;

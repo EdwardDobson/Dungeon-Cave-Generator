@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b87fb5b0c88f4644fb2a9e567623d2ec, type: 3}
+  m_Name: Gold Ore Dirt
+  m_EditorClassIdentifier: 
+  Tile:
+  - {fileID: 11400000, guid: 61f28f5dbd5c26f4abcfea8b9f5cf8bb, type: 2}
+  SpriteVariations:
+  - {fileID: 21300000, guid: 1f6c4948366b7c64b9d1dafd021578f7, type: 3}
+  - {fileID: 21300000, guid: 261f4e87c71213d488a91f2e0a64352b, type: 3}
+  - {fileID: 21300000, guid: 7e7d0660602cdc8498c833b33837d3c9, type: 3}
+  - {fileID: 21300000, guid: 8a04eb2895368984fa4f8bebed7342ee, type: 3}
+  TileName: Gold Ore
+  Type: 0
+  Attributes: 00000000
+  BlockSound: {fileID: 8300000, guid: 01228ed0cc9f8dd46b1db4abdb6e37c5, type: 3}
+  ShouldUseColour: 0
+  TileColour: {r: 1, g: 1, b: 1, a: 1}
+  TileBreakingColour: {r: 0.9647059, g: 1, b: 0, a: 1}
+  DisplaySprite: {fileID: 21300000, guid: 1f6c4948366b7c64b9d1dafd021578f7, type: 3}
+  Speed: 0
+  Health: 2
+  Damage: 0
+  CurrentAttackCoolDown: 0
+  MaxAttackCoolDown: 0
+  ShouldGiveScore: 1
+  ScoreDispenseMin: 200
+  ScoreDispenseMax: 300
+  ScoreDispense: 294
+  ID: 22
+  Pos: {x: 0, y: 0, z: 0}
+  PickChance: 10

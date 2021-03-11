@@ -15,18 +15,18 @@ MonoBehaviour:
   Tile:
   - {fileID: 11400000, guid: 2f21162f8f46c2d44a99fab1d2b4c5cf, type: 2}
   SpriteVariations:
-  - {fileID: 21300000, guid: fdbb5f7514001a54882ae88f9595310e, type: 3}
-  - {fileID: 21300000, guid: 828ce2d991ec8424eac1fe050defdda8, type: 3}
-  - {fileID: 21300000, guid: 882a157d2bcacd1498c84a11b30d8ed3, type: 3}
-  - {fileID: 21300000, guid: 80aa9c30b824531499e4d58c999fac8f, type: 3}
+  - {fileID: 21300000, guid: 91cee37bdfa79154f8f3e5b9e847c969, type: 3}
+  - {fileID: 21300000, guid: c425eb357c35df04888cf6fd54e3b5b4, type: 3}
+  - {fileID: 21300000, guid: 2f8657210a37a3a4f81703eea8bfe19b, type: 3}
+  - {fileID: 21300000, guid: 31cc74348a64a5c46bd1ebd3928c607a, type: 3}
   TileName: Stone
   Type: 0
   Attributes: 00000000
   BlockSound: {fileID: 8300000, guid: 01228ed0cc9f8dd46b1db4abdb6e37c5, type: 3}
-  ShouldUseColour: 1
+  ShouldUseColour: 0
   TileColour: {r: 1, g: 1, b: 1, a: 1}
   TileBreakingColour: {r: 0.12156863, g: 0.12156863, b: 0.12156863, a: 1}
-  DisplaySprite: {fileID: 21300000, guid: 882a157d2bcacd1498c84a11b30d8ed3, type: 3}
+  DisplaySprite: {fileID: 21300000, guid: 91cee37bdfa79154f8f3e5b9e847c969, type: 3}
   Speed: 0
   Health: 2
   Damage: 0

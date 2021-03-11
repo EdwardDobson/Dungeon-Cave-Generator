@@ -213,7 +213,7 @@ public class PlaceTile : MonoBehaviour
     }
     void DropBlock(CustomTile _tile)
     {
-        if(Input.GetKey(KeyCode.F))
+        if(Input.GetKey(KeyCode.F) && !m_manager.Creative)
         {
             m_currentDropTimer -= Time.deltaTime;
             if(m_currentDropTimer <= 0)

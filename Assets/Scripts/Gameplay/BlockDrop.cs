@@ -39,29 +39,31 @@ public class BlockDrop : MonoBehaviour
     {
         if(collision.gameObject.tag.Contains("PlayerPick"))
         {
-            bool m_foundHotBarSlot =false;
-            for (int i = 0; i < m_display.HotBar.SlotsHotbar.Count; ++i)
-            {
-                if (m_display.HotBar.SlotsHotbar[i].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile == null)
-                {
-                    m_foundHotBarSlot = true;
-                    collision.transform.parent.GetComponent<InventoryBackpack>().AddToStorage(Tile);
-                    break;
-                }
-            }
-            if(!m_foundHotBarSlot)
-            {
+            bool m_foundHotBarSlot = false;
+         
                 for (int i = 0; i < collision.transform.parent.GetComponent<InventoryBackpack>().Storage.Count; ++i)
                 {
                     if (collision.transform.parent.GetComponent<InventoryBackpack>().Storage[i].Items.Count <= 0)
                     {
+                        m_foundHotBarSlot = true;
+                        collision.transform.parent.GetComponent<InventoryBackpack>().AddToStorage(Tile);
+                        break;
+                    }
+                }
+
+            if (!m_foundHotBarSlot)
+            {
+                for (int i = 0; i < m_display.HotBar.SlotsHotbar.Count; ++i)
+                {
+                    if (m_display.HotBar.SlotsHotbar[i].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile == null)
+                    {
+
                         collision.transform.parent.GetComponent<InventoryBackpack>().AddToStorage(Tile);
                         break;
                     }
                 }
             }
-      
-       
+
             Destroy(gameObject);
         }
     }

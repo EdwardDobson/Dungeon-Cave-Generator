@@ -49,6 +49,7 @@ MonoBehaviour:
   CreativeCanvas: {fileID: 0}
   SurvivalCanvas: {fileID: 0}
   ControlsInfoObj: {fileID: 0}
+  WinScreen: {fileID: 0}
   Button: {fileID: 0}
   FindModeButton: {fileID: 0}
   Timer: 0
@@ -61,6 +62,7 @@ MonoBehaviour:
   TimerText: {fileID: 0}
   PlayerPosText: {fileID: 0}
   EndPosText: {fileID: 0}
+  ScoreNeededText: {fileID: 0}
   m_totalScoreNeeded: 0
   m_totalScore: 0
   DamagedTiles: {fileID: 1392091137}
