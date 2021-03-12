@@ -19,7 +19,7 @@ public class InventoryBackpack : MonoBehaviour
     public float PickupRange;
     private void Start()
     {
-        for(int i  =0; i < StorageCapacity; ++i)
+        for (int i = 0; i < StorageCapacity; ++i)
         {
             ItemInventory tempList = new ItemInventory();
             Storage.Add(tempList);
@@ -44,14 +44,12 @@ public class InventoryBackpack : MonoBehaviour
             }
         }
     }
-    public void RemoveMultipleItems(int _amount,int _storageIndex)
+    public void RemoveMultipleItems(int _amount, int _storageIndex)
     {
         for (int i = 0; i < _amount; ++i)
-        {
-
-                        Storage[_storageIndex].Items.RemoveAt(0);
-                        HotBarScrolling.UpdateCountDisplay(Storage[_storageIndex].Items.Count);
-        Debug.Log("Removing Item");
+        { 
+            Storage[_storageIndex].Items.RemoveAt(0);
+            HotBarScrolling.UpdateCountDisplay(Storage[_storageIndex].Items.Count);
         }
     }
     public void RemoveFromStorage(CustomTile _customTile)
@@ -117,7 +115,7 @@ public class InventoryBackpack : MonoBehaviour
             {
                 if (Storage[i].Items.Any(t => t.ItemID == _customTile.ID))
                 {
-                return    Storage[i].Items.Count;
+                    return Storage[i].Items.Count;
                 }
             }
         }
@@ -132,7 +130,7 @@ public class InventoryBackpack : MonoBehaviour
                 if (Storage[i].Items.Any(t => t.ItemID == _customTile.Item.ItemID))
                 {
                     Storage[i].Items.Add(_customTile.Item);
-                    if(Storage[i].Items.Count <= 1)
+                    if (Storage[i].Items.Count <= 1)
                         Display.AddToSlot(_customTile);
                     break;
                 }
