@@ -123,9 +123,13 @@ public class PlaceTile : MonoBehaviour
         if (_tile != null)
         {
             DropBlock(_tile);
+        }
+        if (_tile != null && _tile.Item != null && _tile.Item.CanBePlaced || m_manager.Creative)
+        {
+        
+  
             Vector2 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector3Int v = new Vector3Int((int)worldPosition.x, (int)worldPosition.y, 0);
-
             if (m_enemySpawner.Enemies.All(g => new Vector3Int((int)g.transform.position.x, (int)g.transform.position.y, (int)g.transform.position.z) != v))
             {
                 float distance = Vector3Int.Distance(v, new Vector3Int((int)transform.position.x, (int)transform.position.y, (int)transform.position.z));
@@ -136,12 +140,16 @@ public class PlaceTile : MonoBehaviour
                     {
                         if (WallGen.GetTilemap().GetTile(v) == null)
                         {
+                   
                             if (newCopy.Type == TileType.Wall)
                             {
+                        
                                 if (new Vector3Int((int)transform.position.x, (int)transform.position.y, 0) != v)
                                 {
+                                    Debug.Log("Placing Tile: " + _tile.TileName);
                                     if (!m_manager.Creative && BackPack.GetStorageTypeCount(_tile) > 0)
                                     {
+                                 
                                         for (int a = 0; a < TileManager.GetTileHolder(newCopy.Type).Tiles.Count; ++a)
                                         {
                                             if (TileManager.GetTileHolder(newCopy.Type).Tiles[a].ID == newCopy.ID)
@@ -153,7 +161,9 @@ public class PlaceTile : MonoBehaviour
                                         ApplySpriteVariation(newCopy, WallGen.GetTilemap(), v);
                                         Instantiate(m_audioPlaceSource);
                                         BackPack.RemoveFromStorage(newCopy);
-                                        newCopy = BackPack.GetNewItem(_tile);
+                                        if(BackPack.GetNewItem(_tile) != null)
+                                        newCopy.Item = Instantiate( BackPack.GetNewItem(_tile));
+                               
                                     }
                                     if (m_manager.Creative)
                                     {
@@ -194,7 +204,8 @@ public class PlaceTile : MonoBehaviour
                                         ApplySpriteVariation(newCopy, DungeonUtility.GetTilemap(), v);
                                         Instantiate(m_audioPlaceSource);
                                         BackPack.RemoveFromStorage(newCopy);
-                                        newCopy = BackPack.GetNewItem(_tile);
+                                        if (BackPack.GetNewItem(_tile) != null)
+                                            newCopy.Item = Instantiate(BackPack.GetNewItem(_tile));
                                     }
                                     if (m_manager.Creative)
                                     {
@@ -219,7 +230,7 @@ public class PlaceTile : MonoBehaviour
     }
     void DropBlock(CustomTile _tile)
     {
-        if(Input.GetKey(KeyCode.F) && !m_manager.Creative)
+        if (Input.GetKey(KeyCode.F) && !m_manager.Creative && Input.GetAxis("Mouse ScrollWheel") == 0)
         {
             m_currentDropTimer -= Time.deltaTime;
             if(m_currentDropTimer <= 0)

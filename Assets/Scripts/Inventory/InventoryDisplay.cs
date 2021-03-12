@@ -54,6 +54,7 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
     {
         if(!m_manager.GetPausedState())
         {
+            RefreshInventory();
             if (TileImage.gameObject.activeSelf)
             {
                 TileImage.transform.position = Input.mousePosition;
@@ -71,6 +72,7 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
                     Time.timeScale = 0;
                 }
                 DisplayCount();
+           
             }
             if (StorageHolder.activeSelf)
             {
@@ -115,6 +117,43 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
         m_clickedObj = null;
         TextInfo.SetActive(false);
     }
+    public void RefreshInventory()
+    {
+        for (int i = 0; i < Slots.Count; ++i)
+        {
+            if (Slots[i].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile != null && Slots[i].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile.Item != null)
+            {
+                for (int a = 0; a < m_inventoryBackPack.Storage.Count; ++a)
+                {
+                    for (int b = 0; b < m_inventoryBackPack.Storage[a].Items.Count; ++b)
+                    {
+                        if (m_inventoryBackPack.Storage[a].Items[b].Name == Slots[i].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile.Item.Name)
+                        {
+                            Slots[i].transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = m_inventoryBackPack.Storage[a].Items.Count.ToString();
+                        }
+                    }
+                }
+            }
+        }
+        for (int i = 0; i < HotBar.SlotsHotbar.Count; ++i)
+        { 
+            if (HotBar.SlotsHotbar[i].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile != null && HotBar.SlotsHotbar[i].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile.Item != null)
+            {
+                for (int a = 0; a < m_inventoryBackPack.Storage.Count; ++a)
+                {
+                    for(int b = 0; b < m_inventoryBackPack.Storage[a].Items.Count; ++b)
+                    {
+                        if (m_inventoryBackPack.Storage[a].Items[b].Name == HotBar.SlotsHotbar[i].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile.Item.Name)
+                        {
+                           HotBar.SlotsHotbar[i].transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = m_inventoryBackPack.Storage[a].Items.Count.ToString();
+                 
+                        }
+                    }
+                }
+            }
+        }
+
+    }
     public void AddToSlot(CustomTile _tile)
     {
         if (HotBar.SlotsHotbar.All(i => i.transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile != null))
@@ -124,7 +163,10 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
                 if (Slots[a].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile == null)
                 {
                     Slots[a].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile = _tile;
-                    Slots[a].transform.GetChild(0).GetComponent<Image>().sprite = _tile.DisplaySprite;
+                    if (!_tile.Item.CanBePlaced)
+                        Slots[a].transform.GetChild(0).GetComponent<Image>().sprite = _tile.Item.Sprite;
+                    if (_tile.Item.CanBePlaced)
+                        Slots[a].transform.GetChild(0).GetComponent<Image>().sprite = _tile.DisplaySprite;
                     Slots[a].transform.GetChild(0).GetComponent<Image>().color = _tile.TileColour;
                     break;
                 }
@@ -135,14 +177,16 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
             if (HotBar.SlotsHotbar[i].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile == null)
             {
                 HotBar.SlotsHotbar[i].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile = _tile;
-                HotBar.SlotsHotbar[i].transform.GetChild(0).GetComponent<Image>().sprite = _tile.DisplaySprite;
+                if(!_tile.Item.CanBePlaced)
+                HotBar.SlotsHotbar[i].transform.GetChild(0).GetComponent<Image>().sprite = _tile.Item.Sprite;
+                if (_tile.Item.CanBePlaced)
+                    HotBar.SlotsHotbar[i].transform.GetChild(0).GetComponent<Image>().sprite = _tile.DisplaySprite;
                 HotBar.SlotsHotbar[i].transform.GetChild(0).GetComponent<Image>().color = _tile.TileColour;
                 break;
             }
-
         }
     }
-    void DisplayCount()
+   public void DisplayCount()
     {
         for (int i = 0; i < m_inventoryBackPack.Storage.Count; ++i)
         {
@@ -153,6 +197,7 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
                     if (Slots[b].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile == m_inventoryBackPack.Storage[i].Items[a])
                     {
                         Slots[b].transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = m_inventoryBackPack.Storage[i].Items.Count.ToString();
+
                     }
                 }
             }
@@ -198,8 +243,13 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
                             m_clickedObj.GetComponent<HoldCustomTile>().CustomTile = null;
                             m_clickedObj.GetComponent<Image>().color = SlotColour;
                             HotBar.SlotsHotbar[i].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile = ShiftSwapTile;
+
+                        if (!HotBar.SlotsHotbar[i].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile.Item.CanBePlaced)
+                            HotBar.SlotsHotbar[i].transform.GetChild(0).GetComponent<Image>().sprite = ShiftSwapTile.Item.Sprite;
+                        if (HotBar.SlotsHotbar[i].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile.Item.CanBePlaced)
                             HotBar.SlotsHotbar[i].transform.GetChild(0).GetComponent<Image>().sprite = ShiftSwapTile.DisplaySprite;
-                            HotBar.SlotsHotbar[i].transform.GetChild(0).GetComponent<Image>().color = ShiftSwapTile.TileColour;
+
+                        HotBar.SlotsHotbar[i].transform.GetChild(0).GetComponent<Image>().color = ShiftSwapTile.TileColour;
                             HotBar.SlotsHotbar[i].transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = m_clickedObj.transform.parent.GetChild(1).GetComponent<TextMeshProUGUI>().text;
                             TextInfo.SetActive(false);
                             ShiftSwapTile = null;
@@ -221,7 +271,11 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
                         m_clickedObj.GetComponent<Image>().color = SlotColour;
                         TextInfo.SetActive(false);
                         Slots[i].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile = ShiftSwapTile;
-                        Slots[i].transform.GetChild(0).GetComponent<Image>().sprite = ShiftSwapTile.DisplaySprite;
+                        if (!Slots[i].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile.Item.CanBePlaced)
+                            Slots[i].transform.GetChild(0).GetComponent<Image>().sprite = ShiftSwapTile.Item.Sprite;
+                        if (Slots[i].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile.Item.CanBePlaced)
+                            Slots[i].transform.GetChild(0).GetComponent<Image>().sprite = ShiftSwapTile.DisplaySprite;
+
                         Slots[i].transform.GetChild(0).GetComponent<Image>().color = ShiftSwapTile.TileColour;
                         Slots[i].transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = m_clickedObj.transform.parent.GetChild(1).GetComponent<TextMeshProUGUI>().text;
                         ShiftSwapTile = null;
@@ -243,7 +297,7 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
         _chosenTile.transform.parent.GetChild(1).GetComponent<TextMeshProUGUI>().text = "";
 
         TileImage.gameObject.SetActive(true);
-        TileImage.transform.GetChild(0).GetComponent<Image>().sprite = ChosenTile.DisplaySprite;
+        TileImage.transform.GetChild(0).GetComponent<Image>().sprite = ChosenTile.Item.Sprite;
         TileImage.transform.GetChild(0).GetComponent<Image>().color = ChosenTile.TileColour;
     }
 
@@ -259,10 +313,18 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
     {
         ChosenTile = _otherTile.GetComponent<HoldCustomTile>().CustomTile;
         _otherTile.GetComponent<HoldCustomTile>().CustomTile = TransitTile;
-        TileImage.transform.GetChild(0).GetComponent<Image>().sprite = ChosenTile.DisplaySprite;
+        TileImage.transform.GetChild(0).GetComponent<Image>().sprite = ChosenTile.Item.Sprite;
+        if (ChosenTile.Item.CanBePlaced)
+            TileImage.transform.GetChild(0).GetComponent<Image>().sprite = ChosenTile.Item.Sprite;
+        if (!ChosenTile.Item.CanBePlaced)
+            TileImage.transform.GetChild(0).GetComponent<Image>().sprite = ChosenTile.DisplaySprite;
+
         TileImage.transform.GetChild(0).GetComponent<Image>().color = ChosenTile.TileColour;
         _otherTile.GetComponent<Image>().color = _otherTile.GetComponent<HoldCustomTile>().CustomTile.TileColour;
-        _otherTile.GetComponent<Image>().sprite = _otherTile.GetComponent<HoldCustomTile>().CustomTile.DisplaySprite;
+        if (_otherTile.GetComponent<HoldCustomTile>().CustomTile.Item.CanBePlaced)
+        _otherTile.GetComponent<Image>().sprite = _otherTile.GetComponent<HoldCustomTile>().CustomTile.Item.Sprite;
+        if (!_otherTile.GetComponent<HoldCustomTile>().CustomTile.Item.CanBePlaced)
+            _otherTile.GetComponent<Image>().sprite = _otherTile.GetComponent<HoldCustomTile>().CustomTile.DisplaySprite;
         DisplayCount();
     }
     void PlaceEndTile(GameObject _finalTile)
@@ -270,11 +332,11 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
         if (TransitTile != null)
         {
             _finalTile.GetComponent<HoldCustomTile>().CustomTile = TransitTile;
-            _finalTile.GetComponent<Image>().sprite = TransitTile.DisplaySprite;
+            _finalTile.GetComponent<Image>().sprite = TransitTile.Item.Sprite;
             _finalTile.GetComponent<Image>().color = TransitTile.TileColour;
             for (int i = 0; i < m_inventoryBackPack.Storage.Count; ++i)
             {
-                if (m_inventoryBackPack.Storage[i].Items.Contains(_finalTile.GetComponent<HoldCustomTile>().CustomTile))
+                if (m_inventoryBackPack.Storage[i].Items.Contains(_finalTile.GetComponent<HoldCustomTile>().CustomTile.Item))
                 {
                     _finalTile.transform.parent.GetChild(1).GetComponent<TextMeshProUGUI>().text = m_inventoryBackPack.Storage[i].Items.Count.ToString();
                 }
@@ -292,26 +354,34 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
         TextInfo.SetActive(true);
   
         TextInfo.transform.position = _pos;
-        string defaultInfo = _data.TileName + "\nType: " +
-           _data.Type.ToString() + "\n";
-        if (_data.Damage > 0)
+        if(_data.Item.CanBePlaced)
         {
-            m_damageInfo = "Damage: " + TransitTile.Damage.ToString() + "\n";
+            string defaultInfo = _data.TileName + "\nType: " +
+     _data.Type.ToString() + "\n";
+            if (_data.Damage > 0)
+            {
+                m_damageInfo = "Damage: " + TransitTile.Damage.ToString() + "\n";
+            }
+            else
+                m_damageInfo = null;
+            if (_data.Speed > 0)
+            {
+                m_speedInfo = "Speed: " + _data.Speed.ToString() + "\n";
+            }
+            else
+                m_speedInfo = null;
+            if (_data.Health > 0)
+            {
+                m_healthInfo = "Health: " + _data.Health.ToString() + "\n";
+            }
+            else
+                m_healthInfo = null;
+            TextInfo.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = defaultInfo + "ID: " + _data.ID + "\n" + m_speedInfo + m_damageInfo + m_healthInfo;
         }
-        else
-            m_damageInfo = null;
-        if (_data.Speed > 0)
+        if (!_data.Item.CanBePlaced)
         {
-            m_speedInfo = "Speed: " + _data.Speed.ToString() + "\n";
+            TextInfo.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = _data.Item.Name + "\nID: " + _data.ID;
         }
-        else
-            m_speedInfo = null;
-        if (_data.Health > 0)
-        {
-            m_healthInfo = "Health: " + _data.Health.ToString() + "\n";
-        }
-        else
-            m_healthInfo = null;
-        TextInfo.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = defaultInfo + "ID: " + _data.ID + "\n" + m_speedInfo + m_damageInfo + m_healthInfo;
+
     }
 }

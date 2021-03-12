@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b87fb5b0c88f4644fb2a9e567623d2ec, type: 3}
   m_Name: Ruby Dirt Ore
   m_EditorClassIdentifier: 
+  Item: {fileID: 11400000, guid: 960a2cd05dc0cbe4ba95806f5fb685c1, type: 2}
   Tile:
   - {fileID: 11400000, guid: 32ad1671a14e6f74eab91933404fb3c5, type: 2}
   SpriteVariations:
@@ -35,7 +36,8 @@ MonoBehaviour:
   ShouldGiveScore: 1
   ScoreDispenseMin: 50
   ScoreDispenseMax: 150
-  ScoreDispense: 57
+  ScoreDispense: 94
   ID: 11
   Pos: {x: 0, y: 0, z: 0}
   PickChance: 15
+  DropMax: 5

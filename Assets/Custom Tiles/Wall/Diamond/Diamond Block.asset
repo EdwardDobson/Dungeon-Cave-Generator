@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b87fb5b0c88f4644fb2a9e567623d2ec, type: 3}
+  m_Name: Diamond Block
+  m_EditorClassIdentifier: 
+  Item: {fileID: 11400000, guid: 044225a91b50dea47a7ea018f804e50b, type: 2}
+  Tile:
+  - {fileID: 11400000, guid: 9ed8494dace98294690c26800236abd8, type: 2}
+  SpriteVariations:
+  - {fileID: 7482667652216324306, guid: e422618a0fddb4543be6844d1e21e559, type: 3}
+  TileName: Diamond Block
+  Type: 0
+  Attributes: 00000000
+  BlockSound: {fileID: 8300000, guid: 01228ed0cc9f8dd46b1db4abdb6e37c5, type: 3}
+  ShouldUseColour: 1
+  TileColour: {r: 0, g: 1, b: 0.9608457, a: 1}
+  TileBreakingColour: {r: 0, g: 1, b: 0.98039216, a: 1}
+  DisplaySprite: {fileID: 7482667652216324306, guid: 9b0aec61e3ea1064b8f1882170bda110, type: 3}
+  Speed: 0
+  Health: 10
+  Damage: 0
+  CurrentAttackCoolDown: 0
+  MaxAttackCoolDown: 0
+  ShouldGiveScore: 0
+  ScoreDispenseMin: 0
+  ScoreDispenseMax: 0
+  ScoreDispense: 0
+  ID: 24
+  Pos: {x: 0, y: 0, z: 0}
+  PickChance: 0
+  DropMax: 1

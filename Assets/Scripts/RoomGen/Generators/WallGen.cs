@@ -35,8 +35,7 @@ namespace DungeonGeneration
                     tempTileIndex = Random.Range(0, tilesWithinRange.Count);
                     Vector3Int pos = new Vector3Int(x, y, 0);
                     if (tile == null)
-                    {
-                      
+                    {     
                         TileManager.PlaceTile(pos, tempTileIndex, null, m_walls, tilesWithinRange[tempTileIndex], DictionaryType.Walls);      
                         Tile tileT = m_walls.GetTile<Tile>(pos);
                         if (tilesWithinRange[tempTileIndex].SpriteVariations.Length >0)

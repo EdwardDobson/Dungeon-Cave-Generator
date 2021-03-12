@@ -1,3 +1,4 @@
+using DungeonGeneration;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,39 +18,53 @@ public class BlockDrop : MonoBehaviour
     }
     public void SetUp(CustomTile _tile)
     {
+        CustomTile tempTile = TileManager.GetTileHolder(_tile.Type).Tiles.Where(t => t.TileName == _tile.TileName).First();
         m_manager = GameObject.Find("GameManager").GetComponent<GameManager>();
         Tile = _tile;
         Sprite = GetComponent<SpriteRenderer>();
-        if(_tile.DisplaySprite != null)
+        Tile.Item = Instantiate(_tile.Item);
+        if (_tile.Item.CanBePlaced)
+            Tile.Item.ItemID = _tile.ID;
+        if (!_tile.Item.CanBePlaced)
+            Tile.Item.ItemID = tempTile.ID;
+        if (Tile.Item != null)
         {
-            Sprite.sprite = _tile.DisplaySprite;
+            if (!Tile.Item.CanBePlaced)
+            {
+                Sprite.sprite = Tile.Item.Sprite;
+            }
         }
-        if(_tile.ShouldUseColour)
-        Sprite.color = _tile.TileColour;
+
+        if (Tile.Item.CanBePlaced)
+        {
+            Sprite.sprite = Tile.DisplaySprite;
+        }
+        if (_tile.ShouldUseColour)
+            Sprite.color = _tile.TileColour;
         float randomPlacementX = Random.Range(transform.position.x - 0.5f, transform.position.x + 0.5f);
         float randomPlacementY = Random.Range(transform.position.y - 0.5f, transform.position.y + 0.5f);
         transform.position = new Vector3(randomPlacementX, randomPlacementY, -0.1f);
-   
+
     }
     private void Update()
     {
-        transform.RotateAround(transform.position,new Vector3(0,0,-1), Time.deltaTime * 50);
+        transform.RotateAround(transform.position, new Vector3(0, 0, -1), Time.deltaTime * 50);
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.tag.Contains("PlayerPick"))
+        if (collision.gameObject.tag.Contains("PlayerPick"))
         {
             bool m_foundHotBarSlot = false;
-         
-                for (int i = 0; i < collision.transform.parent.GetComponent<InventoryBackpack>().Storage.Count; ++i)
+
+            for (int i = 0; i < collision.transform.parent.GetComponent<InventoryBackpack>().Storage.Count; ++i)
+            {
+                if (collision.transform.parent.GetComponent<InventoryBackpack>().Storage[i].Items.Count <= 0)
                 {
-                    if (collision.transform.parent.GetComponent<InventoryBackpack>().Storage[i].Items.Count <= 0)
-                    {
-                        m_foundHotBarSlot = true;
-                        collision.transform.parent.GetComponent<InventoryBackpack>().AddToStorage(Tile);
-                        break;
-                    }
+                    m_foundHotBarSlot = true;
+                    collision.transform.parent.GetComponent<InventoryBackpack>().AddToStorage(Tile);
+                    break;
                 }
+            }
 
             if (!m_foundHotBarSlot)
             {
@@ -57,7 +72,6 @@ public class BlockDrop : MonoBehaviour
                 {
                     if (m_display.HotBar.SlotsHotbar[i].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile == null)
                     {
-
                         collision.transform.parent.GetComponent<InventoryBackpack>().AddToStorage(Tile);
                         break;
                     }

@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b87fb5b0c88f4644fb2a9e567623d2ec, type: 3}
   m_Name: Gold Ore Dirt
   m_EditorClassIdentifier: 
+  Item: {fileID: 11400000, guid: 7d3918555f07c28418fab4e4f5ff4b17, type: 2}
   Tile:
   - {fileID: 11400000, guid: 61f28f5dbd5c26f4abcfea8b9f5cf8bb, type: 2}
   SpriteVariations:
@@ -35,7 +36,8 @@ MonoBehaviour:
   ShouldGiveScore: 1
   ScoreDispenseMin: 200
   ScoreDispenseMax: 300
-  ScoreDispense: 294
-  ID: 22
+  ScoreDispense: 255
+  ID: 21
   Pos: {x: 0, y: 0, z: 0}
   PickChance: 10
+  DropMax: 1

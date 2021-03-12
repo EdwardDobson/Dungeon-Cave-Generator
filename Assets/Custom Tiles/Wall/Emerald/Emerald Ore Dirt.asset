@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b87fb5b0c88f4644fb2a9e567623d2ec, type: 3}
   m_Name: Emerald Ore Dirt
   m_EditorClassIdentifier: 
+  Item: {fileID: 11400000, guid: 97795042dd647714a9b5f1a1c348221d, type: 2}
   Tile:
   - {fileID: 11400000, guid: 29259bc4b68f0774181914eda310dd97, type: 2}
   SpriteVariations:
@@ -35,7 +36,8 @@ MonoBehaviour:
   ShouldGiveScore: 1
   ScoreDispenseMin: 250
   ScoreDispenseMax: 500
-  ScoreDispense: 376
-  ID: 20
+  ScoreDispense: 313
+  ID: 19
   Pos: {x: 0, y: 0, z: 0}
   PickChance: 5
+  DropMax: 5

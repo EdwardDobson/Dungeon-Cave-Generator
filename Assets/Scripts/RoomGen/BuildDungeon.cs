@@ -52,7 +52,7 @@ public class BuildDungeon : MonoBehaviour
     {
         Stopwatch SW = new Stopwatch();
         SW.Start();
-
+      //  UnityEngine.Random.seed = 1234234235;
         TileManager.LoadTileManager();
         DungeonUtility.DungeonSetup(m_dungeonDimensions, m_tilemap);
         WallGen.SetWallSizes(m_wallDimensions);

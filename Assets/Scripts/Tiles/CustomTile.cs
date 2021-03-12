@@ -19,6 +19,7 @@ public enum Attributes
 [CreateAssetMenu(fileName = "Custom Tile", menuName = "Create Custom Tile", order = 1)]
 public class CustomTile : ScriptableObject
 {
+    public Item Item;
     public List< TileBase> Tile;
     public Sprite[] SpriteVariations;
     public string TileName;
@@ -42,4 +43,5 @@ public class CustomTile : ScriptableObject
     public Vector3Int Pos;
     [Range(1,100)]
     public float PickChance;
+    public int DropMax;
 }

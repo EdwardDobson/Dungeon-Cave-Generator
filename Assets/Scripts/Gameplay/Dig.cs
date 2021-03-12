@@ -142,17 +142,24 @@ public class Dig : MonoBehaviour
     }
     void ShouldBlockDrop(int _blockIndex)
     {
-        if (!m_manager.Creative && !m_manager.ScoreMode)
+        int amountToDrop = Random.Range(1, WallsTouched[_blockIndex].DropMax);
+        for(int i = 0; i < amountToDrop; ++i)
         {
-            Vector3 pos = new Vector3(WallsTouched[_blockIndex].Pos.x + 0.5f, WallsTouched[_blockIndex].Pos.y + 0.5f, 0);
-            GameObject c = Instantiate(BlockDrop, pos, Quaternion.identity);
-            c.GetComponent<BlockDrop>().SetUp(WallsTouched[_blockIndex]);
+            if (!m_manager.Creative && !m_manager.ScoreMode)
+            {
+                Vector3 pos = new Vector3(WallsTouched[_blockIndex].Pos.x + 0.5f, WallsTouched[_blockIndex].Pos.y + 0.5f, 0);
+                GameObject c = Instantiate(BlockDrop, pos, Quaternion.identity);
+
+                c.GetComponent<BlockDrop>().SetUp(WallsTouched[_blockIndex]);
+            }
+            if (m_manager.ScoreMode && !WallsTouched[_blockIndex].ShouldGiveScore)
+            {
+                Vector3 pos = new Vector3(WallsTouched[_blockIndex].Pos.x + 0.5f, WallsTouched[_blockIndex].Pos.y + 0.5f, 0);
+                GameObject c = Instantiate(BlockDrop, pos, Quaternion.identity);
+                c.GetComponent<BlockDrop>().SetUp(WallsTouched[_blockIndex]);
+
+            }
         }
-        if (m_manager.ScoreMode && !WallsTouched[_blockIndex].ShouldGiveScore)
-        {
-            Vector3 pos = new Vector3(WallsTouched[_blockIndex].Pos.x + 0.5f, WallsTouched[_blockIndex].Pos.y + 0.5f, 0);
-            GameObject c = Instantiate(BlockDrop, pos, Quaternion.identity);
-            c.GetComponent<BlockDrop>().SetUp(WallsTouched[_blockIndex]);
-        }
+ 
     }
 }

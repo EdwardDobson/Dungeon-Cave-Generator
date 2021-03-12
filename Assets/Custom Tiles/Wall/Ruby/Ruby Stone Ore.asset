@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b87fb5b0c88f4644fb2a9e567623d2ec, type: 3}
   m_Name: Ruby Stone Ore
   m_EditorClassIdentifier: 
+  Item: {fileID: 11400000, guid: 960a2cd05dc0cbe4ba95806f5fb685c1, type: 2}
   Tile:
   - {fileID: 11400000, guid: e970e65aaf329ba419d4771f96273c70, type: 2}
   SpriteVariations:
@@ -35,7 +36,8 @@ MonoBehaviour:
   ShouldGiveScore: 1
   ScoreDispenseMin: 100
   ScoreDispenseMax: 175
-  ScoreDispense: 114
-  ID: 19
+  ScoreDispense: 133
+  ID: 18
   Pos: {x: 0, y: 0, z: 0}
   PickChance: 15
+  DropMax: 5
