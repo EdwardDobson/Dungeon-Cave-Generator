@@ -58,7 +58,13 @@ public class Dig : MonoBehaviour
                     CurrentDigSpeed -= Time.deltaTime;
                     if (CurrentDigSpeed <= 0)
                     {
-                        if (WallsTouched.All(w => w.Pos != v))
+                        bool foundTile = false;
+                        for(int WT = 0; WT < WallsTouched.Count; ++WT)
+                        {
+                            if(WallsTouched[WT].Pos == v)
+                                foundTile = true;
+                        }
+                        if(!foundTile)
                         {
                             CustomTile copy = Instantiate(TileManager.GetTileDictionaryWalls()[v].CustomTile);
                             copy.Pos = v;
@@ -78,7 +84,6 @@ public class Dig : MonoBehaviour
                                 if (WallsTouched[i].Health > 0)
                                 {
                                     WallsTouched[i].Health -= DigDamage;
-
                                     m_manager.DamagedTiles.Add(WallsTouched[i]);
                                     if (WallsTouched[i].BlockSound != null)
                                     {
@@ -111,22 +116,13 @@ public class Dig : MonoBehaviour
                                     }
                                     if (!m_pTile.PlacedOnTiles.ContainsKey(v))
                                     {
-                                        TileManager.RemoveTilePiece(v, WallTileMap);
-                                        TileManager.ChangeTilePiece(v, 0, TileType.Path, Map);
-                                        TileManager.GetTileDictionaryWalls().Remove(v);
-                                        TileManager.FillDictionary(v, TileManager.GetTileHolder(TileType.Path).Tiles[0], Map, DictionaryType.Floor);
-                                        TileManager.ChangeTileColour(Map, v, TileManager.GetTileHolder(TileType.Path).Tiles[0]);
+                                        TileManager.PlaceTile(v, 0, WallTileMap, Map, TileManager.GetTileHolder(TileType.Path).Tiles[0], DictionaryType.Floor);
                                     }
-                                    //   TileManager.FillDictionary(v, TileManager.GetAllTiles(TileType.Path), 0, Map);
                                     for (int a = 0; a < m_pTile.PlacedOnTiles.Count; ++a)
                                     {
                                         if (m_pTile.PlacedOnTiles.ContainsKey(v))
                                         {
-                                            TileManager.RemoveTilePiece(v, WallTileMap);
-                                            TileManager.ChangeTilePieceDig(v, m_pTile.PlacedOnTiles[v].Tile[0], Map);
-                                            TileManager.GetTileDictionaryWalls().Remove(v);
-                                            TileManager.FillDictionary(v, m_pTile.PlacedOnTiles[v], Map, DictionaryType.Floor);
-                                            TileManager.ChangeTileColour(Map, v, m_pTile.PlacedOnTiles[v]);
+                                            TileManager.PlaceTile(v, 0, WallTileMap, Map, m_pTile.PlacedOnTiles[v], DictionaryType.Floor);
                                             m_pTile.PlacedOnTiles.Remove(v);
                                         }
                                     }

@@ -39,8 +39,8 @@ public class PlayerMovement : MonoBehaviour
     {
         h = Input.GetAxisRaw("Horizontal");
         v = Input.GetAxisRaw("Vertical");
-        if(h != 0 || v != 0)
-        TileChecker();
+        if (h != 0 || v != 0)
+            TileChecker();
         if (transform.position.x - 0.5f < 0)
         {
             if (Input.GetKey(KeyCode.A))
@@ -73,26 +73,6 @@ public class PlayerMovement : MonoBehaviour
     void TileChecker()
     {
         Vector3Int pos = new Vector3Int((int)transform.position.x, (int)transform.position.y, (int)transform.position.z);
-        if (Map.GetTile(pos) != null)
-        {
-                if (TileManager.GetTileDictionaryFloor()[pos].CustomTile.Attributes.Any(a => a == Attributes.Speed))
-                {
-                    CustomTile copy = Instantiate(TileManager.GetTileDictionaryFloor()[pos].CustomTile);
-                    copy.Pos = pos;
-                    Speed = copy.Speed;
-                }
-            }
-        }
+        Speed = TileManager.GetTileDictionaryFloor()[pos].CustomTile.Speed;
     }
-/*
- * 
- * Wall detection without tilemap colliders
-        Vector3Int tempPos = new Vector3Int((int)transform.position.x, (int)(transform.position.y + 0.5f), 0);
-                if(TileManager.GetTileDictionaryWalls().ContainsKey(tempPos))
-                {
-                    v = 0;
-                }
-                else  {      
 }
-             
- */

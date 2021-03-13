@@ -77,7 +77,6 @@ public class BlockDrop : MonoBehaviour
                         if (m_display.HotBar.SlotsHotbar[i].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile == null)
                         {
                             collision.transform.parent.GetComponent<InventoryBackpack>().AddToStorage(Tile);
-                            Debug.Log("Hotbar slot");
                             Destroy(gameObject);
                             break;
                         }

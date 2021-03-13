@@ -140,16 +140,12 @@ public class PlaceTile : MonoBehaviour
                     {
                         if (WallGen.GetTilemap().GetTile(v) == null)
                         {
-                   
                             if (newCopy.Type == TileType.Wall)
                             {
-                        
                                 if (new Vector3Int((int)transform.position.x, (int)transform.position.y, 0) != v)
                                 {
-                                    Debug.Log("Placing Tile: " + _tile.TileName);
                                     if (!m_manager.Creative && BackPack.GetStorageTypeCount(_tile) > 0)
                                     {
-                                 
                                         for (int a = 0; a < TileManager.GetTileHolder(newCopy.Type).Tiles.Count; ++a)
                                         {
                                             if (TileManager.GetTileHolder(newCopy.Type).Tiles[a].ID == newCopy.ID)

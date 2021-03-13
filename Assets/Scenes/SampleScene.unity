@@ -1778,6 +1778,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1287630958, guid: 70b7b7d86201aa347a1655130c239a0a, type: 3}
+      propertyPath: m_UsedByComposite
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1287630959, guid: 70b7b7d86201aa347a1655130c239a0a, type: 3}
+      propertyPath: m_ColliderPaths.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2472697035314329761, guid: 70b7b7d86201aa347a1655130c239a0a, type: 3}
       propertyPath: m_Name
       value: Grid
@@ -1826,7 +1834,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1287630959, guid: 70b7b7d86201aa347a1655130c239a0a, type: 3}
+    - {fileID: 1287630960, guid: 70b7b7d86201aa347a1655130c239a0a, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 70b7b7d86201aa347a1655130c239a0a, type: 3}
 --- !u!1001 &2815028619245585175
 PrefabInstance:
@@ -2633,6 +2643,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Inventory
       objectReference: {fileID: 0}
+    - target: {fileID: 7130105161208903813, guid: ac0294aebad7413478d92baa80b97740, type: 3}
+      propertyPath: HotBar
+      value: 
+      objectReference: {fileID: 2021844749}
     - target: {fileID: 8597560990776169759, guid: ac0294aebad7413478d92baa80b97740, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -2924,6 +2938,10 @@ PrefabInstance:
       propertyPath: HotBarScrolling
       value: 
       objectReference: {fileID: 2021844749}
+    - target: {fileID: 7794398216400669159, guid: a7a415f56d409c94aa73a4fccef2d957, type: 3}
+      propertyPath: StorageCapacity
+      value: 36
+      objectReference: {fileID: 0}
     - target: {fileID: 7794398217402429729, guid: a7a415f56d409c94aa73a4fccef2d957, type: 3}
       propertyPath: Map
       value: 
