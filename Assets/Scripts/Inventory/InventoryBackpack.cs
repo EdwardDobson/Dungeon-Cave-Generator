@@ -19,16 +19,19 @@ public class InventoryBackpack : MonoBehaviour
     public float PickupRange;
     private void Start()
     {
-        for (int i = 0; i < StorageCapacity; ++i)
-        {
-            ItemInventory tempList = new ItemInventory();
-            Storage.Add(tempList);
-        }
+
         transform.GetChild(0).GetComponent<CircleCollider2D>().radius = PickupRange;
     }
     private void Update()
     {
         transform.GetChild(0).GetComponent<CircleCollider2D>().radius = PickupRange;
+        for(int i = 0; i < Storage.Count; ++i)
+        {
+            if(Storage[i].Items.Count <= 0)
+            {
+                Storage.RemoveAt(i);
+            }
+        }
     }
     public void RemoveItem(Item _item)
     {
@@ -44,12 +47,12 @@ public class InventoryBackpack : MonoBehaviour
             }
         }
     }
-    public void RemoveMultipleItems(int _amount, int _storageIndex)
+    public void RemoveMultipleItems(int _amount,List<Item> _storageSlot)
     {
         for (int i = 0; i < _amount; ++i)
-        { 
-            Storage[_storageIndex].Items.RemoveAt(0);
-            HotBarScrolling.UpdateCountDisplay(Storage[_storageIndex].Items.Count);
+        {
+            _storageSlot.RemoveAt(0);
+            Display.UpdateCountDisplaySlot();
         }
     }
     public void RemoveFromStorage(CustomTile _customTile)
@@ -58,7 +61,7 @@ public class InventoryBackpack : MonoBehaviour
         {
             if (Storage[i].Items.Count > 0)
             {
-                if (Storage[i].Items.Any(t => t.ItemID == _customTile.ID))
+                if (Storage[i].Items.Any(t => t.ItemID == _customTile.Item.ItemID))
                 {
                     Storage[i].Items.RemoveAt(0);
                     HotBarScrolling.UpdateCountDisplay(Storage[i].Items.Count);
@@ -123,23 +126,26 @@ public class InventoryBackpack : MonoBehaviour
     }
     public void AddToStorage(CustomTile _customTile)
     {
-        for (int i = 0; i < Storage.Count; ++i)
+        if (Storage.Count < StorageCapacity)
         {
-            if (Storage[i].Items.Count > 0)
+            for (int i = 0; i < Storage.Count; ++i)
             {
-                if (Storage[i].Items.Any(t => t.ItemID == _customTile.Item.ItemID))
+                if (Storage[i].Items.Count <= 0)
                 {
-                    Storage[i].Items.Add(_customTile.Item);
-                    if (Storage[i].Items.Count <= 1)
-                        Display.AddToSlot(_customTile);
-                    break;
+                    Storage.RemoveAt(i);
                 }
             }
-            if (Storage[i].Items.Count <= 0)
+            if (Storage.Any(t => t.Items.All(t => t.ItemID == _customTile.Item.ItemID)))
             {
-                Storage[i].Items.Add(_customTile.Item);
+                    ItemInventory itemIv = Storage.Where(s => s.Items.Any(t => t.ItemID == _customTile.Item.ItemID)).First();
+                    itemIv.Items.Add(_customTile.Item);
+            }
+            if (Storage.All(t=>t.Items.All(t => t.ItemID != _customTile.Item.ItemID)))
+            {
+                ItemInventory itemIv = new ItemInventory();
+                itemIv.Items.Add(_customTile.Item);
+                Storage.Add(itemIv);
                 Display.AddToSlot(_customTile);
-                break;
             }
         }
     }

@@ -13,7 +13,7 @@ public class HotBarScrolling : MonoBehaviour
     List<GameObject> m_hotBarImages = new List<GameObject>();
     Color m_slotColour = new Color(195, 195, 195);
     [SerializeField]
-   public List<GameObject> SlotsHotbar = new List<GameObject>();
+    public List<GameObject> SlotsHotbar = new List<GameObject>();
     Vector3 m_scale = new Vector3(1, 1, 1);
     public Transform ParentHotBar;
     public GameObject SlotPrefabHotBar;
@@ -61,44 +61,41 @@ public class HotBarScrolling : MonoBehaviour
 
     public void UpdateCountDisplay(int _count)
     {
-       SlotsHotbar[m_index].transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = _count.ToString();
-        if(_count <= 0)
+        SlotsHotbar[m_index].transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = _count.ToString();
+        if (_count <= 0)
         {
             m_hotBarImages[m_index].GetComponent<Image>().color = new Color(m_slotColour.r, m_slotColour.g, m_slotColour.b, 1f);
             m_hotBarImages[m_index].GetComponent<Image>().sprite = null;
             SlotsHotbar[m_index].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile = null;
         }
-
     }
     void HighLightSelected()
     {
-        for(int i = 0; i < m_hotBarImages.Count; ++i)
+        if (SlotsHotbar[m_index].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile != null)
         {
-            if(i == m_index)
+            m_hotBarImages[m_index].GetComponent<Image>().color = SlotsHotbar[m_index].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile.TileColour;
+            if (SlotsHotbar[m_index].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile.Item.CanBePlaced)
+                BlockInfo.GetComponent<TextMeshProUGUI>().text = SlotsHotbar[m_index].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile.TileName + "\nType: " + SlotsHotbar[m_index].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile.Type.ToString();
+            if (!SlotsHotbar[m_index].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile.Item.CanBePlaced)
+                BlockInfo.GetComponent<TextMeshProUGUI>().text = SlotsHotbar[m_index].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile.Item.Name;
+            BlockInfo.transform.parent.gameObject.SetActive(true);
+            for (int a = 0; a < InventoryBackpack.Storage.Count; ++a)
             {
-                if (SlotsHotbar[m_index].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile != null)
-                {
-                    m_hotBarImages[i].GetComponent<Image>().color = SlotsHotbar[m_index].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile.TileColour;
-                    if (SlotsHotbar[m_index].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile.Item.CanBePlaced)
-                    BlockInfo.GetComponent<TextMeshProUGUI>().text = SlotsHotbar[m_index].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile.TileName + "\nType: " + SlotsHotbar[m_index].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile.Type.ToString();
-                    if (!SlotsHotbar[m_index].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile.Item.CanBePlaced)
-                        BlockInfo.GetComponent<TextMeshProUGUI>().text = SlotsHotbar[m_index].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile.Item.Name ;
-                    BlockInfo.transform.parent.gameObject.SetActive(true);
-                    for (int a = 0; a < InventoryBackpack.Storage.Count; ++a)
-                    {
-                        if(InventoryBackpack.Storage[a].Items.Contains(SlotsHotbar[m_index].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile.Item))
-                        SlotsHotbar[m_index].transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = InventoryBackpack.Storage[a].Items.Count.ToString();
-                    }
-                }
-                if (SlotsHotbar[m_index].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile == null)
-                {
-                    m_hotBarImages[m_index].GetComponent<Image>().color = new Color(m_slotColour.r, m_slotColour.g, m_slotColour.b, 1f);
-                    SlotsHotbar[m_index].transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "";
-                    BlockInfo.GetComponent<TextMeshProUGUI>().text = "";
-                    BlockInfo.transform.parent.gameObject.SetActive(false);
-                }
+                if (InventoryBackpack.Storage[a].Items.Contains(SlotsHotbar[m_index].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile.Item))
+                    SlotsHotbar[m_index].transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = InventoryBackpack.Storage[a].Items.Count.ToString();
             }
-            else
+        }
+
+        if (SlotsHotbar[m_index].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile == null)
+        {
+            m_hotBarImages[m_index].GetComponent<Image>().color = new Color(m_slotColour.r, m_slotColour.g, m_slotColour.b, 1f);
+            SlotsHotbar[m_index].transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "";
+            BlockInfo.GetComponent<TextMeshProUGUI>().text = "";
+            BlockInfo.transform.parent.gameObject.SetActive(false);
+        }
+        for (int i = 0; i < m_hotBarImages.Count; ++i)
+        {
+            if (i != m_index)
             {
                 if (SlotsHotbar[i].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile != null)
                 {

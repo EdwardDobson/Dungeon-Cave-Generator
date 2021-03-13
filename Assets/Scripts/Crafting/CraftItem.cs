@@ -26,12 +26,12 @@ public class CraftItem : MonoBehaviour
         }
         m_backPack = GetComponent<InventoryBackpack>();
     }
-    public void RemoveItems( int _indexa, int _indexri)
+    public void RemoveItems( List<Item> _storageSlot, int _indexri)
     {
         CustomTile t = Instantiate(m_tempRecipe.Output);
         t.Item.ItemID = m_tempRecipe.Output.ID;
         m_backPack.AddToStorage(t);
-        m_backPack.RemoveMultipleItems(m_tempRecipe.Items[_indexri].Amount, _indexa);
+        m_backPack.RemoveMultipleItems(m_tempRecipe.Items[_indexri].Amount, _storageSlot);
     }
     public void CreateItem(int _recipeIndex)
     {
@@ -50,7 +50,7 @@ public class CraftItem : MonoBehaviour
                             m_tempRecipe.Items[i].RequiredIngredientsMet = true;
                                 if (m_backPack.Storage[a].Items[b].Name == m_tempRecipe.Items[i].ItemName)
                                 {
-                                    RemoveItems(a, i);
+                                    RemoveItems(m_backPack.Storage[a].Items, i);
                                 m_tempRecipe.CheckCanBuild();
                                     break;
                                 }

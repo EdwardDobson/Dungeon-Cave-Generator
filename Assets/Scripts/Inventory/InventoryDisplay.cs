@@ -186,7 +186,36 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
             }
         }
     }
-   public void DisplayCount()
+    public void UpdateCountDisplaySlot()
+    {
+        for (int i = 0; i < HotBar.SlotsHotbar.Count; ++i)
+        {
+            if (HotBar.SlotsHotbar[i].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile != null && HotBar.SlotsHotbar[i].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile.Item != null)
+            {
+                if (m_inventoryBackPack.Storage.All(itemStorage => itemStorage.Items.All(t => t.Name != HotBar.SlotsHotbar[i].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile.Item.Name)))
+                {
+                    HotBar.SlotsHotbar[i].transform.GetChild(0).GetComponent<Image>().color = new Color(SlotColour.r, SlotColour.g, SlotColour.b, 1f);
+                    HotBar.SlotsHotbar[i].transform.GetChild(0).GetComponent<Image>().sprite = null;
+                    HotBar.SlotsHotbar[i].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile = null;
+                    HotBar.SlotsHotbar[i].transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "";
+                }
+            }
+        }
+        for (int i = 0; i < Slots.Count; ++i)
+        {
+            if (Slots[i].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile != null && Slots[i].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile.Item != null)
+            {
+                if (m_inventoryBackPack.Storage.All(itemStorage => itemStorage.Items.All(t => t.Name != Slots[i].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile.Item.Name)))
+                {
+                    Slots[i].transform.GetChild(0).GetComponent<Image>().color = new Color(SlotColour.r, SlotColour.g, SlotColour.b, 1f);
+                    Slots[i].transform.GetChild(0).GetComponent<Image>().sprite = null;
+                    Slots[i].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile = null;
+                    Slots[i].transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = "";
+                }
+            }
+        }
+    }
+    public void DisplayCount()
     {
         for (int i = 0; i < m_inventoryBackPack.Storage.Count; ++i)
         {
@@ -197,7 +226,6 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
                     if (Slots[b].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile == m_inventoryBackPack.Storage[i].Items[a])
                     {
                         Slots[b].transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = m_inventoryBackPack.Storage[i].Items.Count.ToString();
-
                     }
                 }
             }

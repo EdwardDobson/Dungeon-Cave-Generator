@@ -54,31 +54,36 @@ public class BlockDrop : MonoBehaviour
     {
         if (collision.gameObject.tag.Contains("PlayerPick"))
         {
-            bool m_foundHotBarSlot = false;
+            bool m_foundSlot = false;
 
             for (int i = 0; i < collision.transform.parent.GetComponent<InventoryBackpack>().Storage.Count; ++i)
             {
                 if (collision.transform.parent.GetComponent<InventoryBackpack>().Storage[i].Items.Count <= 0)
                 {
-                    m_foundHotBarSlot = true;
+                    m_foundSlot = true;
                     collision.transform.parent.GetComponent<InventoryBackpack>().AddToStorage(Tile);
+                    Debug.Log("Storage slot");
+                    Destroy(gameObject);
                     break;
                 }
             }
 
-            if (!m_foundHotBarSlot)
+            if (!m_foundSlot)
             {
                 for (int i = 0; i < m_display.HotBar.SlotsHotbar.Count; ++i)
                 {
-                    if (m_display.HotBar.SlotsHotbar[i].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile == null)
+                    if(i <= collision.transform.parent.GetComponent<InventoryBackpack>().Storage.Count)
                     {
-                        collision.transform.parent.GetComponent<InventoryBackpack>().AddToStorage(Tile);
-                        break;
+                        if (m_display.HotBar.SlotsHotbar[i].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile == null)
+                        {
+                            collision.transform.parent.GetComponent<InventoryBackpack>().AddToStorage(Tile);
+                            Debug.Log("Hotbar slot");
+                            Destroy(gameObject);
+                            break;
+                        }
                     }
                 }
             }
-
-            Destroy(gameObject);
         }
     }
 }
