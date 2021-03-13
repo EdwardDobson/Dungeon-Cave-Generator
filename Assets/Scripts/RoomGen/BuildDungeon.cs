@@ -48,6 +48,10 @@ public class BuildDungeon : MonoBehaviour
     public GameObject ScorePrefab;
     public List<GameObject> Scores;
     public bool ScoresPlaced;
+    public GameObject SquareRoom;
+    public GameObject CircleRoom;
+    public GameObject DiamondRoom;
+    public bool UseMiniMapIcons;
     void Start()
     {
         Stopwatch SW = new Stopwatch();
@@ -62,6 +66,12 @@ public class BuildDungeon : MonoBehaviour
             DungeonUtility.PickBuildPoint();
             WallGen.RandomiseWallSizes(m_wallSizesSquare[0], m_wallSizesSquare[1], m_wallSizesSquare[2], m_wallSizesSquare[3]);
             FloorGen.Square();
+            if(UseMiniMapIcons)
+            {
+                Vector2 pos = new Vector2(DungeonUtility.GetBuildPoint().x + WallGen.GetWallDimensions().x / 2, DungeonUtility.GetBuildPoint().y + WallGen.GetWallDimensions().y / 2);
+                Instantiate(SquareRoom, pos, Quaternion.identity);
+            }
+        
         }
         for (int i = 0; i < m_lShapeRoomAmount; ++i)
         {
@@ -86,12 +96,23 @@ public class BuildDungeon : MonoBehaviour
             DungeonUtility.PickBuildPoint();
             m_circleMiddleAmount = randomCircleSize;
             FloorGen.Circle(randomCircleSize, m_circleMiddleAmount);
+            if (UseMiniMapIcons)
+            {
+                Vector2 pos = new Vector2(DungeonUtility.GetBuildPoint().x + m_circleMiddleAmount / 2, DungeonUtility.GetBuildPoint().y + m_circleMiddleAmount * 2);
+                Instantiate(CircleRoom, pos, Quaternion.identity);
+            }
+            
         }
         for (int i = 0; i < m_diamondRoomAmount; ++i)
         {
             int RandomMaxRowAmount = UnityEngine.Random.Range(10, m_diamondMaxRowAmount);
             DungeonUtility.PickBuildPoint();
             FloorGen.Diamond(1, RandomMaxRowAmount);
+            if (UseMiniMapIcons)
+            {
+                Vector2 pos = new Vector2(DungeonUtility.GetBuildPoint().x, DungeonUtility.GetBuildPoint().y + RandomMaxRowAmount / 2);
+                Instantiate(DiamondRoom, pos, DiamondRoom.transform.rotation);
+            }
         }
         for (int i =0; i< FloorGen.GetFloorTilePositions().Count; ++i)
         {
