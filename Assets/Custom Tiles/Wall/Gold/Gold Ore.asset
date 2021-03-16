@@ -16,7 +16,10 @@ MonoBehaviour:
   Tile:
   - {fileID: 11400000, guid: 35244eea91f9677459424d4aae5fefe7, type: 2}
   SpriteVariations:
-  - {fileID: 21300000, guid: c33001b24396c894eae207cbc85d8937, type: 3}
+  - {fileID: 21300000, guid: bc96749167d863546a7705a52d43b5af, type: 3}
+  - {fileID: 21300000, guid: b14dd9f8ec08ff6418032f56cf5fdef6, type: 3}
+  - {fileID: 21300000, guid: 0019784e92e47b443b1a92e01604d576, type: 3}
+  - {fileID: 21300000, guid: 9ca73525a29fbab4a88e02aecb5ca1d0, type: 3}
   TileName: Gold Ore
   Type: 0
   Attributes: 00000000
@@ -33,7 +36,7 @@ MonoBehaviour:
   ShouldGiveScore: 1
   ScoreDispenseMin: 250
   ScoreDispenseMax: 350
-  ScoreDispense: 340
+  ScoreDispense: 313
   ID: 16
   Pos: {x: 0, y: 0, z: 0}
   PickChance: 10

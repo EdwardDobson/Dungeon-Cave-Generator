@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Ruby Block
   Sprite: {fileID: 7482667652216324306, guid: 9b0aec61e3ea1064b8f1882170bda110, type: 3}
-  ItemID: 0
+  ItemID: 25
   CanBePlaced: 1

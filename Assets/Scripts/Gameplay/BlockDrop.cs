@@ -55,32 +55,26 @@ public class BlockDrop : MonoBehaviour
         if (collision.gameObject.tag.Contains("PlayerPick"))
         {
             bool m_foundSlot = false;
-
             for (int i = 0; i < collision.transform.parent.GetComponent<InventoryBackpack>().Storage.Count; ++i)
             {
-                if (collision.transform.parent.GetComponent<InventoryBackpack>().Storage[i].Items.Count <= 0)
+                for (int a= 0; a < collision.transform.parent.GetComponent<InventoryBackpack>().Storage[i].Items.Count; ++a)
                 {
-                    m_foundSlot = true;
-                    collision.transform.parent.GetComponent<InventoryBackpack>().AddToStorage(Tile);
-                    Debug.Log("Storage slot");
-                    Destroy(gameObject);
-                    break;
+                    if(collision.transform.parent.GetComponent<InventoryBackpack>().Storage[i].Items[a].Name == Tile.Item.Name)
+                    {
+                        m_foundSlot = true;
+                        collision.transform.parent.GetComponent<InventoryBackpack>().AddToStorage(Tile);
+                        Debug.Log("Storage slot");
+                        Destroy(gameObject);
+                        break;
+                    }
                 }
             }
-
             if (!m_foundSlot)
             {
-                for (int i = 0; i < m_display.HotBar.SlotsHotbar.Count; ++i)
+                if (collision.transform.parent.GetComponent<InventoryBackpack>().Storage.Count < collision.transform.parent.GetComponent<InventoryBackpack>().StorageCapacity)
                 {
-                    if(i <= collision.transform.parent.GetComponent<InventoryBackpack>().Storage.Count)
-                    {
-                        if (m_display.HotBar.SlotsHotbar[i].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile == null)
-                        {
-                            collision.transform.parent.GetComponent<InventoryBackpack>().AddToStorage(Tile);
-                            Destroy(gameObject);
-                            break;
-                        }
-                    }
+                    collision.transform.parent.GetComponent<InventoryBackpack>().AddToStorage(Tile);
+                    Destroy(gameObject);
                 }
             }
         }

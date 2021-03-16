@@ -6,24 +6,16 @@ using UnityEngine;
 
 public class CraftItem : MonoBehaviour
 {
-    public List<Recipe> Recipes = new List<Recipe>();
-    Object[] m_recipes;
+    public CraftingRecipeHolder RecipeHolder;
+ 
     InventoryBackpack m_backPack;
     InventoryDisplay m_inventoryDisplay;
     Recipe m_tempRecipe;
     int m_recipeIndex;
     void Start()
     {
-        m_recipes = Resources.LoadAll("Crafting Recipes", typeof(Recipe));
         m_inventoryDisplay = GameObject.Find("Inventory").GetComponent<InventoryDisplay>();
-        foreach (Recipe r in m_recipes)
-        {
-            Recipe temp = Instantiate(r);
-            temp.RecipeID = m_recipeIndex;
-            if (!Recipes.Contains(r))
-                Recipes.Add(temp);
-            m_recipeIndex++;
-        }
+        RecipeHolder = Resources.Load<CraftingRecipeHolder>("Crafting Recipes/Recipe Holder");
         m_backPack = GetComponent<InventoryBackpack>();
     }
     public void RemoveItems( List<Item> _storageSlot, int _indexri)
@@ -35,27 +27,28 @@ public class CraftItem : MonoBehaviour
     }
     public void CreateItem(int _recipeIndex)
     {
-        m_tempRecipe = Recipes[_recipeIndex];
-    
-        if(m_tempRecipe != null)
+        if (m_backPack.Storage.Count <= m_backPack.StorageCapacity)
         {
-            for (int i = 0; i < m_tempRecipe.Items.Count; ++i)
+            m_tempRecipe = RecipeHolder.Recipes[_recipeIndex];
+            if (m_tempRecipe != null)
             {
-                for (int a = 0; a < m_backPack.Storage.Count; ++a)
+                for (int i = 0; i < m_tempRecipe.Items.Count; ++i)
                 {
-                    for (int b = 0; b < m_backPack.Storage[a].Items.Count; ++b)
+                    for (int a = 0; a < m_backPack.Storage.Count; ++a)
                     {
-                        if(m_backPack.Storage[a].Items.Count >= m_tempRecipe.Items[i].Amount)
+                        for (int b = 0; b < m_backPack.Storage[a].Items.Count; ++b)
                         {
-                            m_tempRecipe.Items[i].RequiredIngredientsMet = true;
-                                if (m_backPack.Storage[a].Items[b].Name == m_tempRecipe.Items[i].ItemName)
+                            if (m_backPack.Storage[a].Items.Count >= m_tempRecipe.Items[i].Amount)
+                            {
+                                m_tempRecipe.Items[i].RequiredIngredientsMet = true;
+                                if (m_backPack.Storage[a].Items[b].Name.Contains(m_tempRecipe.Items[i].ItemName))
                                 {
                                     RemoveItems(m_backPack.Storage[a].Items, i);
-                                m_tempRecipe.CheckCanBuild();
+                                    m_tempRecipe.CheckCanBuild();
                                     break;
                                 }
+                            }
                         }
-                 
                     }
                 }
             }

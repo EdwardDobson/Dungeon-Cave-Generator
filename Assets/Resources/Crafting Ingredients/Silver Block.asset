@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d12b112742693034e8e92ee310bc150e, type: 3}
-  m_Name: Gold
+  m_Name: Silver Block
   m_EditorClassIdentifier: 
-  Name: Gold
-  Sprite: {fileID: 21300000, guid: 8a04eb2895368984fa4f8bebed7342ee, type: 3}
-  ItemID: 0
-  CanBePlaced: 0
+  Name: Silver Block
+  Sprite: {fileID: 7482667652216324306, guid: e422618a0fddb4543be6844d1e21e559, type: 3}
+  ItemID: 28
+  CanBePlaced: 1

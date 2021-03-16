@@ -15,4 +15,4 @@ MonoBehaviour:
   Name: Silver Ore
   Sprite: {fileID: 21300000, guid: 5dc56552d6b10144d91d53a549a4ee6d, type: 3}
   ItemID: 0
-  CanBePlaced: 1
+  CanBePlaced: 0

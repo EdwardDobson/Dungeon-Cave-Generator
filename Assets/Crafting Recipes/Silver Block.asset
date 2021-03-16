@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7138821e9003bb9499d1324b3381b122, type: 3}
+  m_Name: Silver Block
+  m_EditorClassIdentifier: 
+  Items:
+  - ItemType: {fileID: 11400000, guid: 7dd38332a72bf4e46bf94d60eff21885, type: 2}
+    Amount: 4
+    ItemName: Silver
+    RequiredIngredientsMet: 0
+  CanBuild: 0
+  Output: {fileID: 11400000, guid: 5b90a65db317dd7418daf5e0d375f57d, type: 2}
+  RecipeID: 0
