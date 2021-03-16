@@ -27,7 +27,7 @@ public class PlaceTile : MonoBehaviour
     public GameObject BlockDrop;
     float m_currentDropTimer;
     public float MaxDropTimer;
-
+    Vector3Int m_placePos;
 
     private void Start()
     {
@@ -115,9 +115,7 @@ public class PlaceTile : MonoBehaviour
                     m_currentDropTimer = 0;
                 }
             }
-
         }
-
     }
     public void PlaceTileClick(CustomTile _tile)
     {
@@ -129,10 +127,10 @@ public class PlaceTile : MonoBehaviour
         if (_tile != null && _tile.Item != null && _tile.Item.CanBePlaced || m_manager.Creative)
         {
             Vector2 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector3Int v = new Vector3Int((int)worldPosition.x, (int)worldPosition.y, 0);
-            if (m_enemySpawner.Enemies.All(g => new Vector3Int((int)g.transform.position.x, (int)g.transform.position.y, (int)g.transform.position.z) != v))
+            m_placePos = new Vector3Int((int)worldPosition.x, (int)worldPosition.y, 0);
+            if (m_enemySpawner.Enemies.All(g => new Vector3Int((int)g.transform.position.x, (int)g.transform.position.y, (int)g.transform.position.z) != m_placePos))
             {
-                float distance = Vector3Int.Distance(v, new Vector3Int((int)transform.position.x, (int)transform.position.y, (int)transform.position.z));
+                float distance = Vector3Int.Distance(m_placePos, new Vector3Int((int)transform.position.x, (int)transform.position.y, (int)transform.position.z));
                 CustomTile newCopy = Instantiate(_tile);
                 if (distance <= MaxRange)
                 {
@@ -140,23 +138,23 @@ public class PlaceTile : MonoBehaviour
                     {
                         if (newCopy.Type == TileType.Wall)
                         {
-                            if (WallGen.GetTilemap().GetTile(v) == null)
+                            if (WallGen.GetTilemap().GetTile(m_placePos) == null)
                             {
-                                if (new Vector3Int((int)transform.position.x, (int)transform.position.y, 0) != v)
+                                if (new Vector3Int((int)transform.position.x, (int)transform.position.y, 0) != m_placePos)
                                 {
-                                    PTile(v, DungeonUtility.GetTilemap(), WallGen.GetTilemap(), _tile, newCopy, DictionaryType.Walls);
-                                    if (!PlacedOnTiles.ContainsKey(v))
+                                    PTile(newCopy);
+                                    if (!PlacedOnTiles.ContainsKey(m_placePos))
                                     {
-                                        PlacedOnTiles.Add(v, TileManager.GetTileDictionaryFloor()[v].CustomTile);
+                                        PlacedOnTiles.Add(m_placePos, TileManager.GetTileDictionaryFloor()[m_placePos].CustomTile);
                                     }
                                 }
                             }
                         }
                         if (newCopy.Type == TileType.Floor || newCopy.Type == TileType.Path)
                         {
-                            if (TileManager.GetTileDictionaryFloor()[v].CustomTile.ID != _tile.ID)
+                            if (TileManager.GetTileDictionaryFloor()[m_placePos].CustomTile.ID != _tile.ID)
                             {
-                                PTile(v, DungeonUtility.GetTilemap(), DungeonUtility.GetTilemap(), _tile, newCopy, DictionaryType.Floor);
+                                PTile(newCopy);
                             }
                         }
                     }
@@ -164,8 +162,24 @@ public class PlaceTile : MonoBehaviour
             }
         }
     }
-    void PTile(Vector3Int _pos, Tilemap _remove, Tilemap _place, CustomTile _tile, CustomTile _copy, DictionaryType _type)
+    void PTile(CustomTile _copy)
     {
+        Tilemap toPlace = null;
+        Tilemap toRemove = null;
+        DictionaryType _type = DictionaryType.Walls;
+        switch (_copy.Type)
+        {
+            case TileType.Wall:
+                toPlace = WallGen.GetTilemap();
+                toRemove = DungeonUtility.GetTilemap();
+                _type = DictionaryType.Walls;
+                break;
+            case TileType.Floor:
+                toPlace = DungeonUtility.GetTilemap();
+                toRemove = DungeonUtility.GetTilemap();
+                _type = DictionaryType.Floor;
+                break;
+        }
         for (int a = 0; a < TileManager.GetTileHolder(_copy.Type).Tiles.Count; ++a)
         {
             if (TileManager.GetTileHolder(_copy.Type).Tiles[a].ID == _copy.ID)
@@ -173,14 +187,14 @@ public class PlaceTile : MonoBehaviour
                 _copy = TileManager.GetTileHolder(_copy.Type).Tiles[a];
             }
         }
-        TileManager.PlaceTile(_pos, m_index, _remove, _place, _copy, _type);
-        ApplySpriteVariation(_copy, _place, _pos);
+        TileManager.PlaceTile(m_placePos, m_index, toRemove, toPlace, _copy, _type);
+        ApplySpriteVariation(_copy, toPlace, m_placePos);
         Instantiate(m_audioPlaceSource);
-        if (!m_manager.Creative && BackPack.GetStorageTypeCount(_tile) > 0)
+        if (!m_manager.Creative && BackPack.GetStorageTypeCount(_copy) > 0)
         {
             BackPack.RemoveFromStorage(_copy);
-            if (BackPack.GetNewItem(_tile) != null)
-                _copy.Item = Instantiate(BackPack.GetNewItem(_tile));
+            if (BackPack.GetNewItem(_copy) != null)
+                _copy.Item = Instantiate(BackPack.GetNewItem(_copy));
         }
     }
     void DropBlock(CustomTile _tile)
