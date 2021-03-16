@@ -16,6 +16,7 @@ public class InventoryBackpack : MonoBehaviour
     public int StorageCapacity;
     public InventoryDisplay Display;
     public HotBarScrolling HotBarScrolling;
+    public List<Item> ItemsToAddBackIn = new List<Item>();
     public float PickupRange;
     private void Start()
     {
@@ -49,9 +50,20 @@ public class InventoryBackpack : MonoBehaviour
     }
     public void RemoveMultipleItems(int _amount,List<Item> _storageSlot)
     {
+
         for (int i = 0; i < _amount; ++i)
         {
+            ItemsToAddBackIn.Add(_storageSlot[0]);
             _storageSlot.RemoveAt(0);
+            Display.UpdateCountDisplaySlot();
+        }
+    }
+
+    public void AddMultipleItems(List<Item> _storageSlot)
+    {
+        for (int i = 0; i < ItemsToAddBackIn.Count; ++i)
+        {
+            _storageSlot.Add(ItemsToAddBackIn[i]);
             Display.UpdateCountDisplaySlot();
         }
     }
@@ -77,7 +89,8 @@ public class InventoryBackpack : MonoBehaviour
             {
                 if (Storage[i].Items.Any(t => t.ItemID == _customTile.ID))
                 {
-                    Storage[i].Items.Clear();
+                    Storage.RemoveAt(i);
+                    break;
                 }
             }
         }
@@ -126,7 +139,7 @@ public class InventoryBackpack : MonoBehaviour
     }
     public void AddToStorage(CustomTile _customTile)
     {
-        if (Storage.Count < StorageCapacity)
+        if (Storage.Count <= StorageCapacity)
         {
             for (int i = 0; i < Storage.Count; ++i)
             {
