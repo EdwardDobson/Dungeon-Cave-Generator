@@ -73,7 +73,7 @@ public class TileDisplayManager : MonoBehaviour, IPointerEnterHandler, IPointerE
             Scroll();
             HighlightSlot();
             m_tileToPlace = Slots[m_index].GetComponent<HoldCustomTile>().CustomTile;
-            if(m_gameManager.CanPerformAction && Input.GetMouseButton(1))
+            if(m_gameManager.CanPerformAction)
             PTile.PlaceTileClick(m_tileToPlace);
         }
 

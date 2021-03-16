@@ -23,12 +23,14 @@ public class CraftItem : MonoBehaviour
         CustomTile t = Instantiate(m_tempRecipe.Output);
         t.Item.ItemID = m_tempRecipe.Output.ID;
         m_backPack.ItemsToAddBackIn.Clear();
+        if(_storageSlot.All(i => i.Name != t.Item.Name))
         m_backPack.RemoveMultipleItems(m_tempRecipe.Items[_indexri].Amount, _storageSlot);
         bool canBuild = false ;
         if (m_backPack.Storage.Count + 1 <= m_backPack.StorageCapacity || m_backPack.Storage.Any(i => i.Items.Contains(t.Item)))
         {
             m_backPack.AddToStorage(t);
             canBuild = true;
+            m_inventoryDisplay.UpdateCountDisplaySlot();
         }
         if(!canBuild)
         {

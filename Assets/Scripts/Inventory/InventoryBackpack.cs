@@ -55,7 +55,7 @@ public class InventoryBackpack : MonoBehaviour
         {
             ItemsToAddBackIn.Add(_storageSlot[0]);
             _storageSlot.RemoveAt(0);
-            Display.UpdateCountDisplaySlot();
+ 
         }
     }
 
@@ -83,17 +83,21 @@ public class InventoryBackpack : MonoBehaviour
     }
     public void ClearStorage(CustomTile _customTile)
     {
-        for (int i = 0; i < Storage.Count; ++i)
+        if(_customTile != null)
         {
-            if (Storage[i].Items.Count > 0)
+            for (int i = 0; i < Storage.Count; ++i)
             {
-                if (Storage[i].Items.Any(t => t.ItemID == _customTile.ID))
+                if (Storage[i].Items.Count > 0)
                 {
-                    Storage.RemoveAt(i);
-                    break;
+                    if (Storage[i].Items.Any(t => t.ItemID == _customTile.ID))
+                    {
+                        Storage.RemoveAt(i);
+                        break;
+                    }
                 }
             }
         }
+
     }
     public List<Item> GetItems(CustomTile _customTile)
     {

@@ -2482,7 +2482,7 @@ PrefabInstance:
       objectReference: {fileID: 712498159}
     - target: {fileID: 42234862475281488, guid: a7a415f56d409c94aa73a4fccef2d957, type: 3}
       propertyPath: MaxAmountNeeded
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7794398216400669159, guid: a7a415f56d409c94aa73a4fccef2d957, type: 3}
       propertyPath: Display
@@ -2492,6 +2492,10 @@ PrefabInstance:
       propertyPath: HotBarScrolling
       value: 
       objectReference: {fileID: 2021844749}
+    - target: {fileID: 7794398216400669159, guid: a7a415f56d409c94aa73a4fccef2d957, type: 3}
+      propertyPath: StorageCapacity
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 7794398217402429729, guid: a7a415f56d409c94aa73a4fccef2d957, type: 3}
       propertyPath: Map
       value: 
