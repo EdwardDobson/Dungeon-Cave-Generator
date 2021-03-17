@@ -36,8 +36,8 @@ MonoBehaviour:
   ShouldGiveScore: 1
   ScoreDispenseMin: 25
   ScoreDispenseMax: 100
-  ScoreDispense: 99
-  ID: 22
+  ScoreDispense: 49
+  ID: 13
   Pos: {x: 0, y: 0, z: 0}
   PickChance: 8
   DropMax: 5

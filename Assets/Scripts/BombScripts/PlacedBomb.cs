@@ -13,10 +13,12 @@ public class PlacedBomb : MonoBehaviour
     public GameObject BlockDrop;
     AudioSource m_source;
     GameManager m_manager;
+    FileManager m_fileManager;
     void Start()
     {
         m_source = GameObject.Find("Player").GetComponent<AudioSource>();
         m_manager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        m_fileManager =GameObject.Find("Save").GetComponent<FileManager>();
         DirectionsCalculate();
         GetSurroundingTiles();
         DamageTiles();
@@ -70,15 +72,39 @@ public class PlacedBomb : MonoBehaviour
                 TileManager.FillDictionary(m_tilesAround[_index].Pos, m_tilesAround[_index], DungeonUtility.GetTilemap(), DictionaryType.Floor);
                 PlayBreakingEffect(_index);
                 AddToStorage(_index);
+   
             }
             if (TileManager.GetTileDictionaryWalls().ContainsKey(m_tilesAround[_index].Pos))
             {
+                DataToSave tempDataFloor = new DataToSave
+                {
+                    PosX = m_tilesAround[_index].Pos.x,
+                    PosY = m_tilesAround[_index].Pos.y,
+                    PosZ = m_tilesAround[_index].Pos.z,
+                    ID = TileManager.GetTileHolder(TileType.Path).Tiles[0].ID,
+                    IsNull = false,
+                    IsPlacedTile = false
+                };
+                m_fileManager.Input(tempDataFloor);
+                DataToSave tempData = new DataToSave
+                {
+                    PosX = m_tilesAround[_index].Pos.x,
+                    PosY = m_tilesAround[_index].Pos.y,
+                    PosZ = m_tilesAround[_index].Pos.z,
+                    ID = m_tilesAround[_index].ID,
+                    IsNull = true,
+                    IsPlacedTile = false
+                };
+                m_fileManager.TilesToSave.Add(tempData);
+
+
                 TileManager.RemoveTilePiece(m_tilesAround[_index].Pos, WallGen.GetTilemap());
                 TileManager.ChangeTilePiece(m_tilesAround[_index].Pos, 0, TileType.Path, DungeonUtility.GetTilemap());
                 TileManager.GetTileDictionaryWalls().Remove(m_tilesAround[_index].Pos);
                 TileManager.FillDictionary(m_tilesAround[_index].Pos, TileManager.GetTileHolder(TileType.Path).Tiles[0], DungeonUtility.GetTilemap(), DictionaryType.Floor);
                 PlayBreakingEffect(_index);
                 AddToStorage(_index);
+         
             }
         }
     }

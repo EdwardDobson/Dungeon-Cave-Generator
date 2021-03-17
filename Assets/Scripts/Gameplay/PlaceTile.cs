@@ -17,6 +17,7 @@ public class PlaceTile : MonoBehaviour
     List<CustomTile> m_tilesForHotBar = new List<CustomTile>();
     public float MaxRange;
     public TextMeshProUGUI BlockInfo;
+    [SerializeField]
     public Dictionary<Vector3Int, CustomTile> PlacedOnTiles;
     [SerializeField]
     GameObject m_audioPlaceSource;
@@ -28,13 +29,14 @@ public class PlaceTile : MonoBehaviour
     float m_currentDropTimer;
     public float MaxDropTimer;
     Vector3Int m_placePos;
-
+    FileManager m_fileManager;
     private void Start()
     {
         m_currentDropTimer = MaxDropTimer;
         PlacedOnTiles = new Dictionary<Vector3Int, CustomTile>();
         BackPack = GetComponent<InventoryBackpack>();
         m_manager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        m_fileManager = GameObject.Find("Save").GetComponent<FileManager>();
         m_enemySpawner = GameObject.Find("EnemySpawner").GetComponent<EnemySpawner>();
 
     }
@@ -143,10 +145,14 @@ public class PlaceTile : MonoBehaviour
                                 if (new Vector3Int((int)transform.position.x, (int)transform.position.y, 0) != m_placePos)
                                 {
                                     PTile(newCopy);
-                                    if (!PlacedOnTiles.ContainsKey(m_placePos))
+                                   
+                                       if (!m_fileManager.PlacedOnTiles.ContainsKey(m_placePos))
                                     {
-                                        PlacedOnTiles.Add(m_placePos, TileManager.GetTileDictionaryFloor()[m_placePos].CustomTile);
+                                        m_fileManager.PlacedOnTiles.Add(m_placePos, TileManager.GetTileDictionaryFloor()[m_placePos].CustomTile);
                                     }
+                           
+                                   
+
                                 }
                             }
                         }
@@ -180,11 +186,13 @@ public class PlaceTile : MonoBehaviour
                 _type = DictionaryType.Floor;
                 break;
         }
+        int id = 0;
         for (int a = 0; a < TileManager.GetTileHolder(_copy.Type).Tiles.Count; ++a)
         {
             if (TileManager.GetTileHolder(_copy.Type).Tiles[a].ID == _copy.ID)
             {
                 _copy = TileManager.GetTileHolder(_copy.Type).Tiles[a];
+                id = TileManager.GetTileHolder(_copy.Type).Tiles[a].ID;
             }
         }
         TileManager.PlaceTile(m_placePos, m_index, toRemove, toPlace, _copy, _type);
@@ -196,6 +204,17 @@ public class PlaceTile : MonoBehaviour
             if (BackPack.GetNewItem(_copy) != null)
                 _copy.Item = Instantiate(BackPack.GetNewItem(_copy));
         }
+        DataToSave tempData = new DataToSave
+        {
+            PosX = m_placePos.x,
+            PosY = m_placePos.y,
+            PosZ = m_placePos.z,
+            ID = id
+        };
+    
+
+        if (m_fileManager.Save.DataPacks.All(t => !t.Equals(tempData)))
+            m_fileManager.TilesToSave.Add(tempData);
     }
     void DropBlock(CustomTile _tile)
     {

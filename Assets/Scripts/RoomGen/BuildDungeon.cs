@@ -52,11 +52,19 @@ public class BuildDungeon : MonoBehaviour
     public GameObject CircleRoom;
     public GameObject DiamondRoom;
     public bool UseMiniMapIcons;
+    public int Seed;
+    FileManager m_fileManager;
+  
     void Start()
     {
+        m_fileManager = GameObject.Find("Save").GetComponent<FileManager>();
+        if (!m_fileManager.Save.SeedSet)
+        {
+            m_fileManager.Save.Seed = Seed;
+            m_fileManager.Save.SeedSet = true;
+        }
         Stopwatch SW = new Stopwatch();
         SW.Start();
-      //  UnityEngine.Random.seed = 1234234235;
         TileManager.LoadTileManager();
         DungeonUtility.DungeonSetup(m_dungeonDimensions, m_tilemap);
         WallGen.SetWallSizes(m_wallDimensions);
@@ -124,7 +132,9 @@ public class BuildDungeon : MonoBehaviour
             ConnectRoom.FindOtherRoom();
         }
         WallGen.PlaceWalls();
-        if(GameObject.Find("LevelLoader") != null)
+        m_fileManager.TilePlacer();
+        //  m_fileManager.TileSetter();
+        if (GameObject.Find("LevelLoader") != null)
         {
             if(GameObject.Find("LevelLoader").GetComponent<LevelLoad>().ScoreMode)
             {

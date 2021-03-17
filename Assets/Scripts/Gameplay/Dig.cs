@@ -22,12 +22,13 @@ public class Dig : MonoBehaviour
     AudioSource m_source;
     public GameObject BreakingEffectPrefab;
     GameManager m_manager;
-
+    FileManager m_fileManager;
     private void Start()
     {
         CurrentDigSpeed = MaxDigSpeed;
         m_pTile = GetComponent<PlaceTile>();
         m_manager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        m_fileManager = GameObject.Find("Save").GetComponent<FileManager>();
     }
     void Update()
     {
@@ -114,18 +115,54 @@ public class Dig : MonoBehaviour
                                         WallsTouched[i].ScoreDispense = (int)WallsTouched[i].ScoreDispense;
                                         GetComponent<Scoring>().IncreaseScore(WallsTouched[i].ScoreDispense);
                                     }
-                                    if (!m_pTile.PlacedOnTiles.ContainsKey(v))
+                                    if (!m_fileManager.PlacedOnTiles.ContainsKey(v))
                                     {
                                         TileManager.PlaceTile(v, 0, WallTileMap, Map, TileManager.GetTileHolder(TileType.Path).Tiles[0], DictionaryType.Floor);
-                                    }
-                                    for (int a = 0; a < m_pTile.PlacedOnTiles.Count; ++a)
-                                    {
-                                        if (m_pTile.PlacedOnTiles.ContainsKey(v))
+                                        DataToSave tempDataFloor = new DataToSave
                                         {
-                                            TileManager.PlaceTile(v, 0, WallTileMap, Map, m_pTile.PlacedOnTiles[v], DictionaryType.Floor);
-                                            m_pTile.PlacedOnTiles.Remove(v);
+                                            PosX = v.x,
+                                            PosY = v.y,
+                                            PosZ = v.z,
+                                            ID = TileManager.GetTileHolder(TileType.Path).Tiles[0].ID,
+                                            IsNull = false,
+                                            IsPlacedTile = false
+                                        };
+                                      m_fileManager.Input(tempDataFloor);
+                                    }
+                                    for (int a = 0; a < m_fileManager.PlacedOnTiles.Count; ++a)
+                                    {
+                                        if (m_fileManager.PlacedOnTiles.ContainsKey(v))
+                                        {
+                                            TileManager.PlaceTile(v, 0, WallTileMap, Map, m_fileManager.PlacedOnTiles[v], DictionaryType.Floor);
+                                            Debug.Log("Place Floor tile");
+                                            m_fileManager.PlacedOnTiles.Remove(v);
                                         }
                                     }
+                                    DataToSave tempData = new DataToSave
+                                    {
+                                        PosX = v.x,
+                                        PosY = v.y,
+                                        PosZ = v.z,
+                                        ID = WallsTouched[i].ID,
+                                        IsNull = true,
+                                        IsPlacedTile = false
+                                    };
+                                  
+                                    if (m_fileManager.Save.DataPacks.Any(t =>t.PosX == v.x && t.PosY == v.y && t.PosZ == v.z))
+                                    {
+                                     DataToSave temp =   m_fileManager.Save.DataPacks.Where(t => t.PosX == v.x && t.PosY == v.y && t.PosZ == v.z).First();
+                                        if(!temp.IsNull)
+                                        {
+                                        m_fileManager.Save.DataPacks.Remove(temp);
+                                          
+                                        }
+                                    }
+                                    else
+                                    {
+                                        m_fileManager.TilesToSave.Add(tempData);
+                                    }
+                            
+
                                     WallsTouched.RemoveAt(i);
                                 }
                             }
