@@ -167,10 +167,14 @@ public class PlaceTile : MonoBehaviour
                         }
                         if (newCopy.Type == TileType.Floor || newCopy.Type == TileType.Path)
                         {
-                            if (TileManager.GetTileDictionaryFloor()[m_placePos].CustomTile.ID != _tile.ID)
+                            if(WallGen.GetTilemap().GetTile(m_placePos) == null)
                             {
-                                PTile(newCopy);
+                                if (TileManager.GetTileDictionaryFloor()[m_placePos].CustomTile.ID != _tile.ID)
+                                {
+                                    PTile(newCopy);
+                                }
                             }
+                      
                         }
                     }
                 }
@@ -190,6 +194,11 @@ public class PlaceTile : MonoBehaviour
                 _type = DictionaryType.Walls;
                 break;
             case TileType.Floor:
+                toPlace = DungeonUtility.GetTilemap();
+                toRemove = DungeonUtility.GetTilemap();
+                _type = DictionaryType.Floor;
+                break;
+            case TileType.Path:
                 toPlace = DungeonUtility.GetTilemap();
                 toRemove = DungeonUtility.GetTilemap();
                 _type = DictionaryType.Floor;
