@@ -31,6 +31,7 @@ public class FileManager : MonoBehaviour
     public SaveFile Save = new SaveFile();
     [SerializeField]
     public Dictionary<Vector3Int, CustomTile> PlacedOnTiles;
+    BuildDungeon m_dungeon;
     private void Awake()
     {
         SavePath = Application.persistentDataPath + "/save.dat";
@@ -42,10 +43,7 @@ public class FileManager : MonoBehaviour
     public void Input(DataToSave _item)
     {
         if (Save.SeedSet)
-        {
-                TilesToSave.Add(_item);
-
-        }
+            TilesToSave.Add(_item);
     }
     public void SaveToDisk()
     {
@@ -82,7 +80,17 @@ public class FileManager : MonoBehaviour
             }
             for (int i = 0; i < Save.DataPacks.Count; ++i)
                 AddChangedTiles(i);
-
+            m_dungeon = GameObject.Find("Map").GetComponent<BuildDungeon>();
+            m_dungeon.Build();
+        }
+        else
+        {
+            BinaryFormatter bf = new BinaryFormatter();
+            FileStream file = File.Create(SavePath);
+            bf.Serialize(file, Save);
+            file.Close();
+            m_dungeon = GameObject.Find("Map").GetComponent<BuildDungeon>();
+            m_dungeon.Build();
         }
     }
     public void AddChangedTiles(int _index)
