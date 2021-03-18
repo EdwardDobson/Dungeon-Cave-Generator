@@ -149,6 +149,19 @@ public class PlaceTile : MonoBehaviour
                                     {
                                         m_fileManager.PlacedOnTiles.Add(m_placePos, TileManager.GetTileDictionaryFloor()[m_placePos].CustomTile);
                                     }
+                                    if (TileManager.GetTileDictionaryFloor().ContainsKey(m_placePos))
+                                    {
+                                       int id = TileManager.GetTileDictionaryFloor()[m_placePos].CustomTile.ID;
+                                        DataToSave tempData = new DataToSave
+                                        {
+                                            PosX = m_placePos.x,
+                                            PosY = m_placePos.y,
+                                            PosZ = m_placePos.z,
+                                            IsPlacedTile = true,
+                                            ID = id,
+                                        };
+                                        m_fileManager.Input(tempData);
+                                    }
                                 }
                             }
                         }
@@ -195,7 +208,7 @@ public class PlaceTile : MonoBehaviour
         ApplySpriteVariation(_copy, toPlace, m_placePos);
         Instantiate(m_audioPlaceSource);
         if (!m_manager.Creative && BackPack.GetStorageTypeCount(_copy) > 0)
-        { 
+        {
             BackPack.RemoveFromStorage(_copy);
             if (BackPack.GetNewItem(_copy) != null)
                 _copy.Item = Instantiate(BackPack.GetNewItem(_copy));
@@ -207,8 +220,7 @@ public class PlaceTile : MonoBehaviour
             PosZ = m_placePos.z,
             ID = id
         };
-        if (m_fileManager.Save.DataPacks.All(t => !t.Equals(tempData)))
-            m_fileManager.TilesToSave.Add(tempData);
+        m_fileManager.Input(tempData);
     }
     void DropBlock(CustomTile _tile)
     {

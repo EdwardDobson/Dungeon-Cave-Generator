@@ -1,6 +1,7 @@
 using DungeonGeneration;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PlacedBomb : MonoBehaviour
@@ -85,7 +86,23 @@ public class PlacedBomb : MonoBehaviour
                     IsNull = false,
                     IsPlacedTile = false
                 };
-                m_fileManager.Input(tempDataFloor);
+
+                if (m_fileManager.Save.DataPacks.Any(t => t.Equals(tempDataFloor)))
+                {
+                    m_fileManager.Save.DataPacks.Remove(m_fileManager.Save.DataPacks.Where(t => t.Equals(tempDataFloor)).First());
+                }
+                else
+                {
+                    m_fileManager.Save.DataPacks.Add(tempDataFloor);
+                }
+                if (m_fileManager.TilesToSave.Any(t => t.Equals(tempDataFloor)))
+                {
+                    m_fileManager.TilesToSave.Remove(m_fileManager.TilesToSave.Where(t => t.Equals(tempDataFloor)).First());
+                }
+                else
+                {
+                    m_fileManager.Input(tempDataFloor);
+                }
                 DataToSave tempData = new DataToSave
                 {
                     PosX = m_tilesAround[_index].Pos.x,
@@ -95,9 +112,23 @@ public class PlacedBomb : MonoBehaviour
                     IsNull = true,
                     IsPlacedTile = false
                 };
-                m_fileManager.TilesToSave.Add(tempData);
 
-
+                if (m_fileManager.Save.DataPacks.Any(t => t.Equals(tempData)))
+                {
+                    m_fileManager.Save.DataPacks.Remove(m_fileManager.Save.DataPacks.Where(t => t.Equals(tempData)).First());
+                }
+                else
+                {
+                    m_fileManager.Save.DataPacks.Add(tempData);
+                }
+                if (m_fileManager.TilesToSave.Any(t => t.Equals(tempData)))
+                {
+                    m_fileManager.TilesToSave.Remove(m_fileManager.TilesToSave.Where(t => t.Equals(tempData)).First());
+                }
+                else
+                {
+                    m_fileManager.Input(tempData);
+                }
                 TileManager.RemoveTilePiece(m_tilesAround[_index].Pos, WallGen.GetTilemap());
                 TileManager.ChangeTilePiece(m_tilesAround[_index].Pos, 0, TileType.Path, DungeonUtility.GetTilemap());
                 TileManager.GetTileDictionaryWalls().Remove(m_tilesAround[_index].Pos);

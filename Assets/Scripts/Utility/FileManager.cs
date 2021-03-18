@@ -43,22 +43,24 @@ public class FileManager : MonoBehaviour
     {
         if (Save.SeedSet)
         {
-            TilesToSave.Add(_item);
+                TilesToSave.Add(_item);
+
         }
     }
     public void SaveToDisk()
     {
-
         for (int i = 0; i < TilesToSave.Count; ++i)
         {
             if (Save.DataPacks.All(t => !t.Equals(TilesToSave[i])))
                 Save.DataPacks.Add(TilesToSave[i]);
         }
+    
         BinaryFormatter bf = new BinaryFormatter();
         FileStream file = File.Create(SavePath);
         bf.Serialize(file, Save);
         file.Close();
         Debug.Log("Saving Seed: " + Save.Seed);
+        TilesToSave.Clear();
     }
     public void LoadFromDisk()
     {
@@ -70,8 +72,14 @@ public class FileManager : MonoBehaviour
             Save = (SaveFile)bf.Deserialize(file);
             file.Close();
             Debug.Log("Seed: " + Save.Seed);
-
-            Random.InitState(Save.Seed);
+            if (Save.Seed == 0)
+            {
+                Random.InitState(12432523);
+            }
+            else
+            {
+                Random.InitState(Save.Seed);
+            }
             for (int i = 0; i < Save.DataPacks.Count; ++i)
                 AddChangedTiles(i);
 
@@ -94,55 +102,37 @@ public class FileManager : MonoBehaviour
         for (int i = 0; i < TilesToLoad.Count; ++i)
         {
             Vector3Int tempPosI = new Vector3Int(TilesToLoad[i].PosX, TilesToLoad[i].PosY, TilesToLoad[i].PosZ);
+            for (int wall = 0; wall < TileManager.GetTileHolder(TileType.Wall).Tiles.Count; ++wall)
+            {
+                if (TilesToLoad[i].ID == TileManager.GetTileHolder(TileType.Wall).Tiles[wall].ID)
+                {
+                    if(!TilesToLoad[i].IsNull)
+                    TileManager.PlaceTile(tempPosI, 0, WallGen.GetTilemap(), WallGen.GetTilemap(), TileManager.GetTileHolder(TileType.Wall).Tiles[wall], DictionaryType.Walls);
+                    else
+                    {
+                        TileManager.RemoveTilePiece(tempPosI, WallGen.GetTilemap());
+                    }
+                }
+            }
             for (int floor = 0; floor < TileManager.GetTileHolder(TileType.Floor).Tiles.Count; ++floor)
             {
                 if (TilesToLoad[i].ID == TileManager.GetTileHolder(TileType.Floor).Tiles[floor].ID)
                 {
                     TileManager.PlaceTile(tempPosI, 0, DungeonUtility.GetTilemap(), DungeonUtility.GetTilemap(), TileManager.GetTileHolder(TileType.Floor).Tiles[floor], DictionaryType.Floor);
-                }
-            }
-            for (int wall = 0; wall < TileManager.GetTileHolder(TileType.Wall).Tiles.Count; ++wall)
-            {
-                if (TilesToLoad[i].ID == TileManager.GetTileHolder(TileType.Wall).Tiles[wall].ID)
-                {
-                    TileManager.PlaceTile(tempPosI, 0, DungeonUtility.GetTilemap(), WallGen.GetTilemap(), TileManager.GetTileHolder(TileType.Wall).Tiles[wall], DictionaryType.Walls);
-                }
-            }
-            /*
-             *    if (TileManager.GetTileDictionaryFloor().ContainsKey(tempPosI) && TileManager.GetTileDictionaryWalls().ContainsKey(tempPosI))
-            {
-                if (!PlacedOnTiles.ContainsKey(tempPosI))
-                {
-                    for (int floor = 0; floor < TileManager.GetTileHolder(TileType.Floor).Tiles.Count; ++floor)
+                    if (TilesToLoad[i].IsPlacedTile)
                     {
-                        Debug.Log("Tile  " + TilesToLoad[i].ID);
-                        Debug.Log("Tile manager " + TileManager.GetTileHolder(TileType.Floor).Tiles[floor].ID);
-                        if (TilesToLoad[i].ID == TileManager.GetTileHolder(TileType.Floor).Tiles[floor].ID)
-                        {
-                            DataToSave temp = TilesToLoad[i];
-                            temp.IsPlacedTile = true;
-                            TilesToLoad[i] = temp;
-                            Save.DataPacks.Add(temp);
-                            Save.DataPacks.Remove(TilesToLoad[i]);
+                        if (!PlacedOnTiles.ContainsKey(tempPosI))
                             PlacedOnTiles.Add(tempPosI, TileManager.GetTileHolder(TileType.Floor).Tiles[floor]);
-                        }
                     }
-                    for (int a = 0; a < TilesToLoad.Count; ++a)
-                    {
-                        for (int wall = 0; wall < TileManager.GetTileHolder(TileType.Wall).Tiles.Count; ++wall)
-                        {
-                            if (TilesToLoad[a].ID == TileManager.GetTileHolder(TileType.Wall).Tiles[wall].ID)
-                            {
-                                TileManager.PlaceTile(tempPosI, 0, DungeonUtility.GetTilemap(), WallGen.GetTilemap(), TileManager.GetTileHolder(TileType.Wall).Tiles[wall], DictionaryType.Walls);
-                            }
-                        }
-                    }
-
                 }
-
             }
-             */
-
+            for (int path = 0; path < TileManager.GetTileHolder(TileType.Path).Tiles.Count; ++path)
+            {
+                if (TilesToLoad[i].ID == TileManager.GetTileHolder(TileType.Path).Tiles[path].ID)
+                {
+                    TileManager.PlaceTile(tempPosI, 0, DungeonUtility.GetTilemap(), DungeonUtility.GetTilemap(), TileManager.GetTileHolder(TileType.Path).Tiles[path], DictionaryType.Floor);
+                }
+            }
         }
     }
     public void TileSetter()

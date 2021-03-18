@@ -34,7 +34,7 @@ public class Dig : MonoBehaviour
     {
         if (Time.timeScale > 0)
         {
-            if(CanDig && m_manager.CanPerformAction)
+            if (CanDig && m_manager.CanPerformAction)
             {
                 FindTile();
                 if (m_manager.Creative)
@@ -60,12 +60,12 @@ public class Dig : MonoBehaviour
                     if (CurrentDigSpeed <= 0)
                     {
                         bool foundTile = false;
-                        for(int WT = 0; WT < WallsTouched.Count; ++WT)
+                        for (int WT = 0; WT < WallsTouched.Count; ++WT)
                         {
-                            if(WallsTouched[WT].Pos == v)
+                            if (WallsTouched[WT].Pos == v)
                                 foundTile = true;
                         }
-                        if(!foundTile)
+                        if (!foundTile)
                         {
                             CustomTile copy = Instantiate(TileManager.GetTileDictionaryWalls()[v].CustomTile);
                             copy.Pos = v;
@@ -125,16 +125,15 @@ public class Dig : MonoBehaviour
                                             PosZ = v.z,
                                             ID = TileManager.GetTileHolder(TileType.Path).Tiles[0].ID,
                                             IsNull = false,
-                                            IsPlacedTile = false
+                                            IsPlacedTile = true
                                         };
-                                      m_fileManager.Input(tempDataFloor);
+                                        m_fileManager.Input(tempDataFloor);
                                     }
                                     for (int a = 0; a < m_fileManager.PlacedOnTiles.Count; ++a)
                                     {
                                         if (m_fileManager.PlacedOnTiles.ContainsKey(v))
                                         {
                                             TileManager.PlaceTile(v, 0, WallTileMap, Map, m_fileManager.PlacedOnTiles[v], DictionaryType.Floor);
-                                            Debug.Log("Place Floor tile");
                                             m_fileManager.PlacedOnTiles.Remove(v);
                                         }
                                     }
@@ -144,25 +143,10 @@ public class Dig : MonoBehaviour
                                         PosY = v.y,
                                         PosZ = v.z,
                                         ID = WallsTouched[i].ID,
-                                        IsNull = true,
-                                        IsPlacedTile = false
+                                        IsPlacedTile = false,
+                                        IsNull = true
                                     };
-                                  
-                                    if (m_fileManager.Save.DataPacks.Any(t =>t.PosX == v.x && t.PosY == v.y && t.PosZ == v.z))
-                                    {
-                                     DataToSave temp =   m_fileManager.Save.DataPacks.Where(t => t.PosX == v.x && t.PosY == v.y && t.PosZ == v.z).First();
-                                        if(!temp.IsNull)
-                                        {
-                                        m_fileManager.Save.DataPacks.Remove(temp);
-                                          
-                                        }
-                                    }
-                                    else
-                                    {
-                                        m_fileManager.TilesToSave.Add(tempData);
-                                    }
-                            
-
+                                    m_fileManager.Input(tempData);
                                     WallsTouched.RemoveAt(i);
                                 }
                             }
@@ -176,7 +160,7 @@ public class Dig : MonoBehaviour
     void ShouldBlockDrop(int _blockIndex)
     {
         int amountToDrop = Random.Range(1, WallsTouched[_blockIndex].DropMax);
-        for(int i = 0; i < amountToDrop; ++i)
+        for (int i = 0; i < amountToDrop; ++i)
         {
             if (!m_manager.Creative && !m_manager.ScoreMode)
             {
@@ -193,6 +177,6 @@ public class Dig : MonoBehaviour
 
             }
         }
- 
+
     }
 }
