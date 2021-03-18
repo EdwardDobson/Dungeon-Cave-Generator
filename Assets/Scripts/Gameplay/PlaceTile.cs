@@ -145,14 +145,10 @@ public class PlaceTile : MonoBehaviour
                                 if (new Vector3Int((int)transform.position.x, (int)transform.position.y, 0) != m_placePos)
                                 {
                                     PTile(newCopy);
-                                   
-                                       if (!m_fileManager.PlacedOnTiles.ContainsKey(m_placePos))
+                                   if (!m_fileManager.PlacedOnTiles.ContainsKey(m_placePos))
                                     {
                                         m_fileManager.PlacedOnTiles.Add(m_placePos, TileManager.GetTileDictionaryFloor()[m_placePos].CustomTile);
                                     }
-                           
-                                   
-
                                 }
                             }
                         }
@@ -199,7 +195,7 @@ public class PlaceTile : MonoBehaviour
         ApplySpriteVariation(_copy, toPlace, m_placePos);
         Instantiate(m_audioPlaceSource);
         if (!m_manager.Creative && BackPack.GetStorageTypeCount(_copy) > 0)
-        {
+        { 
             BackPack.RemoveFromStorage(_copy);
             if (BackPack.GetNewItem(_copy) != null)
                 _copy.Item = Instantiate(BackPack.GetNewItem(_copy));
@@ -211,8 +207,6 @@ public class PlaceTile : MonoBehaviour
             PosZ = m_placePos.z,
             ID = id
         };
-    
-
         if (m_fileManager.Save.DataPacks.All(t => !t.Equals(tempData)))
             m_fileManager.TilesToSave.Add(tempData);
     }

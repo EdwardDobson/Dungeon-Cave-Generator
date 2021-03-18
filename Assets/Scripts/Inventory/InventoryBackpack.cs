@@ -73,7 +73,7 @@ public class InventoryBackpack : MonoBehaviour
         {
             if (Storage[i].Items.Count > 0)
             {
-                if (Storage[i].Items.Any(t => t.ItemID == _customTile.Item.ItemID))
+                if (Storage[i].Items.Any(t => t.Name == _customTile.Item.Name))
                 {
                     Storage[i].Items.RemoveAt(0);
                     HotBarScrolling.UpdateCountDisplay(Storage[i].Items.Count);
