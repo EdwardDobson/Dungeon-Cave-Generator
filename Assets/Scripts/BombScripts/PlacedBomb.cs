@@ -19,7 +19,7 @@ public class PlacedBomb : MonoBehaviour
     {
         m_source = GameObject.Find("Player").GetComponent<AudioSource>();
         m_manager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        m_fileManager =GameObject.Find("Save").GetComponent<FileManager>();
+        m_fileManager =GameObject.Find("SaveHolder").GetComponent<FileManager>();
         DirectionsCalculate();
         GetSurroundingTiles();
         DamageTiles();

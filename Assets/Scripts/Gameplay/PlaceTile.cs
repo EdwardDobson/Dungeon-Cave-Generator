@@ -36,7 +36,7 @@ public class PlaceTile : MonoBehaviour
         PlacedOnTiles = new Dictionary<Vector3Int, CustomTile>();
         BackPack = GetComponent<InventoryBackpack>();
         m_manager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        m_fileManager = GameObject.Find("Save").GetComponent<FileManager>();
+        m_fileManager = GameObject.Find("SaveHolder").GetComponent<FileManager>();
         m_enemySpawner = GameObject.Find("EnemySpawner").GetComponent<EnemySpawner>();
 
     }

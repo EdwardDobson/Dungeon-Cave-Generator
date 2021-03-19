@@ -16,9 +16,14 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         m_rb2d = GetComponent<Rigidbody2D>();
+
     }
     void Update()
     {
+        if (Map == null)
+        {
+            Map = GameObject.Find("SaveHolder").transform.GetChild(0).GetChild(0).GetComponent<Tilemap>();
+        }
         if (FloorGen.GetFloorPositions().Count > 0 && !m_playerPlaced)
         {
             Vector3Int position = FloorGen.GetFloorPositions()[Random.Range(0, FloorGen.GetFloorPositions().Count)];

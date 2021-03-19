@@ -54,10 +54,13 @@ public class BuildDungeon : MonoBehaviour
     public bool UseMiniMapIcons;
     public int Seed;
     FileManager m_fileManager;
-  
+    private void Start()
+    {
+       
+    }
     public void Build()
     {
-        m_fileManager = GameObject.Find("Save").GetComponent<FileManager>();
+        m_fileManager = transform.parent.parent.GetComponent<FileManager>();
         if (!m_fileManager.Save.SeedSet)
         {
             m_fileManager.Save.Seed = Seed;
@@ -132,7 +135,7 @@ public class BuildDungeon : MonoBehaviour
             ConnectRoom.FindOtherRoom();
         }
         WallGen.PlaceWalls();
-    //    m_fileManager.TilePlacer();
+
         //  m_fileManager.TileSetter();
         if (GameObject.Find("LevelLoader") != null)
         {

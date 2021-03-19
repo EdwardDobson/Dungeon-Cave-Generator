@@ -49,7 +49,7 @@ public class GameManager : MonoBehaviour
         {
             Button.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Creative";
         }
-        m_dungeon = GameObject.Find("Map").GetComponent<BuildDungeon>();
+
         if(GameObject.Find("LevelLoader")!= null)
         {
             LevelLoad temp = GameObject.Find("LevelLoader").GetComponent<LevelLoad>();
@@ -101,7 +101,8 @@ public class GameManager : MonoBehaviour
     }
     public void WinState()
     {
-        if(m_dungeon.ScoresPlaced)
+        m_dungeon = GameObject.Find("Map").GetComponent<BuildDungeon>();
+        if (m_dungeon.ScoresPlaced)
         {
             for (int i = 0; i < m_dungeon.Scores.Count; ++i)
             {

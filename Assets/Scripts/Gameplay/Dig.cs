@@ -1,7 +1,6 @@
 using DungeonGeneration;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -17,7 +16,6 @@ public class Dig : MonoBehaviour
     public List<CustomTile> WallsTouched = new List<CustomTile>();
     public GameObject BlockDrop;
     public bool CanDig;
-    PlaceTile m_pTile;
     [SerializeField]
     AudioSource m_source;
     public GameObject BreakingEffectPrefab;
@@ -26,12 +24,18 @@ public class Dig : MonoBehaviour
     private void Start()
     {
         CurrentDigSpeed = MaxDigSpeed;
-        m_pTile = GetComponent<PlaceTile>();
         m_manager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        m_fileManager = GameObject.Find("Save").GetComponent<FileManager>();
+   
     }
     void Update()
     {
+        if(Map == null)
+        {
+            m_fileManager = GameObject.Find("SaveHolder").GetComponent<FileManager>();
+            Map = GameObject.Find("SaveHolder").transform.GetChild(0).GetChild(0).GetComponent<Tilemap>();
+            WallTileMap = GameObject.Find("SaveHolder").transform.GetChild(0).GetChild(1).GetComponent<Tilemap>();
+        }
+         
         if (Time.timeScale > 0)
         {
             if (CanDig && m_manager.CanPerformAction)

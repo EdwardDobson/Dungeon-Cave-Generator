@@ -11,8 +11,6 @@ GameObject:
   - component: {fileID: 8800083758417266050}
   - component: {fileID: 3637410397251561591}
   - component: {fileID: 9064305073223868958}
-  - component: {fileID: 1287630960}
-  - component: {fileID: 1287630959}
   - component: {fileID: 1287630958}
   m_Layer: 0
   m_Name: Walls
@@ -112,7 +110,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -121,51 +119,6 @@ TilemapRenderer:
   m_Mode: 0
   m_DetectChunkCullingBounds: 0
   m_MaskInteraction: 0
---- !u!50 &1287630960
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2357527219770146980}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 7
---- !u!66 &1287630959
-CompositeCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2357527219770146980}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_GeometryType: 1
-  m_GenerationType: 0
-  m_EdgeRadius: 0
-  m_ColliderPaths:
-  - m_Collider: {fileID: 1287630958}
-    m_ColliderPaths: []
-  m_CompositePaths:
-    m_Paths: []
-  m_VertexDistance: 0.0005
-  m_OffsetDistance: 0.00005
 --- !u!19719996 &1287630958
 TilemapCollider2D:
   m_ObjectHideFlags: 0
@@ -178,7 +131,7 @@ TilemapCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
-  m_UsedByComposite: 1
+  m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0.00001
@@ -398,3 +351,8 @@ MonoBehaviour:
   ScorePrefab: {fileID: 6681691683834933147, guid: f2f88ab00049ad245a2606b3c8c8f8af, type: 3}
   Scores: []
   ScoresPlaced: 0
+  SquareRoom: {fileID: 2524554139678802465, guid: e8ae5e767d694f4458a23fca8c3f8bf9, type: 3}
+  CircleRoom: {fileID: 3099452327474815719, guid: fee3d6f54ea2d1d40a7d4a543c049c1f, type: 3}
+  DiamondRoom: {fileID: 6646294292653676442, guid: 924e2a59430c4d2409e5034e13b246bb, type: 3}
+  UseMiniMapIcons: 0
+  Seed: 2147483647

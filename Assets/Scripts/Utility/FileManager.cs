@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
+using TMPro;
 using UnityEngine;
 [System.Serializable]
 public struct DataToSave
@@ -18,9 +19,9 @@ public struct DataToSave
 [System.Serializable]
 public class SaveFile
 {
-    public List<DataToSave> DataPacks = new List<DataToSave>();
     public int Seed;
     public bool SeedSet;
+    public List<DataToSave> DataPacks = new List<DataToSave>();
 }
 public class FileManager : MonoBehaviour
 {
@@ -31,28 +32,69 @@ public class FileManager : MonoBehaviour
     public SaveFile Save = new SaveFile();
     [SerializeField]
     public Dictionary<Vector3Int, CustomTile> PlacedOnTiles;
+    public GameObject Dungeon;
     BuildDungeon m_dungeon;
+    public TextMeshProUGUI DebugText;
     private void Awake()
     {
         SavePath = Application.persistentDataPath + "/save.dat";
         Save.DataPacks = new List<DataToSave>();
         PlacedOnTiles = new Dictionary<Vector3Int, CustomTile>();
-        LoadFromDisk();
-
+    }
+    private void Start()
+    {
+      LoadJson();
+        //      LoadFromDisk();
     }
     public void Input(DataToSave _item)
     {
         if (Save.SeedSet)
             TilesToSave.Add(_item);
     }
+    public void SaveJson()
+    {
+        SaveFile newFile = new SaveFile
+        {
+            Seed = 123123,
+            SeedSet = true,
+            DataPacks = TilesToSave
+        };
+        string saveString = JsonUtility.ToJson(newFile, true);
+        File.WriteAllText(Application.persistentDataPath + "/save.txt", saveString);
+    }
+    public void LoadJson()
+    {
+        if (File.Exists(Application.persistentDataPath + "/save.txt"))
+        {
+            string loadString = File.ReadAllText(Application.persistentDataPath + "/save.txt");
+            SaveFile saveFile = JsonUtility.FromJson<SaveFile>(loadString);
+            Random.InitState(saveFile.Seed);
+            GameObject clone = Instantiate(Dungeon);
+            clone.transform.position = new Vector3(0, 0, 0);
+            clone.transform.SetParent(transform);
+            clone.transform.GetChild(0).GetComponent<BuildDungeon>().Build();
+            TilePlacer(saveFile);
+
+        }
+        else
+        {
+            Random.InitState(123123);
+            GameObject clone = Instantiate(Dungeon);
+            clone.transform.position = new Vector3(0, 0, 0);
+            clone.transform.SetParent(transform);
+            clone.transform.GetChild(0).GetComponent<BuildDungeon>().Build();
+            SaveJson();
+        }
+    }
     public void SaveToDisk()
     {
+
         for (int i = 0; i < TilesToSave.Count; ++i)
         {
             if (Save.DataPacks.All(t => !t.Equals(TilesToSave[i])))
                 Save.DataPacks.Add(TilesToSave[i]);
         }
-    
+
         BinaryFormatter bf = new BinaryFormatter();
         FileStream file = File.Create(SavePath);
         bf.Serialize(file, Save);
@@ -64,24 +106,16 @@ public class FileManager : MonoBehaviour
     {
         if (File.Exists(SavePath))
         {
-            Debug.Log("Loading");
             BinaryFormatter bf = new BinaryFormatter();
             FileStream file = File.Open(SavePath, FileMode.Open);
             Save = (SaveFile)bf.Deserialize(file);
             file.Close();
-            Debug.Log("Seed: " + Save.Seed);
-            if (Save.Seed == 0)
-            {
-                Random.InitState(12432523);
-            }
-            else
-            {
-                Random.InitState(Save.Seed);
-            }
-            for (int i = 0; i < Save.DataPacks.Count; ++i)
-                AddChangedTiles(i);
-            m_dungeon = GameObject.Find("Map").GetComponent<BuildDungeon>();
-            m_dungeon.Build();
+            Random.InitState(Save.Seed);
+            GameObject clone = Instantiate(Dungeon);
+            clone.transform.position = new Vector3(0, 0, 0);
+            clone.transform.SetParent(transform);
+            clone.transform.GetChild(0).GetComponent<BuildDungeon>().Build();
+            TilePlacer(Save);
         }
         else
         {
@@ -89,33 +123,35 @@ public class FileManager : MonoBehaviour
             FileStream file = File.Create(SavePath);
             bf.Serialize(file, Save);
             file.Close();
-            m_dungeon = GameObject.Find("Map").GetComponent<BuildDungeon>();
-            m_dungeon.Build();
+            Random.InitState(123123);
+            GameObject clone = Instantiate(Dungeon);
+            clone.transform.position = new Vector3(0, 0, 0);
+            clone.transform.SetParent(transform);
+            clone.transform.GetChild(0).GetComponent<BuildDungeon>().Build();
         }
     }
-    public void AddChangedTiles(int _index)
+    public void AddChangedTiles(int _index, SaveFile _file)
     {
         DataToSave temp = new DataToSave();
-        temp.PosX = Save.DataPacks[_index].PosX;
-        temp.PosY = Save.DataPacks[_index].PosY;
-        temp.PosZ = Save.DataPacks[_index].PosZ;
-        temp.IsNull = Save.DataPacks[_index].IsNull;
-        temp.ID = Save.DataPacks[_index].ID;
-        temp.IsPlacedTile = Save.DataPacks[_index].IsPlacedTile;
+        temp.PosX = _file.DataPacks[_index].PosX;
+        temp.PosY = _file.DataPacks[_index].PosY;
+        temp.PosZ = _file.DataPacks[_index].PosZ;
+        temp.IsNull = _file.DataPacks[_index].IsNull;
+        temp.ID = _file.DataPacks[_index].ID;
+        temp.IsPlacedTile = _file.DataPacks[_index].IsPlacedTile;
         TilesToLoad.Add(temp);
-
     }
-    public void TilePlacer()
+    public void TilePlacer(SaveFile _file)
     {
-        for (int i = 0; i < TilesToLoad.Count; ++i)
+        for (int i = 0; i < _file.DataPacks.Count; ++i)
         {
-            Vector3Int tempPosI = new Vector3Int(TilesToLoad[i].PosX, TilesToLoad[i].PosY, TilesToLoad[i].PosZ);
+            Vector3Int tempPosI = new Vector3Int(_file.DataPacks[i].PosX, _file.DataPacks[i].PosY, _file.DataPacks[i].PosZ);
             for (int wall = 0; wall < TileManager.GetTileHolder(TileType.Wall).Tiles.Count; ++wall)
             {
-                if (TilesToLoad[i].ID == TileManager.GetTileHolder(TileType.Wall).Tiles[wall].ID)
+                if (_file.DataPacks[i].ID == TileManager.GetTileHolder(TileType.Wall).Tiles[wall].ID)
                 {
-                    if(!TilesToLoad[i].IsNull)
-                    TileManager.PlaceTile(tempPosI, 0, WallGen.GetTilemap(), WallGen.GetTilemap(), TileManager.GetTileHolder(TileType.Wall).Tiles[wall], DictionaryType.Walls);
+                    if (!_file.DataPacks[i].IsNull)
+                        TileManager.PlaceTile(tempPosI, 0, WallGen.GetTilemap(), WallGen.GetTilemap(), TileManager.GetTileHolder(TileType.Wall).Tiles[wall], DictionaryType.Walls);
                     else
                     {
                         TileManager.RemoveTilePiece(tempPosI, WallGen.GetTilemap());
@@ -124,10 +160,10 @@ public class FileManager : MonoBehaviour
             }
             for (int floor = 0; floor < TileManager.GetTileHolder(TileType.Floor).Tiles.Count; ++floor)
             {
-                if (TilesToLoad[i].ID == TileManager.GetTileHolder(TileType.Floor).Tiles[floor].ID)
+                if (_file.DataPacks[i].ID == TileManager.GetTileHolder(TileType.Floor).Tiles[floor].ID)
                 {
                     TileManager.PlaceTile(tempPosI, 0, DungeonUtility.GetTilemap(), DungeonUtility.GetTilemap(), TileManager.GetTileHolder(TileType.Floor).Tiles[floor], DictionaryType.Floor);
-                    if (TilesToLoad[i].IsPlacedTile)
+                    if (_file.DataPacks[i].IsPlacedTile)
                     {
                         if (!PlacedOnTiles.ContainsKey(tempPosI))
                             PlacedOnTiles.Add(tempPosI, TileManager.GetTileHolder(TileType.Floor).Tiles[floor]);
@@ -136,7 +172,7 @@ public class FileManager : MonoBehaviour
             }
             for (int path = 0; path < TileManager.GetTileHolder(TileType.Path).Tiles.Count; ++path)
             {
-                if (TilesToLoad[i].ID == TileManager.GetTileHolder(TileType.Path).Tiles[path].ID)
+                if (_file.DataPacks[i].ID == TileManager.GetTileHolder(TileType.Path).Tiles[path].ID)
                 {
                     TileManager.PlaceTile(tempPosI, 0, DungeonUtility.GetTilemap(), DungeonUtility.GetTilemap(), TileManager.GetTileHolder(TileType.Path).Tiles[path], DictionaryType.Floor);
                 }
