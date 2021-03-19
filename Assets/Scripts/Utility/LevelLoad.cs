@@ -14,6 +14,7 @@ public class LevelLoad : MonoBehaviour
     public bool ExitMode;
     public int Seed;
     public string WorldName;
+    public string ModeName;
     private void Start()
     {
         DontDestroyOnLoad(this);

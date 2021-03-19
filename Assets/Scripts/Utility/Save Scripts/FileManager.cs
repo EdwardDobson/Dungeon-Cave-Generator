@@ -20,6 +20,7 @@ public class SaveFile
     public string WorldName;
     public int Seed;
     public bool SeedSet;
+    public string ModeName;
     public Vector2 PlayerPosition;
     public List<DataToSave> DataPacks = new List<DataToSave>();
 }
@@ -36,16 +37,18 @@ public class FileManager : MonoBehaviour
     public TextMeshProUGUI DebugText;
     public int SetSeed;
     public string WorldName;
+    public string ModeName;
     private void Awake()
     {
         SavePath = Application.persistentDataPath + "/save.dat";
         Save.DataPacks = new List<DataToSave>();
         PlacedOnTiles = new Dictionary<Vector3Int, CustomTile>();
         SaveLoadSystem.Init();
-        if(GameObject.Find("LevelLoader") != null)
+        if (GameObject.Find("LevelLoader") != null)
         {
             SetSeed = GameObject.Find("LevelLoader").GetComponent<LevelLoad>().Seed;
             WorldName = GameObject.Find("LevelLoader").GetComponent<LevelLoad>().WorldName;
+            ModeName = GameObject.Find("LevelLoader").GetComponent<LevelLoad>().ModeName;
         }
 
     }
@@ -67,33 +70,47 @@ public class FileManager : MonoBehaviour
             {
                 Seed = SetSeed,
                 SeedSet = true,
-                DataPacks = TilesToSave,
+            
                 WorldName = WorldName,
+                ModeName = ModeName,
                 PlayerPosition = GameObject.Find("Player").transform.position
             };
-            string saveString = JsonUtility.ToJson(newFile, true);
-            SaveLoadSystem.Save(saveString,WorldName);
+            for (int i = 0; i < TilesToSave.Count; ++i)
+            {
+                if (newFile.DataPacks.All(t => !t.Equals(TilesToSave[i])))
+                {
+                    newFile.DataPacks.Add(TilesToSave[i]);
+                    Debug.Log("Adding onto file");
+                }
+            }
+
+            string saveString = JsonUtility.ToJson(newFile);
+            SaveLoadSystem.Save(saveString, WorldName);
         }
         if (File.Exists(SaveLoadSystem.SaveFolderLocation + WorldName + ".txt"))
         {
-        
+
             string LoadString = SaveLoadSystem.Load(WorldName);
-            Debug.Log("Adding onto file");
+
             if (LoadString != null)
             {
                 SaveFile saveFile = JsonUtility.FromJson<SaveFile>(LoadString);
-             for(int i = 0; i < TilesToSave.Count; ++i)
+                for (int i = 0; i < TilesToSave.Count; ++i)
                 {
-                    if (!saveFile.DataPacks.Contains(TilesToSave[i]))
-                    saveFile.DataPacks.Add(TilesToSave[i]);
+                    if (saveFile.DataPacks.All(t => !t.Equals(TilesToSave[i])))
+                    {
+                        saveFile.DataPacks.Add(TilesToSave[i]);
+                        Debug.Log("Adding onto file");
+                    }
                 }
+
                 saveFile.PlayerPosition = GameObject.Find("Player").transform.position;
-                string saveString = JsonUtility.ToJson(saveFile, true);
+                string saveString = JsonUtility.ToJson(saveFile);
                 SaveLoadSystem.Save(saveString, WorldName);
-          
+
             }
         }
-       
+
     }
     public void LoadJson()
     {
@@ -107,13 +124,20 @@ public class FileManager : MonoBehaviour
             clone.transform.position = new Vector3(0, 0, 0);
             clone.transform.SetParent(transform);
             clone.transform.GetChild(0).GetComponent<BuildDungeon>().Build();
+            TilesToSave = saveFile.DataPacks;
             TilePlacer(saveFile);
             GameObject.Find("Player").transform.position = saveFile.PlayerPosition;
+            if (saveFile.ModeName == "FreeMode")
+                GameObject.Find("GameManager").GetComponent<GameManager>().FreeMode = true;
+            if (saveFile.ModeName == "ScoreMode")
+                GameObject.Find("GameManager").GetComponent<GameManager>().ScoreMode = true;
+            if (saveFile.ModeName == "ExitMode")
+                GameObject.Find("GameManager").GetComponent<GameManager>().ExitMode = true;
         }
         else
         {
-            if(SetSeed == 0)
-            Random.InitState(123123);
+            if (SetSeed == 0)
+                Random.InitState(123123);
             else
             {
                 Random.InitState(SetSeed);

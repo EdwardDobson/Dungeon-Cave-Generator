@@ -57,6 +57,7 @@ public class GameManager : MonoBehaviour
             ScoreMode = temp.ScoreMode;
             ExitMode = temp.ExitMode;
         }
+       
         DisableObjs();
         SetTimer = false;
     }
@@ -101,7 +102,8 @@ public class GameManager : MonoBehaviour
     }
     public void WinState()
     {
-        m_dungeon = GameObject.Find("Map").GetComponent<BuildDungeon>();
+       if(m_dungeon == null)
+            m_dungeon = GameObject.Find("Map").GetComponent<BuildDungeon>();
         if (m_dungeon.ScoresPlaced)
         {
             for (int i = 0; i < m_dungeon.Scores.Count; ++i)
@@ -109,15 +111,17 @@ public class GameManager : MonoBehaviour
                 m_totalScore += m_dungeon.Scores[i].GetComponent<ScorePoint>().ScoreWorth;
             }
             m_dungeon.ScoresPlaced = false;
+            m_totalScoreNeeded = m_totalScore / 4;
+            ScoreNeededText.text = "Score Needed: " + m_totalScoreNeeded;
+            if (Player.GetComponent<Scoring>().CurrentScore >= m_totalScoreNeeded)
+            {
+                WinScreen.SetActive(true);
+                Time.timeScale = 0;
+            }
         }
 
-        m_totalScoreNeeded = m_totalScore / 4;
-        ScoreNeededText.text = "Score Needed: " + m_totalScoreNeeded;
-        if (Player.GetComponent<Scoring>().CurrentScore >= m_totalScoreNeeded)
-        {
-            WinScreen.SetActive(true);
-            Time.timeScale = 0;
-        }
+
+ 
     }
     public void ExitWin()
     {

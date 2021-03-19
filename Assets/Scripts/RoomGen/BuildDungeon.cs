@@ -4,7 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.Tilemaps;
 public class BuildDungeon : MonoBehaviour
 {
@@ -54,10 +53,7 @@ public class BuildDungeon : MonoBehaviour
     public bool UseMiniMapIcons;
     public int Seed;
     FileManager m_fileManager;
-    private void Start()
-    {
-       
-    }
+    LevelLoad m_levelLoader;
     public void Build()
     {
         m_fileManager = transform.parent.parent.GetComponent<FileManager>();
@@ -135,11 +131,12 @@ public class BuildDungeon : MonoBehaviour
             ConnectRoom.FindOtherRoom();
         }
         WallGen.PlaceWalls();
-
-        //  m_fileManager.TileSetter();
-        if (GameObject.Find("LevelLoader") != null)
+        if (m_levelLoader == null)
+            m_levelLoader = GameObject.Find("LevelLoader").GetComponent<LevelLoad>();
+            //  m_fileManager.TileSetter();
+        if (m_levelLoader != null)
         {
-            if (GameObject.Find("LevelLoader").GetComponent<LevelLoad>().ScoreMode)
+            if (m_levelLoader.GetComponent<LevelLoad>().ScoreMode)
             {
                 for (int i = 0; i < m_scoreAmount; ++i)
                 {

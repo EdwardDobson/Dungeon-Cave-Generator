@@ -15,16 +15,19 @@ public class MenuButton : MonoBehaviour
                 levelLoad.FreeMode = true;
                 levelLoad.ScoreMode = false;
                 levelLoad.ExitMode = false;
+                levelLoad.ModeName = "FreeMode";
                 break;
             case "ScoreMode":
                 levelLoad.ScoreMode = true;
                 levelLoad.FreeMode = false;
                 levelLoad.ExitMode = false;
+                levelLoad.ModeName = "ScoreMode";
                 break;
             case "ExitMode":
                 levelLoad.ExitMode = true;
                 levelLoad.ScoreMode = false;
                 levelLoad.FreeMode = false;
+                levelLoad.ModeName = "ExitMode";
                 break;
         }
     }
