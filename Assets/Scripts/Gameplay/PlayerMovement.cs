@@ -24,13 +24,7 @@ public class PlayerMovement : MonoBehaviour
         {
             Map = GameObject.Find("SaveHolder").transform.GetChild(0).GetChild(0).GetComponent<Tilemap>();
         }
-        if (FloorGen.GetFloorPositions().Count > 0 && !m_playerPlaced)
-        {
-            Vector3Int position = FloorGen.GetFloorPositions()[Random.Range(0, FloorGen.GetFloorPositions().Count)];
-            Vector3 positionReadjusted = new Vector3(position.x + 0.5f, position.y + 0.5f, 0);
-            transform.position = positionReadjusted;
-            m_playerPlaced = true;
-        }
+    
         BorderDetection();
         Vector2 moveVector = new Vector2(h, v);
         m_rb2d.velocity = moveVector * Speed;

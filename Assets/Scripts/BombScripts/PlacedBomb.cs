@@ -79,9 +79,7 @@ public class PlacedBomb : MonoBehaviour
             {
                 DataToSave tempDataFloor = new DataToSave
                 {
-                    PosX = m_tilesAround[_index].Pos.x,
-                    PosY = m_tilesAround[_index].Pos.y,
-                    PosZ = m_tilesAround[_index].Pos.z,
+                    Position = new Vector2Int(m_tilesAround[_index].Pos.x, m_tilesAround[_index].Pos.y),
                     ID = TileManager.GetTileHolder(TileType.Path).Tiles[0].ID,
                     IsNull = false,
                     IsPlacedTile = false
@@ -105,9 +103,7 @@ public class PlacedBomb : MonoBehaviour
                 }
                 DataToSave tempData = new DataToSave
                 {
-                    PosX = m_tilesAround[_index].Pos.x,
-                    PosY = m_tilesAround[_index].Pos.y,
-                    PosZ = m_tilesAround[_index].Pos.z,
+                    Position = new Vector2Int(m_tilesAround[_index].Pos.x, m_tilesAround[_index].Pos.y),
                     ID = m_tilesAround[_index].ID,
                     IsNull = true,
                     IsPlacedTile = false

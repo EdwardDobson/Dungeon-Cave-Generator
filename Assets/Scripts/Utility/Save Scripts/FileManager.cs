@@ -9,9 +9,7 @@ using UnityEngine;
 [System.Serializable]
 public struct DataToSave
 {
-    public int PosX;
-    public int PosY;
-    public int PosZ;
+    public Vector2Int Position;
     public int ID;
     public bool IsNull;
     public bool IsPlacedTile;
@@ -19,8 +17,10 @@ public struct DataToSave
 [System.Serializable]
 public class SaveFile
 {
+    public string WorldName;
     public int Seed;
     public bool SeedSet;
+    public Vector2 PlayerPosition;
     public List<DataToSave> DataPacks = new List<DataToSave>();
 }
 public class FileManager : MonoBehaviour
@@ -33,17 +33,25 @@ public class FileManager : MonoBehaviour
     [SerializeField]
     public Dictionary<Vector3Int, CustomTile> PlacedOnTiles;
     public GameObject Dungeon;
-    BuildDungeon m_dungeon;
     public TextMeshProUGUI DebugText;
+    public int SetSeed;
+    public string WorldName;
     private void Awake()
     {
         SavePath = Application.persistentDataPath + "/save.dat";
         Save.DataPacks = new List<DataToSave>();
         PlacedOnTiles = new Dictionary<Vector3Int, CustomTile>();
+        SaveLoadSystem.Init();
+        if(GameObject.Find("LevelLoader") != null)
+        {
+            SetSeed = GameObject.Find("LevelLoader").GetComponent<LevelLoad>().Seed;
+            WorldName = GameObject.Find("LevelLoader").GetComponent<LevelLoad>().WorldName;
+        }
+
     }
     private void Start()
     {
-      LoadJson();
+        LoadJson();
         //      LoadFromDisk();
     }
     public void Input(DataToSave _item)
@@ -53,36 +61,73 @@ public class FileManager : MonoBehaviour
     }
     public void SaveJson()
     {
-        SaveFile newFile = new SaveFile
+        if (!File.Exists(SaveLoadSystem.SaveFolderLocation))
         {
-            Seed = 123123,
-            SeedSet = true,
-            DataPacks = TilesToSave
-        };
-        string saveString = JsonUtility.ToJson(newFile, true);
-        File.WriteAllText(Application.persistentDataPath + "/save.txt", saveString);
+            SaveFile newFile = new SaveFile
+            {
+                Seed = SetSeed,
+                SeedSet = true,
+                DataPacks = TilesToSave,
+                WorldName = WorldName,
+                PlayerPosition = GameObject.Find("Player").transform.position
+            };
+            string saveString = JsonUtility.ToJson(newFile, true);
+            SaveLoadSystem.Save(saveString,WorldName);
+        }
+        if (File.Exists(SaveLoadSystem.SaveFolderLocation + WorldName + ".txt"))
+        {
+        
+            string LoadString = SaveLoadSystem.Load(WorldName);
+            Debug.Log("Adding onto file");
+            if (LoadString != null)
+            {
+                SaveFile saveFile = JsonUtility.FromJson<SaveFile>(LoadString);
+             for(int i = 0; i < TilesToSave.Count; ++i)
+                {
+                    if (!saveFile.DataPacks.Contains(TilesToSave[i]))
+                    saveFile.DataPacks.Add(TilesToSave[i]);
+                }
+                saveFile.PlayerPosition = GameObject.Find("Player").transform.position;
+                string saveString = JsonUtility.ToJson(saveFile, true);
+                SaveLoadSystem.Save(saveString, WorldName);
+          
+            }
+        }
+       
     }
     public void LoadJson()
     {
-        if (File.Exists(Application.persistentDataPath + "/save.txt"))
+        string LoadString = SaveLoadSystem.Load(WorldName);
+        if (LoadString != null)
         {
-            string loadString = File.ReadAllText(Application.persistentDataPath + "/save.txt");
-            SaveFile saveFile = JsonUtility.FromJson<SaveFile>(loadString);
+            Debug.Log("Loading");
+            SaveFile saveFile = JsonUtility.FromJson<SaveFile>(LoadString);
             Random.InitState(saveFile.Seed);
             GameObject clone = Instantiate(Dungeon);
             clone.transform.position = new Vector3(0, 0, 0);
             clone.transform.SetParent(transform);
             clone.transform.GetChild(0).GetComponent<BuildDungeon>().Build();
             TilePlacer(saveFile);
-
+            GameObject.Find("Player").transform.position = saveFile.PlayerPosition;
         }
         else
         {
+            if(SetSeed == 0)
             Random.InitState(123123);
+            else
+            {
+                Random.InitState(SetSeed);
+            }
             GameObject clone = Instantiate(Dungeon);
             clone.transform.position = new Vector3(0, 0, 0);
             clone.transform.SetParent(transform);
             clone.transform.GetChild(0).GetComponent<BuildDungeon>().Build();
+            if (FloorGen.GetFloorPositions().Count > 0)
+            {
+                Vector3Int position = FloorGen.GetFloorPositions()[Random.Range(0, FloorGen.GetFloorPositions().Count)];
+                Vector3 positionReadjusted = new Vector3(position.x + 0.5f, position.y + 0.5f, 0);
+                GameObject.Find("Player").transform.position = positionReadjusted;
+            }
             SaveJson();
         }
     }
@@ -133,9 +178,6 @@ public class FileManager : MonoBehaviour
     public void AddChangedTiles(int _index, SaveFile _file)
     {
         DataToSave temp = new DataToSave();
-        temp.PosX = _file.DataPacks[_index].PosX;
-        temp.PosY = _file.DataPacks[_index].PosY;
-        temp.PosZ = _file.DataPacks[_index].PosZ;
         temp.IsNull = _file.DataPacks[_index].IsNull;
         temp.ID = _file.DataPacks[_index].ID;
         temp.IsPlacedTile = _file.DataPacks[_index].IsPlacedTile;
@@ -145,7 +187,7 @@ public class FileManager : MonoBehaviour
     {
         for (int i = 0; i < _file.DataPacks.Count; ++i)
         {
-            Vector3Int tempPosI = new Vector3Int(_file.DataPacks[i].PosX, _file.DataPacks[i].PosY, _file.DataPacks[i].PosZ);
+            Vector3Int tempPosI = new Vector3Int(_file.DataPacks[i].Position.x, _file.DataPacks[i].Position.y, 0);
             for (int wall = 0; wall < TileManager.GetTileHolder(TileType.Wall).Tiles.Count; ++wall)
             {
                 if (_file.DataPacks[i].ID == TileManager.GetTileHolder(TileType.Wall).Tiles[wall].ID)
@@ -184,7 +226,7 @@ public class FileManager : MonoBehaviour
         for (int i = 0; i < TilesToLoad.Count; ++i)
         {
 
-            Vector3Int tempPosI = new Vector3Int(TilesToLoad[i].PosX, TilesToLoad[i].PosY, TilesToLoad[i].PosZ);
+            Vector3Int tempPosI = new Vector3Int(TilesToLoad[i].Position.x, TilesToLoad[i].Position.y, 0);
 
             if (TileManager.GetTileDictionaryFloor().ContainsKey(tempPosI))
             {
@@ -220,7 +262,7 @@ public class FileManager : MonoBehaviour
                 }
                 for (int a = 0; a < TilesToLoad.Count; ++a)
                 {
-                    Vector3Int tempPosA = new Vector3Int(TilesToLoad[a].PosX, TilesToLoad[a].PosY, TilesToLoad[a].PosZ);
+                    Vector3Int tempPosA = new Vector3Int(TilesToLoad[a].Position.x, TilesToLoad[a].Position.y, 0);
                     if (!TilesToLoad[a].IsNull && tempPosA == tempPosI)
                     {
                         for (int b = 0; b < TileManager.GetTileHolder(TileType.Path).Tiles.Count; ++b)

@@ -154,9 +154,7 @@ public class PlaceTile : MonoBehaviour
                                        int id = TileManager.GetTileDictionaryFloor()[m_placePos].CustomTile.ID;
                                         DataToSave tempData = new DataToSave
                                         {
-                                            PosX = m_placePos.x,
-                                            PosY = m_placePos.y,
-                                            PosZ = m_placePos.z,
+                                            Position = new Vector2Int(m_placePos.x, m_placePos.y),
                                             IsPlacedTile = true,
                                             ID = id,
                                         };
@@ -224,9 +222,7 @@ public class PlaceTile : MonoBehaviour
         }
         DataToSave tempData = new DataToSave
         {
-            PosX = m_placePos.x,
-            PosY = m_placePos.y,
-            PosZ = m_placePos.z,
+            Position = new Vector2Int(m_placePos.x, m_placePos.y),
             ID = id
         };
         m_fileManager.Input(tempData);

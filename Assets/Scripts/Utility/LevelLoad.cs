@@ -12,6 +12,8 @@ public class LevelLoad : MonoBehaviour
     public bool FreeMode;
     public bool ScoreMode;
     public bool ExitMode;
+    public int Seed;
+    public string WorldName;
     private void Start()
     {
         DontDestroyOnLoad(this);

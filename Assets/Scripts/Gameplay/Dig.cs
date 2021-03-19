@@ -124,9 +124,7 @@ public class Dig : MonoBehaviour
                                         TileManager.PlaceTile(v, 0, WallTileMap, Map, TileManager.GetTileHolder(TileType.Path).Tiles[0], DictionaryType.Floor);
                                         DataToSave tempDataFloor = new DataToSave
                                         {
-                                            PosX = v.x,
-                                            PosY = v.y,
-                                            PosZ = v.z,
+                                            Position = new Vector2Int(v.x, v.y),
                                             ID = TileManager.GetTileHolder(TileType.Path).Tiles[0].ID,
                                             IsNull = false,
                                             IsPlacedTile = true
@@ -143,9 +141,7 @@ public class Dig : MonoBehaviour
                                     }
                                     DataToSave tempData = new DataToSave
                                     {
-                                        PosX = v.x,
-                                        PosY = v.y,
-                                        PosZ = v.z,
+                                        Position = new Vector2Int(v.x, v.y),
                                         ID = WallsTouched[i].ID,
                                         IsPlacedTile = false,
                                         IsNull = true
