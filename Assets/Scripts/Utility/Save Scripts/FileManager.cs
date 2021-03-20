@@ -80,10 +80,9 @@ public class FileManager : MonoBehaviour
                 if (newFile.DataPacks.All(t => !t.Equals(TilesToSave[i])))
                 {
                     newFile.DataPacks.Add(TilesToSave[i]);
-                    Debug.Log("Adding onto file");
                 }
             }
-
+            SceenshotTaker.TakeScreenShot_static(64, 64);
             string saveString = JsonUtility.ToJson(newFile);
             SaveLoadSystem.Save(saveString, WorldName);
         }
@@ -100,10 +99,9 @@ public class FileManager : MonoBehaviour
                     if (saveFile.DataPacks.All(t => !t.Equals(TilesToSave[i])))
                     {
                         saveFile.DataPacks.Add(TilesToSave[i]);
-                        Debug.Log("Adding onto file");
                     }
                 }
-
+                SceenshotTaker.TakeScreenShot_static(64, 64);
                 saveFile.PlayerPosition = GameObject.Find("Player").transform.position;
                 string saveString = JsonUtility.ToJson(saveFile);
                 SaveLoadSystem.Save(saveString, WorldName);

@@ -7,7 +7,7 @@ using UnityEngine;
 public class CraftItem : MonoBehaviour
 {
     public CraftingRecipeHolder RecipeHolder;
-
+    public GameObject CraftingMenu;
     InventoryBackpack m_backPack;
     InventoryDisplay m_inventoryDisplay;
     Recipe m_tempRecipe;
@@ -17,6 +17,23 @@ public class CraftItem : MonoBehaviour
         m_inventoryDisplay = GameObject.Find("Inventory").GetComponent<InventoryDisplay>();
         RecipeHolder = Resources.Load<CraftingRecipeHolder>("Crafting Recipes/Recipe Holder");
         m_backPack = GetComponent<InventoryBackpack>();
+    }
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.C))
+        {
+            if (!CraftingMenu.activeSelf)
+            {
+                CraftingMenu.SetActive(true);
+      
+            }
+            else if (CraftingMenu.activeSelf)
+            {
+                CraftingMenu.SetActive(false);
+        
+            }
+              
+        }
     }
     public void RemoveItems(List<Item> _storageSlot, int _indexri)
     {

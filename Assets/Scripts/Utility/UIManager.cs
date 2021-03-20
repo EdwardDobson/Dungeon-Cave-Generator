@@ -19,7 +19,7 @@ public class UIManager : MonoBehaviour
     {
         FloorGen.GetFloorPositions().Clear();
         FloorGen.GetFloorTilePositions().Clear();
-        m_levelLoad.LoadLevel(0);
+        GameObject.Find("LevelLoader").GetComponent<LevelLoad>().LoadLevel(0);
         m_levelLoad.FreeMode = false;
         m_levelLoad.ScoreMode = false;
         m_levelLoad.ExitMode = false;

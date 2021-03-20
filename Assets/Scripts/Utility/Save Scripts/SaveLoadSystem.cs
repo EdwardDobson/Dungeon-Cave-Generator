@@ -15,13 +15,21 @@ public static class SaveLoadSystem
     }
     public static void Save(string _saveString,string _worldName)
     {
-        File.WriteAllText(SaveFolderLocation + _worldName + ".txt", _saveString);
+        if (!Directory.Exists(SaveFolderLocation + _worldName ))
+        {
+            Directory.CreateDirectory(SaveFolderLocation + _worldName);
+        }
+        if (Directory.Exists(SaveFolderLocation + _worldName + "/"))
+        {
+            File.WriteAllText(SaveFolderLocation + _worldName + "/" + _worldName + ".txt", _saveString);
+        }
     }
     public static string Load(string _worldName)
     {
-        if(File.Exists(SaveFolderLocation + _worldName + ".txt"))
+        if (File.Exists(SaveFolderLocation + _worldName + "/" + _worldName + ".txt"))
         {
-            string saveString = File.ReadAllText(SaveFolderLocation + _worldName + ".txt");
+            string saveString = File.ReadAllText(SaveFolderLocation + _worldName + "/" + _worldName + ".txt");
+      
             return saveString;
         }
         else

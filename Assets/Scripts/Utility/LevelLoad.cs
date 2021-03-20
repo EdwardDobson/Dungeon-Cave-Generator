@@ -32,7 +32,7 @@ public class LevelLoad : MonoBehaviour
     {
         if (SceneManager.GetActiveScene().buildIndex == 0 && LoadingBar == null)
         {
-            LoadingBar = GameObject.Find("Main").transform.GetChild(7).gameObject;
+            LoadingBar = GameObject.Find("Loading Canvas").transform.GetChild(0).gameObject;
         }
         if (LoadingBar != null)
         {
