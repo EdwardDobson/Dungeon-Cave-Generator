@@ -24,7 +24,7 @@ namespace DungeonGeneration
         static List<TileHolder> m_tileHolders;
         static CustomTile m_tileToReturn;
         static List<CustomTile> m_tilesToReturn = new List<CustomTile>();
-        static List<CustomTile> m_allTiles = new List<CustomTile>();
+      public  static List<CustomTile> AllTiles = new List<CustomTile>();
         static Dictionary<Vector3Int, TileData> m_tileDatasFloor;
         static Dictionary<Vector3Int, TileData> m_tileDatasWalls;
        public static int idIndex = 1;
@@ -46,19 +46,23 @@ namespace DungeonGeneration
                 for(int a = 0; a < m_tileHolders[i].Tiles.Count; ++a)
                 {
                     m_tileHolders[i].Tiles[a].ID = 0;
-                    if(!m_allTiles.Contains(m_tileHolders[i].Tiles[a]))
-                    m_allTiles.Add(m_tileHolders[i].Tiles[a]);
+                    if(!AllTiles.Contains(m_tileHolders[i].Tiles[a]))
+                        AllTiles.Add(m_tileHolders[i].Tiles[a]);
                 }
             }
-            for (int i = 0; i < m_allTiles.Count; ++i)
+            for (int i = 0; i < AllTiles.Count; ++i)
             {
                 //Makes sure items are assigned to tiles
                 foreach (Item t in ingredients)
                 {
-                    if (m_allTiles[i].TileName == t.Name)
-                        m_allTiles[i].Item = t;
+                    if (AllTiles[i].TileName == t.Name)
+                    {
+                        AllTiles[i].Item = t;
+                        t.ItemID = idIndex;
+                    }
+                
                 }
-               m_allTiles[i].ID = idIndex;
+                AllTiles[i].ID = idIndex;
                 idIndex++;
             }
         }

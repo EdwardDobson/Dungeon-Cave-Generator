@@ -7,6 +7,7 @@ using UnityEngine;
 public class ItemInventory
 {
     public List<Item> Items = new List<Item>();
+    public int ID;
 }
 
 public class InventoryBackpack : MonoBehaviour
@@ -155,11 +156,13 @@ public class InventoryBackpack : MonoBehaviour
             if (Storage.Any(t => t.Items.All(t => t.ItemID == _customTile.Item.ItemID)))
             {
                     ItemInventory itemIv = Storage.Where(s => s.Items.Any(t => t.ItemID == _customTile.Item.ItemID)).First();
+                itemIv.ID = _customTile.Item.ItemID;
                     itemIv.Items.Add(_customTile.Item);
             }
             if (Storage.All(t=>t.Items.All(t => t.ItemID != _customTile.Item.ItemID)))
             {
                 ItemInventory itemIv = new ItemInventory();
+                itemIv.ID = _customTile.Item.ItemID;
                 itemIv.Items.Add(_customTile.Item);
                 Storage.Add(itemIv);
                 Display.AddToSlot(_customTile);

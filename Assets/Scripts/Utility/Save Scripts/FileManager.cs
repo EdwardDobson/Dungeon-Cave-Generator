@@ -7,7 +7,11 @@ using System.Runtime.Serialization.Formatters.Binary;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-
+[System.Serializable]
+public struct ItemInventorySave
+{
+    public ItemInventory InventorySlot;
+}
 [System.Serializable]
 public struct DataToSave
 {
@@ -25,6 +29,7 @@ public class SaveFile
     public string ModeName;
     public Vector2 PlayerPosition;
     public List<DataToSave> DataPacks = new List<DataToSave>();
+    public List<ItemInventorySave> ItemPacks = new List<ItemInventorySave>();
 }
 public class FileManager : MonoBehaviour
 {
@@ -52,7 +57,6 @@ public class FileManager : MonoBehaviour
             WorldName = GameObject.Find("LevelLoader").GetComponent<LevelLoad>().WorldName;
             ModeName = GameObject.Find("LevelLoader").GetComponent<LevelLoad>().ModeName;
         }
-
     }
     private void Start()
     {
@@ -66,13 +70,13 @@ public class FileManager : MonoBehaviour
     }
     public void SaveJson()
     {
-        if (!File.Exists(SaveLoadSystem.SaveFolderLocation))
+        if (!File.Exists(SaveLoadSystem.SaveFolderLocation + WorldName + "/" + WorldName + ".txt"))
         {
             SaveFile newFile = new SaveFile
             {
                 Seed = SetSeed,
                 SeedSet = true,
-            
+
                 WorldName = WorldName,
                 ModeName = ModeName,
                 PlayerPosition = GameObject.Find("Player").transform.position
@@ -88,7 +92,7 @@ public class FileManager : MonoBehaviour
             string saveString = JsonUtility.ToJson(newFile);
             SaveLoadSystem.Save(saveString, WorldName);
         }
-        if (File.Exists(SaveLoadSystem.SaveFolderLocation + WorldName + ".txt"))
+        if (File.Exists(SaveLoadSystem.SaveFolderLocation + WorldName + "/" + WorldName + ".txt"))
         {
 
             string LoadString = SaveLoadSystem.Load(WorldName);
@@ -102,6 +106,27 @@ public class FileManager : MonoBehaviour
                     {
                         saveFile.DataPacks.Add(TilesToSave[i]);
                     }
+                }
+                InventoryBackpack backpack = GameObject.Find("Player").GetComponent<InventoryBackpack>();
+                for (int i = 0; i < backpack.Storage.Count; ++i)
+                {
+                    ItemInventorySave invSave = new ItemInventorySave();
+                    invSave.InventorySlot = backpack.Storage[i];
+                    if (saveFile.ItemPacks.All(t => t.InventorySlot.ID != backpack.Storage[i].ID))
+                        saveFile.ItemPacks.Add(invSave);
+                }
+                //Clears the json file incase the backpack amount doesn't match
+                if (saveFile.ItemPacks.Count != backpack.Storage.Count)
+                {
+                    saveFile.ItemPacks.Clear();
+                    SaveLoadSystem.Save("", WorldName);
+                }
+                for (int i = 0; i < backpack.Storage.Count; ++i)
+                {
+                    ItemInventorySave invSave = new ItemInventorySave();
+                    invSave.InventorySlot = backpack.Storage[i];
+                    if (saveFile.ItemPacks.All(t => t.InventorySlot.ID != backpack.Storage[i].ID))
+                        saveFile.ItemPacks.Add(invSave);
                 }
                 SceenshotTaker.TakeScreenShot_static(64, 64);
                 saveFile.PlayerPosition = GameObject.Find("Player").transform.position;
@@ -123,6 +148,27 @@ public class FileManager : MonoBehaviour
             clone.transform.position = new Vector3(0, 0, 0);
             clone.transform.SetParent(transform);
             clone.transform.GetChild(0).GetComponent<BuildDungeon>().Build();
+            InventoryBackpack backpack = GameObject.Find("Player").GetComponent<InventoryBackpack>();
+            for (int i = 0; i < saveFile.ItemPacks.Count; ++i)
+            {
+                if (backpack.Storage.All(t => t.ID != saveFile.ItemPacks[i].InventorySlot.ID))
+                    backpack.Storage.Add(saveFile.ItemPacks[i].InventorySlot);
+            }
+            for (int i = 0; i < backpack.Storage.Count; ++i)
+            {
+                for (int a = 0; a < TileManager.AllTiles.Count; ++a)
+                {
+                    if (backpack.Storage[i].ID == TileManager.AllTiles[a].ID)
+                    {
+                        for (int b = 0; b < backpack.Storage[i].Items.Count; ++b)
+                        {
+                            backpack.Storage[i].Items[b] = TileManager.AllTiles[a].Item;
+                            backpack.Storage[i].Items[b].ItemID = TileManager.AllTiles[a].Item.ItemID;
+                        }
+                    }
+                }
+            }
+
             TilesToSave = saveFile.DataPacks;
             TilePlacer(saveFile, clone.transform.GetChild(0).GetComponent<Tilemap>(), clone.transform.GetChild(1).GetComponent<Tilemap>());
             GameObject.Find("Player").transform.position = saveFile.PlayerPosition;
@@ -183,7 +229,7 @@ public class FileManager : MonoBehaviour
             clone.transform.position = new Vector3(0, 0, 0);
             clone.transform.SetParent(transform);
             clone.transform.GetChild(0).GetComponent<BuildDungeon>().Build();
-      //      TilePlacer(Save);
+            //      TilePlacer(Save);
         }
         else
         {
@@ -206,7 +252,7 @@ public class FileManager : MonoBehaviour
         temp.IsPlacedTile = _file.DataPacks[_index].IsPlacedTile;
         TilesToLoad.Add(temp);
     }
-    public void TilePlacer(SaveFile _file,Tilemap _floorMap, Tilemap _wallMap)
+    public void TilePlacer(SaveFile _file, Tilemap _floorMap, Tilemap _wallMap)
     {
         for (int i = 0; i < _file.DataPacks.Count; ++i)
         {
