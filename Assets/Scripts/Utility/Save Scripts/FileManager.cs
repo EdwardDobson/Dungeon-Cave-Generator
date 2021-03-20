@@ -117,7 +117,6 @@ public class FileManager : MonoBehaviour
         string LoadString = SaveLoadSystem.Load(WorldName);
         if (LoadString != null)
         {
-            Debug.Log("Loading");
             SaveFile saveFile = JsonUtility.FromJson<SaveFile>(LoadString);
             Random.InitState(saveFile.Seed);
             GameObject clone = Instantiate(Dungeon);
@@ -227,13 +226,9 @@ public class FileManager : MonoBehaviour
             }
             for (int floor = 0; floor < TileManager.GetTileHolder(TileType.Floor).Tiles.Count; ++floor)
             {
-                Debug.Log("Placing floor tiles: " + TileManager.GetTileHolder(TileType.Floor).Tiles[floor].ID);
-                Debug.Log("Placing floor tiles: " + _file.DataPacks[i].ID);
                 if (_file.DataPacks[i].ID == TileManager.GetTileHolder(TileType.Floor).Tiles[floor].ID)
                 {
-                 
                     TileManager.PlaceTile(tempPosI, 0, _floorMap, _floorMap, TileManager.GetTileHolder(TileType.Floor).Tiles[floor], DictionaryType.Floor);
-              
                     if (_file.DataPacks[i].IsPlacedTile)
                     {
                         if (!PlacedOnTiles.ContainsKey(tempPosI))

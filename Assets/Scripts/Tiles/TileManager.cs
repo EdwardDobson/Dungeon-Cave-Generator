@@ -60,7 +60,6 @@ namespace DungeonGeneration
                 }
                m_allTiles[i].ID = idIndex;
                 idIndex++;
-                Debug.Log(m_allTiles.Count);
             }
         }
         public static void FillDictionary(Vector3Int _pos, CustomTile _customTile, Tilemap _map,DictionaryType _dirType)
