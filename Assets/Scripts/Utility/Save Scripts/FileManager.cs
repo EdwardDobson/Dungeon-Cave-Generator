@@ -6,6 +6,8 @@ using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Tilemaps;
+
 [System.Serializable]
 public struct DataToSave
 {
@@ -123,7 +125,7 @@ public class FileManager : MonoBehaviour
             clone.transform.SetParent(transform);
             clone.transform.GetChild(0).GetComponent<BuildDungeon>().Build();
             TilesToSave = saveFile.DataPacks;
-            TilePlacer(saveFile);
+            TilePlacer(saveFile, clone.transform.GetChild(0).GetComponent<Tilemap>(), clone.transform.GetChild(1).GetComponent<Tilemap>());
             GameObject.Find("Player").transform.position = saveFile.PlayerPosition;
             if (saveFile.ModeName == "FreeMode")
                 GameObject.Find("GameManager").GetComponent<GameManager>().FreeMode = true;
@@ -182,7 +184,7 @@ public class FileManager : MonoBehaviour
             clone.transform.position = new Vector3(0, 0, 0);
             clone.transform.SetParent(transform);
             clone.transform.GetChild(0).GetComponent<BuildDungeon>().Build();
-            TilePlacer(Save);
+      //      TilePlacer(Save);
         }
         else
         {
@@ -205,20 +207,21 @@ public class FileManager : MonoBehaviour
         temp.IsPlacedTile = _file.DataPacks[_index].IsPlacedTile;
         TilesToLoad.Add(temp);
     }
-    public void TilePlacer(SaveFile _file)
+    public void TilePlacer(SaveFile _file,Tilemap _floorMap, Tilemap _wallMap)
     {
         for (int i = 0; i < _file.DataPacks.Count; ++i)
         {
+
             Vector3Int tempPosI = new Vector3Int(_file.DataPacks[i].Position.x, _file.DataPacks[i].Position.y, 0);
             for (int wall = 0; wall < TileManager.GetTileHolder(TileType.Wall).Tiles.Count; ++wall)
             {
                 if (_file.DataPacks[i].ID == TileManager.GetTileHolder(TileType.Wall).Tiles[wall].ID)
                 {
                     if (!_file.DataPacks[i].IsNull)
-                        TileManager.PlaceTile(tempPosI, 0, WallGen.GetTilemap(), WallGen.GetTilemap(), TileManager.GetTileHolder(TileType.Wall).Tiles[wall], DictionaryType.Walls);
+                        TileManager.PlaceTile(tempPosI, 0, _wallMap, _wallMap, TileManager.GetTileHolder(TileType.Wall).Tiles[wall], DictionaryType.Walls);
                     else
                     {
-                        TileManager.RemoveTilePiece(tempPosI, WallGen.GetTilemap());
+                        TileManager.RemoveTilePiece(tempPosI, _wallMap);
                     }
                 }
             }
@@ -226,7 +229,8 @@ public class FileManager : MonoBehaviour
             {
                 if (_file.DataPacks[i].ID == TileManager.GetTileHolder(TileType.Floor).Tiles[floor].ID)
                 {
-                    TileManager.PlaceTile(tempPosI, 0, DungeonUtility.GetTilemap(), DungeonUtility.GetTilemap(), TileManager.GetTileHolder(TileType.Floor).Tiles[floor], DictionaryType.Floor);
+                    TileManager.PlaceTile(tempPosI, 0, _floorMap, _floorMap, TileManager.GetTileHolder(TileType.Floor).Tiles[floor], DictionaryType.Floor);
+                    Debug.Log("Placing floor tiles");
                     if (_file.DataPacks[i].IsPlacedTile)
                     {
                         if (!PlacedOnTiles.ContainsKey(tempPosI))
@@ -238,7 +242,7 @@ public class FileManager : MonoBehaviour
             {
                 if (_file.DataPacks[i].ID == TileManager.GetTileHolder(TileType.Path).Tiles[path].ID)
                 {
-                    TileManager.PlaceTile(tempPosI, 0, DungeonUtility.GetTilemap(), DungeonUtility.GetTilemap(), TileManager.GetTileHolder(TileType.Path).Tiles[path], DictionaryType.Floor);
+                    TileManager.PlaceTile(tempPosI, 0, _floorMap, _floorMap, TileManager.GetTileHolder(TileType.Path).Tiles[path], DictionaryType.Floor);
                 }
             }
         }
