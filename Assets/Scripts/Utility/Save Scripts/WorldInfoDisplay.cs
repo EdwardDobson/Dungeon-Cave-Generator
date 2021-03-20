@@ -70,5 +70,6 @@ public class WorldInfoDisplay : MonoBehaviour
         m_levelLoader.Seed = _file.Seed;
         m_levelLoader.ModeName = _file.ModeName;
         m_levelLoader.LoadLevel(1);
+        gameObject.SetActive(false);
     }
 }

@@ -30,6 +30,7 @@ namespace DungeonGeneration
        public static int idIndex = 1;
         public  static void LoadTileManager()
         {
+            idIndex = 1;
             tiledatas = Resources.LoadAll("Tiles", typeof(TileHolder));
             ingredients = Resources.LoadAll("Crafting Ingredients", typeof(Item));
             m_tileDatasFloor = new Dictionary<Vector3Int, TileData>();
@@ -45,6 +46,7 @@ namespace DungeonGeneration
                 for(int a = 0; a < m_tileHolders[i].Tiles.Count; ++a)
                 {
                     m_tileHolders[i].Tiles[a].ID = 0;
+                    if(!m_allTiles.Contains(m_tileHolders[i].Tiles[a]))
                     m_allTiles.Add(m_tileHolders[i].Tiles[a]);
                 }
             }
@@ -58,6 +60,7 @@ namespace DungeonGeneration
                 }
                m_allTiles[i].ID = idIndex;
                 idIndex++;
+                Debug.Log(m_allTiles.Count);
             }
         }
         public static void FillDictionary(Vector3Int _pos, CustomTile _customTile, Tilemap _map,DictionaryType _dirType)

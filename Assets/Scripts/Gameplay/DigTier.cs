@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class DigTier : MonoBehaviour
@@ -9,10 +10,15 @@ public class DigTier : MonoBehaviour
     InventoryBackpack m_backpack;
     public int MaxAmountNeeded;
     public List<Item> TierItems;
+    public TextMeshProUGUI UpgradeCost;
+    public TextMeshProUGUI CurrentDigPower;
+
     void Start()
     {
         m_dig = GetComponent<Dig>();
         m_backpack = GetComponent<InventoryBackpack>();
+        CurrentDigPower.text = "Dig Power: " + CurrentDigTier;
+        UpgradeCost.text = "Cost: " + MaxAmountNeeded + " " + TierItems[0].Name + "s";
     }
     void Update()
     {
@@ -31,6 +37,9 @@ public class DigTier : MonoBehaviour
                         CurrentDigTier++;
                         TierItems.RemoveAt(0);
                         m_backpack.RemoveMultipleItems(MaxAmountNeeded, m_backpack.Storage[i].Items);
+                        m_backpack.Display.UpdateCountDisplaySlot();
+                        CurrentDigPower.text = "Dig Power: " + CurrentDigTier;
+                        UpgradeCost.text = "Cost: " + MaxAmountNeeded + " " + TierItems[0].Name + "s";
                         break;
                     }
                 }
@@ -41,9 +50,6 @@ public class DigTier : MonoBehaviour
     {
         switch (CurrentDigTier)
         {
-            case 0:
-                m_dig.DigDamage = 1;
-                break;
             case 1:
                 m_dig.DigDamage = 2;
                 break;
@@ -58,6 +64,9 @@ public class DigTier : MonoBehaviour
                 break;
             case 5:
                 m_dig.DigDamage = 6;
+                break;
+            case 6:
+                m_dig.DigDamage = 7;
                 break;
         }
     }
