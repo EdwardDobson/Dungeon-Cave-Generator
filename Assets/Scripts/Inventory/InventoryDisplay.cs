@@ -54,20 +54,6 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
            
         }
         HotBar.FillHotBar();
-        for (int i = 0; i < HotBar.SlotsHotbar.Count; ++i)
-        {
-            HotBar.SlotsHotbar[i].transform.GetChild(0).GetComponent<HoldCustomTile>().SlotID = m_slotID;
-            Debug.LogError("Hot Bar IDs: " +  HotBar.SlotsHotbar[i].transform.GetChild(0).GetComponent<HoldCustomTile>().SlotID);
-            m_slotID++;
-        }
-  
-        for (int i =0; i < Slots.Count; ++i)
-        {
-            Slots[i].transform.GetChild(0).GetComponent<HoldCustomTile>().SlotID = m_slotID;
-            Debug.LogError("Slot IDs: " + Slots[i].transform.GetChild(0).GetComponent<HoldCustomTile>().SlotID);
-            m_slotID++;
-
-        }
         StorageHolder.SetActive(false);
         for (int i = 0; i < HotBar.SlotsHotbar.Count; ++i)
         {
@@ -77,6 +63,11 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
         for (int i = 0; i < Slots.Count; ++i)
         {
             CombindSlots.Add(Slots[i]);
+        }
+        for (int i = 0; i < CombindSlots.Count; ++i)
+        {
+            CombindSlots[i].transform.GetChild(0).GetComponent<HoldCustomTile>().SlotID = m_slotID;
+            m_slotID++;
         }
         for (int i = 0; i <CombindSlots.Count; ++i)
         {

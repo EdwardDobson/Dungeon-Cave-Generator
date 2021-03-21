@@ -20,19 +20,22 @@ public class HotBarScrolling : MonoBehaviour
     public InventoryBackpack InventoryBackpack;
     public int HotBarSize;
     public TextMeshProUGUI BlockInfo;
+    bool m_filledHotBar;
     void Start()
     {
+   
+      
 
-        for (int i = 0; i < HotBar.childCount; ++i)
-        {
-            m_hotBarImages.Add(HotBar.GetChild(i).GetChild(0).gameObject);
-        }
     }
     void Update()
     {
-        Scroll();
-        HighLightSelected();
-        SwitchBlockWithInput();
+        if (m_filledHotBar)
+        {
+            Scroll();
+            HighLightSelected();
+            SwitchBlockWithInput();
+        }
+     
     }
     public CustomTile TileToPlace()
     {
@@ -116,13 +119,20 @@ public class HotBarScrolling : MonoBehaviour
     }
     public void FillHotBar()
     {
+        m_filledHotBar = false;
         for (int i = 0; i < HotBarSize; ++i)
         {
             GameObject temp = Instantiate(SlotPrefabHotBar.gameObject);
             temp.transform.SetParent(ParentHotBar);
             temp.transform.localScale = m_scale;
+            if(!SlotsHotbar.Contains(temp) && SlotsHotbar.Count < HotBarSize)
             SlotsHotbar.Add(temp);
         }
+        for (int i = 0; i < HotBar.childCount; ++i)
+        {
+            m_hotBarImages.Add(HotBar.GetChild(i).GetChild(0).gameObject);
+        }
+        m_filledHotBar =true;
     }
     void SwitchBlockWithInput()
     {
