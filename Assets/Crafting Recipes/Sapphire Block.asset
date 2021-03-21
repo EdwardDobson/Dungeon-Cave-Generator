@@ -15,7 +15,7 @@ MonoBehaviour:
   Items:
   - ItemType: {fileID: 11400000, guid: 32bb88adfe4a46542b85098aea81a54a, type: 2}
     Amount: 4
-    ItemName: Sapphire
+    ItemName: Sapphire Ore
     RequiredIngredientsMet: 0
   CanBuild: 0
   Output: {fileID: 11400000, guid: fd553e0ab9cae4c4c8770a6aade871cd, type: 2}

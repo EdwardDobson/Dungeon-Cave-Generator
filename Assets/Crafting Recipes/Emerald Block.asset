@@ -15,7 +15,7 @@ MonoBehaviour:
   Items:
   - ItemType: {fileID: 11400000, guid: 97795042dd647714a9b5f1a1c348221d, type: 2}
     Amount: 4
-    ItemName: Emerald
+    ItemName: Emerald Ore
     RequiredIngredientsMet: 0
   CanBuild: 0
   Output: {fileID: 11400000, guid: 21aae6561c80a5447be5b512980e201a, type: 2}

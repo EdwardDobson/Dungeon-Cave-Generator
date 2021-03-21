@@ -15,7 +15,7 @@ MonoBehaviour:
   Items:
   - ItemType: {fileID: 11400000, guid: 960a2cd05dc0cbe4ba95806f5fb685c1, type: 2}
     Amount: 4
-    ItemName: Ruby
+    ItemName: Ruby Ore
     RequiredIngredientsMet: 0
   CanBuild: 0
   Output: {fileID: 11400000, guid: 62354c6851c012843a37d06f662e1c7c, type: 2}

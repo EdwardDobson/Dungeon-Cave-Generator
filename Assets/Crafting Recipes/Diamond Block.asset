@@ -15,8 +15,8 @@ MonoBehaviour:
   Items:
   - ItemType: {fileID: 11400000, guid: caf1d2d129c0f85479b9a5407f836c02, type: 2}
     Amount: 4
-    ItemName: Diamond
-    RequiredIngredientsMet: 0
-  CanBuild: 0
+    ItemName: Diamond Ore
+    RequiredIngredientsMet: 1
+  CanBuild: 1
   Output: {fileID: 11400000, guid: a2246ae36b2d188438ae3755e47f76f5, type: 2}
   RecipeID: 0

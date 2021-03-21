@@ -15,7 +15,7 @@ MonoBehaviour:
   Items:
   - ItemType: {fileID: 11400000, guid: 7dd38332a72bf4e46bf94d60eff21885, type: 2}
     Amount: 4
-    ItemName: Silver
+    ItemName: Silver Ore
     RequiredIngredientsMet: 0
   CanBuild: 0
   Output: {fileID: 11400000, guid: 5b90a65db317dd7418daf5e0d375f57d, type: 2}
