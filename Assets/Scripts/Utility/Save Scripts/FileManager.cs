@@ -216,8 +216,6 @@ public class FileManager : MonoBehaviour
                     }
                 }
             }
- 
-
             TilesToSave = Save.DataPacks;
             TilePlacer(Save, clone.transform.GetChild(0).GetComponent<Tilemap>(), clone.transform.GetChild(1).GetComponent<Tilemap>());
             GameObject.Find("Player").transform.position = Save.PlayerPosition;

@@ -125,6 +125,7 @@ public class BuildDungeon : MonoBehaviour
         {
             FloorGen.PlaceFloorTile(FloorGen.GetFloorTilePositions()[i]);
         }
+        m_pathAmount += (m_fileManager.DiamondRoomAmount + m_fileManager.CircleRoomAmount + m_fileManager.SquareRoomAmount + m_fileManager.LShapeRoomAmount + m_fileManager.TShapeRoomAmount) /4;
         for (int i = 0; i < m_pathAmount; ++i)
         {
             ConnectRoom.PlacePositions(i);

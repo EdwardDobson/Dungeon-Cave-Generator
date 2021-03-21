@@ -24,7 +24,7 @@ public class PlayerMovement : MonoBehaviour
         {
             Map = GameObject.Find("SaveHolder").transform.GetChild(0).GetChild(0).GetComponent<Tilemap>();
         }
-    
+
         BorderDetection();
         Vector2 moveVector = new Vector2(h, v);
         m_rb2d.velocity = moveVector * Speed;

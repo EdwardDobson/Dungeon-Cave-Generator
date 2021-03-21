@@ -69,6 +69,13 @@ public class WorldInfoDisplay : MonoBehaviour
         m_levelLoader.WorldName = _file.WorldName;
         m_levelLoader.Seed = _file.Seed;
         m_levelLoader.ModeName = _file.ModeName;
+        m_levelLoader.SquareRoomAmount = _file.SquareRoomAmount;
+        m_levelLoader.CircleRoomAmount = _file.CircleRoomAmount;
+        m_levelLoader.TShapeRoomAmount = _file.TShapeRoomAmount;
+        m_levelLoader.DiamondRoomAmount = _file.DiamondRoomAmount;
+        m_levelLoader.LShapeRoomAmount = _file.LShapeRoomAmount;
+        m_levelLoader.DungeonSizeX = _file.XDimension;
+        m_levelLoader.DungeonSizeY = _file.YDimension;
         m_levelLoader.LoadLevel(1);
         gameObject.SetActive(false);
     }

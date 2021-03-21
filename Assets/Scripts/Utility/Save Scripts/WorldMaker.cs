@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -36,6 +37,7 @@ public class WorldMaker : MonoBehaviour
         RoomAmountSliders[3].transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "LShape Room Amount\n" + LShapeRoomAmount;
         RoomAmountSliders[4].transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Diamond Room Amount\n" + DiamondRoomAmount;
     }
+
     public void ClearVariables()
     {
         WorldName = "";
@@ -117,16 +119,43 @@ public class WorldMaker : MonoBehaviour
     public void SendWorldInfo()
     {
         LevelLoad m_levelLoader = GameObject.Find("LevelLoader").GetComponent<LevelLoad>();
+        string[] dirNames = Directory.GetDirectories(FileNameGetter.SaveFolderLocation);
+        if (WorldName == "")
+        {
+            WorldName = "World " + (dirNames.Length + 1);
+            Debug.Log("World Name is: " + WorldName);
+        }
+        if(Seed == 0)
+        {
+            Seed = UnityEngine.Random.Range(0, int.MaxValue);
+        }
         m_levelLoader.Seed = Seed;
         m_levelLoader.WorldName = WorldName;
-        if(SquareRoomAmount == 0 && CircleRoomAmount == 0 && TShapeRoomAmount == 0 && LShapeRoomAmount == 0 && DiamondRoomAmount ==0)
+
+        if (DungeonSizeX == 0 && DungeonSizeY == 0)
         {
-            SquareRoomAmount = 25;
+            DungeonSizeX = UnityEngine.Random.Range(20, 1000); 
+            DungeonSizeY = UnityEngine.Random.Range(20, 1000); 
         }
-        if(DungeonSizeX == 0 && DungeonSizeY == 0)
+        if (SquareRoomAmount == 0)
         {
-            DungeonSizeX = 150;
-            DungeonSizeY = 150;
+            SquareRoomAmount = UnityEngine.Random.Range(1, (DungeonSizeX+ DungeonSizeY)/5);
+        }
+        if (CircleRoomAmount == 0)
+        {
+            CircleRoomAmount = UnityEngine.Random.Range(1, (DungeonSizeX + DungeonSizeY) / 5);
+        }
+        if (TShapeRoomAmount == 0)
+        {
+            TShapeRoomAmount = UnityEngine.Random.Range(1, (DungeonSizeX + DungeonSizeY) / 5);
+        }
+        if (LShapeRoomAmount == 0)
+        {
+            LShapeRoomAmount = UnityEngine.Random.Range(1, (DungeonSizeX + DungeonSizeY) / 5);
+        }
+        if (DiamondRoomAmount == 0)
+        {
+            DiamondRoomAmount = UnityEngine.Random.Range(1, (DungeonSizeX + DungeonSizeY) / 5);
         }
         m_levelLoader.SquareRoomAmount = SquareRoomAmount;
         m_levelLoader.CircleRoomAmount = CircleRoomAmount;

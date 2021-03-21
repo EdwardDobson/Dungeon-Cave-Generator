@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using UnityEngine;
 
 public class MenuButton : MonoBehaviour
@@ -8,6 +10,7 @@ public class MenuButton : MonoBehaviour
     {
         LevelLoad levelLoad = GameObject.Find("LevelLoader").GetComponent<LevelLoad>();
         levelLoad.LoadLevel(1);
+
         Time.timeScale = 1;
         switch (_mode)
         {

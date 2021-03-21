@@ -26,6 +26,8 @@ public class UIManager : MonoBehaviour
         m_levelLoad.FreeMode = false;
         m_levelLoad.ScoreMode = false;
         m_levelLoad.ExitMode = false;
+        m_levelLoad.Seed = 0;
+        m_levelLoad.WorldName = "";
         Time.timeScale = 1;
     }
     void Update()
