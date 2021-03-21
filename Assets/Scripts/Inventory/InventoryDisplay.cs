@@ -1,3 +1,4 @@
+using DungeonGeneration;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
     public Transform Parent;
 
     [SerializeField]
-    List<GameObject> Slots = new List<GameObject>();
+ public   List<GameObject> Slots = new List<GameObject>();
 
     public HotBarScrolling HotBar;
     public GameObject StorageHolder;
@@ -34,10 +35,14 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
     string m_speedInfo;
     public GameObject TextInfo;
     UIManager m_manager;
+    int m_slotID;
+    public List<GameObject> CombindSlots = new List<GameObject>();
+    FileManager m_fileManager;
     void Start()
     {
         m_inventoryBackPack = GameObject.Find("Player").GetComponent<InventoryBackpack>();
         m_manager = GameObject.Find("PauseMenu").GetComponent<UIManager>();
+        m_fileManager = GameObject.Find("SaveHolder").GetComponent<FileManager>();
         HotBar = GetComponent<HotBarScrolling>();
         int amountOfSlots = m_inventoryBackPack.StorageCapacity - HotBar.HotBarSize;
         for (int i = 0; i < amountOfSlots; ++i)
@@ -46,9 +51,43 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
             temp.transform.SetParent(Parent);
             temp.transform.localScale = m_scale;
             Slots.Add(temp);
+           
+        }
+        for (int i = 0; i < HotBar.SlotsHotbar.Count; ++i)
+        {
+            HotBar.SlotsHotbar[i].transform.GetChild(0).GetComponent<HoldCustomTile>().SlotID = m_slotID;
+            m_slotID++;
+        }
+  
+        for (int i =0; i < Slots.Count; ++i)
+        {
+            Slots[i].transform.GetChild(0).GetComponent<HoldCustomTile>().SlotID = m_slotID;
+            m_slotID++;
         }
         StorageHolder.SetActive(false);
-
+        for (int i = 0; i < HotBar.SlotsHotbar.Count; ++i)
+        {
+            CombindSlots.Add(HotBar.SlotsHotbar[i]);
+        }
+        for (int i = 0; i < Slots.Count; ++i)
+        {
+            CombindSlots.Add(Slots[i]);
+        }
+        for (int i = 0; i <CombindSlots.Count; ++i)
+        {
+            for (int a = 0; a < m_fileManager.Save.ItemPacks.Count; ++a)
+            {
+                if (CombindSlots[i].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile == null)
+                {
+                    if (CombindSlots[i].transform.GetChild(0).GetComponent<HoldCustomTile>().SlotID == m_fileManager.Save.ItemPacks[a].SlotNumber)
+                    {
+                        CombindSlots[i].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile = TileManager.AllTiles[m_fileManager.Save.ItemPacks[a].InventorySlot.ID - 1];
+                        CombindSlots[i].transform.GetChild(0).GetComponent<Image>().sprite = TileManager.AllTiles[m_fileManager.Save.ItemPacks[a].InventorySlot.ID -1].DisplaySprite;
+                        CombindSlots[i].transform.GetChild(0).GetComponent<Image>().color = TileManager.AllTiles[m_fileManager.Save.ItemPacks[a].InventorySlot.ID - 1].TileColour;
+                    }
+                }
+            }
+        }
     }
     void Update()
     {

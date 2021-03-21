@@ -6,6 +6,7 @@ using UnityEngine;
 [Serializable]
 public class ItemInventory
 {
+
     public List<Item> Items = new List<Item>();
     public int ID;
 }

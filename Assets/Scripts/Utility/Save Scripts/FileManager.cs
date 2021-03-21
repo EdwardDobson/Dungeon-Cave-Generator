@@ -8,9 +8,10 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 [System.Serializable]
-public struct ItemInventorySave
+public class ItemInventorySave
 {
     public ItemInventory InventorySlot;
+    public int SlotNumber;
 }
 [System.Serializable]
 public struct DataToSave
@@ -45,10 +46,12 @@ public class FileManager : MonoBehaviour
     public int SetSeed;
     public string WorldName;
     public string ModeName;
+   public List<GameObject> Slots = new List<GameObject>();
     private void Awake()
     {
         SavePath = Application.persistentDataPath + "/save.dat";
         Save.DataPacks = new List<DataToSave>();
+        Save.ItemPacks = new List<ItemInventorySave>();
         PlacedOnTiles = new Dictionary<Vector3Int, CustomTile>();
         SaveLoadSystem.Init();
         if (GameObject.Find("LevelLoader") != null)
@@ -62,6 +65,7 @@ public class FileManager : MonoBehaviour
     {
         LoadJson();
         //      LoadFromDisk();
+
     }
     public void Input(DataToSave _item)
     {
@@ -72,24 +76,20 @@ public class FileManager : MonoBehaviour
     {
         if (!File.Exists(SaveLoadSystem.SaveFolderLocation + WorldName + "/" + WorldName + ".txt"))
         {
-            SaveFile newFile = new SaveFile
-            {
-                Seed = SetSeed,
-                SeedSet = true,
-
-                WorldName = WorldName,
-                ModeName = ModeName,
-                PlayerPosition = GameObject.Find("Player").transform.position
-            };
+            Save.Seed = SetSeed;
+            Save.SeedSet = true;
+            Save.WorldName = WorldName;
+            Save.ModeName = ModeName;
+            Save.PlayerPosition = GameObject.Find("Player").transform.position;
             for (int i = 0; i < TilesToSave.Count; ++i)
             {
-                if (newFile.DataPacks.All(t => !t.Equals(TilesToSave[i])))
+                if (Save.DataPacks.All(t => !t.Equals(TilesToSave[i])))
                 {
-                    newFile.DataPacks.Add(TilesToSave[i]);
+                    Save.DataPacks.Add(TilesToSave[i]);
                 }
             }
             SceenshotTaker.TakeScreenShot_static(64, 64);
-            string saveString = JsonUtility.ToJson(newFile);
+            string saveString = JsonUtility.ToJson(Save, true);
             SaveLoadSystem.Save(saveString, WorldName);
         }
         if (File.Exists(SaveLoadSystem.SaveFolderLocation + WorldName + "/" + WorldName + ".txt"))
@@ -99,60 +99,86 @@ public class FileManager : MonoBehaviour
 
             if (LoadString != null)
             {
-                SaveFile saveFile = JsonUtility.FromJson<SaveFile>(LoadString);
+                Save = JsonUtility.FromJson<SaveFile>(LoadString);
                 for (int i = 0; i < TilesToSave.Count; ++i)
                 {
-                    if (saveFile.DataPacks.All(t => !t.Equals(TilesToSave[i])))
+                    if (Save.DataPacks.All(t => !t.Equals(TilesToSave[i])))
                     {
-                        saveFile.DataPacks.Add(TilesToSave[i]);
+                        Save.DataPacks.Add(TilesToSave[i]);
                     }
                 }
                 InventoryBackpack backpack = GameObject.Find("Player").GetComponent<InventoryBackpack>();
+                Save.ItemPacks.Clear();
+                SaveLoadSystem.Save("", WorldName);
                 for (int i = 0; i < backpack.Storage.Count; ++i)
                 {
                     ItemInventorySave invSave = new ItemInventorySave();
                     invSave.InventorySlot = backpack.Storage[i];
-                    if (saveFile.ItemPacks.All(t => t.InventorySlot.ID != backpack.Storage[i].ID))
-                        saveFile.ItemPacks.Add(invSave);
+                    if (Save.ItemPacks.All(t => t.InventorySlot.ID != backpack.Storage[i].ID))
+                        Save.ItemPacks.Add(invSave);
+                }
+                for (int i = 0; i < backpack.Display.CombindSlots.Count; ++i)
+                {
+                    for (int a = 0; a < Save.ItemPacks.Count; ++a)
+                    {
+                        if (backpack.Display.CombindSlots[i].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile != null)
+                        {
+                            if (backpack.Display.CombindSlots[i].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile.Item.ItemID == Save.ItemPacks[a].InventorySlot.ID)
+                            {
+                                Save.ItemPacks[a].SlotNumber = backpack.Display.CombindSlots[i].transform.GetChild(0).GetComponent<HoldCustomTile>().SlotID;
+                            }
+                        }
+                    }
                 }
                 //Clears the json file incase the backpack amount doesn't match
-                if (saveFile.ItemPacks.Count != backpack.Storage.Count)
+                if (Save.ItemPacks.Count != backpack.Storage.Count)
                 {
-                    saveFile.ItemPacks.Clear();
+                    Save.ItemPacks.Clear();
                     SaveLoadSystem.Save("", WorldName);
                 }
                 for (int i = 0; i < backpack.Storage.Count; ++i)
                 {
                     ItemInventorySave invSave = new ItemInventorySave();
                     invSave.InventorySlot = backpack.Storage[i];
-                    if (saveFile.ItemPacks.All(t => t.InventorySlot.ID != backpack.Storage[i].ID))
-                        saveFile.ItemPacks.Add(invSave);
+                    if (Save.ItemPacks.All(t => t.InventorySlot.ID != backpack.Storage[i].ID))
+                        Save.ItemPacks.Add(invSave);
+                }
+                for (int i = 0; i < backpack.Display.CombindSlots.Count; ++i)
+                {
+                    for (int a = 0; a < Save.ItemPacks.Count; ++a)
+                    {
+                        if(backpack.Display.CombindSlots[i].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile != null)
+                        {
+                            if (backpack.Display.CombindSlots[i].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile.Item.ItemID == Save.ItemPacks[a].InventorySlot.ID)
+                            {
+                                Save.ItemPacks[a].SlotNumber = backpack.Display.CombindSlots[i].transform.GetChild(0).GetComponent<HoldCustomTile>().SlotID;
+                            }
+                        }
+                    }
                 }
                 SceenshotTaker.TakeScreenShot_static(64, 64);
-                saveFile.PlayerPosition = GameObject.Find("Player").transform.position;
-                string saveString = JsonUtility.ToJson(saveFile);
+                Save.PlayerPosition = GameObject.Find("Player").transform.position;
+                string saveString = JsonUtility.ToJson(Save, true);
                 SaveLoadSystem.Save(saveString, WorldName);
-
             }
         }
-
     }
     public void LoadJson()
     {
         string LoadString = SaveLoadSystem.Load(WorldName);
         if (LoadString != null)
         {
-            SaveFile saveFile = JsonUtility.FromJson<SaveFile>(LoadString);
-            Random.InitState(saveFile.Seed);
+            Save = JsonUtility.FromJson<SaveFile>(LoadString);
+            Random.InitState(Save.Seed);
             GameObject clone = Instantiate(Dungeon);
             clone.transform.position = new Vector3(0, 0, 0);
             clone.transform.SetParent(transform);
             clone.transform.GetChild(0).GetComponent<BuildDungeon>().Build();
             InventoryBackpack backpack = GameObject.Find("Player").GetComponent<InventoryBackpack>();
-            for (int i = 0; i < saveFile.ItemPacks.Count; ++i)
+            for (int i = 0; i < Save.ItemPacks.Count; ++i)
             {
-                if (backpack.Storage.All(t => t.ID != saveFile.ItemPacks[i].InventorySlot.ID))
-                    backpack.Storage.Add(saveFile.ItemPacks[i].InventorySlot);
+                if (backpack.Storage.All(t => t.ID != Save.ItemPacks[i].InventorySlot.ID))
+                    backpack.Storage.Add(Save.ItemPacks[i].InventorySlot);
             }
             for (int i = 0; i < backpack.Storage.Count; ++i)
             {
@@ -168,15 +194,16 @@ public class FileManager : MonoBehaviour
                     }
                 }
             }
+ 
 
-            TilesToSave = saveFile.DataPacks;
-            TilePlacer(saveFile, clone.transform.GetChild(0).GetComponent<Tilemap>(), clone.transform.GetChild(1).GetComponent<Tilemap>());
-            GameObject.Find("Player").transform.position = saveFile.PlayerPosition;
-            if (saveFile.ModeName == "FreeMode")
+            TilesToSave = Save.DataPacks;
+            TilePlacer(Save, clone.transform.GetChild(0).GetComponent<Tilemap>(), clone.transform.GetChild(1).GetComponent<Tilemap>());
+            GameObject.Find("Player").transform.position = Save.PlayerPosition;
+            if (Save.ModeName == "FreeMode")
                 GameObject.Find("GameManager").GetComponent<GameManager>().FreeMode = true;
-            if (saveFile.ModeName == "ScoreMode")
+            if (Save.ModeName == "ScoreMode")
                 GameObject.Find("GameManager").GetComponent<GameManager>().ScoreMode = true;
-            if (saveFile.ModeName == "ExitMode")
+            if (Save.ModeName == "ExitMode")
                 GameObject.Find("GameManager").GetComponent<GameManager>().ExitMode = true;
         }
         else
