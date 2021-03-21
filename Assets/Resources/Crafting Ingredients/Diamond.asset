@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d12b112742693034e8e92ee310bc150e, type: 3}
   m_Name: Diamond
   m_EditorClassIdentifier: 
-  Name: Diamond
+  Name: Diamond Ore
   Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
-  ItemID: 0
+  ItemID: 12
   CanBePlaced: 0

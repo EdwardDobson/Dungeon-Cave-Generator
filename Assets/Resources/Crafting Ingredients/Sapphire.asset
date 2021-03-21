@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d12b112742693034e8e92ee310bc150e, type: 3}
   m_Name: Sapphire
   m_EditorClassIdentifier: 
-  Name: Sapphire
+  Name: Sapphire Ore
   Sprite: {fileID: 21300000, guid: b447329e9e503b74e9fb46d4c474a080, type: 3}
-  ItemID: 0
+  ItemID: 11
   CanBePlaced: 0

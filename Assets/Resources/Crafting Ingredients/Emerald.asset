@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d12b112742693034e8e92ee310bc150e, type: 3}
   m_Name: Emerald
   m_EditorClassIdentifier: 
-  Name: Emerald
+  Name: Emerald Ore
   Sprite: {fileID: 21300000, guid: a69574ac978e70247acb737315c37571, type: 3}
-  ItemID: 0
+  ItemID: 14
   CanBePlaced: 0

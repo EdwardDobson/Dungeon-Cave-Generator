@@ -143,19 +143,6 @@ public class FileManager : MonoBehaviour
                     if (Save.ItemPacks.All(t => t.InventorySlot.ID != backpack.Storage[i].ID))
                         Save.ItemPacks.Add(invSave);
                 }
-                for (int i = 0; i < backpack.Display.CombindSlots.Count; ++i)
-                {
-                    for (int a = 0; a < Save.ItemPacks.Count; ++a)
-                    {
-                        if(backpack.Display.CombindSlots[i].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile != null)
-                        {
-                            if (backpack.Display.CombindSlots[i].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile.Item.ItemID == Save.ItemPacks[a].InventorySlot.ID)
-                            {
-                                Save.ItemPacks[a].SlotNumber = backpack.Display.CombindSlots[i].transform.GetChild(0).GetComponent<HoldCustomTile>().SlotID;
-                            }
-                        }
-                    }
-                }
                 SceenshotTaker.TakeScreenShot_static(64, 64);
                 Save.PlayerPosition = GameObject.Find("Player").transform.position;
                 string saveString = JsonUtility.ToJson(Save, true);

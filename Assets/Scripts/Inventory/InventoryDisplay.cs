@@ -53,21 +53,26 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
             Slots.Add(temp);
            
         }
+        HotBar.FillHotBar();
         for (int i = 0; i < HotBar.SlotsHotbar.Count; ++i)
         {
             HotBar.SlotsHotbar[i].transform.GetChild(0).GetComponent<HoldCustomTile>().SlotID = m_slotID;
+            Debug.LogError("Hot Bar IDs: " +  HotBar.SlotsHotbar[i].transform.GetChild(0).GetComponent<HoldCustomTile>().SlotID);
             m_slotID++;
         }
   
         for (int i =0; i < Slots.Count; ++i)
         {
             Slots[i].transform.GetChild(0).GetComponent<HoldCustomTile>().SlotID = m_slotID;
+            Debug.LogError("Slot IDs: " + Slots[i].transform.GetChild(0).GetComponent<HoldCustomTile>().SlotID);
             m_slotID++;
+
         }
         StorageHolder.SetActive(false);
         for (int i = 0; i < HotBar.SlotsHotbar.Count; ++i)
         {
             CombindSlots.Add(HotBar.SlotsHotbar[i]);
+      
         }
         for (int i = 0; i < Slots.Count; ++i)
         {
@@ -93,6 +98,8 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
     {
         if(!m_manager.GetPausedState())
         {
+   
+ 
             RefreshInventory();
             if (TileImage.gameObject.activeSelf)
             {

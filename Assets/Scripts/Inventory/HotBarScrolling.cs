@@ -22,7 +22,7 @@ public class HotBarScrolling : MonoBehaviour
     public TextMeshProUGUI BlockInfo;
     void Start()
     {
-        FillHotBar();
+
         for (int i = 0; i < HotBar.childCount; ++i)
         {
             m_hotBarImages.Add(HotBar.GetChild(i).GetChild(0).gameObject);
@@ -114,7 +114,7 @@ public class HotBarScrolling : MonoBehaviour
             }
         }
     }
-    void FillHotBar()
+    public void FillHotBar()
     {
         for (int i = 0; i < HotBarSize; ++i)
         {

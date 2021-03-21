@@ -9,17 +9,20 @@ public class UIManager : MonoBehaviour
     bool m_paused;
     public Button MainMenu;
     LevelLoad m_levelLoad;
+    FileManager m_fileManager;
     void Start()
     {
         if(GameObject.Find("LevelLoader") != null)
         m_levelLoad = GameObject.Find("LevelLoader").GetComponent<LevelLoad>();
+        m_fileManager = GameObject.Find("SaveHolder").GetComponent<FileManager>();
         MainMenu.onClick.AddListener(LevelLoad);
     }
     void LevelLoad()
     {
         FloorGen.GetFloorPositions().Clear();
         FloorGen.GetFloorTilePositions().Clear();
-        GameObject.Find("LevelLoader").GetComponent<LevelLoad>().LoadLevel(0);
+        m_fileManager.SaveJson();
+        m_levelLoad.LoadLevel(0);
         m_levelLoad.FreeMode = false;
         m_levelLoad.ScoreMode = false;
         m_levelLoad.ExitMode = false;

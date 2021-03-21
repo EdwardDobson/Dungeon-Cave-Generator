@@ -417,7 +417,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 193468436921319042, guid: 8e5d51f3382fc754ab8a32b0adc45070, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 193468436921319042, guid: 8e5d51f3382fc754ab8a32b0adc45070, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
@@ -949,11 +949,13 @@ MonoBehaviour:
     ModeName: 
     PlayerPosition: {x: 0, y: 0}
     DataPacks: []
+    ItemPacks: []
   Dungeon: {fileID: 2472697035314329761, guid: 70b7b7d86201aa347a1655130c239a0a, type: 3}
   DebugText: {fileID: 839469071}
   SetSeed: 0
   WorldName: 
   ModeName: 
+  Slots: []
 --- !u!4 &916289736
 Transform:
   m_ObjectHideFlags: 0
