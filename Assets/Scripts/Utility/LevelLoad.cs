@@ -16,13 +16,6 @@ public class LevelLoad : MonoBehaviour
     public int Seed;
     public string WorldName;
     public string ModeName;
-    public int SquareRoomAmount;
-    public int CircleRoomAmount;
-    public int TShapeRoomAmount;
-    public int LShapeRoomAmount;
-    public int DiamondRoomAmount;
-    public int DungeonSizeX;
-    public int DungeonSizeY;
     private void Start()
     {
         DontDestroyOnLoad(this);

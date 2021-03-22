@@ -65,11 +65,10 @@ public class BuildDungeon : MonoBehaviour
         Stopwatch SW = new Stopwatch();
         SW.Start();
         TileManager.LoadTileManager();
-        m_dungeonDimensions = new Vector2Int(m_fileManager.XDimension, m_fileManager.YDimension);
         DungeonUtility.DungeonSetup(m_dungeonDimensions, m_tilemap);
         WallGen.SetWallSizes(m_wallDimensions);
         WallGen.SetWallsTileMap(m_walls);
-        for (int i = 0; i < m_fileManager.SquareRoomAmount; ++i)
+        for (int i = 0; i < m_squareRoomAmount; ++i)
         {
             DungeonUtility.PickBuildPoint();
             WallGen.RandomiseWallSizes(m_wallSizesSquare[0], m_wallSizesSquare[1], m_wallSizesSquare[2], m_wallSizesSquare[3]);
@@ -79,15 +78,16 @@ public class BuildDungeon : MonoBehaviour
                 Vector2 pos = new Vector2(DungeonUtility.GetBuildPoint().x + WallGen.GetWallDimensions().x / 2, DungeonUtility.GetBuildPoint().y + WallGen.GetWallDimensions().y / 2);
                 Instantiate(SquareRoom, pos, Quaternion.identity);
             }
+
         }
-        for (int i = 0; i < m_fileManager.LShapeRoomAmount; ++i)
+        for (int i = 0; i < m_lShapeRoomAmount; ++i)
         {
             DungeonUtility.PickBuildPoint();
             WallGen.RandomiseWallSizes(m_wallSizesSquare[0], m_wallSizesSquare[1], m_wallSizesSquare[2], m_wallSizesSquare[3]);
             int directionRandom = UnityEngine.Random.Range(0, 4);
             FloorGen.LShape(m_wallLengthLShape, m_wallHeightLShape, directionRandom);
         }
-        for (int i = 0; i < m_fileManager.TShapeRoomAmount; ++i)
+        for (int i = 0; i < m_TShapeRoomAmount; ++i)
         {
             DungeonUtility.PickBuildPoint();
             int directionRandom = UnityEngine.Random.Range(0, 4);
@@ -97,7 +97,7 @@ public class BuildDungeon : MonoBehaviour
             int roomHeight = UnityEngine.Random.Range(2, m_wallSizesTShape[3]);
             FloorGen.TShape(stemWidth, stemHeight, roomLength, roomHeight, directionRandom);
         }
-        for (int i = 0; i < m_fileManager.CircleRoomAmount; ++i)
+        for (int i = 0; i < m_circleRoomAmount; ++i)
         {
             int randomCircleSize = UnityEngine.Random.Range(1, m_circleStartSizeMax);
             DungeonUtility.PickBuildPoint();
@@ -110,7 +110,7 @@ public class BuildDungeon : MonoBehaviour
             }
 
         }
-        for (int i = 0; i < m_fileManager.DiamondRoomAmount; ++i)
+        for (int i = 0; i < m_diamondRoomAmount; ++i)
         {
             int RandomMaxRowAmount = UnityEngine.Random.Range(10, m_diamondMaxRowAmount);
             DungeonUtility.PickBuildPoint();

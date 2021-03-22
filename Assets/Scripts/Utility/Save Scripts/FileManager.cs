@@ -28,13 +28,6 @@ public class SaveFile
     public int Seed;
     public bool SeedSet;
     public string ModeName;
-    public int SquareRoomAmount;
-    public int CircleRoomAmount;
-    public int TShapeRoomAmount;
-    public int LShapeRoomAmount;
-    public int DiamondRoomAmount;
-    public int XDimension;
-    public int YDimension;
     public Vector2 PlayerPosition;
     public List<DataToSave> DataPacks = new List<DataToSave>();
     public List<ItemInventorySave> ItemPacks = new List<ItemInventorySave>();
@@ -53,15 +46,7 @@ public class FileManager : MonoBehaviour
     public int SetSeed;
     public string WorldName;
     public string ModeName;
-    public int SquareRoomAmount;
-    public int CircleRoomAmount;
-    public int TShapeRoomAmount;
-    public int LShapeRoomAmount;
-    public int DiamondRoomAmount;
-    public int XDimension;
-    public int YDimension;
-
-    public List<GameObject> Slots = new List<GameObject>();
+   public List<GameObject> Slots = new List<GameObject>();
     private void Awake()
     {
         SavePath = Application.persistentDataPath + "/save.dat";
@@ -69,24 +54,18 @@ public class FileManager : MonoBehaviour
         Save.ItemPacks = new List<ItemInventorySave>();
         PlacedOnTiles = new Dictionary<Vector3Int, CustomTile>();
         SaveLoadSystem.Init();
-        LevelLoad m_levelLoad = GameObject.Find("LevelLoader").GetComponent<LevelLoad>();
-        if (m_levelLoad.gameObject != null)
+        if (GameObject.Find("LevelLoader") != null)
         {
-            SetSeed = m_levelLoad.Seed;
-            WorldName = m_levelLoad.WorldName;
-            ModeName = m_levelLoad.ModeName;
-            SquareRoomAmount = m_levelLoad.SquareRoomAmount;
-            CircleRoomAmount = m_levelLoad.CircleRoomAmount;
-            TShapeRoomAmount = m_levelLoad.TShapeRoomAmount;
-            LShapeRoomAmount = m_levelLoad.LShapeRoomAmount;
-            DiamondRoomAmount = m_levelLoad.DiamondRoomAmount;
-            XDimension = m_levelLoad.DungeonSizeX;
-            YDimension = m_levelLoad.DungeonSizeY;
+            SetSeed = GameObject.Find("LevelLoader").GetComponent<LevelLoad>().Seed;
+            WorldName = GameObject.Find("LevelLoader").GetComponent<LevelLoad>().WorldName;
+            ModeName = GameObject.Find("LevelLoader").GetComponent<LevelLoad>().ModeName;
         }
     }
     private void Start()
     {
         LoadJson();
+        //      LoadFromDisk();
+
     }
     public void Input(DataToSave _item)
     {
@@ -102,13 +81,6 @@ public class FileManager : MonoBehaviour
             Save.WorldName = WorldName;
             Save.ModeName = ModeName;
             Save.PlayerPosition = GameObject.Find("Player").transform.position;
-            Save.SquareRoomAmount = SquareRoomAmount;
-            Save.CircleRoomAmount = CircleRoomAmount;
-            Save.TShapeRoomAmount = TShapeRoomAmount;
-            Save.LShapeRoomAmount = LShapeRoomAmount;
-            Save.DiamondRoomAmount = DiamondRoomAmount;
-            Save.XDimension = XDimension;
-            Save.YDimension = YDimension;
             for (int i = 0; i < TilesToSave.Count; ++i)
             {
                 if (Save.DataPacks.All(t => !t.Equals(TilesToSave[i])))
@@ -188,13 +160,6 @@ public class FileManager : MonoBehaviour
             GameObject clone = Instantiate(Dungeon);
             clone.transform.position = new Vector3(0, 0, 0);
             clone.transform.SetParent(transform);
-            SquareRoomAmount = Save.SquareRoomAmount;
-            CircleRoomAmount = Save.CircleRoomAmount;
-             TShapeRoomAmount = Save.TShapeRoomAmount;
-            LShapeRoomAmount = Save.LShapeRoomAmount;
-            DiamondRoomAmount = Save.DiamondRoomAmount;
-            XDimension = Save.XDimension;
-           YDimension = Save.YDimension;
             clone.transform.GetChild(0).GetComponent<BuildDungeon>().Build();
             InventoryBackpack backpack = GameObject.Find("Player").GetComponent<InventoryBackpack>();
             for (int i = 0; i < Save.ItemPacks.Count; ++i)
