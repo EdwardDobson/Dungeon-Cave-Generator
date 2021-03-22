@@ -9,15 +9,12 @@ public class TileDisplayScroll : MonoBehaviour
 
     void Update()
     {
-        if(Time.timeScale <= 0)
-        {
-            float d = Input.GetAxis("Mouse ScrollWheel");
-            Bar.value += d;
-            if (Bar.value <= 0)
-                Bar.value = 0;
-            if(Bar.value >= 1)
-                Bar.value = 1;
-        }
-  
+
+        float d = Input.GetAxis("Mouse ScrollWheel");
+        Bar.value += d;
+        if (Bar.value <= 0)
+            Bar.value = 0;
+        if (Bar.value >= 1)
+            Bar.value = 1;
     }
 }
