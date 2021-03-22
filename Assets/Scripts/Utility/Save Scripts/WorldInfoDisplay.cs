@@ -22,7 +22,6 @@ public class WorldInfoDisplay : MonoBehaviour
     public Transform Parent;
     public List<string> GetFileNames = new List<string>();
     public List<Texture2D> Screenshots = new List<Texture2D>();
-    FileManager m_fileManager;
     LevelLoad m_levelLoader;
     void Start()
     {
@@ -59,8 +58,8 @@ public class WorldInfoDisplay : MonoBehaviour
                 clone.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = saveFile.WorldName + "\nSeed: " + saveFile.Seed + "\n"+ saveFile.ModeName;
                 clone.transform.GetChild(0).GetComponent<Button>().onClick.AddListener(delegate { SendData(saveFile); });
                 clone.transform.GetChild(0).GetComponent<Button>().image.sprite = Sprite.Create(Screenshots[i],new Rect(0,0, Screenshots[i].width, Screenshots[i].height),new Vector2());
+                clone.transform.GetChild(2).GetComponent<Button>().onClick.AddListener(delegate { DeleteWorld(FileNameGetter.SaveFolderLocation+saveFile.WorldName,clone,saveFile.WorldName); });
             }
-        
         }
     }
     public void SendData(SaveFile _file)
@@ -78,5 +77,11 @@ public class WorldInfoDisplay : MonoBehaviour
         m_levelLoader.DungeonSizeY = _file.YDimension;
         m_levelLoader.LoadLevel(1);
         gameObject.SetActive(false);
+    }
+    public void DeleteWorld(string _path,GameObject _worldInfo,string _fileName)
+    {
+        Directory.Delete(_path,true);
+        GetFileNames.Remove(_fileName);
+        Destroy(_worldInfo);
     }
 }
