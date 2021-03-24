@@ -23,7 +23,7 @@ MonoBehaviour:
   TileName: Stone
   Type: 0
   Attributes: 00000000
-  BlockSound: {fileID: 8300000, guid: 01228ed0cc9f8dd46b1db4abdb6e37c5, type: 3}
+  BlockSound: {fileID: 8300000, guid: d50d519f37e088d41955f7258b9b93de, type: 3}
   ShouldUseColour: 0
   TileColour: {r: 1, g: 1, b: 1, a: 1}
   TileBreakingColour: {r: 0.12156863, g: 0.12156863, b: 0.12156863, a: 1}
@@ -37,7 +37,7 @@ MonoBehaviour:
   ScoreDispenseMin: 0
   ScoreDispenseMax: 0
   ScoreDispense: 0
-  ID: 14
+  ID: 13
   Pos: {x: 0, y: 0, z: 0}
   PickChance: 25
   DropMax: 1
