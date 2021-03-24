@@ -29,7 +29,6 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
     [SerializeField]
     GameObject m_clickedObj;
     Color SlotColour = new Color(195, 195, 195);
-
     string m_damageInfo;
     string m_healthInfo;
     string m_speedInfo;
@@ -51,14 +50,12 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
             temp.transform.SetParent(Parent);
             temp.transform.localScale = m_scale;
             Slots.Add(temp);
-           
         }
         HotBar.FillHotBar();
         StorageHolder.SetActive(false);
         for (int i = 0; i < HotBar.SlotsHotbar.Count; ++i)
         {
-            CombindSlots.Add(HotBar.SlotsHotbar[i]);
-      
+            CombindSlots.Add(HotBar.SlotsHotbar[i]);   
         }
         for (int i = 0; i < Slots.Count; ++i)
         {
@@ -89,8 +86,6 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
     {
         if(!m_manager.GetPausedState())
         {
-   
- 
             RefreshInventory();
             if (TileImage.gameObject.activeSelf)
             {
@@ -445,7 +440,7 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
         }
         if (!_data.Item.CanBePlaced)
         {
-            TextInfo.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = _data.Item.Name + "\nID: " + _data.ID;
+            TextInfo.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = _data.Item.name + "\nID: " + _data.ID;
         }
 
     }
