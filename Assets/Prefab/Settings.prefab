@@ -54,3 +54,4 @@ MonoBehaviour:
   - Music
   QualitySettingsDropdown: {fileID: 0}
   ResolutionDropdown: {fileID: 0}
+  FullscreenToggle: {fileID: 0}
