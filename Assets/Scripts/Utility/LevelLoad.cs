@@ -51,13 +51,27 @@ public class LevelLoad : MonoBehaviour
     IEnumerator LoadLevelAsync(int _index)
     {
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(_index);
+        asyncLoad.allowSceneActivation = false;
         while (!asyncLoad.isDone)
         {
-            if (LoadingBar != null)
+            if(asyncLoad.progress < 0.9f)
             {
-                LoadingBar.transform.GetChild(0).GetComponent<Slider>().value = asyncLoad.progress * 100;
-                LoadingBar.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = asyncLoad.progress * 100 + " %";
+                if (LoadingBar != null)
+                {
+                    LoadingBar.transform.GetChild(0).GetComponent<Slider>().value = asyncLoad.progress * 100;
+                    LoadingBar.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = asyncLoad.progress * 100 + " %";
+                }
             }
+            else
+            {
+                asyncLoad.allowSceneActivation = true;
+                if (LoadingBar != null)
+                {
+                    LoadingBar.transform.GetChild(0).GetComponent<Slider>().value = asyncLoad.progress * 100;
+                    LoadingBar.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = asyncLoad.progress * 100 + " %";
+                }
+            }
+  
             yield return null;
         }
     }

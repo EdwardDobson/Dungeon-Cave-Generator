@@ -80,7 +80,10 @@ public class HotBarScrolling : MonoBehaviour
             if (SlotsHotbar[m_index].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile.Item.CanBePlaced)
                 BlockInfo.GetComponent<TextMeshProUGUI>().text = SlotsHotbar[m_index].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile.TileName + "\nType: " + SlotsHotbar[m_index].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile.Type.ToString();
             if (!SlotsHotbar[m_index].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile.Item.CanBePlaced)
-                BlockInfo.GetComponent<TextMeshProUGUI>().text = SlotsHotbar[m_index].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile.Item.name;
+            {
+                string subName = SlotsHotbar[m_index].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile.Item.name.Substring(0, SlotsHotbar[m_index].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile.Item.name.IndexOf("("));
+                BlockInfo.GetComponent<TextMeshProUGUI>().text = subName ;
+            }
             BlockInfo.transform.parent.gameObject.SetActive(true);
             for (int a = 0; a < InventoryBackpack.Storage.Count; ++a)
             {

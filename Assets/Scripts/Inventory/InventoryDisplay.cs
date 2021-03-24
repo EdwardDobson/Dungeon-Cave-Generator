@@ -440,7 +440,8 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
         }
         if (!_data.Item.CanBePlaced)
         {
-            TextInfo.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = _data.Item.name + "\nID: " + _data.ID;
+            string subName = _data.Item.name.Substring(0, _data.Item.name.IndexOf("("));
+            TextInfo.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = subName + "\nID: " + _data.ID;
         }
 
     }
