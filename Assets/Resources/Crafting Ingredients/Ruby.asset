@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Ruby
   m_EditorClassIdentifier: 
   Name: Ruby Ore
-  Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  Sprite: {fileID: 21300000, guid: 18b265420e33fa344a38352293ad4a5d, type: 3}
   ItemID: 17
   CanBePlaced: 0

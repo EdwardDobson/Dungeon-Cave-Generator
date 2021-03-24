@@ -623,6 +623,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1010843061}
+    - target: {fileID: 3873220386011048874, guid: 711b411f32e95be46b4438f713308931, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -108
+      objectReference: {fileID: 0}
     - target: {fileID: 5093525966873911155, guid: 711b411f32e95be46b4438f713308931, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -719,10 +723,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: CraftingScreen
       objectReference: {fileID: 0}
+    - target: {fileID: 6862125943616566166, guid: 711b411f32e95be46b4438f713308931, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6917972811550169732, guid: 711b411f32e95be46b4438f713308931, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1010843061}
+    - target: {fileID: 7371480317233419538, guid: 711b411f32e95be46b4438f713308931, type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7665531489504774236, guid: 711b411f32e95be46b4438f713308931, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -947,6 +959,13 @@ MonoBehaviour:
     Seed: 123123
     SeedSet: 1
     ModeName: 
+    SquareRoomAmount: 0
+    CircleRoomAmount: 0
+    TShapeRoomAmount: 0
+    LShapeRoomAmount: 0
+    DiamondRoomAmount: 0
+    XDimension: 0
+    YDimension: 0
     PlayerPosition: {x: 0, y: 0}
     DataPacks: []
     ItemPacks: []
@@ -955,6 +974,13 @@ MonoBehaviour:
   SetSeed: 0
   WorldName: 
   ModeName: 
+  SquareRoomAmount: 0
+  CircleRoomAmount: 0
+  TShapeRoomAmount: 0
+  LShapeRoomAmount: 0
+  DiamondRoomAmount: 0
+  XDimension: 0
+  YDimension: 0
   Slots: []
 --- !u!4 &916289736
 Transform:

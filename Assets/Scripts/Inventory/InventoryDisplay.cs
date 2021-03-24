@@ -78,7 +78,7 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
                     if (CombindSlots[i].transform.GetChild(0).GetComponent<HoldCustomTile>().SlotID == m_fileManager.Save.ItemPacks[a].SlotNumber)
                     {
                         CombindSlots[i].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile = TileManager.AllTiles[m_fileManager.Save.ItemPacks[a].InventorySlot.ID - 1];
-                        CombindSlots[i].transform.GetChild(0).GetComponent<Image>().sprite = TileManager.AllTiles[m_fileManager.Save.ItemPacks[a].InventorySlot.ID -1].DisplaySprite;
+                        CombindSlots[i].transform.GetChild(0).GetComponent<Image>().sprite = TileManager.AllTiles[m_fileManager.Save.ItemPacks[a].InventorySlot.ID -1].Item.Sprite;
                         CombindSlots[i].transform.GetChild(0).GetComponent<Image>().color = TileManager.AllTiles[m_fileManager.Save.ItemPacks[a].InventorySlot.ID - 1].TileColour;
                     }
                 }
