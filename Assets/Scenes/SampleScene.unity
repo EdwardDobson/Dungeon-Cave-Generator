@@ -2897,7 +2897,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6342644214736066873, guid: d5e552138d294de428cf3882c67b9f0f, type: 3}
       propertyPath: AmountToSpawn
-      value: 0
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 6342644214736066874, guid: d5e552138d294de428cf3882c67b9f0f, type: 3}
       propertyPath: m_Name

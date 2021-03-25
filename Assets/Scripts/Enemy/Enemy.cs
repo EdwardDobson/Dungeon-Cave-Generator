@@ -28,16 +28,16 @@ public class Enemy : MonoBehaviour
     }
     void Update()
     {
-            if (FloorGen.GetFloorPositions().Count > 0 && !m_enemyPlaced)
-            {
-                Vector3Int position = FloorGen.GetFloorPositions()[Random.Range(0, FloorGen.GetFloorPositions().Count)];
-                Vector3 positionReadjusted = new Vector3(position.x + 0.5f, position.y + 0.5f, 0);
-                transform.position = positionReadjusted;
-                m_enemyPlaced = true;
-            }
+        if (FloorGen.GetFloorPositions().Count > 0 && !m_enemyPlaced)
+        {
+            Vector3Int position = FloorGen.GetFloorPositions()[Random.Range(0, FloorGen.GetFloorPositions().Count)];
+            Vector3 positionReadjusted = new Vector3(position.x + 0.5f, position.y + 0.5f, 0);
+            transform.position = positionReadjusted;
+            m_enemyPlaced = true;
+        }
         if (ShouldMove && m_canSeePlayer)
             Movement();
-        if(FoundPlayer)
+        if (FoundPlayer)
         {
             RaycastHit2D hit = Physics2D.Raycast(transform.position, -(transform.position - m_player.transform.position), LayerMask.GetMask("Level"));
             if (hit.collider != null)
@@ -62,9 +62,9 @@ public class Enemy : MonoBehaviour
     void Movement()
     {
         float step = MoveSpeed * Time.deltaTime;
-        if(ShouldShoot)
+        if (ShouldShoot)
         {
-            if(Vector2.Distance(transform.position,m_player.transform.position) > FireRange)
+            if (Vector2.Distance(transform.position, m_player.transform.position) > FireRange)
             {
                 transform.position = Vector2.MoveTowards(transform.position, m_player.transform.position, step);
             }
@@ -79,7 +79,7 @@ public class Enemy : MonoBehaviour
     }
     void Fire()
     {
-        if (m_canSeePlayer && ShouldShoot &&  !m_isShooting)
+        if (m_canSeePlayer && ShouldShoot && !m_isShooting)
         {
             m_currentFireTimer -= Time.deltaTime;
             if (m_currentFireTimer <= 0)
@@ -88,7 +88,7 @@ public class Enemy : MonoBehaviour
                 SpawnBullet();
             }
         }
- 
+
     }
     void SpawnBullet()
     {
