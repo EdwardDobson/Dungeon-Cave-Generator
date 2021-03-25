@@ -197,11 +197,11 @@ public class FileManager : MonoBehaviour
             clone.transform.SetParent(transform);
             SquareRoomAmount = Save.SquareRoomAmount;
             CircleRoomAmount = Save.CircleRoomAmount;
-             TShapeRoomAmount = Save.TShapeRoomAmount;
+            TShapeRoomAmount = Save.TShapeRoomAmount;
             LShapeRoomAmount = Save.LShapeRoomAmount;
             DiamondRoomAmount = Save.DiamondRoomAmount;
             XDimension = Save.XDimension;
-           YDimension = Save.YDimension;
+            YDimension = Save.YDimension;
             clone.transform.GetChild(0).GetComponent<BuildDungeon>().Build();
             InventoryBackpack backpack = GameObject.Find("Player").GetComponent<InventoryBackpack>();
             for (int i = 0; i < Save.ItemPacks.Count; ++i)
@@ -232,7 +232,7 @@ public class FileManager : MonoBehaviour
             if (Save.ModeName == "ScoreMode")
                 GameObject.Find("GameManager").GetComponent<GameManager>().ScoreMode = true;
             if (Save.ModeName == "ExitMode")
-            { 
+            {
                 GameObject.Find("GameManager").GetComponent<GameManager>().ExitMode = true;
             }
         }
