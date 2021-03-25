@@ -42,18 +42,13 @@ public class BuildDungeon : MonoBehaviour
 
     [SerializeField]
     int m_pathAmount;
-    [SerializeField]
-    int m_scoreAmount;
-    public GameObject ScorePrefab;
-    public List<GameObject> Scores;
-    public bool ScoresPlaced;
+
     public GameObject SquareRoom;
     public GameObject CircleRoom;
     public GameObject DiamondRoom;
     public bool UseMiniMapIcons;
     public int Seed;
     FileManager m_fileManager;
-    LevelLoad m_levelLoader;
     public void Build()
     {
         m_fileManager = transform.parent.parent.GetComponent<FileManager>();
@@ -132,28 +127,7 @@ public class BuildDungeon : MonoBehaviour
             ConnectRoom.FindOtherRoom();
         }
         WallGen.PlaceWalls();
-        if (m_levelLoader == null)
-            m_levelLoader = GameObject.Find("LevelLoader").GetComponent<LevelLoad>();
-            //  m_fileManager.TileSetter();
-        if (m_levelLoader != null)
-        {
-            if (m_levelLoader.GetComponent<LevelLoad>().ScoreMode)
-            {
-                for (int i = 0; i < m_scoreAmount; ++i)
-                {
-                    if (FloorGen.GetFloorPositions().Count > 1)
-                    {
-                        Vector3Int position = FloorGen.GetFloorPositions()[UnityEngine.Random.Range(0, FloorGen.GetFloorPositions().Count)];
-                        Vector3 positionReadjusted = new Vector3(position.x + 0.5f, position.y + 0.5f, 0);
-                        FloorGen.GetFloorPositions().Remove(position);
-                        GameObject scoreClone = Instantiate(ScorePrefab, positionReadjusted, Quaternion.identity, transform);
-                        scoreClone.GetComponent<ScorePoint>().ScoreWorth = UnityEngine.Random.Range(1, 25);
-                        Scores.Add(scoreClone);
-                    }
-                }
-                ScoresPlaced = true;
-            }
-        }
+    
         GameObject.Find("Player").GetComponent<PlaceTile>().FillTilesList();
         SW.Stop();
         TimeSpan ts = SW.Elapsed;
@@ -164,8 +138,5 @@ public class BuildDungeon : MonoBehaviour
     {
         WallGen.PlaceWalls();
     }
-    public int GetScoreAmount()
-    {
-        return m_scoreAmount;
-    }
+
 }

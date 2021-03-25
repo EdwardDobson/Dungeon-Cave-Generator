@@ -36,6 +36,8 @@ public class WorldMaker : MonoBehaviour
         RoomAmountSliders[2].transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "TShape Room Amount\n" + TShapeRoomAmount;
         RoomAmountSliders[3].transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "LShape Room Amount\n" + LShapeRoomAmount;
         RoomAmountSliders[4].transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Diamond Room Amount\n" + DiamondRoomAmount;
+        RoomAmountSliders[5].transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Dungeon X Value\n" + DungeonSizeX;
+        RoomAmountSliders[6].transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Dungeon Y Value\n" + DungeonSizeY;
     }
 
     public void ClearVariables()

@@ -11,6 +11,7 @@ public class PlayerMovement : MonoBehaviour
     public Tilemap Map;
     float h;
     float v;
+    [SerializeField]
     bool m_playerPlaced;
 
     void Start()
@@ -73,5 +74,9 @@ public class PlayerMovement : MonoBehaviour
     {
         Vector3Int pos = new Vector3Int((int)transform.position.x, (int)transform.position.y, (int)transform.position.z);
         Speed = TileManager.GetTileDictionaryFloor()[pos].CustomTile.Speed;
+    }
+    public void SetPlayerPlaced(bool _state)
+    {
+        m_playerPlaced = _state;
     }
 }

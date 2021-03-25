@@ -1,8 +1,11 @@
+using DungeonGeneration;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
@@ -13,6 +16,8 @@ public class GameManager : MonoBehaviour
     public GameObject SurvivalCanvas;
     public GameObject ControlsInfoObj;
     public GameObject WinScreen;
+    public GameObject GameoverScreen;
+    public GameObject ScoreBackground;
 
     public GameObject CreativeInventory;
     public GameObject SurvivalInventory;
@@ -39,6 +44,11 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     int m_totalScore;
     public DamagedTiles DamagedTiles;
+    public GameObject ScorePrefab;
+    public List<GameObject> Scores;
+    [SerializeField]
+    int m_scoreAmount;
+    bool m_scoresPlaced;
     private void Start()
     {
         if (Creative)
@@ -50,46 +60,59 @@ public class GameManager : MonoBehaviour
             Button.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Creative";
         }
 
-        if(GameObject.Find("LevelLoader")!= null)
+        if (GameObject.Find("LevelLoader") != null)
         {
             LevelLoad temp = GameObject.Find("LevelLoader").GetComponent<LevelLoad>();
-             FreeMode = temp.FreeMode;
+            FreeMode = temp.FreeMode;
             ScoreMode = temp.ScoreMode;
             ExitMode = temp.ExitMode;
         }
-       
+
         DisableObjs();
         SetTimer = false;
     }
     void DisableObjs()
     {
-        if(FreeMode)
+        if (FreeMode)
         {
-            TimerText.transform.parent.gameObject.SetActive(false);
-            GameObject.Find("ScoreBackground").gameObject.SetActive(false);
-            EndPosText.transform.parent.gameObject.SetActive(false);
-            ScoreNeededText.transform.parent.gameObject.SetActive(false);
+            if (TimerText.transform.parent.gameObject.activeSelf)
+                TimerText.transform.parent.gameObject.SetActive(false);
+            if (ScoreBackground.activeSelf)
+                ScoreBackground.SetActive(false);
+            if (EndPosText.transform.parent.gameObject.activeSelf)
+                EndPosText.transform.parent.gameObject.SetActive(false);
+            if (ScoreNeededText.transform.parent.gameObject.activeSelf)
+                ScoreNeededText.transform.parent.gameObject.SetActive(false);
         }
-        if(ScoreMode)
+        if (ScoreMode)
         {
-            TimerText.transform.parent.gameObject.SetActive(true);
-            GameObject.Find("ScoreBackground").gameObject.SetActive(true);
-            EndPosText.transform.parent.gameObject.SetActive(false);
-            Button.gameObject.SetActive(false);
-            ScoreNeededText.transform.parent.gameObject.SetActive(true);
+            if (!TimerText.transform.parent.gameObject.activeSelf)
+                TimerText.transform.parent.gameObject.SetActive(true);
+            if (!ScoreBackground.activeSelf)
+                ScoreBackground.SetActive(true);
+            if (EndPosText.transform.parent.gameObject.activeSelf)
+                EndPosText.transform.parent.gameObject.SetActive(false);
+            if (Button.gameObject.activeSelf)
+                Button.gameObject.SetActive(false);
+            if (!ScoreNeededText.transform.parent.gameObject.activeSelf)
+                ScoreNeededText.transform.parent.gameObject.SetActive(true);
         }
-        if(ExitMode)
+        if (ExitMode)
         {
-            TimerText.transform.parent.gameObject.SetActive(true);
-            GameObject.Find("ScoreBackground").gameObject.SetActive(false);
-            Button.gameObject.SetActive(false);
-            ScoreNeededText.transform.parent.gameObject.SetActive(false);
+            if (!TimerText.transform.parent.gameObject.activeSelf)
+                TimerText.transform.parent.gameObject.SetActive(true);
+            if (ScoreBackground.activeSelf)
+                ScoreBackground.SetActive(false);
+            if (Button.gameObject.activeSelf)
+                Button.gameObject.SetActive(false);
+            if (ScoreNeededText.transform.parent.gameObject.activeSelf)
+                ScoreNeededText.transform.parent.gameObject.SetActive(false);
         }
 
     }
     public void SetCreative()
     {
-        if(Creative)
+        if (Creative)
         {
             Creative = false;
             Button.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Survival";
@@ -102,30 +125,44 @@ public class GameManager : MonoBehaviour
     }
     public void WinState()
     {
-       if(m_dungeon == null)
+        if (m_dungeon == null)
             m_dungeon = GameObject.Find("Map").GetComponent<BuildDungeon>();
-        if (m_dungeon.ScoresPlaced)
+        //  m_fileManager.TileSetter();
+        if (ScoreMode && !m_scoresPlaced)
         {
-            for (int i = 0; i < m_dungeon.Scores.Count; ++i)
+            m_scoreAmount = FloorGen.GetFloorPositions().Count / 4;
+            for (int i = 0; i < m_scoreAmount; ++i)
             {
-                m_totalScore += m_dungeon.Scores[i].GetComponent<ScorePoint>().ScoreWorth;
+                if (FloorGen.GetFloorPositions().Count > 1)
+                {
+                    Vector3Int position = FloorGen.GetFloorPositions()[Random.Range(0, FloorGen.GetFloorPositions().Count)];
+                    Vector3 positionReadjusted = new Vector3(position.x + 0.5f, position.y + 0.5f, 0);
+                    FloorGen.GetFloorPositions().Remove(position);
+                    GameObject scoreClone = Instantiate(ScorePrefab, positionReadjusted, Quaternion.identity, transform);
+                    scoreClone.GetComponent<ScorePoint>().ScoreWorth = Random.Range(1, 25);
+                    Scores.Add(scoreClone);
+                }
             }
-            m_dungeon.ScoresPlaced = false;
-            m_totalScoreNeeded = m_totalScore / 4;
+            for (int i = 0; i < Scores.Count; ++i)
+            {
+                m_totalScore += Scores[i].GetComponent<ScorePoint>().ScoreWorth;
+            }
+            m_scoresPlaced = true;
+        }
+
+        if (m_scoresPlaced)
+        {
+            m_totalScoreNeeded = m_totalScore / 2;
             ScoreNeededText.text = "Score Needed: " + m_totalScoreNeeded;
             if (Player.GetComponent<Scoring>().CurrentScore >= m_totalScoreNeeded)
             {
                 WinScreen.SetActive(true);
-                Time.timeScale = 0;
             }
         }
-
-
- 
     }
     public void ExitWin()
     {
-        Vector3Int PlayerPos = new Vector3Int((int)Player.transform.position.x, (int)Player.transform.position.y,0);
+        Vector3Int PlayerPos = new Vector3Int((int)Player.transform.position.x, (int)Player.transform.position.y, 0);
         Vector3Int EndPos = new Vector3Int((int)EndPoint.transform.position.x, (int)EndPoint.transform.position.y, 0);
         if (PlayerPos == EndPos)
         {
@@ -135,7 +172,7 @@ public class GameManager : MonoBehaviour
     }
     public void SetFindMode()
     {
-        if(FindMode)
+        if (FindMode)
         {
             FindMode = false;
             FindModeButton.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Activate Find Mode";
@@ -148,13 +185,14 @@ public class GameManager : MonoBehaviour
     }
     private void Update()
     {
+        DisableObjs();
         DamagedTiles.RemoveDamagedTiles();
         CanPerformActionFunction();
         if (ScoreMode || ExitMode)
         {
-            if(ScoreMode)
-            WinState();
-            if (ExitMode)
+            if (ScoreMode)
+                WinState();
+            if (ExitMode && Player.GetComponent<PlayerMovement>().GetPlayerPlaced() && EndPoint.GetComponent<EndGoal>().GetEndPointSet())
                 ExitWin();
             if (!SetTimer && Player.GetComponent<PlayerMovement>().GetPlayerPlaced() && EndPoint.GetComponent<EndGoal>().GetEndPointSet())
             {
@@ -167,11 +205,10 @@ public class GameManager : MonoBehaviour
             {
                 Timer -= Time.deltaTime;
                 TimerText.text = "Time: " + (int)Timer;
-                if (Timer <= 0)
+                if (Timer <= 0 && !WinScreen.activeSelf)
                 {
-                    Destroy(Player);
-                    Time.timeScale = 0;
-                    
+                    Timer = 0;
+                    GameoverScreen.SetActive(true);
                 }
             }
         }
@@ -198,7 +235,7 @@ public class GameManager : MonoBehaviour
     }
     public void HideControlsDescription()
     {
-        if(ControlsInfoObj.activeSelf)
+        if (ControlsInfoObj.activeSelf)
         {
             ControlsInfoObj.SetActive(false);
         }
@@ -221,5 +258,16 @@ public class GameManager : MonoBehaviour
         {
             CanPerformAction = false;
         }
+    }
+
+    public void ReturnToMainMenu()
+    {
+        SceneManager.LoadScene(0);
+        Time.timeScale = 1;
+    }
+    public void ReloadLevel()
+    {
+        Time.timeScale = 1;
+        SceneManager.LoadScene(1);
     }
 }

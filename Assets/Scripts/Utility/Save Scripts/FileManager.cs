@@ -116,13 +116,12 @@ public class FileManager : MonoBehaviour
                     Save.DataPacks.Add(TilesToSave[i]);
                 }
             }
-            SceenshotTaker.TakeScreenShot_static(64, 64);
+            SceenshotTaker.TakeScreenShot_static(256, 256);
             string saveString = JsonUtility.ToJson(Save, true);
             SaveLoadSystem.Save(saveString, WorldName);
         }
         if (File.Exists(SaveLoadSystem.SaveFolderLocation + WorldName + "/" + WorldName + ".txt"))
         {
-
             string LoadString = SaveLoadSystem.Load(WorldName);
 
             if (LoadString != null)
@@ -171,10 +170,18 @@ public class FileManager : MonoBehaviour
                     if (Save.ItemPacks.All(t => t.InventorySlot.ID != backpack.Storage[i].ID))
                         Save.ItemPacks.Add(invSave);
                 }
-                SceenshotTaker.TakeScreenShot_static(64, 64);
+                SceenshotTaker.TakeScreenShot_static(256, 256);
                 Save.PlayerPosition = GameObject.Find("Player").transform.position;
                 string saveString = JsonUtility.ToJson(Save, true);
                 SaveLoadSystem.Save(saveString, WorldName);
+                if (Save.ModeName == "FreeMode")
+                    GameObject.Find("GameManager").GetComponent<GameManager>().FreeMode = true;
+                if (Save.ModeName == "ScoreMode")
+                    GameObject.Find("GameManager").GetComponent<GameManager>().ScoreMode = true;
+                if (Save.ModeName == "ExitMode")
+                {
+                    GameObject.Find("GameManager").GetComponent<GameManager>().ExitMode = true;
+                }
             }
         }
     }
@@ -219,12 +226,15 @@ public class FileManager : MonoBehaviour
             TilesToSave = Save.DataPacks;
             TilePlacer(Save, clone.transform.GetChild(0).GetComponent<Tilemap>(), clone.transform.GetChild(1).GetComponent<Tilemap>());
             GameObject.Find("Player").transform.position = Save.PlayerPosition;
+            GameObject.Find("Player").GetComponent<PlayerMovement>().SetPlayerPlaced(true);
             if (Save.ModeName == "FreeMode")
                 GameObject.Find("GameManager").GetComponent<GameManager>().FreeMode = true;
             if (Save.ModeName == "ScoreMode")
                 GameObject.Find("GameManager").GetComponent<GameManager>().ScoreMode = true;
             if (Save.ModeName == "ExitMode")
+            { 
                 GameObject.Find("GameManager").GetComponent<GameManager>().ExitMode = true;
+            }
         }
         else
         {
@@ -243,6 +253,8 @@ public class FileManager : MonoBehaviour
                 Vector3Int position = FloorGen.GetFloorPositions()[Random.Range(0, FloorGen.GetFloorPositions().Count)];
                 Vector3 positionReadjusted = new Vector3(position.x + 0.5f, position.y + 0.5f, 0);
                 GameObject.Find("Player").transform.position = positionReadjusted;
+                GameObject.Find("Player").GetComponent<PlayerMovement>().SetPlayerPlaced(true);
+                FloorGen.GetFloorPositions().Remove(position);
             }
             SaveJson();
         }
@@ -291,14 +303,6 @@ public class FileManager : MonoBehaviour
             clone.transform.GetChild(0).GetComponent<BuildDungeon>().Build();
         }
     }
-    public void AddChangedTiles(int _index, SaveFile _file)
-    {
-        DataToSave temp = new DataToSave();
-        temp.IsNull = _file.DataPacks[_index].IsNull;
-        temp.ID = _file.DataPacks[_index].ID;
-        temp.IsPlacedTile = _file.DataPacks[_index].IsPlacedTile;
-        TilesToLoad.Add(temp);
-    }
     public void TilePlacer(SaveFile _file, Tilemap _floorMap, Tilemap _wallMap)
     {
         for (int i = 0; i < _file.DataPacks.Count; ++i)
@@ -334,69 +338,6 @@ public class FileManager : MonoBehaviour
                 if (_file.DataPacks[i].ID == TileManager.GetTileHolder(TileType.Path).Tiles[path].ID)
                 {
                     TileManager.PlaceTile(tempPosI, 0, _floorMap, _floorMap, TileManager.GetTileHolder(TileType.Path).Tiles[path], DictionaryType.Floor);
-                }
-            }
-        }
-    }
-    public void TileSetter()
-    {
-        for (int i = 0; i < TilesToLoad.Count; ++i)
-        {
-
-            Vector3Int tempPosI = new Vector3Int(TilesToLoad[i].Position.x, TilesToLoad[i].Position.y, 0);
-
-            if (TileManager.GetTileDictionaryFloor().ContainsKey(tempPosI))
-            {
-                for (int b = 0; b < TileManager.GetTileHolder(TileType.Floor).Tiles.Count; ++b)
-                {
-                    if (TilesToLoad[i].ID == TileManager.GetTileHolder(TileType.Floor).Tiles[b].ID)
-                    {
-                        if (!TilesToLoad[i].IsPlacedTile)
-                            TileManager.PlaceTile(tempPosI, 0, DungeonUtility.GetTilemap(), DungeonUtility.GetTilemap(), TileManager.GetTileHolder(TileType.Floor).Tiles[b], DictionaryType.Floor);
-                        if (TilesToLoad[i].IsPlacedTile)
-                        {
-                            if (!PlacedOnTiles.ContainsKey(tempPosI))
-                                PlacedOnTiles.Add(tempPosI, TileManager.GetTileHolder(TileType.Floor).Tiles[b]);
-                            for (int a = 0; a < TilesToLoad.Count; ++a)
-                            {
-                                for (int c = 0; c < TileManager.GetTileHolder(TileType.Wall).Tiles.Count; ++c)
-                                {
-                                    if (TilesToLoad[a].ID == TileManager.GetTileHolder(TileType.Wall).Tiles[c].ID)
-                                    {
-                                        TileManager.PlaceTile(tempPosI, 0, DungeonUtility.GetTilemap(), WallGen.GetTilemap(), TileManager.GetTileHolder(TileType.Wall).Tiles[c], DictionaryType.Walls);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            if (TileManager.GetTileDictionaryWalls().ContainsKey(tempPosI))
-            {
-                if (TilesToLoad[i].IsNull)
-                {
-                    WallGen.GetTilemap().SetTile(tempPosI, null);
-                }
-                for (int a = 0; a < TilesToLoad.Count; ++a)
-                {
-                    Vector3Int tempPosA = new Vector3Int(TilesToLoad[a].Position.x, TilesToLoad[a].Position.y, 0);
-                    if (!TilesToLoad[a].IsNull && tempPosA == tempPosI)
-                    {
-                        for (int b = 0; b < TileManager.GetTileHolder(TileType.Path).Tiles.Count; ++b)
-                        {
-                            if (TilesToLoad[a].ID == TileManager.GetTileHolder(TileType.Path).Tiles[b].ID)
-                            {
-                                TileManager.PlaceTile(tempPosA, 0, WallGen.GetTilemap(), DungeonUtility.GetTilemap(), TileManager.GetTileHolder(TileType.Path).Tiles[b], DictionaryType.Floor);
-                            }
-                        }
-                        for (int b = 0; b < TileManager.GetTileHolder(TileType.Floor).Tiles.Count; ++b)
-                        {
-                            if (TilesToLoad[a].ID == TileManager.GetTileHolder(TileType.Floor).Tiles[b].ID)
-                            {
-                                TileManager.PlaceTile(tempPosA, 0, WallGen.GetTilemap(), DungeonUtility.GetTilemap(), TileManager.GetTileHolder(TileType.Floor).Tiles[b], DictionaryType.Floor);
-                            }
-                        }
-                    }
                 }
             }
         }

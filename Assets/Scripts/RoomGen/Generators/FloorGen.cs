@@ -34,11 +34,6 @@ namespace DungeonGeneration
         {
             return m_floorPositions;
         }
-        public static void AddFloorPositions(Vector3Int _pos)
-        {
-            if (_pos.x >= 0 && _pos.y >= 0)
-                m_floorPositions.Add(_pos);
-        }
         public static void PlaceFloorTile(Vector2Int _buildPoint)
         {
             Vector3Int t = new Vector3Int(_buildPoint.x, _buildPoint.y, 0);
