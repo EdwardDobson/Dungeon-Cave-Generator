@@ -36,8 +36,8 @@ public class WorldMaker : MonoBehaviour
         RoomAmountSliders[2].transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "TShape Room Amount\n" + TShapeRoomAmount;
         RoomAmountSliders[3].transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "LShape Room Amount\n" + LShapeRoomAmount;
         RoomAmountSliders[4].transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Diamond Room Amount\n" + DiamondRoomAmount;
-        RoomAmountSliders[5].transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Dungeon X Value\n" + DungeonSizeX;
-        RoomAmountSliders[6].transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Dungeon Y Value\n" + DungeonSizeY;
+        RoomAmountSliders[5].transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Dungeon X Value\n" + 0;
+        RoomAmountSliders[6].transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = "Dungeon Y Value\n" + 0;
     }
 
     public void ClearVariables()
@@ -133,8 +133,8 @@ public class WorldMaker : MonoBehaviour
         }
         m_levelLoader.Seed = Seed;
         m_levelLoader.WorldName = WorldName;
-
-        if (DungeonSizeX == 0 && DungeonSizeY == 0)
+        UnityEngine.Random.InitState(Seed);
+        if (DungeonSizeX < 20 && DungeonSizeY < 20)
         {
             DungeonSizeX = UnityEngine.Random.Range(20, 1000); 
             DungeonSizeY = UnityEngine.Random.Range(20, 1000); 
@@ -166,5 +166,7 @@ public class WorldMaker : MonoBehaviour
         m_levelLoader.LShapeRoomAmount = DiamondRoomAmount;
         m_levelLoader.DungeonSizeX = DungeonSizeX;
         m_levelLoader.DungeonSizeY = DungeonSizeY;
+        Debug.Log(DungeonSizeX);
+
 }
 }

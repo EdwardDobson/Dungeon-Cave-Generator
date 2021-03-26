@@ -36,6 +36,7 @@ public class SaveFile
     public int XDimension;
     public int YDimension;
     public Vector2 PlayerPosition;
+    public int DigPower;
     public List<DataToSave> DataPacks = new List<DataToSave>();
     public List<ItemInventorySave> ItemPacks = new List<ItemInventorySave>();
 }
@@ -172,6 +173,7 @@ public class FileManager : MonoBehaviour
                 }
                 SceenshotTaker.TakeScreenShot_static(256, 256);
                 Save.PlayerPosition = GameObject.Find("Player").transform.position;
+                Save.DigPower = GameObject.Find("Player").GetComponent<DigTier>().CurrentDigTier;
                 string saveString = JsonUtility.ToJson(Save, true);
                 SaveLoadSystem.Save(saveString, WorldName);
                 if (Save.ModeName == "FreeMode")
@@ -202,6 +204,8 @@ public class FileManager : MonoBehaviour
             DiamondRoomAmount = Save.DiamondRoomAmount;
             XDimension = Save.XDimension;
             YDimension = Save.YDimension;
+            if(Save.DigPower > 1)
+           GameObject.Find("Player").GetComponent<DigTier>().CurrentDigTier = Save.DigPower;
             clone.transform.GetChild(0).GetComponent<BuildDungeon>().Build();
             InventoryBackpack backpack = GameObject.Find("Player").GetComponent<InventoryBackpack>();
             for (int i = 0; i < Save.ItemPacks.Count; ++i)
@@ -232,9 +236,7 @@ public class FileManager : MonoBehaviour
             if (Save.ModeName == "ScoreMode")
                 GameObject.Find("GameManager").GetComponent<GameManager>().ScoreMode = true;
             if (Save.ModeName == "ExitMode")
-            {
                 GameObject.Find("GameManager").GetComponent<GameManager>().ExitMode = true;
-            }
         }
         else
         {

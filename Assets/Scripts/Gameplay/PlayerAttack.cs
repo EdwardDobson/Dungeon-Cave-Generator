@@ -12,7 +12,7 @@ public class PlayerAttack : MonoBehaviour
     public bool CanAttack;
     void Update()
     {
-        if(CanAttack)
+        if(CanAttack && Time.timeScale > 0)
         {
         
             if (Input.GetMouseButton(0))

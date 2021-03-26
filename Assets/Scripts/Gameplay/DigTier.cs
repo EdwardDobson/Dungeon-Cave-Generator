@@ -12,13 +12,23 @@ public class DigTier : MonoBehaviour
     public List<Item> TierItems;
     public TextMeshProUGUI UpgradeCost;
     public TextMeshProUGUI CurrentDigPower;
-
+    public GameObject UpgradeButton;
     void Start()
     {
         m_dig = GetComponent<Dig>();
         m_backpack = GetComponent<InventoryBackpack>();
+        for(int i = 0; i < CurrentDigTier -1; ++i)
+        {
+            TierItems.RemoveAt(0);
+        }
         CurrentDigPower.text = "Dig Power: " + CurrentDigTier;
+        if(TierItems.Count > 0)
         UpgradeCost.text = "Cost: " + MaxAmountNeeded + " " + TierItems[0].Name + "s";
+        else
+        {
+            UpgradeCost.text = "MAX LEVEL REACHED";
+            UpgradeButton.SetActive(false);
+        }
     }
     void Update()
     {
@@ -26,25 +36,36 @@ public class DigTier : MonoBehaviour
     }
     public void UpDigTier()
     {
-        for (int i = 0; i < m_backpack.Storage.Count; ++i)
+        if (TierItems.Count > 0)
         {
-            for (int a = 0; a < m_backpack.Storage[i].Items.Count; ++a)
+            for (int i = 0; i < m_backpack.Storage.Count; ++i)
             {
-                if (m_backpack.Storage[i].Items[a].Name == TierItems[0].Name)
+                for (int a = 0; a < m_backpack.Storage[i].Items.Count; ++a)
                 {
-                    if (m_backpack.Storage[i].Items.Count >= MaxAmountNeeded)
+                    if (m_backpack.Storage[i].Items[a].Name == TierItems[0].Name)
                     {
-                        CurrentDigTier++;
-                        TierItems.RemoveAt(0);
-                        m_backpack.RemoveMultipleItems(MaxAmountNeeded, m_backpack.Storage[i].Items);
-                        m_backpack.Display.UpdateCountDisplaySlot();
-                        CurrentDigPower.text = "Dig Power: " + CurrentDigTier;
-                        UpgradeCost.text = "Cost: " + MaxAmountNeeded + " " + TierItems[0].Name + "s";
-                        break;
+                        if (m_backpack.Storage[i].Items.Count >= MaxAmountNeeded)
+                        {
+                            CurrentDigTier++;
+
+                            TierItems.RemoveAt(0);
+                            m_backpack.RemoveMultipleItems(MaxAmountNeeded, m_backpack.Storage[i].Items);
+                            m_backpack.Display.UpdateCountDisplaySlot();
+                            CurrentDigPower.text = "Dig Power: " + CurrentDigTier;
+                            if(TierItems.Count > 0)
+                            UpgradeCost.text = "Cost: " + MaxAmountNeeded + " " + TierItems[0].Name + "s";
+                            else
+                            {
+                                UpgradeCost.text = "MAX LEVEL REACHED";
+                                UpgradeButton.SetActive(false);
+                            }
+                            break;
+                        }
                     }
                 }
             }
         }
+
     }
     public void SetDigStrength()
     {

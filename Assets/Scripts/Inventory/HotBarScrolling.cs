@@ -81,8 +81,16 @@ public class HotBarScrolling : MonoBehaviour
                 BlockInfo.GetComponent<TextMeshProUGUI>().text = SlotsHotbar[m_index].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile.TileName + "\nType: " + SlotsHotbar[m_index].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile.Type.ToString();
             if (!SlotsHotbar[m_index].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile.Item.CanBePlaced)
             {
-                string subName = SlotsHotbar[m_index].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile.Item.name.Substring(0, SlotsHotbar[m_index].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile.Item.name.IndexOf("("));
-                BlockInfo.GetComponent<TextMeshProUGUI>().text = subName ;
+                string subName;
+                if(SlotsHotbar[m_index].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile.Item.name.Contains("("))
+                {
+                    subName = SlotsHotbar[m_index].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile.Item.name.Substring(0, SlotsHotbar[m_index].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile.Item.name.IndexOf("("));
+                }
+                else
+                {
+                    subName = SlotsHotbar[m_index].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile.Item.name;
+                }
+                BlockInfo.GetComponent<TextMeshProUGUI>().text = subName;
             }
             BlockInfo.transform.parent.gameObject.SetActive(true);
             for (int a = 0; a < InventoryBackpack.Storage.Count; ++a)

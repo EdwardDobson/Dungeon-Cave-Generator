@@ -15,7 +15,7 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
     public Transform Parent;
 
     [SerializeField]
- public   List<GameObject> Slots = new List<GameObject>();
+    public List<GameObject> Slots = new List<GameObject>();
 
     public HotBarScrolling HotBar;
     public GameObject StorageHolder;
@@ -55,7 +55,7 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
         StorageHolder.SetActive(false);
         for (int i = 0; i < HotBar.SlotsHotbar.Count; ++i)
         {
-            CombindSlots.Add(HotBar.SlotsHotbar[i]);   
+            CombindSlots.Add(HotBar.SlotsHotbar[i]);
         }
         for (int i = 0; i < Slots.Count; ++i)
         {
@@ -66,7 +66,7 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
             CombindSlots[i].transform.GetChild(0).GetComponent<HoldCustomTile>().SlotID = m_slotID;
             m_slotID++;
         }
-        for (int i = 0; i <CombindSlots.Count; ++i)
+        for (int i = 0; i < CombindSlots.Count; ++i)
         {
             for (int a = 0; a < m_fileManager.Save.ItemPacks.Count; ++a)
             {
@@ -75,7 +75,7 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
                     if (CombindSlots[i].transform.GetChild(0).GetComponent<HoldCustomTile>().SlotID == m_fileManager.Save.ItemPacks[a].SlotNumber)
                     {
                         CombindSlots[i].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile = TileManager.AllTiles[m_fileManager.Save.ItemPacks[a].InventorySlot.ID - 1];
-                        CombindSlots[i].transform.GetChild(0).GetComponent<Image>().sprite = TileManager.AllTiles[m_fileManager.Save.ItemPacks[a].InventorySlot.ID -1].Item.Sprite;
+                        CombindSlots[i].transform.GetChild(0).GetComponent<Image>().sprite = TileManager.AllTiles[m_fileManager.Save.ItemPacks[a].InventorySlot.ID - 1].Item.Sprite;
                         CombindSlots[i].transform.GetChild(0).GetComponent<Image>().color = TileManager.AllTiles[m_fileManager.Save.ItemPacks[a].InventorySlot.ID - 1].TileColour;
                     }
                 }
@@ -84,7 +84,7 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
     }
     void Update()
     {
-        if(!m_manager.GetPausedState())
+        if (!m_manager.GetPausedState())
         {
             RefreshInventory();
             if (TileImage.gameObject.activeSelf)
@@ -104,7 +104,7 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
                     Time.timeScale = 0;
                 }
                 DisplayCount();
-           
+
             }
             if (StorageHolder.activeSelf)
             {
@@ -118,7 +118,7 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
                 TextInfo.gameObject.SetActive(false);
             }
         }
- 
+
     }
     public void OnPointerEnter(PointerEventData _data)
     {
@@ -129,7 +129,7 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
             {
                 SwappingTile = _data.pointerCurrentRaycast.gameObject.GetComponent<HoldCustomTile>().CustomTile;
             }
-           
+
             ShiftSwapTile = _data.pointerCurrentRaycast.gameObject.GetComponent<HoldCustomTile>().CustomTile;
             m_clickedObj = _data.pointerCurrentRaycast.gameObject;
             if (_data.pointerCurrentRaycast.gameObject.GetComponent<HoldCustomTile>().CustomTile != null && _data.pointerCurrentRaycast.gameObject.transform.parent.parent.name != "Hotbar")
@@ -139,7 +139,7 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
                 Vector2 pos = new Vector2(xPos, _data.pointerCurrentRaycast.gameObject.transform.position.y);
                 TextPopup(hCustomTile.CustomTile, pos);
             }
-             
+
         }
 
     }
@@ -168,17 +168,17 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
             }
         }
         for (int i = 0; i < HotBar.SlotsHotbar.Count; ++i)
-        { 
+        {
             if (HotBar.SlotsHotbar[i].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile != null && HotBar.SlotsHotbar[i].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile.Item != null)
             {
                 for (int a = 0; a < m_inventoryBackPack.Storage.Count; ++a)
                 {
-                    for(int b = 0; b < m_inventoryBackPack.Storage[a].Items.Count; ++b)
+                    for (int b = 0; b < m_inventoryBackPack.Storage[a].Items.Count; ++b)
                     {
                         if (m_inventoryBackPack.Storage[a].Items[b].Name == HotBar.SlotsHotbar[i].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile.Item.Name)
                         {
-                           HotBar.SlotsHotbar[i].transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = m_inventoryBackPack.Storage[a].Items.Count.ToString();
-                 
+                            HotBar.SlotsHotbar[i].transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = m_inventoryBackPack.Storage[a].Items.Count.ToString();
+
                         }
                     }
                 }
@@ -209,8 +209,8 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
             if (HotBar.SlotsHotbar[i].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile == null)
             {
                 HotBar.SlotsHotbar[i].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile = _tile;
-                if(!_tile.Item.CanBePlaced)
-                HotBar.SlotsHotbar[i].transform.GetChild(0).GetComponent<Image>().sprite = _tile.Item.Sprite;
+                if (!_tile.Item.CanBePlaced)
+                    HotBar.SlotsHotbar[i].transform.GetChild(0).GetComponent<Image>().sprite = _tile.Item.Sprite;
                 if (_tile.Item.CanBePlaced)
                     HotBar.SlotsHotbar[i].transform.GetChild(0).GetComponent<Image>().sprite = _tile.DisplaySprite;
                 HotBar.SlotsHotbar[i].transform.GetChild(0).GetComponent<Image>().color = _tile.TileColour;
@@ -295,29 +295,29 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
         {
             if (m_clickedObj.transform.parent.parent.name.Contains("Content"))
             {
-                    for (int i = 0; i < HotBar.SlotsHotbar.Count; ++i)
+                for (int i = 0; i < HotBar.SlotsHotbar.Count; ++i)
+                {
+                    if (HotBar.SlotsHotbar[i].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile == null)
                     {
-                        if (HotBar.SlotsHotbar[i].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile == null)
-                        {
-                            m_clickedObj.GetComponent<Image>().sprite = null;
-                            m_clickedObj.GetComponent<HoldCustomTile>().CustomTile = null;
-                            m_clickedObj.GetComponent<Image>().color = SlotColour;
-                            HotBar.SlotsHotbar[i].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile = ShiftSwapTile;
+                        m_clickedObj.GetComponent<Image>().sprite = null;
+                        m_clickedObj.GetComponent<HoldCustomTile>().CustomTile = null;
+                        m_clickedObj.GetComponent<Image>().color = SlotColour;
+                        HotBar.SlotsHotbar[i].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile = ShiftSwapTile;
 
                         if (!HotBar.SlotsHotbar[i].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile.Item.CanBePlaced)
                             HotBar.SlotsHotbar[i].transform.GetChild(0).GetComponent<Image>().sprite = ShiftSwapTile.Item.Sprite;
                         if (HotBar.SlotsHotbar[i].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile.Item.CanBePlaced)
-                            HotBar.SlotsHotbar[i].transform.GetChild(0).GetComponent<Image>().sprite = ShiftSwapTile.DisplaySprite;
+                            HotBar.SlotsHotbar[i].transform.GetChild(0).GetComponent<Image>().sprite = ShiftSwapTile.Item.Sprite;
 
                         HotBar.SlotsHotbar[i].transform.GetChild(0).GetComponent<Image>().color = ShiftSwapTile.TileColour;
-                            HotBar.SlotsHotbar[i].transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = m_clickedObj.transform.parent.GetChild(1).GetComponent<TextMeshProUGUI>().text;
-                            TextInfo.SetActive(false);
-                            ShiftSwapTile = null;
-                            ChosenTile = null;
-                            EndTile = null;
-                            break;
-                        }
+                        HotBar.SlotsHotbar[i].transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = m_clickedObj.transform.parent.GetChild(1).GetComponent<TextMeshProUGUI>().text;
+                        TextInfo.SetActive(false);
+                        ShiftSwapTile = null;
+                        ChosenTile = null;
+                        EndTile = null;
+                        break;
                     }
+                }
             }
             if (m_clickedObj.transform.parent.parent.name.Contains("Hotbar"))
             {
@@ -334,7 +334,7 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
                         if (!Slots[i].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile.Item.CanBePlaced)
                             Slots[i].transform.GetChild(0).GetComponent<Image>().sprite = ShiftSwapTile.Item.Sprite;
                         if (Slots[i].transform.GetChild(0).GetComponent<HoldCustomTile>().CustomTile.Item.CanBePlaced)
-                            Slots[i].transform.GetChild(0).GetComponent<Image>().sprite = ShiftSwapTile.DisplaySprite;
+                            Slots[i].transform.GetChild(0).GetComponent<Image>().sprite = ShiftSwapTile.Item.Sprite;
 
                         Slots[i].transform.GetChild(0).GetComponent<Image>().color = ShiftSwapTile.TileColour;
                         Slots[i].transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = m_clickedObj.transform.parent.GetChild(1).GetComponent<TextMeshProUGUI>().text;
@@ -377,14 +377,14 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
         if (ChosenTile.Item.CanBePlaced)
             TileImage.transform.GetChild(0).GetComponent<Image>().sprite = ChosenTile.Item.Sprite;
         if (!ChosenTile.Item.CanBePlaced)
-            TileImage.transform.GetChild(0).GetComponent<Image>().sprite = ChosenTile.DisplaySprite;
+            TileImage.transform.GetChild(0).GetComponent<Image>().sprite = ChosenTile.Item.Sprite;
 
         TileImage.transform.GetChild(0).GetComponent<Image>().color = ChosenTile.TileColour;
         _otherTile.GetComponent<Image>().color = _otherTile.GetComponent<HoldCustomTile>().CustomTile.TileColour;
         if (_otherTile.GetComponent<HoldCustomTile>().CustomTile.Item.CanBePlaced)
-        _otherTile.GetComponent<Image>().sprite = _otherTile.GetComponent<HoldCustomTile>().CustomTile.Item.Sprite;
+            _otherTile.GetComponent<Image>().sprite = _otherTile.GetComponent<HoldCustomTile>().CustomTile.Item.Sprite;
         if (!_otherTile.GetComponent<HoldCustomTile>().CustomTile.Item.CanBePlaced)
-            _otherTile.GetComponent<Image>().sprite = _otherTile.GetComponent<HoldCustomTile>().CustomTile.DisplaySprite;
+            _otherTile.GetComponent<Image>().sprite = _otherTile.GetComponent<HoldCustomTile>().CustomTile.Item.Sprite;
         DisplayCount();
     }
     void PlaceEndTile(GameObject _finalTile)
@@ -404,7 +404,7 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
             TileImage.gameObject.SetActive(false);
             Vector2 pos = new Vector2(Input.mousePosition.x + 100, Input.mousePosition.y);
             TextPopup(TransitTile, pos);
-               ShiftSwapTile = ChosenTile;
+            ShiftSwapTile = ChosenTile;
             TransitTile = null;
             ChosenTile = null;
         }
@@ -412,12 +412,11 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
     void TextPopup(CustomTile _data, Vector2 _pos)
     {
         TextInfo.SetActive(true);
-  
+
         TextInfo.transform.position = _pos;
-        if(_data.Item.CanBePlaced)
+        if (_data.Item.CanBePlaced)
         {
-            string defaultInfo = _data.TileName + "\nType: " +
-     _data.Type.ToString() + "\n";
+            string defaultInfo = _data.TileName + "\nType: " + _data.Type.ToString() + "\n";
             if (_data.Damage > 0)
             {
                 m_damageInfo = "Damage: " + TransitTile.Damage.ToString() + "\n";
@@ -440,7 +439,15 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
         }
         if (!_data.Item.CanBePlaced)
         {
-            string subName = _data.Item.name.Substring(0, _data.Item.name.IndexOf("("));
+            string subName;
+            if (_data.Item.name.Contains("("))
+            {
+                subName = _data.Item.name.Substring(0, _data.Item.name.IndexOf("("));
+            }
+            else
+            {
+                subName = _data.Item.name;
+            }
             TextInfo.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = subName + "\nID: " + _data.ID;
         }
 

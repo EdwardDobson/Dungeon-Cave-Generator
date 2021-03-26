@@ -47,17 +47,15 @@ public class PlayerDamage : MonoBehaviour
                 {
                     m_currentHealth -= m_damageTiles[i].Damage;
                     m_damageTiles[i].CurrentAttackCoolDown = m_damageTiles[i].MaxAttackCoolDown;
-                    GetComponent<PlayerMovement>().Speed = m_damageTiles[i].Speed;
                 }
             }
             else
             {
                 m_damageTiles[i].CurrentAttackCoolDown = m_damageTiles[i].MaxAttackCoolDown;
                 m_damageTiles.RemoveAt(i);
-                GetComponent<PlayerMovement>().Speed = 5;
             }
         }
-        if(m_currentHealth <= 0)
+        if (m_currentHealth <= 0)
         {
             GameOverScreen.SetActive(true);
         }
@@ -65,27 +63,23 @@ public class PlayerDamage : MonoBehaviour
     void TileDetection()
     {
         m_pos = new Vector3Int((int)transform.position.x, (int)transform.position.y, (int)transform.position.z);
-
-        if (m_map.GetTile(m_pos) != null)
+        if(TileManager.GetTileDictionaryFloor().ContainsKey(m_pos))
         {
-            if (m_map.GetTile(m_pos).name.Contains("Floor"))
+            if (TileManager.GetTileDictionaryFloor()[m_pos].CustomTile.MaxAttackCoolDown > 0)
             {
-                if(TileManager.GetTileDictionaryFloor()[m_pos].CustomTile.MaxAttackCoolDown > 0)
+                if (m_damageTiles.All(d => d.Pos != m_pos))
                 {
-                    if (m_damageTiles.All(d => d.Pos != m_pos))
-                    {
-                        CustomTile copy = Instantiate(TileManager.GetTileDictionaryFloor()[m_pos].CustomTile);
-                        copy.Pos = m_pos;
-                        m_damageTiles.Add(copy);
-                    }
+                    CustomTile copy = Instantiate(TileManager.GetTileDictionaryFloor()[m_pos].CustomTile);
+                    copy.Pos = m_pos;
+                    m_damageTiles.Add(copy);
                 }
-       
             }
         }
+      
     }
     public void DecreaseCurrentHealth(float _damage)
     {
         m_currentHealth -= _damage;
-     }
+    }
 
 }

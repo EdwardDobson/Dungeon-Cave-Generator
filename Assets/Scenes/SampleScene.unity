@@ -772,6 +772,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &779181507 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6156813207215202277, guid: 711b411f32e95be46b4438f713308931, type: 3}
+  m_PrefabInstance: {fileID: 779181503}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &786270582 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6802660444681276371, guid: 812045426504f1743a5e132a3b8e6006, type: 3}
@@ -967,6 +972,7 @@ MonoBehaviour:
     XDimension: 0
     YDimension: 0
     PlayerPosition: {x: 0, y: 0}
+    DigPower: 0
     DataPacks: []
     ItemPacks: []
   Dungeon: {fileID: 2472697035314329761, guid: 70b7b7d86201aa347a1655130c239a0a, type: 3}
@@ -3235,6 +3241,10 @@ PrefabInstance:
       propertyPath: UpgradeCost
       value: 
       objectReference: {fileID: 779181506}
+    - target: {fileID: 42234862475281488, guid: a7a415f56d409c94aa73a4fccef2d957, type: 3}
+      propertyPath: UpgradeButton
+      value: 
+      objectReference: {fileID: 779181507}
     - target: {fileID: 42234862475281488, guid: a7a415f56d409c94aa73a4fccef2d957, type: 3}
       propertyPath: CurrentDigTier
       value: 1
