@@ -25,12 +25,12 @@ public class CraftItem : MonoBehaviour
             if (!CraftingMenu.activeSelf)
             {
                 CraftingMenu.SetActive(true);
-      
+                Time.timeScale = 0;
             }
             else if (CraftingMenu.activeSelf)
             {
                 CraftingMenu.SetActive(false);
-        
+                Time.timeScale = 1;
             }
               
         }
