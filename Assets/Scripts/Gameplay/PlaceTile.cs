@@ -216,7 +216,7 @@ public class PlaceTile : MonoBehaviour
         Instantiate(m_audioPlaceSource);
         if (!m_manager.Creative && BackPack.GetStorageTypeCount(_copy) > 0)
         {
-            BackPack.RemoveFromStorage(_copy);
+            BackPack.RemoveItem(_copy.Item);
             if (BackPack.GetNewItem(_copy) != null)
                 _copy.Item = Instantiate(BackPack.GetNewItem(_copy));
         }
@@ -249,7 +249,7 @@ public class PlaceTile : MonoBehaviour
             {
                 GameObject c = Instantiate(BlockDrop, worldPosition, Quaternion.identity);
                 c.GetComponent<BlockDrop>().SetUp(_tile);
-                BackPack.RemoveFromStorage(_tile);
+                BackPack.RemoveItem(_tile.Item);
             }
         }
     }

@@ -309,7 +309,6 @@ public class FileManager : MonoBehaviour
     {
         for (int i = 0; i < _file.DataPacks.Count; ++i)
         {
-
             Vector3Int tempPosI = new Vector3Int(_file.DataPacks[i].Position.x, _file.DataPacks[i].Position.y, 0);
             for (int wall = 0; wall < TileManager.GetTileHolder(TileType.Wall).Tiles.Count; ++wall)
             {
@@ -320,6 +319,7 @@ public class FileManager : MonoBehaviour
                     else
                     {
                         TileManager.RemoveTilePiece(tempPosI, _wallMap);
+                        TileManager.GetTileDictionaryWalls().Remove(tempPosI);
                     }
                 }
             }

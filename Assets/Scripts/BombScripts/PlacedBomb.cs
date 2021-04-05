@@ -23,7 +23,7 @@ public class PlacedBomb : MonoBehaviour
         DirectionsCalculate();
         GetSurroundingTiles();
         DamageTiles();
-        Destroy(gameObject,0.5f);
+        Destroy(gameObject, 0.5f);
     }
     void DamageTiles()
     {
@@ -31,9 +31,9 @@ public class PlacedBomb : MonoBehaviour
         {
             if (Directions.Contains(m_tilesAround[i].Pos))
             {
-                for(int dT = 0; dT < m_manager.DamagedTiles.DamagedTilesList.Count; ++dT)
+                for (int dT = 0; dT < m_manager.DamagedTiles.DamagedTilesList.Count; ++dT)
                 {
-                    if(m_manager.DamagedTiles.DamagedTilesList[dT].Pos == m_tilesAround[i].Pos)
+                    if (m_manager.DamagedTiles.DamagedTilesList[dT].Pos == m_tilesAround[i].Pos)
                     {
                         m_tilesAround[i].Health = m_manager.DamagedTiles.DamagedTilesList[dT].Health;
                     }
@@ -42,14 +42,13 @@ public class PlacedBomb : MonoBehaviour
                 {
                     m_tilesAround[i].Health -= BombDamage;
                     m_manager.DamagedTiles.Add(m_tilesAround[i]);
-                    if (m_tilesAround[i].BlockSound != null)
+                    if (m_tilesAround[i].BlockSound != null && WallGen.GetTilemap().GetTile(m_tilesAround[i].Pos) != null)
                     {
                         m_source.clip = m_tilesAround[i].BlockSound;
                         m_source.Play();
                     }
                 }
                 RemoveDeadTiles(i);
-            
             }
         }
     }
@@ -64,74 +63,36 @@ public class PlacedBomb : MonoBehaviour
     {
         if (m_tilesAround[_index].Health <= 0)
         {
-            if (TileManager.GetTileDictionaryFloor().ContainsKey(m_tilesAround[_index].Pos))
+            DataToSave tempData = new DataToSave
             {
-                TileManager.RemoveTilePiece(m_tilesAround[_index].Pos, WallGen.GetTilemap());
-                TileManager.GetTileDictionaryWalls().Remove(m_tilesAround[_index].Pos);
-                TileManager.ChangeTilePieceDig(m_tilesAround[_index].Pos, TileManager.GetTileDictionaryFloor()[m_tilesAround[_index].Pos].TileBase, DungeonUtility.GetTilemap());
-                TileManager.ChangeTileColour(DungeonUtility.GetTilemap(), m_tilesAround[_index].Pos, TileManager.GetTileDictionaryFloor()[m_tilesAround[_index].Pos].CustomTile);
-                TileManager.FillDictionary(m_tilesAround[_index].Pos, m_tilesAround[_index], DungeonUtility.GetTilemap(), DictionaryType.Floor);
-                PlayBreakingEffect(_index);
-                AddToStorage(_index);
-   
-            }
+                Position = new Vector2Int(m_tilesAround[_index].Pos.x, m_tilesAround[_index].Pos.y),
+                ID = m_tilesAround[_index].ID,
+                IsNull = true,
+                IsPlacedTile = false
+            };
             if (TileManager.GetTileDictionaryWalls().ContainsKey(m_tilesAround[_index].Pos))
             {
-                DataToSave tempDataFloor = new DataToSave
+                if (WallGen.GetTilemap().GetTile(m_tilesAround[_index].Pos) != null)
                 {
-                    Position = new Vector2Int(m_tilesAround[_index].Pos.x, m_tilesAround[_index].Pos.y),
-                    ID = TileManager.GetTileHolder(TileType.Path).Tiles[0].ID,
-                    IsNull = false,
-                    IsPlacedTile = false
-                };
-
-                if (m_fileManager.Save.DataPacks.Any(t => t.Equals(tempDataFloor)))
-                {
-                    m_fileManager.Save.DataPacks.Remove(m_fileManager.Save.DataPacks.Where(t => t.Equals(tempDataFloor)).First());
+                    if (TileManager.GetTileDictionaryFloor().ContainsKey(m_tilesAround[_index].Pos))
+                    {
+                        TileManager.PlaceTile(m_tilesAround[_index].Pos, 0, WallGen.GetTilemap(), DungeonUtility.GetTilemap(), TileManager.GetTileDictionaryFloor()[m_tilesAround[_index].Pos].CustomTile, DictionaryType.Floor);
+                        PlayBreakingEffect(_index);
+                        AddToStorage(_index);
+                        tempData.IsNull = true;
+                        m_fileManager.Input(tempData);
+                    }
+                    else
+                    {
+                        TileManager.PlaceTile(m_tilesAround[_index].Pos, 0, WallGen.GetTilemap(), DungeonUtility.GetTilemap(), TileManager.GetTileHolder(TileType.Path).Tiles[0], DictionaryType.Floor);
+                        PlayBreakingEffect(_index);
+                        AddToStorage(_index);
+                        tempData.ID = TileManager.GetTileHolder(TileType.Path).Tiles[0].ID;
+                        tempData.IsNull = false;
+                        tempData.IsPlacedTile = true;
+                        m_fileManager.Input(tempData);
+                    }
                 }
-                else
-                {
-                    m_fileManager.Save.DataPacks.Add(tempDataFloor);
-                }
-                if (m_fileManager.TilesToSave.Any(t => t.Equals(tempDataFloor)))
-                {
-                    m_fileManager.TilesToSave.Remove(m_fileManager.TilesToSave.Where(t => t.Equals(tempDataFloor)).First());
-                }
-                else
-                {
-                    m_fileManager.Input(tempDataFloor);
-                }
-                DataToSave tempData = new DataToSave
-                {
-                    Position = new Vector2Int(m_tilesAround[_index].Pos.x, m_tilesAround[_index].Pos.y),
-                    ID = m_tilesAround[_index].ID,
-                    IsNull = true,
-                    IsPlacedTile = false
-                };
-
-                if (m_fileManager.Save.DataPacks.Any(t => t.Equals(tempData)))
-                {
-                    m_fileManager.Save.DataPacks.Remove(m_fileManager.Save.DataPacks.Where(t => t.Equals(tempData)).First());
-                }
-                else
-                {
-                    m_fileManager.Save.DataPacks.Add(tempData);
-                }
-                if (m_fileManager.TilesToSave.Any(t => t.Equals(tempData)))
-                {
-                    m_fileManager.TilesToSave.Remove(m_fileManager.TilesToSave.Where(t => t.Equals(tempData)).First());
-                }
-                else
-                {
-                    m_fileManager.Input(tempData);
-                }
-                TileManager.RemoveTilePiece(m_tilesAround[_index].Pos, WallGen.GetTilemap());
-                TileManager.ChangeTilePiece(m_tilesAround[_index].Pos, 0, TileType.Path, DungeonUtility.GetTilemap());
-                TileManager.GetTileDictionaryWalls().Remove(m_tilesAround[_index].Pos);
-                TileManager.FillDictionary(m_tilesAround[_index].Pos, TileManager.GetTileHolder(TileType.Path).Tiles[0], DungeonUtility.GetTilemap(), DictionaryType.Floor);
-                PlayBreakingEffect(_index);
-                AddToStorage(_index);
-         
             }
         }
     }
@@ -142,7 +103,7 @@ public class PlacedBomb : MonoBehaviour
             if (TileManager.GetTileHolder(m_tilesAround[_index].Type).Tiles[a].ID == m_tilesAround[_index].ID)
             {
                 ShouldBlockDrop(_index);
-                  m_tilesAround[_index] = TileManager.GetTileHolder(m_tilesAround[_index].Type).Tiles[a];
+                m_tilesAround[_index] = TileManager.GetTileHolder(m_tilesAround[_index].Type).Tiles[a];
             }
         }
         if (m_tilesAround[_index].ShouldGiveScore)
@@ -158,10 +119,13 @@ public class PlacedBomb : MonoBehaviour
         {
             if (TileManager.GetTileDictionaryWalls().ContainsKey(Directions[i]))
             {
-                CustomTile copy = Instantiate(TileManager.GetTileDictionaryWalls()[Directions[i]].CustomTile);
-                copy.Pos = Directions[i];
-                if (!m_tilesAround.Contains(copy))
-                    m_tilesAround.Add(copy);
+                if (TileManager.GetTileDictionaryWalls()[Directions[i]].CustomTile != null)
+                {
+                    CustomTile copy = Instantiate(TileManager.GetTileDictionaryWalls()[Directions[i]].CustomTile);
+                    copy.Pos = Directions[i];
+                    if (!m_tilesAround.Contains(copy))
+                        m_tilesAround.Add(copy);
+                }
             }
         }
     }

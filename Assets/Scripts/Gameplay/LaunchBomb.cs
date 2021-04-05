@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LaunchBomb : MonoBehaviour
 {
-   public GameObject Bomb;
+    public GameObject Bomb;
     GameManager m_manager;
     private void Start()
     {
@@ -22,6 +22,6 @@ public class LaunchBomb : MonoBehaviour
     }
     void DropBomb()
     {
-        GameObject bombClone = Instantiate(Bomb,transform.position,Quaternion.identity);
+        GameObject bombClone = Instantiate(Bomb, transform.position, Quaternion.identity);
     }
 }

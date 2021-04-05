@@ -47,7 +47,6 @@ public class DigTier : MonoBehaviour
                         if (m_backpack.Storage[i].Items.Count >= MaxAmountNeeded)
                         {
                             CurrentDigTier++;
-
                             TierItems.RemoveAt(0);
                             m_backpack.RemoveMultipleItems(MaxAmountNeeded, m_backpack.Storage[i].Items);
                             m_backpack.Display.UpdateCountDisplaySlot();
@@ -65,7 +64,6 @@ public class DigTier : MonoBehaviour
                 }
             }
         }
-
     }
     public void SetDigStrength()
     {

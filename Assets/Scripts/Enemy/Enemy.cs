@@ -88,7 +88,6 @@ public class Enemy : MonoBehaviour
                 SpawnBullet();
             }
         }
-
     }
     void SpawnBullet()
     {

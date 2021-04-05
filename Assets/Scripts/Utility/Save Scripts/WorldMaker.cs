@@ -44,7 +44,7 @@ public class WorldMaker : MonoBehaviour
     {
         WorldName = "";
         Seed = 0;
-         SquareRoomAmount = 0;
+        SquareRoomAmount = 0;
         CircleRoomAmount = 0;
         TShapeRoomAmount = 0;
         LShapeRoomAmount = 0;
@@ -125,7 +125,13 @@ public class WorldMaker : MonoBehaviour
         if (WorldName == "")
         {
             WorldName = "World " + (dirNames.Length + 1);
-            Debug.Log("World Name is: " + WorldName);
+        }
+        else
+        {
+            if(Directory.Exists(FileNameGetter.SaveFolderLocation + WorldName))
+            {
+                WorldName += (dirNames.Length + 1);
+            }
         }
         if(Seed == 0)
         {
@@ -166,7 +172,5 @@ public class WorldMaker : MonoBehaviour
         m_levelLoader.LShapeRoomAmount = DiamondRoomAmount;
         m_levelLoader.DungeonSizeX = DungeonSizeX;
         m_levelLoader.DungeonSizeY = DungeonSizeY;
-        Debug.Log(DungeonSizeX);
-
 }
 }

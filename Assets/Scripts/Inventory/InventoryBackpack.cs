@@ -6,7 +6,6 @@ using UnityEngine;
 [Serializable]
 public class ItemInventory
 {
-
     public List<Item> Items = new List<Item>();
     public int ID;
 }
@@ -22,15 +21,14 @@ public class InventoryBackpack : MonoBehaviour
     public float PickupRange;
     private void Start()
     {
-
         transform.GetChild(0).GetComponent<CircleCollider2D>().radius = PickupRange;
     }
     private void Update()
     {
         transform.GetChild(0).GetComponent<CircleCollider2D>().radius = PickupRange;
-        for(int i = 0; i < Storage.Count; ++i)
+        for (int i = 0; i < Storage.Count; ++i)
         {
-            if(Storage[i].Items.Count <= 0)
+            if (Storage[i].Items.Count <= 0)
             {
                 Storage.RemoveAt(i);
             }
@@ -50,14 +48,12 @@ public class InventoryBackpack : MonoBehaviour
             }
         }
     }
-    public void RemoveMultipleItems(int _amount,List<Item> _storageSlot)
+    public void RemoveMultipleItems(int _amount, List<Item> _storageSlot)
     {
-
         for (int i = 0; i < _amount; ++i)
         {
             ItemsToAddBackIn.Add(_storageSlot[0]);
             _storageSlot.RemoveAt(0);
- 
         }
     }
 
@@ -69,23 +65,9 @@ public class InventoryBackpack : MonoBehaviour
             Display.UpdateCountDisplaySlot();
         }
     }
-    public void RemoveFromStorage(CustomTile _customTile)
-    {
-        for (int i = 0; i < Storage.Count; ++i)
-        {
-            if (Storage[i].Items.Count > 0)
-            {
-                if (Storage[i].Items.Any(t => t.Name == _customTile.Item.Name))
-                {
-                    Storage[i].Items.RemoveAt(0);
-                    HotBarScrolling.UpdateCountDisplay(Storage[i].Items.Count);
-                }
-            }
-        }
-    }
     public void ClearStorage(CustomTile _customTile)
     {
-        if(_customTile != null)
+        if (_customTile != null)
         {
             for (int i = 0; i < Storage.Count; ++i)
             {
@@ -99,7 +81,6 @@ public class InventoryBackpack : MonoBehaviour
                 }
             }
         }
-
     }
     public List<Item> GetItems(CustomTile _customTile)
     {
@@ -156,11 +137,11 @@ public class InventoryBackpack : MonoBehaviour
             }
             if (Storage.Any(t => t.Items.All(t => t.ItemID == _customTile.Item.ItemID)))
             {
-                    ItemInventory itemIv = Storage.Where(s => s.Items.Any(t => t.ItemID == _customTile.Item.ItemID)).First();
+                ItemInventory itemIv = Storage.Where(s => s.Items.Any(t => t.ItemID == _customTile.Item.ItemID)).First();
                 itemIv.ID = _customTile.Item.ItemID;
-                    itemIv.Items.Add(_customTile.Item);
+                itemIv.Items.Add(_customTile.Item);
             }
-            if (Storage.All(t=>t.Items.All(t => t.ItemID != _customTile.Item.ItemID)))
+            if (Storage.All(t => t.Items.All(t => t.ItemID != _customTile.Item.ItemID)))
             {
                 ItemInventory itemIv = new ItemInventory();
                 itemIv.ID = _customTile.Item.ItemID;
