@@ -8,10 +8,12 @@ public class Minimap : MonoBehaviour
     public GameObject LargeMap;
     public GameObject CreativeInventory;
     public GameObject Inventory;
+    public GameObject CraftingScreen;
+    public GameObject PauseScreen;
     bool m_mapOpen;
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.M) && Time.timeScale > 0)
+        if (Input.GetKeyDown(KeyCode.M))
         {
             if (m_mapOpen)
             {
@@ -22,7 +24,7 @@ public class Minimap : MonoBehaviour
                 ShowLargeMap();
             }
         }
-        if (CreativeInventory.activeSelf || Inventory.activeSelf)
+        if (CreativeInventory.activeSelf || Inventory.activeSelf || CraftingScreen.activeSelf || PauseScreen.activeSelf) 
         {
             m_mapOpen = false;
             SmallMap.gameObject.SetActive(true);

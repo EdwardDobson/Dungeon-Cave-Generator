@@ -1603,6 +1603,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 226989839}
     - target: {fileID: 1453379349, guid: accc4a708434a9541a49b7a73ef8e86e, type: 3}
+      propertyPath: PauseScreen
+      value: 
+      objectReference: {fileID: 1342168730}
+    - target: {fileID: 1453379349, guid: accc4a708434a9541a49b7a73ef8e86e, type: 3}
+      propertyPath: CraftingScreen
+      value: 
+      objectReference: {fileID: 779181504}
+    - target: {fileID: 1453379349, guid: accc4a708434a9541a49b7a73ef8e86e, type: 3}
       propertyPath: CreativeInventory
       value: 
       objectReference: {fileID: 1747145354}

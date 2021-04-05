@@ -10,11 +10,13 @@ public class UIManager : MonoBehaviour
     public Button MainMenu;
     LevelLoad m_levelLoad;
     FileManager m_fileManager;
+    Minimap m_minimap;
     void Start()
     {
         if(GameObject.Find("LevelLoader") != null)
         m_levelLoad = GameObject.Find("LevelLoader").GetComponent<LevelLoad>();
         m_fileManager = GameObject.Find("SaveHolder").GetComponent<FileManager>();
+        m_minimap = GameObject.Find("HUD").GetComponent<Minimap>();
         MainMenu.onClick.AddListener(LevelLoad);
     }
     void LevelLoad()
@@ -49,6 +51,7 @@ public class UIManager : MonoBehaviour
         Time.timeScale = 0;
         m_paused = true;
         transform.GetChild(0).gameObject.SetActive(true);
+        m_minimap.ShowSmallMap();
     }
    public void Resume()
     {
