@@ -66,7 +66,7 @@ public class Settings : MonoBehaviour
         {
             if(res.width >= 1366 && res.height >= 768)
             {
-                resolutionName = "" + res.width + " x " + res.height + " @ " + res.refreshRate;
+                resolutionName = "" + res.width + " x " + res.height + " @ " + res.refreshRate + " hz";
                 ResolutionNames.Add(resolutionName);
             }
         }
@@ -102,7 +102,6 @@ public class Settings : MonoBehaviour
             Screen.fullScreen = true;
             FullscreenToggle.isOn = true;
         }
-       
     }
     #endregion
 }

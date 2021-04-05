@@ -1846,6 +1846,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Main
       objectReference: {fileID: 0}
+    - target: {fileID: 4018951247259348337, guid: 16a78d0fa87c3b6449c9533ba322918d, type: 3}
+      propertyPath: m_MatchWidthOrHeight
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 4018951247259348339, guid: 16a78d0fa87c3b6449c9533ba322918d, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -2499,6 +2503,22 @@ PrefabInstance:
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1255362786}
+    - target: {fileID: 1625769532, guid: d70b7a4eef3766844bef9aa5ff3e90e5, type: 3}
+      propertyPath: m_fontSize
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 1625769532, guid: d70b7a4eef3766844bef9aa5ff3e90e5, type: 3}
+      propertyPath: m_margin.x
+      value: -6.5360923
+      objectReference: {fileID: 0}
+    - target: {fileID: 1625769532, guid: d70b7a4eef3766844bef9aa5ff3e90e5, type: 3}
+      propertyPath: m_margin.z
+      value: -2.8264363
+      objectReference: {fileID: 0}
+    - target: {fileID: 1625769532, guid: d70b7a4eef3766844bef9aa5ff3e90e5, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 4140167497086782796, guid: d70b7a4eef3766844bef9aa5ff3e90e5, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
@@ -2594,6 +2614,10 @@ PrefabInstance:
     - target: {fileID: 9115678000839071130, guid: d70b7a4eef3766844bef9aa5ff3e90e5, type: 3}
       propertyPath: m_Name
       value: Graphics
+      objectReference: {fileID: 0}
+    - target: {fileID: 9115678000839071130, guid: d70b7a4eef3766844bef9aa5ff3e90e5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d70b7a4eef3766844bef9aa5ff3e90e5, type: 3}
