@@ -719,6 +719,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6862125943616566165, guid: 711b411f32e95be46b4438f713308931, type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6862125943616566166, guid: 711b411f32e95be46b4438f713308931, type: 3}
       propertyPath: m_Name
       value: CraftingScreen

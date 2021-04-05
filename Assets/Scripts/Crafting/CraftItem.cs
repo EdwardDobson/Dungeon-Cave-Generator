@@ -8,13 +8,14 @@ public class CraftItem : MonoBehaviour
 {
     public CraftingRecipeHolder RecipeHolder;
     public GameObject CraftingMenu;
+    public Minimap m_minimap;
     InventoryBackpack m_backPack;
     InventoryDisplay m_inventoryDisplay;
     Recipe m_tempRecipe;
-    int m_recipeIndex;
     void Start()
     {
         m_inventoryDisplay = GameObject.Find("Inventory").GetComponent<InventoryDisplay>();
+        m_minimap = GameObject.Find("HUD").GetComponent<Minimap>();
         RecipeHolder = Resources.Load<CraftingRecipeHolder>("Crafting Recipes/Recipe Holder");
         m_backPack = GetComponent<InventoryBackpack>();
     }
@@ -26,13 +27,13 @@ public class CraftItem : MonoBehaviour
             {
                 CraftingMenu.SetActive(true);
                 Time.timeScale = 0;
+                m_minimap.ShowSmallMap();
             }
             else if (CraftingMenu.activeSelf)
             {
                 CraftingMenu.SetActive(false);
                 Time.timeScale = 1;
             }
-              
         }
     }
     public void RemoveItems(List<Item> _storageSlot, int _indexri)

@@ -11,7 +11,7 @@ public class Minimap : MonoBehaviour
     bool m_mapOpen;
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.M))
+        if (Input.GetKeyDown(KeyCode.M) && Time.timeScale > 0)
         {
             if (m_mapOpen)
             {
@@ -27,17 +27,15 @@ public class Minimap : MonoBehaviour
             m_mapOpen = false;
             SmallMap.gameObject.SetActive(true);
             LargeMap.gameObject.SetActive(false);
-
         }
-   
     }
-    void ShowSmallMap()
+    public void ShowSmallMap()
     {
         m_mapOpen = false;
         SmallMap.gameObject.SetActive(true);
         LargeMap.gameObject.SetActive(false);
     }
-    void ShowLargeMap()
+    public void ShowLargeMap()
     {
         m_mapOpen = true;
         LargeMap.gameObject.SetActive(true);

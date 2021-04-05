@@ -181,9 +181,7 @@ public class FileManager : MonoBehaviour
                 if (Save.ModeName == "ScoreMode")
                     GameObject.Find("GameManager").GetComponent<GameManager>().ScoreMode = true;
                 if (Save.ModeName == "ExitMode")
-                {
                     GameObject.Find("GameManager").GetComponent<GameManager>().ExitMode = true;
-                }
             }
         }
     }
