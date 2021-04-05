@@ -1850,6 +1850,10 @@ PrefabInstance:
       propertyPath: m_MatchWidthOrHeight
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 4018951247259348338, guid: 16a78d0fa87c3b6449c9533ba322918d, type: 3}
+      propertyPath: m_PixelPerfect
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4018951247259348339, guid: 16a78d0fa87c3b6449c9533ba322918d, type: 3}
       propertyPath: m_Pivot.x
       value: 0
