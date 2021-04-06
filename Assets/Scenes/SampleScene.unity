@@ -592,6 +592,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &703982092 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8979381687253117466, guid: 8e5d51f3382fc754ab8a32b0adc45070, type: 3}
+  m_PrefabInstance: {fileID: 703982090}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &712498159 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3752592369801730583, guid: 19ca195e8b792464f90811226cae5251, type: 3}
@@ -1605,7 +1610,7 @@ PrefabInstance:
     - target: {fileID: 1453379349, guid: accc4a708434a9541a49b7a73ef8e86e, type: 3}
       propertyPath: PauseScreen
       value: 
-      objectReference: {fileID: 1342168730}
+      objectReference: {fileID: 703982092}
     - target: {fileID: 1453379349, guid: accc4a708434a9541a49b7a73ef8e86e, type: 3}
       propertyPath: CraftingScreen
       value: 
@@ -2329,11 +2334,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6577584617239066707, guid: 0ae1ef008cc2ba640899385daef216dd, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 144.95769
+      value: 118.70035
       objectReference: {fileID: 0}
     - target: {fileID: 6577584617239066707, guid: 0ae1ef008cc2ba640899385daef216dd, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 171.45016
+      value: 228.35051
+      objectReference: {fileID: 0}
+    - target: {fileID: 6988589837963346390, guid: 0ae1ef008cc2ba640899385daef216dd, type: 3}
+      propertyPath: m_text
+      value: 'LMB: Break/Shoot
+
+        RMB: Place Block
+
+        Q: Place Bomb
+
+        I:
+        Inventory
+
+        F: Drop Item
+
+        M: Large Minimap
+
+        Esc: Pause'
       objectReference: {fileID: 0}
     - target: {fileID: 8228521155589682434, guid: 0ae1ef008cc2ba640899385daef216dd, type: 3}
       propertyPath: m_AnchorMax.y
@@ -2345,19 +2367,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8228521155589682434, guid: 0ae1ef008cc2ba640899385daef216dd, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 366.7
+      value: 292.61
       objectReference: {fileID: 0}
     - target: {fileID: 8228521155589682434, guid: 0ae1ef008cc2ba640899385daef216dd, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 141.45016
+      value: 198.35051
       objectReference: {fileID: 0}
     - target: {fileID: 8228521155589682434, guid: 0ae1ef008cc2ba640899385daef216dd, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 79.97884
+      value: 66.850174
       objectReference: {fileID: 0}
     - target: {fileID: 8228521155589682434, guid: 0ae1ef008cc2ba640899385daef216dd, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -63.608303
+      value: -83.16168
       objectReference: {fileID: 0}
     - target: {fileID: 8682020091461039457, guid: 0ae1ef008cc2ba640899385daef216dd, type: 3}
       propertyPath: m_IsActive
@@ -3249,6 +3271,10 @@ PrefabInstance:
       propertyPath: PlaceImages.Array.data[8]
       value: 
       objectReference: {fileID: 712498159}
+    - target: {fileID: 1325159186, guid: a7a415f56d409c94aa73a4fccef2d957, type: 3}
+      propertyPath: m_customTilesToPlace.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: fe22969672326b146bfbb506dc00f5a8, type: 2}
     - target: {fileID: 42234862475281488, guid: a7a415f56d409c94aa73a4fccef2d957, type: 3}
       propertyPath: UpgradeCost
       value: 

@@ -169,7 +169,7 @@ public class WorldMaker : MonoBehaviour
         m_levelLoader.CircleRoomAmount = CircleRoomAmount;
         m_levelLoader.TShapeRoomAmount = TShapeRoomAmount;
         m_levelLoader.LShapeRoomAmount = LShapeRoomAmount;
-        m_levelLoader.LShapeRoomAmount = DiamondRoomAmount;
+        m_levelLoader.DiamondRoomAmount = DiamondRoomAmount;
         m_levelLoader.DungeonSizeX = DungeonSizeX;
         m_levelLoader.DungeonSizeY = DungeonSizeY;
 }
