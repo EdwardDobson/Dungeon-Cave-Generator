@@ -19,6 +19,7 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
 
     public HotBarScrolling HotBar;
     public GameObject StorageHolder;
+    public GameObject CraftingScreen;
     public Image TileImage;
     public CustomTile TileToSwitch;
     public CustomTile ChosenTile;
@@ -91,7 +92,7 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
             {
                 TileImage.transform.position = Input.mousePosition;
             }
-            if (Input.GetKeyDown(KeyCode.I))
+            if (Input.GetKeyDown(KeyCode.I) && !CraftingScreen.activeSelf)
             {
                 if (StorageHolder.activeSelf)
                 {
@@ -104,7 +105,10 @@ public class InventoryDisplay : MonoBehaviour, IPointerClickHandler, IPointerEnt
                     Time.timeScale = 0;
                 }
                 DisplayCount();
-
+            }
+            if(CraftingScreen.activeSelf)
+            {
+                StorageHolder.SetActive(false);
             }
             if (StorageHolder.activeSelf)
             {

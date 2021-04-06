@@ -8,6 +8,8 @@ public class CraftItem : MonoBehaviour
 {
     public CraftingRecipeHolder RecipeHolder;
     public GameObject CraftingMenu;
+    public GameObject CreativeInventory;
+    public GameObject SurvivalInventory;
     public Minimap m_minimap;
     InventoryBackpack m_backPack;
     InventoryDisplay m_inventoryDisplay;
@@ -34,6 +36,10 @@ public class CraftItem : MonoBehaviour
                 CraftingMenu.SetActive(false);
                 Time.timeScale = 1;
             }
+        }
+        if(CreativeInventory.activeSelf || SurvivalInventory.activeSelf)
+        {
+            CraftingMenu.SetActive(false);
         }
     }
     public void RemoveItems(List<Item> _storageSlot, int _indexri)

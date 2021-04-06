@@ -2446,6 +2446,10 @@ PrefabInstance:
       propertyPath: PTile
       value: 
       objectReference: {fileID: 250050311}
+    - target: {fileID: 2389859467801202437, guid: 19ca195e8b792464f90811226cae5251, type: 3}
+      propertyPath: CraftingScreen
+      value: 
+      objectReference: {fileID: 779181504}
     - target: {fileID: 2776924226005425394, guid: 19ca195e8b792464f90811226cae5251, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -2798,6 +2802,10 @@ PrefabInstance:
       propertyPath: HotBar
       value: 
       objectReference: {fileID: 2021844749}
+    - target: {fileID: 7130105161208903813, guid: ac0294aebad7413478d92baa80b97740, type: 3}
+      propertyPath: CraftingScreen
+      value: 
+      objectReference: {fileID: 779181504}
     - target: {fileID: 8597560990776169759, guid: ac0294aebad7413478d92baa80b97740, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -3211,6 +3219,14 @@ PrefabInstance:
       propertyPath: CraftingMenu
       value: 
       objectReference: {fileID: 779181504}
+    - target: {fileID: 1010843061, guid: a7a415f56d409c94aa73a4fccef2d957, type: 3}
+      propertyPath: CreativeInventory
+      value: 
+      objectReference: {fileID: 1747145354}
+    - target: {fileID: 1010843061, guid: a7a415f56d409c94aa73a4fccef2d957, type: 3}
+      propertyPath: SurvivalInventory
+      value: 
+      objectReference: {fileID: 226989839}
     - target: {fileID: 1068161047, guid: a7a415f56d409c94aa73a4fccef2d957, type: 3}
       propertyPath: OutputAudioMixerGroup
       value: 

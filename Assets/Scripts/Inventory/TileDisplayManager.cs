@@ -16,6 +16,7 @@ public class TileDisplayManager : MonoBehaviour, IPointerEnterHandler, IPointerE
     public CustomTile TileToSwitch;
     public GameObject TileDisplay;
     public GameObject TileSlotHolder;
+    public GameObject CraftingScreen;
     public List<GameObject> Slots;
     public TextMeshProUGUI BlockInfo;
     public TextMeshProUGUI InventoryTitle;
@@ -42,7 +43,7 @@ public class TileDisplayManager : MonoBehaviour, IPointerEnterHandler, IPointerE
     {
         if(!m_manager.GetPausedState())
         {
-            if (Input.GetKeyDown(KeyCode.I))
+            if (Input.GetKeyDown(KeyCode.I) && !CraftingScreen.activeSelf)
             {
                 if (TileDisplay.activeSelf)
                 {
@@ -56,6 +57,10 @@ public class TileDisplayManager : MonoBehaviour, IPointerEnterHandler, IPointerE
                     SwitchTab(m_tabIndex);
                     Time.timeScale = 0;
                 }
+            }
+            if (CraftingScreen.activeSelf)
+            {
+                TileDisplay.SetActive(false);
             }
             if (TileToSwitch != null)
             {
