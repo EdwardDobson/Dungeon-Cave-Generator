@@ -65,7 +65,7 @@ public class WorldMaker : MonoBehaviour
     }
     public void SetRoomAmount(int _index)
     {
-        switch(_index)
+        switch (_index)
         {
             case 0:
                 SquareRoomAmount = (int)RoomAmountSliders[_index].value;
@@ -107,8 +107,8 @@ public class WorldMaker : MonoBehaviour
         SeedField.text = Seed.ToString();
     }
     public void SetSeed()
-    { 
-       
+    {
+
         bool result = int.TryParse(SeedField.text, out Seed);
         if (result)
             Seed = int.Parse(SeedField.text);
@@ -128,12 +128,12 @@ public class WorldMaker : MonoBehaviour
         }
         else
         {
-            if(Directory.Exists(FileNameGetter.SaveFolderLocation + WorldName))
+            if (Directory.Exists(FileNameGetter.SaveFolderLocation + WorldName))
             {
                 WorldName += (dirNames.Length + 1);
             }
         }
-        if(Seed == 0)
+        if (Seed == 0)
         {
             Seed = UnityEngine.Random.Range(0, int.MaxValue);
         }
@@ -142,12 +142,12 @@ public class WorldMaker : MonoBehaviour
         UnityEngine.Random.InitState(Seed);
         if (DungeonSizeX < 20 && DungeonSizeY < 20)
         {
-            DungeonSizeX = UnityEngine.Random.Range(20, 1000); 
-            DungeonSizeY = UnityEngine.Random.Range(20, 1000); 
+            DungeonSizeX = UnityEngine.Random.Range(20, 1000);
+            DungeonSizeY = UnityEngine.Random.Range(20, 1000);
         }
         if (SquareRoomAmount == 0)
         {
-            SquareRoomAmount = UnityEngine.Random.Range(1, (DungeonSizeX+ DungeonSizeY)/5);
+            SquareRoomAmount = UnityEngine.Random.Range(1, (DungeonSizeX + DungeonSizeY) / 5);
         }
         if (CircleRoomAmount == 0)
         {
@@ -172,5 +172,5 @@ public class WorldMaker : MonoBehaviour
         m_levelLoader.DiamondRoomAmount = DiamondRoomAmount;
         m_levelLoader.DungeonSizeX = DungeonSizeX;
         m_levelLoader.DungeonSizeY = DungeonSizeY;
-}
+    }
 }

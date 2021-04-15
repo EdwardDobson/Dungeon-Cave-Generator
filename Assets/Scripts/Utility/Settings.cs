@@ -27,12 +27,11 @@ public class Settings : MonoBehaviour
     #region Sound
     public void LoadSoundSettings()
     {
-        for(int i =0; i < SoundEffectNames.Length; ++i)
+        for (int i = 0; i < SoundEffectNames.Length; ++i)
         {
             Mixer.SetFloat(SoundEffectNames[i], PlayerPrefs.GetFloat(SoundEffectNames[i]));
             AudioSliders[i].value = PlayerPrefs.GetFloat(SoundEffectNames[i]);
         }
-
     }
     public void SetMasterVolume(float _value)
     {
@@ -54,7 +53,7 @@ public class Settings : MonoBehaviour
     public void SetFullscreen(bool _state)
     {
         Screen.fullScreen = _state;
-        PlayerPrefs.SetInt("Fullscreen", _state ? 1: 0);
+        PlayerPrefs.SetInt("Fullscreen", _state ? 1 : 0);
     }
     public void GetResolutions()
     {
@@ -62,9 +61,9 @@ public class Settings : MonoBehaviour
         ResolutionDropdown.ClearOptions();
         List<string> ResolutionNames = new List<string>();
         string resolutionName;
-        foreach(Resolution res in m_resolutions)
+        foreach (Resolution res in m_resolutions)
         {
-            if(res.width >= 1366 && res.height >= 768)
+            if (res.width >= 1366 && res.height >= 768)
             {
                 resolutionName = "" + res.width + " x " + res.height + " @ " + res.refreshRate + " hz";
                 ResolutionNames.Add(resolutionName);
@@ -78,7 +77,7 @@ public class Settings : MonoBehaviour
         Screen.SetResolution(res.width, res.height, Screen.fullScreen);
         PlayerPrefs.SetInt("ResIndex", _index);
     }
-   public void SetQualitySetting(int _index)
+    public void SetQualitySetting(int _index)
     {
         QualitySettings.SetQualityLevel(_index);
         PlayerPrefs.SetInt("QualityLevel", _index);
@@ -86,7 +85,7 @@ public class Settings : MonoBehaviour
     public void LoadGraphicsSettings()
     {
         QualitySettings.SetQualityLevel(PlayerPrefs.GetInt("QualityLevel"));
-        QualitySettingsDropdown.value = PlayerPrefs.GetInt("QualityLevel"); 
+        QualitySettingsDropdown.value = PlayerPrefs.GetInt("QualityLevel");
         GetResolutions();
         m_currentResolution = m_resolutions[PlayerPrefs.GetInt("ResIndex")];
         Screen.SetResolution(m_currentResolution.width, m_currentResolution.height, true);
