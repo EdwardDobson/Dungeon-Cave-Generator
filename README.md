@@ -3,7 +3,9 @@ DUNGEON GENERATOR
 
 This project was developed for my final masters project to answer the question,  “Can you create a random generated dungeon that is 
 interactable and easily expanded?”
+
 This project is built using C# and the Unity Game Engine.
+
 All of the assets and scripts were created by me.
 
 GENERATION
