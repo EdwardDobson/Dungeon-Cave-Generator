@@ -31,7 +31,8 @@ public static void FillDictionary(Vector3Int _pos, CustomTile _customTile, Tilem
                     break;
             }
         }
-<pre><code>
+<code><pre>
+
 ### Tile Loading
 
 By using the resources folder I load in all of the tiles that I have created.
