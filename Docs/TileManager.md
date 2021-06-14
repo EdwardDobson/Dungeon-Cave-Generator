@@ -14,6 +14,8 @@ The walls tilemap has collision this helps with player interaction.
 There are two dictionaries that store a tiles position within the tilemap
 and it's custom tile.
 
+
+
 ### Tile Loading
 
 By using the resources folder I load in all of the tiles that I have created.
