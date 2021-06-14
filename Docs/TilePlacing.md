@@ -1,3 +1,3 @@
 # Overview
 
-[Current Features](./CurrentFeatures.md) 
+[Current Features](./Features.md) 
