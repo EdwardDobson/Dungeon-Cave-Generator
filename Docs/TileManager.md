@@ -13,25 +13,6 @@ The walls tilemap has collision this helps with player interaction.
 
 There are two dictionaries that store a tiles position within the tilemap
 and it's custom tile.
-<pre><code>
-public static void FillDictionary(Vector3Int _pos, CustomTile _customTile, Tilemap _map, DictionaryType _dirType)
-        {
-            TileData td = new TileData();
-            td.CustomTile = _customTile;
-            td.TileBase = _map.GetTile(_pos);
-            switch (_dirType)
-            {
-                case DictionaryType.Walls:
-                    if (!m_tileDatasWalls.ContainsKey(_pos))
-                        m_tileDatasWalls.Add(_pos, td);
-                    break;
-                case DictionaryType.Floor:
-                    if (!m_tileDatasFloor.ContainsKey(_pos))
-                        m_tileDatasFloor.Add(_pos, td);
-                    break;
-            }
-        }
-<code><pre>
 
 ### Tile Loading
 
